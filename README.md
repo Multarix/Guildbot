@@ -1,5 +1,5 @@
 # Guildbot
-This bots main purpose is/ was for personal use only, future updates to it may make it more "Random Person Friendly".
+This bots main purpose was/ is for personal use only, future updates to it may make it more friendly towards outsiders.
 
 # Packages required for the bot
 - Discord.js (11.4.2 or higher)
