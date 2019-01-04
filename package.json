@@ -7,7 +7,7 @@
     "start": "node bot.js"
   },
   "engines": {
-    "node": "^8.2.1"
+    "node": "^10.11.0"
   },
   "author": "Multarix",
   "licence": "MIT",
