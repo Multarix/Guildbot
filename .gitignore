@@ -6,4 +6,5 @@ node_modules
 ecosystem.config.js
 shards.js
 .eslintrc.json
-objects
+objects/settings.sqlite
+objects/settings.sqlite-journal
