@@ -1,5 +1,4 @@
 module.exports = async client => {
-
 	const colors = require("colors");
 
 	await wait(1000);
