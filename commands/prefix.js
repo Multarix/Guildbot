@@ -27,5 +27,5 @@ exports.help = {
 	name: "prefix",
 	category: "System",
 	description: "View or change the prefix of the server",
-	usage: "prefix](<set> <..variable>)",
+	usage: "prefix](<..variable>)",
 };
