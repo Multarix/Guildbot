@@ -31,12 +31,16 @@ module.exports = (client, message) => {
 	const random2 = require("../objects/random2.json");
 
 	const str = message.content.toLowerCase();
-	if (random[message.content]) {
+	if(random[message.content]) {
 		return message.channel.send(random[message.content]).catch(console.error);
 	} else
-	if (random2[str]){
+	if(random2[str]){
 		return message.channel.send(random2[str]).catch(console.error);
 	}
+
+	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(info => {
+		if(!info) sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID) VALUES ('!', 'null', 'null', 'null', '${message.guild.id}')`);
+	});
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(data => {
 
