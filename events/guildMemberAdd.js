@@ -14,9 +14,6 @@ module.exports = (client, member) => {
 		if(member.user.bot === true){
 			member.addRole(botDefault, "New Bot, pls don't replace me >.<");
 		} else {
-			if(member.user.id === "135942191246737408"){
-				member.guild.channels.get("190317170478153729").send("Welcome back kitty, how long will your stay be this time ( ͡° ͜ʖ ͡°)");
-			}
 			member.addRoles(games, `New member, are you ready ${member.user.username}?`).catch(console.error);
 		}
 	}
