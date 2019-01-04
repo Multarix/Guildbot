@@ -19,13 +19,13 @@ module.exports = (client, message) => {
 		}
 	});
 
-	const content = message.content.toLowerCase();
-	const cont = message.content.split(/\s+/g);
-	if(content.startsWith("i'm ") || content.startsWith("im ") || content.startsWith("i am ")){
-		if (!cont[1]) return;
-		if (cont[4]) return;
-		return message.channel.send(`Hi, "${message.content.split(/\s+/g).slice(1).join(" ")}", I'm ${client.user.username}`);
-	}
+	// const content = message.content.toLowerCase();
+	// const cont = message.content.split(/\s+/g);
+	// if(content.startsWith("i'm ") || content.startsWith("im ") || content.startsWith("i am ")){
+	// 	if (!cont[1]) return;
+	// 	if (cont[4]) return;
+	// 	return message.channel.send(`Hi, "${message.content.split(/\s+/g).slice(1).join(" ")}", I'm ${client.user.username}`);
+	// }
 
 	const random = require("../objects/random.json");
 	const random2 = require("../objects/random2.json");
