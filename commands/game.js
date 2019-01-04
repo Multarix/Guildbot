@@ -1,0 +1,24 @@
+exports.run = (client, message, args, level) => {
+	const colors = require('colors');
+
+	const good = client.emojis.get("340357918996299778");
+	const joinargs = args.join(" ");
+
+	client.user.setActivity(`${joinargs}`).then(client.log("Now playing " + colors.white("[") + joinargs + colors.white("]"), "Activity"));
+	message.react(good);
+	message.delete(10000);
+};
+
+exports.conf = {
+	enabled: true,
+	guildOnly: false,
+	aliases: ["playgame"],
+	permLevel: 10,
+};
+
+exports.help = {
+	name: "game",
+	category: "System",
+	description: "Sets the bot's game",
+	usage: "game](<..variable>)",
+};

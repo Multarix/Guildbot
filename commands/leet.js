@@ -1,0 +1,31 @@
+exports.run = (client, message, args, level) => {
+	const leetKey = require("../objects/1337Key.json");
+
+	message.delete();
+	const s = args.join(" ").split("");
+	let newStr = "";
+	let i;
+	for(i = 0;i < s.length; i++){
+		if(leetKey[s[i]]){
+
+			newStr += leetKey[s[i]];
+		} else {
+			newStr += s[i];
+		}
+	}
+	message.channel.send(newStr);
+};
+
+exports.conf = {
+	enabled: true,
+	guildOnly: false,
+	aliases: ["1337", "l33t"],
+	permLevel: 0,
+};
+
+exports.help = {
+	name: "leet",
+	category: "Misc",
+	description: "1337 5pe4k 47 17'5 f1ne57",
+	usage: "leet](<..words>)",
+};
