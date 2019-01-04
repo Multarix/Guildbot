@@ -29,7 +29,6 @@ const init = async () => {
 		} catch (e) {
 			client.log(`Unable to load command ${f}: ${e}`, "Error");
 		}
-		sql.open("./objects/settings.sqlite");
 	});
 
 	const evtFiles = await readdir("./events/");
@@ -51,6 +50,7 @@ const init = async () => {
 			client.log(`Unable to load event ${file}: ${e}`, "Error");
 		}
 	});
+	sql.open("./objects/settings.sqlite");
 	client.login(client.config.clientToken);
 };
 
