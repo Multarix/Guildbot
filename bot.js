@@ -37,9 +37,6 @@ const init = async () => {
 	evtFiles.forEach(file => {
 		try {
 			if(file.split(".").slice(-1)[0] !== "js") return;
-			// if(file === "messageReactionAdd.js" || file === "messageReactionRemove.js"){
-			// 	return client.log(`Skipping ${file}`, "Warn");
-			// }
 			const event = require(`./events/${file}`);
 			const eventName = file.split(".")[0];
 			client.on(eventName, event.bind(null, client));
