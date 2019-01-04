@@ -1,9 +1,0 @@
-{
-	  "clientToken" : "client token here",
-    "homeServer": "home server ID",
-    "ownerID": "owner ID",
-    "prefix": "!",
-	  "memberRole": "Member",
-    "modRole": "Moderator",
-    "adminRole": "Admin"
-}
