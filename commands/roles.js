@@ -78,51 +78,53 @@ exports.run = async (client, message, args, level) => {
 
 			if(roleName === "set"){
 				if(!args[1]){
-					return message.channel.send(`Yo dawg, what the fuck. I can't set your new role if you don't give me the full deets`);
+					return message.channel.send(`Yo dawg, what the fuck. I can't set your new role if you don't give me the full deets`).then(m => {
+						m.delete(7000);
+						message.delete(7000);
+					});
 				} else {
 					roleName = args[1].toLowerCase();
 					const roleMention = message.mentions.roles.first();
 
+					let sqlName = "invalid";
+					let realName;
 					if(roleName === "admin" || roleName === "admins"){
-						if(!roleMention){
-							return message.channel.send("Yo dude whatup.. I just worked out that YOU DIDN'T MENTION A ROLE ffs.");
-						} else {
-							return sql.run(`UPDATE settings SET adminRole = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-								client.log(`"${message.guild.name}" (${message.guild.id}) changed their adminRole to "${roleMention.name}" (${roleMention.id})`, "SQL");
-								message.react(good);
-								message.channel.send(`Your preference has been saved`);
-							});
-						}
+						sqlName = "adminRole";
+						realName = "Admin";
 					}
-
 					if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
-						if(!roleMention){
-							return message.channel.send("Yo dude whatup.. I just worked out that YOU DIDN'T MENTION A ROLE ffs.");
-						} else {
-							return sql.run(`UPDATE settings SET modRole = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-								client.log(`"${message.guild.name}" (${message.guild.id}) changed their modRole to "${roleMention.name}" (${roleMention.id})`, "SQL");
-								message.react(good);
-								message.channel.send(`Your preference has been saved`);
-							});
-						}
+						sqlName = "modRole";
+						realName = "Moderator";
+					}
+					if(roleName === "member" || roleName === "members"){
+						sqlName = "adminRole";
+						realName = "Member";
 					}
 
-					if(roleName === "member" || roleName === "members"){
-						if(!roleMention){
-							return message.channel.send("Yo dude whatup.. I just worked out that YOU DIDN'T MENTION A ROLE ffs.");
-						} else {
-							return sql.run(`UPDATE settings SET memberRole = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-								client.log(`"${message.guild.name}" (${message.guild.id}) changed their memberRole to "${roleMention.name}" (${roleMention.id})`, "SQL");
-								message.react(good);
-								message.channel.send(`Your preference has been saved`);
-							});
-						}
+					if(sqlName === "invalid"){
+						return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\` or \`Member\`.`);
 					}
-					return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\` or \`Member\`.`);
+
+					if(!roleMention){
+						return message.channel.send("Yo dude whatup.. I just wanted to let you know that YOU DIDN'T MENTION A ROLE");
+					} else {
+						return sql.run(`UPDATE settings SET ${sqlName} = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+							client.log(`"${message.guild.name}" (${message.guild.id}) changed their ${realName} role to "${roleMention.name}" (${roleMention.id})`, "SQL");
+							message.react(good);
+							message.channel.send(`Your role settings have been updated.\n"${roleMention.name}" is now the ${realName} role.`).then(m => {
+								m.delete(7000);
+								message.delete(7000);
+							});
+						});
+					}
 				}
 			}
-			return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\` or \`Set\`.`);
+
 		}
+		return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\` or \`Set\`.`).then(m =>{
+			m.delete(7000);
+			message.delete(7000);
+		});
 	});
 };
 
@@ -136,6 +138,6 @@ exports.conf = {
 exports.help = {
 	name: "roles",
 	category: "System",
-	description: "View or change settings for your server",
+	description: "View or change Admin/ Mod/ Member roles for the bot.",
 	usage: "role](<..variable>)",
 };
