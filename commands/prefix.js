@@ -8,7 +8,7 @@ exports.run = async (client, message, args, level) => {
 		} else {
 			return sql.get(`UPDATE settings SET prefix = "${args[0]}" WHERE guildID = "${message.guild.id}"`).then(updated => {
 				message.channel.send(`Prefix has been set to \`${args[0]}\``).then(m => {
-					client.log(`${message.guild.name} (${message.guild.id}) updated their prefix to "${args[0]}"`, `SQL`);
+					client.log(`${message.guild.name} (${message.guild.id}) changed their prefix to "${args[0]}"`, `SQL`);
 					message.delete(7000);
 				});
 			});
