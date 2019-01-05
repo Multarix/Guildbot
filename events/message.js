@@ -48,7 +48,8 @@ module.exports = (client, message) => {
 		const args = message.content.split(/\s+/g);
 		const command = args.shift().slice(data.prefix.length).toLowerCase();
 
-		const level = client.permlevel(message);
+		const level = JSON.stringify(client.permlevel(message, data));
+		console.log("message.js recieved: " + level);
 		const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
 
 		if (cmd && level >= cmd.conf.permLevel) {
