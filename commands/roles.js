@@ -1,49 +1,136 @@
 const sql = require("sqlite");
-sql.open("./objects/settings.sqlite");
 exports.run = async (client, message, args, level) => {
+	const good = client.emojis.get("340357918996299778");
+
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(data => {
 
-		const admins = message.guild.roles.get(data.adminRole);
-		const mods = message.guild.roles.get(data.modRole);
-		const members = message.guild.roles.get(data.memberRole);
+		let admins = data.adminRole;
+		let mods = data.modRole;
+		let members = data.memberRole;
 
-		if(!members){
-			const members2 = "Not Set";
-		}
-		if(!mods){
-			const mods2 = "Not Set";
-		}
-		if(!admins){
-			const admins2 = "Not Set";
-		}
-
-		if (!args[0]){
-			return message.channel.send(`\`\`\`md\n[Admin]      < ${data.adminRole} >\n[Member]     < ${data.memberRole} >\`\`\``);
-		}
-
-		if (args[0] === "set"){
-			if(!args[1]){
-				return message.channel.send("I don't have ESP, I just follow my code. Give me a role shitlord. Sheez.");
-			} else {
-				sql.get(`UPDATE settings SET prefix = "${args[1]}" WHERE guildID = "${message.guild.id}"`).then(updated => {
-					message.channel.send(`Prefix has been set to \`${args[1]}\``).then(m => {
-						client.log(`Log`, `${message.guild.name} (${message.guild.id}) updated their prefix to "${args[1]}"`, `SQL`);
-						message.delete(7000);
-					});
-				});
-				return;
-			}
+		let membersID;
+		if(members === "null"){
+			members = "Not Set";
 		} else {
-			return message.channel.send(`Oi Moron, \`${args[0]}\` isn't a valid option here. It's either \`set\` or nothing`);
+			if(!message.guild.roles.get(members)){
+				members = "Invalid Role";
+			} else {
+				const membersID = message.guild.roles.get(members).id;
+				members = message.guild.roles.get(members).name;
+			}
+		}
+
+		let modsID;
+		if(mods === "null"){
+			mods = "Not Set";
+		} else {
+			if(!message.guild.roles.get(mods)){
+				mods = "Invalid Role";
+			} else {
+				const modsID = message.guild.roles.get(mods).id;
+				mods = message.guild.roles.get(mods).name;
+			}
+		}
+
+		let adminsID;
+		if(admins === "null"){
+			admins = "Not Set";
+		} else {
+			if(!message.guild.roles.get(admins)){
+				admins = "Invalid Role";
+			} else {
+				const adminsID = message.guild.roles.get(admins).id;
+				admins = message.guild.roles.get(admins).name;
+			}
+		}
+
+		let roleName = args[0];
+
+		if (!roleName){
+			return message.channel.send(`Admin Role:         < ${admins} >\nMember Role:        < ${members} >\nModerator Role:     < ${mods} >`, { code: "markdown" });
+		} else {
+
+			roleName = roleName.toLowerCase();
+
+			if(roleName === "admin" || roleName === "admins"){
+				if(admins === "Invalid Role" || admins === "Not Set"){
+					return message.channel.send(`Admin Role:     < ${admins} >`, { code: "markdown" });
+				} else {
+					return message.channel.send(`Admin Role:     [${admins}](${adminsID})`, { code: "markdown" });
+				}
+			}
+
+			if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
+				if(mods === "Invalid Role" || mods === "Not Set"){
+					return message.channel.send(`Mod Role:       < ${mods} >`, { code: "markdown" });
+				} else {
+					return message.channel.send(`Mod Role:       [${mods}](${modsID})`, { code: "markdown" });
+				}
+			}
+
+			if(roleName === "member" || roleName === "members"){
+				if(members === "Invalid Role" || members === "Not Set"){
+					return message.channel.send(`Member Role:    < ${members} >`, { code: "markdown" });
+				} else {
+					return message.channel.send(`Member Role:    [${members}](${membersID})`, { code: "markdown" });
+				}
+			}
+
+			if(roleName === "set"){
+				if(!args[1]){
+					return message.channel.send(`Yo dawg, what the fuck. I can't set your new role if you don't give me the full deets`);
+				} else {
+					roleName = args[1].toLowerCase();
+					const roleMention = message.mentions.roles.first();
+
+					if(roleName === "admin" || roleName === "admins"){
+						if(!roleMention){
+							return message.channel.send("Yo dude whatup.. I just worked out that YOU DIDN'T MENTION A ROLE ffs.");
+						} else {
+							return sql.run(`UPDATE settings SET adminRole = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+								client.log(`"${message.guild.name}" (${message.guild.id}) changed their adminRole to "${roleMention.name}" (${roleMention.id})`, "SQL");
+								message.react(good);
+								message.channel.send(`Your preference has been saved`);
+							});
+						}
+					}
+
+					if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
+						if(!roleMention){
+							return message.channel.send("Yo dude whatup.. I just worked out that YOU DIDN'T MENTION A ROLE ffs.");
+						} else {
+							return sql.run(`UPDATE settings SET modRole = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+								client.log(`"${message.guild.name}" (${message.guild.id}) changed their modRole to "${roleMention.name}" (${roleMention.id})`, "SQL");
+								message.react(good);
+								message.channel.send(`Your preference has been saved`);
+							});
+						}
+					}
+
+					if(roleName === "member" || roleName === "members"){
+						if(!roleMention){
+							return message.channel.send("Yo dude whatup.. I just worked out that YOU DIDN'T MENTION A ROLE ffs.");
+						} else {
+							return sql.run(`UPDATE settings SET memberRole = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+								client.log(`"${message.guild.name}" (${message.guild.id}) changed their memberRole to "${roleMention.name}" (${roleMention.id})`, "SQL");
+								message.react(good);
+								message.channel.send(`Your preference has been saved`);
+							});
+						}
+					}
+					return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\` or \`Member\`.`);
+				}
+			}
+			return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\` or \`Set\`.`);
 		}
 	});
 };
 
 exports.conf = {
-	enabled: false,
+	enabled: true,
 	guildOnly: true,
-	aliases: [""],
-	permLevel: 10,
+	aliases: ["role"],
+	permLevel: 4,
 };
 
 exports.help = {
