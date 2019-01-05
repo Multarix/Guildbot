@@ -17,6 +17,6 @@
     "eslint": "^5.10.0",
     "moment": "^2.22.2",
     "moment-duration-format": "^2.2.2",
-    "sqlite": "^3.0.0",
+    "sqlite": "^3.0.0"
   }
 }
