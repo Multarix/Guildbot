@@ -1,5 +1,5 @@
 exports.run = (client, message, args, level) => {
-	message.delete();
+
 	const s = args.join(" ").toLowerCase().split("");
 	let newStr = "";
 	let i;
@@ -11,7 +11,7 @@ exports.run = (client, message, args, level) => {
 			newStr += s[i];
 		}
 	}
-	message.channel.send(newStr);
+	message.channel.send(newStr, { code: "markdown" });
 };
 
 exports.conf = {

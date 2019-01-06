@@ -4,9 +4,14 @@ exports.run = (client, message, args, level) => {
 	const good = client.emojis.get("340357918996299778");
 	const joinargs = args.join(" ");
 
+	if(!joinargs) return message.channel.send("Usage: [listen](<..text>)", { code: "markdown" });
+
 	client.user.setActivity(`${joinargs}`, { type: 'LISTENING' }).then(client.log("Now listening to " + colors.white("[") + joinargs + colors.white("]"), "Activity"));
 	message.react(good);
-	message.delete(10000);
+
+	if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+		message.delete(10000);
+	}
 };
 
 exports.conf = {
@@ -20,5 +25,5 @@ exports.help = {
 	name: "listen",
 	category: "System",
 	description: "Makes the bot listen to stuff",
-	usage: "listen](<..variable>)",
+	usage: "listen](<..text>)",
 };

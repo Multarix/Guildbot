@@ -78,7 +78,7 @@ exports.run = async (client, message, args, level) => {
 
 			if(roleName === "set"){
 				if(!args[1]){
-					return message.channel.send(`[${data.prefix}roles](set)< Admin/Mod/Member > <@role>`, { code: "markdown" }).then(m => {
+					return message.channel.send("Usage: [roles](set)< Admin/Mod/Member > <@role>", { code: "markdown" }).then(m => {
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
