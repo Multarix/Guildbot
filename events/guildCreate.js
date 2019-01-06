@@ -2,7 +2,7 @@ const sql = require("sqlite");
 
 module.exports = (client, guild) => {
 	client.log(`Joined the "${guild.name}" (${guild.id}) server`, "Log");
-	sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID) VALUES ('!', 'null', 'null', 'null', '${guild.id}')`).then(() => {
+	sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID) VALUES ('${client.config.prefix}', 'null', 'null', 'null', '${guild.id}')`).then(() => {
 		client.log(`Applied default settings to the "${guild.name}" server`, "SQL");
 	});
 };
