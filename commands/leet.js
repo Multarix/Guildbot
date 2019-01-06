@@ -1,7 +1,6 @@
 exports.run = (client, message, args, level) => {
 	const leetKey = require("../objects/1337Key.json");
 
-	message.delete();
 	const s = args.join(" ").split("");
 	let newStr = "";
 	let i;
@@ -13,7 +12,7 @@ exports.run = (client, message, args, level) => {
 			newStr += s[i];
 		}
 	}
-	message.channel.send(newStr);
+	message.channel.send(newStr, { code: "markdown" });
 };
 
 exports.conf = {

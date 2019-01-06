@@ -21,7 +21,7 @@ exports.run = (client, message, args, level) => {
 		}
 	}
 	message.react(good);
-	message.channel.send(`\`\`\`md\n${newStr}\n\`\`\``);
+	message.channel.send(newStr, { code: "markdown" });
 };
 
 exports.conf = {
