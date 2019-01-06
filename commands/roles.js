@@ -78,9 +78,13 @@ exports.run = async (client, message, args, level) => {
 
 			if(roleName === "set"){
 				if(!args[1]){
-					return message.channel.send(`Yo dawg, what the fuck. I can't set your new role if you don't give me the full deets`).then(m => {
-						m.delete(7000);
-						message.delete(7000);
+					return message.channel.send(`[${data.prefix}roles](set)< Admin/Mod/Member > <@role>`, { code: "markdown" }).then(m => {
+						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+							m.delete(10000);
+							message.delete(10000);
+						} else {
+							m.delete(10000);
+						}
 					});
 				} else {
 					roleName = args[1].toLowerCase();
@@ -102,18 +106,28 @@ exports.run = async (client, message, args, level) => {
 					}
 
 					if(sqlName === "invalid"){
-						return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\` or \`Member\`.`);
+						return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\` or \`Member\`.`);
+					}
+
+					if(args[2] === "delete"){
+						return sql.run(`UPDATE settings SET ${sqlName} = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
+							message.channel.send(`Your role settings have been updated.\nThe ${}`);
+						});
 					}
 
 					if(!roleMention){
-						return message.channel.send("Yo dude whatup.. I just wanted to let you know that YOU DIDN'T MENTION A ROLE");
+						return message.channel.send("No Role Mentioned");
 					} else {
 						return sql.run(`UPDATE settings SET ${sqlName} = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
 							client.log(`"${message.guild.name}" (${message.guild.id}) changed their ${realName} role to "${roleMention.name}" (${roleMention.id})`, "SQL");
 							message.react(good);
-							message.channel.send(`Your role settings have been updated.\n"${roleMention.name}" is now the ${realName} role.`).then(m => {
-								m.delete(7000);
-								message.delete(7000);
+							message.channel.send(`Your role settings have been updated.\n\`@${roleMention.name}\` is now the \`${realName}\` role.`).then(m => {
+								if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+									m.delete(10000);
+									message.delete(10000);
+								} else {
+									m.delete(10000);
+								}
 							});
 						});
 					}
@@ -121,9 +135,13 @@ exports.run = async (client, message, args, level) => {
 			}
 
 		}
-		return message.channel.send(`"${roleName.toProperCase()}" doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\` or \`Set\`.`).then(m =>{
-			m.delete(7000);
-			message.delete(7000);
+		return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\` or \`Set\`.`).then(m =>{
+			if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+				m.delete(10000);
+				message.delete(10000);
+			} else {
+				m.delete(10000);
+			}
 		});
 	});
 };
@@ -132,7 +150,7 @@ exports.conf = {
 	enabled: true,
 	guildOnly: true,
 	aliases: ["role"],
-	permLevel: 4,
+	permLevel: 5,
 };
 
 exports.help = {
