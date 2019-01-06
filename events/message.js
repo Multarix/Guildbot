@@ -40,7 +40,7 @@ module.exports = (client, message) => {
 	}
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(info => {
-		if(!info) sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID) VALUES ('!', 'null', 'null', 'null', '${message.guild.id}')`);
+		if(!info) sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID) VALUES ('${client.config.prefix}', 'null', 'null', 'null', '${message.guild.id}')`);
 	});
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(data => {
