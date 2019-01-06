@@ -111,7 +111,14 @@ exports.run = async (client, message, args, level) => {
 
 					if(args[2] === "delete"){
 						return sql.run(`UPDATE settings SET ${sqlName} = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
-							message.channel.send(`Your role settings have been updated.\nThe ${}`);
+							message.channel.send(`Your role settings have been updated.\nThe \`${realName}\` role has been unset`).then(m => {
+								if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+									m.delete(10000);
+									message.delete(10000);
+								} else {
+									m.delete(10000);
+								}
+							});
 						});
 					}
 
