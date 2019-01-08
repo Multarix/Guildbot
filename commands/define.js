@@ -1,8 +1,8 @@
 exports.run = async (client, message, args, level) => {
-	const good = client.emojis.get("340357918996299778");
 	const defined = args.join("+");
 
-	message.react(good);
+	if(!defined) return message.channel.send("Usage: [define](<..word>)", { code: "markdown" });
+
 	message.channel.send(`http://www.dictionary.com/browse/${defined}`).catch(console.error);
 };
 
@@ -17,5 +17,5 @@ exports.help = {
 	name: "define",
 	category: "Misc",
 	description: "Defines a given word from Dictionary.com",
-	usage: "define](<..variable>)",
+	usage: "define](<..word>)",
 };
