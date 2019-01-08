@@ -1,6 +1,10 @@
 exports.run = (client, message, args, level) => {
+	const joinargs = args.join(" ");
 
-	const s = args.join(" ").toLowerCase().split("");
+	if(!joinargs) return message.channel.send("Usage: [cancer](<..text>)", { code: "markdown" });
+
+	const s = joinargs.toLowerCase().split("");
+
 	let newStr = "";
 	let i;
 	for(i = 0;i < s.length; i++){
@@ -25,5 +29,5 @@ exports.help = {
 	name: "cancer",
 	category: "Misc",
 	description: "lIteRal CaNcEr",
-	usage: "cancer](<..words>)",
+	usage: "cancer](<..text>)",
 };

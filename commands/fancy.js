@@ -1,15 +1,11 @@
 exports.run = (client, message, args, level) => {
-
-	const good = client.emojis.get("340357918996299778");
-	const bad = client.emojis.get("340357882606256137");
-
 	const fancyKey = require("../objects/fancyKey.json");
-	const joinargs = args.join(" ");
 
-	if(!joinargs){
-		return message.react(bad);
-	}
+	const joinargs = args.join(" ");
+	if(!joinargs) return message.channel.send("Usage: [fancy](<..text>)", { code: "markdown" });
+
 	const s = joinargs.split("");
+
 	let newStr = "";
 	let i;
 	for(i = 0;i < s.length; i++){
@@ -20,7 +16,6 @@ exports.run = (client, message, args, level) => {
 			newStr += s[i];
 		}
 	}
-	message.react(good);
 	message.channel.send(newStr, { code: "markdown" });
 };
 

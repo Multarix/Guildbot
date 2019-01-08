@@ -1,7 +1,11 @@
 exports.run = (client, message, args, level) => {
 	const leetKey = require("../objects/1337Key.json");
 
-	const s = args.join(" ").split("");
+	const joinargs = args.join(" ");
+	if(!joinargs) return message.channel.send("Usage: [fancy](<..text>)", { code: "markdown" });
+
+	const s = joinargs.split("");
+
 	let newStr = "";
 	let i;
 	for(i = 0;i < s.length; i++){
@@ -26,5 +30,5 @@ exports.help = {
 	name: "leet",
 	category: "Misc",
 	description: "1337 5pe4k 47 17'5 f1ne57",
-	usage: "leet](<..words>)",
+	usage: "leet](<..text>)",
 };

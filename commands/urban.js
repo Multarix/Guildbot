@@ -1,8 +1,8 @@
 exports.run = (client, message, args, level) => {
-	const good = client.emojis.get("340357918996299778");
 	const internet = args.join("+");
 
-	message.react(good);
+	if(!internet) return message.channel.send("Usage: [urban](<..word>)", { code: "markdown" });
+
 	message.channel.send(`http://www.urbandictionary.com/define.php?term=${internet}`).catch(console.error);
 };
 
@@ -17,5 +17,5 @@ exports.help = {
 	name: "urban",
 	category: "Misc",
 	description: "Defines a given word from UrbanDictionary.com",
-	usage: "urban](<..variable>)",
+	usage: "urban](<..word>)",
 };
