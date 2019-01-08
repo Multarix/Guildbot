@@ -24,7 +24,7 @@ exports.run = (client, message, args, level) => {
 [•](CPU)              <=>   < ${cpuType}>
 [•](Architecture)     <=>   < ${os.arch()} >
 [•](OS)               <=>   < ${os.platform} >
-[•](Total Memory)     <=>   < ${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} >`, { code: "markdown" });
+[•](Total Memory)     <=>   < ${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB >`, { code: "markdown" });
 
 };
 
