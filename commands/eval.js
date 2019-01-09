@@ -26,7 +26,7 @@ exports.run = async (client, message, args, level) => {
 		} else {
 
 			const embed = new Discord.RichEmbed()
-				.setColor(2734377)
+				.setColor(14487568)
 				.addField(`Javascript Evaluated`, errString, false)
 				.setFooter(client.user.tag, client.user.displayAvatarURL)
 				.setTimestamp();
