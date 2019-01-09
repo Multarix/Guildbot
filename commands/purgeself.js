@@ -1,6 +1,4 @@
 exports.run = (client, message, args, level) => {
-	const good = client.guilds.get(client.config.homeServer).emojis.get("340357918996299778");
-	message.react(good);
 
 	const messagecount = parseInt(args[0]);
 	message.channel.fetchMessages({ limit: 100 }).then(messages => {
@@ -9,8 +7,6 @@ exports.run = (client, message, args, level) => {
 		msg_array.length = messagecount;
 		msg_array.map(m => m.delete().catch(console.error));
 	});
-
-	message.react(good);
 };
 
 exports.conf = {
