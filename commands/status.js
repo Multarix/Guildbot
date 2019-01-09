@@ -1,6 +1,6 @@
 exports.run = (client, message, args, level) => {
 	if(!args[0]){
-		return message.channel.send("No status defined");
+		return message.channel.send("Usage:\n [status](..status)", { code: "markdown" });
 	}
 	const status = `${args[0].toLowerCase()}`;
 
