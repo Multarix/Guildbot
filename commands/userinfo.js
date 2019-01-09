@@ -3,12 +3,8 @@ exports.run = (client, message, args, level) => {
 	const tagged = message.mentions.users.first();
 	const memtag = message.mentions.members.first();
 
-	let ecolor1;
-	if(!message.member.highestRole.color){
-		ecolor1 = 16777215;
-	} else {
-		ecolor1 = message.member.highestRole.color;
-	}
+	let ecolor1 = 16777215;
+	if(message.member.highestRole.color) ecolor1 = message.member.highestRole.color;
 
 	if(!tagged){
 	// Grab person who issued the command
@@ -28,12 +24,8 @@ exports.run = (client, message, args, level) => {
 		message.channel.send({ embed }).catch(console.log);
 	} else {
 		// Grab person mentioned in the command
-		let ecolor2;
-		if(!memtag.highestRole.color){
-			ecolor2 = 16777215;
-		} else {
-			ecolor2 = memtag.highestRole.color;
-		}
+		let ecolor2 = 16777215;
+		if(memtag.highestRole.color) ecolor2 = memtag.highestRole.color;
 
 		const embed = new Discord.RichEmbed()
 			.setAuthor(memtag.displayName)
