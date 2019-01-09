@@ -15,7 +15,7 @@ exports.run = async (client, message, args, level) => {
 			if(!message.guild.roles.get(members)){
 				members = "Invalid Role";
 			} else {
-				const membersID = message.guild.roles.get(members).id;
+				membersID = message.guild.roles.get(members).id;
 				members = message.guild.roles.get(members).name;
 			}
 		}
@@ -27,7 +27,7 @@ exports.run = async (client, message, args, level) => {
 			if(!message.guild.roles.get(mods)){
 				mods = "Invalid Role";
 			} else {
-				const modsID = message.guild.roles.get(mods).id;
+				modsID = message.guild.roles.get(mods).id;
 				mods = message.guild.roles.get(mods).name;
 			}
 		}
@@ -39,7 +39,7 @@ exports.run = async (client, message, args, level) => {
 			if(!message.guild.roles.get(admins)){
 				admins = "Invalid Role";
 			} else {
-				const adminsID = message.guild.roles.get(admins).id;
+				adminsID = message.guild.roles.get(admins).id;
 				admins = message.guild.roles.get(admins).name;
 			}
 		}
@@ -47,38 +47,47 @@ exports.run = async (client, message, args, level) => {
 		let roleName = args[0];
 
 		if (!roleName){
-			return message.channel.send(`Admin Role:         < ${admins} >\nMember Role:        < ${members} >\nModerator Role:     < ${mods} >`, { code: "markdown" });
+			return message.channel.send(`=== Guild Settings ===
+----------------------
+[•](Prefix)             <=>       < ${data.prefix} >
+[•](Admin Role)         <=>       < ${admins} >
+[•](Member Role)        <=>       < ${members} >
+[•](Moderator Role)     <=>       < ${mods} >`, { code: "markdown" });
 		} else {
 
 			roleName = roleName.toLowerCase();
 
 			if(roleName === "admin" || roleName === "admins"){
 				if(admins === "Invalid Role" || admins === "Not Set"){
-					return message.channel.send(`Admin Role:     < ${admins} >`, { code: "markdown" });
+					return message.channel.send(`[•](Admin Role)  ::  < ${admins} >`, { code: "markdown" });
 				} else {
-					return message.channel.send(`Admin Role:     [${admins}](${adminsID})`, { code: "markdown" });
+					return message.channel.send(`[•](Admin Role)  ::  [${admins}](${adminsID})`, { code: "markdown" });
 				}
 			}
 
 			if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
 				if(mods === "Invalid Role" || mods === "Not Set"){
-					return message.channel.send(`Mod Role:       < ${mods} >`, { code: "markdown" });
+					return message.channel.send(`[•](Mod Role)  ::  < ${mods} >`, { code: "markdown" });
 				} else {
-					return message.channel.send(`Mod Role:       [${mods}](${modsID})`, { code: "markdown" });
+					return message.channel.send(`[•](Mod Role)  ::  [${mods}](${modsID})`, { code: "markdown" });
 				}
 			}
 
 			if(roleName === "member" || roleName === "members"){
 				if(members === "Invalid Role" || members === "Not Set"){
-					return message.channel.send(`Member Role:    < ${members} >`, { code: "markdown" });
+					return message.channel.send(`[•](Member Role)  ::  < ${members} >`, { code: "markdown" });
 				} else {
-					return message.channel.send(`Member Role:    [${members}](${membersID})`, { code: "markdown" });
+					return message.channel.send(`[•](Member Role)  ::  [${members}](${membersID})`, { code: "markdown" });
 				}
+			}
+
+			if(roleName === "prefix"){
+				return message.channel.send(`[•](Prefix)  ::  [${data.prefix}](${data.guildID})`, { code: "markdown" });
 			}
 
 			if(roleName === "set"){
 				if(!args[1]){
-					return message.channel.send("Usage: [roles](set)< Admin/Mod/Member > <@role>", { code: "markdown" }).then(m => {
+					return message.channel.send("Usage: [roles](set)< Admin/Mod/Member/Prefix >", { code: "markdown" }).then(m => {
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
@@ -92,6 +101,20 @@ exports.run = async (client, message, args, level) => {
 
 					let sqlName = "invalid";
 					let realName;
+
+					if(roleName === "prefix"){
+						if(!args[2]) return message.channel.send(`No prefix was defined, your current prefix is still \`${data.prefix}\``);
+						return sql.get(`UPDATE settings SET prefix = "${args[2]}" WHERE guildID = "${message.guild.id}"`).then(() => {
+							message.channel.send(`Prefix has been set to \`${args[2]}\``).then(m => {
+								client.log(`${message.guild.name} (${message.guild.id}) changed their prefix to "${args[2]}"`, `SQL`);
+								if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+									message.delete(10000);
+								}
+								m.delete(10000);
+							});
+						});
+					}
+
 					if(roleName === "admin" || roleName === "admins"){
 						sqlName = "adminRole";
 						realName = "Admin";
@@ -142,7 +165,7 @@ exports.run = async (client, message, args, level) => {
 			}
 
 		}
-		return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\` or \`Set\`.`).then(m =>{
+		return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\`, \`Prefix\` or \`Set\`.`).then(m =>{
 			if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 				m.delete(10000);
 				message.delete(10000);
@@ -156,13 +179,13 @@ exports.run = async (client, message, args, level) => {
 exports.conf = {
 	enabled: true,
 	guildOnly: true,
-	aliases: ["role"],
-	permLevel: 5,
+	aliases: ["bot"],
+	permLevel: 4,
 };
 
 exports.help = {
-	name: "roles",
+	name: "config",
 	category: "System",
-	description: "View or change Admin/ Mod/ Member roles for the bot.",
-	usage: "role](<..variable>)",
+	description: "View or change bot settings.",
+	usage: "config](<..variable>)",
 };
