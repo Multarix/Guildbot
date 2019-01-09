@@ -1,7 +1,6 @@
 exports.run = (client, message, args, level) => {
 	const sql = require("sqlite");
 
-	const good = client.emojis.get("340357918996299778");
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(settings => {
 		if (!args[0]) {
 
@@ -20,7 +19,6 @@ exports.run = (client, message, args, level) => {
 				output += `[${settings.prefix}](${c.help.name})${" ".repeat(longest - c.help.name.length)} <:> ${c.help.description}\n`;
 			});
 			message.author.send(output, { code:"markdown" });
-			message.react(good);
 		} else {
 			let command = args[0];
 			if (client.commands.has(command)) {

@@ -1,10 +1,6 @@
 const Discord = require('discord.js');
 
 exports.run = (client, message, args, level) => {
-	const good = client.emojis.get("340357918996299778");
-
-	message.react(good);
-
 	const embed = new Discord.RichEmbed()
 		.setThumbnail(message.author.displayAvatarURL)
 		.setColor(14487568)
