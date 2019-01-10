@@ -20,14 +20,6 @@ module.exports = (client, message) => {
 		}
 	});
 
-	// const content = message.content.toLowerCase();
-	// const cont = message.content.split(/\s+/g);
-	// if(content.startsWith("i'm ") || content.startsWith("im ") || content.startsWith("i am ")){
-	// 	if (!cont[1]) return;
-	// 	if (cont[4]) return;
-	// 	return message.channel.send(`Hi, "${message.content.split(/\s+/g).slice(1).join(" ")}", I'm ${client.user.username}`);
-	// }
-
 	const random = require("../objects/random.json");
 	const random2 = require("../objects/random2.json");
 
@@ -40,7 +32,7 @@ module.exports = (client, message) => {
 	}
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(info => {
-		if(!info) sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID) VALUES ('${client.config.prefix}', 'null', 'null', 'null', '${message.guild.id}')`);
+		if(!info) sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID, joinMessage, leaveMessage, starChannel) VALUES ('${client.config.prefix}', 'null', 'null', 'null', '${message.guild.id}' 'null', 'null', 'null')`);
 	});
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(data => {
