@@ -2,9 +2,9 @@ module.exports = (client, message) => {
 	const Discord = require('discord.js');
 	const sql = require("sqlite");
 
-	if(!message.channel.memberPermissions(message.guild.me).has("SEND_MESSAGES")) return;
 	if(message.author.bot) return;
 	if(message.channel.type === "dm") return;
+	if(!message.channel.memberPermissions(message.guild.me).has("SEND_MESSAGES")) return;
 
 	if(message.mentions.everyone){
 		return message.react(client.emojis.get("519919364485677066"));
