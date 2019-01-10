@@ -31,6 +31,17 @@ module.exports = (client, member) => {
 		}
 	}
 
+	sql.get(`SELECT * FROM settings WHERE guildID = "${member.guild.id}"`).then(data => {
+		if(data.welcomeChannel !== "null" && data.welcomeMessage !== "null"){
+			if(member.guild.channels.get(data.welcomeChannel)){
+				if(member.guild.channels.get(data.welcomeChannel).memberPermissions(member.guild.me).has("SEND_MESSAGES")){
+					const welcomeMessage = data.welcomeMessage.replace("<@user>", member.user).replace("<user>", member.user.username);
+					member.guild.channels.get(data.welcomeChannel).send(welcomeMessage);
+				}
+			}
+		}
+	});
+
 };
 
 module.exports.help = {
