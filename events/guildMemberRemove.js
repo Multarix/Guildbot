@@ -13,6 +13,18 @@ module.exports = (client, member) => {
 			});
 		}
 	});
+
+	sql.get(`SELECT * FROM settings WHERE guildID = "${member.guild.id}"`).then(data => {
+		if(data.leaveChannel !== "null" && data.leaveMessage !== "null"){
+			if(member.guild.channels.get(data.leaveChannel)){
+				if(member.guild.channels.get(data.leaveChannel).memberPermissions(member.guild.me).has("SEND_MESSAGES")){
+					const leaveMessage = data.leaveMessage.replace("<@user>", member.user).replace("<user>", member.user.username);
+					member.guild.channels.get(data.leaveChannel).send(leaveMessage);
+				}
+			}
+		}
+	});
+
 };
 
 module.exports.help = {

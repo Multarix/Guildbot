@@ -6,9 +6,12 @@ module.exports = (client, message) => {
 	if(message.channel.type === "dm") return;
 	if(!message.channel.memberPermissions(message.guild.me).has("SEND_MESSAGES")) return;
 
-	if(message.mentions.everyone){
-		return message.react(client.emojis.get("519919364485677066"));
-	}
+	if(message.mentions.everyone) return message.react(client.emojis.get("519919364485677066"));
+
+
+	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(info => {
+		if(!info) sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID, joinMessage, leaveMessage, starChannel) VALUES ('${client.config.prefix}', 'null', 'null', 'null', '${message.guild.id}' 'null', 'null', 'null')`);
+	});
 
 	sql.get(`SELECT * FROM pointTable WHERE playerID = "${message.author.id}" AND guildID = "${message.guild.id}"`).then(pointAmount => {
 		if(!pointAmount){
@@ -30,10 +33,6 @@ module.exports = (client, message) => {
 	if(random2[str]){
 		return message.channel.send(random2[str]).catch(console.error);
 	}
-
-	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(info => {
-		if(!info) sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID, joinMessage, leaveMessage, starChannel) VALUES ('${client.config.prefix}', 'null', 'null', 'null', '${message.guild.id}' 'null', 'null', 'null')`);
-	});
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(data => {
 
