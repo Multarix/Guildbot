@@ -1,7 +1,6 @@
 const sql = require("sqlite");
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
-	const good = client.emojis.get("340357918996299778");
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(data => {
 
@@ -25,6 +24,13 @@ exports.run = async (client, message, args, level) => {
 		const idData = ids.split("\u200b");
 		const nameData = names.split("\u200b");
 
+		let starChannel;
+		if(!message.guild.channels.get(data.starChannel)){
+			starChannel = "Not Set";
+		} else {
+			starChannel = message.guild.channels.get(data.starChannel).name;
+		}
+
 		let roleName = args[0];
 
 		if (!roleName){
@@ -38,6 +44,7 @@ exports.run = async (client, message, args, level) => {
 					.addField("Admin Role", nameData[0], false)
 					.addField("Member Role", nameData[1], false)
 					.addField("Moderator Role", nameData[2], false)
+					.addField("Star Channel", starChannel, false)
 					.setFooter(client.user.tag, client.user.displayAvatarURL)
 					.setTimestamp();
 
@@ -50,27 +57,21 @@ exports.run = async (client, message, args, level) => {
 [•](Prefix)             <=>     < ${data.prefix} >
 [•](Admin Role)         <=>     < ${nameData[0]} >
 [•](Member Role)        <=>     < ${nameData[1]} >
-[•](Moderator Role)     <=>     < ${nameData[2]} >`, { code: "markdown" });
+[•](Moderator Role)     <=>     < ${nameData[2]} >
+[•](Star Channel)       <=>     < ${starChannel} >`, { code: "markdown" });
 		}
 
 		roleName = roleName.toLowerCase();
 
-		if(roleName === "prefix"){
-			return message.channel.send(`[•](Prefix)   ::   [${data.prefix}](${data.guildID})`, { code: "markdown" });
-		}
-		if(roleName === "admin" || roleName === "admins"){
-			return message.channel.send(`[•](Admin Role)   ::   [${nameData[0]}](${idData[0]})`, { code: "markdown" });
-		}
-		if(roleName === "member" || roleName === "members"){
-			return message.channel.send(`[•](Member Role)   ::   [${nameData[1]}](${idData[1]})`, { code: "markdown" });
-		}
-		if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
-			return message.channel.send(`[•](Moderator Role)   ::   [${nameData[2]}](${idData[2]})`, { code: "markdown" });
-		}
+		if(roleName === "prefix") return message.channel.send(`[•](Prefix)   ::   [${data.prefix}](${data.guildID})`, { code: "markdown" });
+		if(roleName === "admin" || roleName === "admins") return message.channel.send(`[•](Admin Role)   ::   [${nameData[0]}](${idData[0]})`, { code: "markdown" });
+		if(roleName === "member" || roleName === "members") return message.channel.send(`[•](Member Role)   ::   [${nameData[1]}](${idData[1]})`, { code: "markdown" });
+		if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods") return message.channel.send(`[•](Moderator Role)   ::   [${nameData[2]}](${idData[2]})`, { code: "markdown" });
+		if(roleName === "stars" || roleName === "starchannel") return message.channel.send(`[•](Star Channel)   ::   [${starChannel}](${data.starChannel})`, { code: "markdown" });
 
 		if(roleName === "set"){
 			if(!args[1]){
-				return message.channel.send("Usage: [roles](set)< Admin/Mod/Member/Prefix >", { code: "markdown" }).then(m => {
+				return message.channel.send("Usage: [roles](set)< Prefix/Admin/Mod/Member/Stars >", { code: "markdown" }).then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);
@@ -85,14 +86,29 @@ exports.run = async (client, message, args, level) => {
 					return message.channel.send(`Usage:\n[${data.prefix}config](set) <prefix> < new prefix >`, { code: "markdown" });
 				}
 				return sql.get(`UPDATE settings SET prefix = "${args[2]}" WHERE guildID = "${message.guild.id}"`).then(() => {
+					client.log(`"${message.guild.name}" changed their prefix to "${args[2]}"`, `SQL`);
 					message.channel.send(`Prefix has been set to \`${args[2]}\``).then(m => {
-						client.log(`${message.guild.name} (${message.guild.id}) changed their prefix to "${args[2]}"`, `SQL`);
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
 						}
 					});
 				});
+			}
+
+			if(roleName === "stars" || roleName === "starchannel"){
+				const channelMention = message.mentions.channels.first();
+				if(!channelMention){
+					return sql.get(`UPDATE settings SET starChannel = "${message.channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+						client.log(`"${message.guild.name}" set their Star Channel to "${message.channel.name} (${message.channel.id})"`, `SQL`);
+						message.channel.send("The current channel will be used for the star channel.\nYou can delete this setting by doing:\n```md\n[config](delete) <starchannel>\n```");
+					});
+				} else {
+					return sql.get(`UPDATE settings SET starChannel = "${channelMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+						client.log(`"${message.guild.name}" set their Star Channel to "${channelMention.name}" (${channelMention.id})`, `SQL`);
+						message.channel.send(`The \`${channelMention.name}\` channel will be used for the star channel.\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) <starchannel>\n\`\`\``);
+					});
+				}
 			}
 
 			let sqlName = "invalid";
@@ -107,24 +123,11 @@ exports.run = async (client, message, args, level) => {
 				realName = "Moderator";
 			}
 			if(roleName === "member" || roleName === "members"){
-				sqlName = "adminRole";
+				sqlName = "memberRole";
 				realName = "Member";
 			}
 
-			if(sqlName === "invalid"){
-				return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\` or \`Member\`.`);
-			}
-
-			if(args[2] === "delete"){
-				return sql.run(`UPDATE settings SET ${sqlName} = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
-					message.channel.send(`Your role settings have been updated.\nThe \`${realName}\` role has been unset`).then(m => {
-						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-							m.delete(10000);
-							message.delete(10000);
-						}
-					});
-				});
-			}
+			if(sqlName === "invalid" || realName === "invalid") return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\`, \`Prefix\` or \`Stars\`.`);
 
 			const roleMention = message.mentions.roles.first();
 
@@ -132,21 +135,86 @@ exports.run = async (client, message, args, level) => {
 				return message.channel.send(`No role was mentioned. Usage:\n[${data.prefix}config](set) < admin/member/moderator > <@role>`, { code: "markdown" });
 			} else {
 				return sql.run(`UPDATE settings SET ${sqlName} = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-					client.log(`"${message.guild.name}" (${message.guild.id}) changed their ${realName} role to "${roleMention.name}" (${roleMention.id})`, "SQL");
-					message.react(good);
+					client.log(`"${message.guild.name}" changed their ${realName} role to "${roleMention.name}" (${roleMention.id})`, "SQL");
 					message.channel.send(`Your role settings have been updated.\n\`@${roleMention.name}\` is now the \`${realName}\` role.`).then(m => {
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
-						} else {
-							m.delete(10000);
 						}
 					});
 				});
 			}
 		}
 
-		return message.channel.send(`\`${args[0].toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\`, \`Prefix\` or \`Set\`.`).then(m =>{
+		if(roleName === "delete" || roleName === "reset"){
+			if(!args[1]){
+				return message.channel.send("Usage: [roles](reset)< Prefix/Admin/Mod/Member/Stars >", { code: "markdown" }).then(m => {
+					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete(10000);
+						message.delete(10000);
+					}
+				});
+			}
+
+			roleName = args[1].toLowerCase();
+
+			if(roleName === "prefix"){
+				if(data.prefix === client.config.prefix) return message.channel.send("Your prefix is already set to default and so cannot be reset.");
+				return sql.get(`UPDATE settings SET prefix = "${client.config.prefix}" WHERE guildID = ${message.guild.id}`).then(() => {
+					client.log(`"${message.guild.name}" changed their prefix to "${client.config.prefix}"`, `SQL`);
+					message.channel.send(`Your prefix has been reset to \`${client.config.prefix}\``).then(m => {
+						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+							m.delete(10000);
+							message.delete(10000);
+						}
+					});
+				});
+			}
+			if(roleName === "stars" || roleName === "starchannel"){
+				if(data.starChannel === "null") return message.channel.send("The star channel is not currently set and so cannot be removed.");
+				return sql.get(`UPDATE settings SET starChannel = "null" WHERE guildID = ${message.guild.id}`).then(() => {
+					message.channel.send("The star channel has been removed.").then(m => {
+						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+							m.delete(10000);
+							message.delete(10000);
+						}
+					});
+				});
+			}
+
+			let sqlName = "invalid";
+			let realName = "invalid";
+
+			if(roleName === "admin" || roleName === "admins"){
+				if(data.adminRole === "null") return message.channel.send(`The \`Admin\` level permission check is already disabled.`);
+				sqlName = "adminRole";
+				realName = "Admin";
+			}
+			if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
+				if(data.modRole === "null") return message.channel.send(`The \`Moderator\` level permission check is already disabled.`);
+				sqlName = "modRole";
+				realName = "Moderator";
+			}
+			if(roleName === "member" || roleName === "members"){
+				if(data.memberRole === "null") return message.channel.send(`The \`Member\` level permission check is already disabled.`);
+				sqlName = "memberRole";
+				realName = "Member";
+			}
+
+			if(sqlName === "invalid" || realName === "invalid") return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\`, \`Prefix\` or \`Stars\`.`);
+
+			return sql.run(`UPDATE settings SET ${sqlName} = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
+				client.log(`"${message.guild.name}" removed their ${realName} role`, "SQL");
+				message.channel.send(`Your permission settings have been updated.\nThe \`${realName}\` level permission check has been disabled`).then(m => {
+					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete(10000);
+						message.delete(10000);
+					}
+				});
+			});
+		}
+
+		return message.channel.send(`\`${args[0].toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Prefix\`, \`Admin\`, \`Moderator\`, \`Member\`, \`Stars\`, \`Set\` or \`Reset\`.`).then(m => {
 			if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 				m.delete(10000);
 				message.delete(10000);
