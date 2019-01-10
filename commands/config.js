@@ -100,7 +100,7 @@ exports.run = async (client, message, args, level) => {
 				const channelMention = message.mentions.channels.first();
 				if(!channelMention){
 					return sql.get(`UPDATE settings SET starChannel = "${message.channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-						client.log(`"${message.guild.name}" set their Star Channel to "${message.channel.name} (${message.channel.id})"`, `SQL`);
+						client.log(`"${message.guild.name}" set their Star Channel to "${message.channel.name}" (${message.channel.id})`, `SQL`);
 						message.channel.send("The current channel will be used for the star channel.\nYou can delete this setting by doing:\n```md\n[config](delete) <starchannel>\n```");
 					});
 				} else {
