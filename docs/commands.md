@@ -2,122 +2,6 @@
 This page lists and explains how to use commands and the results that you get while using these commands.<br/>
 <br/>
 <br/>
-## Config Command
-#### Permission level:
-Guild Master Only
-#### Aliases:
-`Config, Bot`
-#### Description:
-Before getting into the main commands, I'll cover the config command as it has many parts.<br/>
-The Config command is used to set, edit or remove certain configuration settings.
-
-Within config you can see the settings you have by doing `!config <setting>`<br/>
-Example, `!config prefix` would result in the current prefix set for the guild.
-
-You can change a setting by doing `!config set <setting> < New Setting >`<br/>
-Example, `!config set prefix &&` would set the guilds prefix to '&&'
-
-You can delete or reset a setting by doing `!config delete <setting>`<br/>
-Example, `!config delete prefix` would reset the guilds prefix back to '!'
-
-Settings available and their Aliases:
-
-### Prefix
-#### Aliases:
-`none`
-#### Description:
-Changes the prefix of the guild.
-#### Usage Example:
-Set a new prefix: `!config set prefix < new prefix >`<br/>
-Reset the prefix: `!config delete prefix`
-
-### Star Channel
-#### Aliases:
-`StarChannel, Stars`
-#### Description:
-Sets the guilds [Star Channel](https://multarix.github.io/Guildbot/starchannel).<br/>
-#### Usage Example:
-Set current channel as the Star Channel: `!config set stars`<br/>
-Set a different channel as the Star Channel: `!config set stars < channel >`<br/>
-Disabling this is as simple as: `!config delete stars`
-
-### Welcome Message
-#### Aliases:
-`JoinMessage, JM, WelcomeMessage, WM, JMsg, WMsg`
-#### Description:
-Sets a custom welcome message for anyone who enters the server. The welcome channel must also be set for this to function.
-#### Usage Example:
-Putting `<@user>` in the message will be converted to a mention of the user.<br/>
-Putting `<user>` in the message will be converted to the users username.<br/>
-`!config set joinmessage <@user> Has joined the server, welcome <user>!` results in:
-```md
-@Guildbot#2193 Has joined the server, welcome Guildbot!
-```
-Disabling this is as simple as `!config delete JoinMessage`
-
-### Welcome Channel
-#### Aliases:
-`JoinChannel, JC, WelcomeChannel, WC, JChnl, wChnl`
-#### Description:
-Sets the welcome message channel for the guild.
-#### Usage Example:
-Set current channel as the Welcome Channel: `!config set WelcomeChannel`<br/>
-Set a different channel as the Welcome Channel: `!config set WelcomeChannel < channel >`<br/>
-Disabling this is as simple as: `!config delete WelcomeChannel`
-
-### Leave Message
-#### Aliases:
-`LeaveMessage, LM, LMsg`
-#### Description:
-Sets a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.
-#### Usage Example:
-Putting `<@user>` in the message will be converted to a mention of the user.<br/>
-Putting `<user>` in the message will be converted to the users username.<br/>
-`!config set LeaveMessage <@user> Has left the server, bye bye <user>!` results in:
-```md
-@Guildbot#2193 Has left the server, bye bye Guildbot.
-```
-Disabling this is as simple as `!config delete LeaveMessage`
-
-### Leave Message Channel
-#### Aliases:
-`LeaveChannel, LC, LChnl`
-#### Description:
-Sets the leave message channel for the guild.
-#### Usage Example:
-Set current channel as the Leave Channel: `!config set LeaveChannel`<br/>
-Set a different channel as the Leave Channel: `!config set LeaveChannel < channel >`<br/>
-Disabling this is as simple as: `!config delete LeaveChannel`
-
-### Admin
-#### Aliases:
-`Admin, Admins`
-#### Description:
-Sets the Admin permission check role. Anyone with this role is able to use any command marked as Admin or lower.
-#### Usage Example:
-Set the role: !config set Admin <@role>
-Remove the role: !config delete Admin
-
-### Moderator
-#### Aliases:
-`Moderator, Moderators, Mod, Mods`
-#### Description:
-Sets the Moderator permission check role. Anyone with this role is able to use any command marked as Moderator or lower.
-#### Usage Example:
-Set the role: !config set Moderator <@role>
-Remove the role: !config delete Moderator
-
-### Member
-#### Aliases:
-`Member, Members`
-#### Description:
-Sets the Member permission check role. Anyone with this role is able to use any command marked as Member or lower.
-#### Usage Example:
-Set the role: !config set Member <@role>
-Remove the role: !config delete Member
-<br/>
-<br/>
-<br/>
 # Misc Commands
 
 ### Cancerous Text
@@ -354,3 +238,115 @@ This command will post some bot statistics such as:<br/>
 Memory Usage, Node & Discord.js versions, the uptime of the bot as well as how many users, channels and servers it has access to.<br/>
 #### Usage Example:
 `!info`
+<br/>
+<br/>
+## Config Command
+#### Permission level:
+Guild Master Only
+#### Aliases:
+`Config, Bot`
+#### Description:
+Within config you can see the settings you have by doing `!config <setting>`<br/>
+Example, `!config prefix` would result in the current prefix set for the guild.
+
+You can change a setting by doing `!config set <setting> < New Setting >`<br/>
+Example, `!config set prefix &&` would set the guilds prefix to '&&'
+
+You can delete or reset a setting by doing `!config delete <setting>`<br/>
+Example, `!config delete prefix` would reset the guilds prefix back to '!'
+
+Settings available and their Aliases:
+
+### Prefix
+#### Aliases:
+`none`
+#### Description:
+Changes the prefix of the guild.
+#### Usage Example:
+Set a new prefix: `!config set prefix < new prefix >`<br/>
+Reset the prefix: `!config delete prefix`
+
+### Star Channel
+#### Aliases:
+`StarChannel, Stars`
+#### Description:
+Sets the guilds [Star Channel](https://multarix.github.io/Guildbot/starchannel).<br/>
+#### Usage Example:
+Set current channel as the Star Channel: `!config set stars`<br/>
+Set a different channel as the Star Channel: `!config set stars < channel >`<br/>
+Disabling this is as simple as: `!config delete stars`
+
+### Welcome Message
+#### Aliases:
+`JoinMessage, JM, WelcomeMessage, WM, JMsg, WMsg`
+#### Description:
+Sets a custom welcome message for anyone who enters the server. The welcome channel must also be set for this to function.
+#### Usage Example:
+Putting `<@user>` in the message will be converted to a mention of the user.<br/>
+Putting `<user>` in the message will be converted to the users username.<br/>
+`!config set joinmessage <@user> Has joined the server, welcome <user>!` results in:
+```md
+@Guildbot#2193 Has joined the server, welcome Guildbot!
+```
+Disabling this is as simple as `!config delete JoinMessage`
+
+### Welcome Channel
+#### Aliases:
+`JoinChannel, JC, WelcomeChannel, WC, JChnl, wChnl`
+#### Description:
+Sets the welcome message channel for the guild.
+#### Usage Example:
+Set current channel as the Welcome Channel: `!config set WelcomeChannel`<br/>
+Set a different channel as the Welcome Channel: `!config set WelcomeChannel < channel >`<br/>
+Disabling this is as simple as: `!config delete WelcomeChannel`
+
+### Leave Message
+#### Aliases:
+`LeaveMessage, LM, LMsg`
+#### Description:
+Sets a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.
+#### Usage Example:
+Putting `<@user>` in the message will be converted to a mention of the user.<br/>
+Putting `<user>` in the message will be converted to the users username.<br/>
+`!config set LeaveMessage <@user> Has left the server, bye bye <user>!` results in:
+```md
+@Guildbot#2193 Has left the server, bye bye Guildbot.
+```
+Disabling this is as simple as `!config delete LeaveMessage`
+
+### Leave Message Channel
+#### Aliases:
+`LeaveChannel, LC, LChnl`
+#### Description:
+Sets the leave message channel for the guild.
+#### Usage Example:
+Set current channel as the Leave Channel: `!config set LeaveChannel`<br/>
+Set a different channel as the Leave Channel: `!config set LeaveChannel < channel >`<br/>
+Disabling this is as simple as: `!config delete LeaveChannel`
+
+### Admin
+#### Aliases:
+`Admin, Admins`
+#### Description:
+Sets the Admin permission check role. Anyone with this role is able to use any command marked as Admin or lower.
+#### Usage Example:
+Set the role: !config set Admin <@role>
+Remove the role: !config delete Admin
+
+### Moderator
+#### Aliases:
+`Moderator, Moderators, Mod, Mods`
+#### Description:
+Sets the Moderator permission check role. Anyone with this role is able to use any command marked as Moderator or lower.
+#### Usage Example:
+Set the role: !config set Moderator <@role>
+Remove the role: !config delete Moderator
+
+### Member
+#### Aliases:
+`Member, Members`
+#### Description:
+Sets the Member permission check role. Anyone with this role is able to use any command marked as Member or lower.
+#### Usage Example:
+Set the role: !config set Member <@role>
+Remove the role: !config delete Member
