@@ -1,7 +1,6 @@
 # Commands List
 This page lists and explains how to use commands and the results that you get while using these commands.<br/>
 <br/>
-<br/>
 # Misc Commands
 
 ### Cancerous Text
