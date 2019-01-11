@@ -17,31 +17,31 @@ You can delete or reset a setting by doing `!config delete <setting>`<br/>
 Example, `!config delete prefix` would reset the guilds prefix back to '!'
 
 Settings available and their Aliases:
-##### Prefix
+#### Prefix
 Aliases: `none`<br/>
 Changes the prefix of the guild.<br/>
 This setting can be altered with `!config set prefix < new prefix >`<br/>
 This setting can be reset with `!config delete prefix`
 
-##### Star channel
+#### Star channel
 Aliases: `StarChannel, Stars`<br/>
-This command sets the guilds [Star channel](starchannel).<br/>
+This command sets the guilds [star channel](starchannel).<br/>
 This setting can be altered with `!config set stars` or `!config set stars < channel >`<br/>
 This will set the star channel to either the channel it is done in, or the channel mentioned respectively.<br/>
 Disabling the star channel is as simple as `!config delete stars`
 
-##### Welcome Message
+#### Welcome Message
 Aliases: `JoinMessage, JM, WelcomeMessage, WM, JMsg, WMsg`<br/>
-This command will set a custom welcome message for anyone who enters the server. The welcome channel must also be set for this to function.
-Putting `<@user>` in the message will be converted to a mention of the user.
-Putting `<user>` in the message will be converted to the users username.
+This command will set a custom welcome message for anyone who enters the server. The welcome channel must also be set for this to function.<br/>
+Putting `<@user>` in the message will be converted to a mention of the user.<br/>
+Putting `<user>` in the message will be converted to the users username.<br/>
 For example, `!config set joinmessage <@user> Has joined the server, welcome <user>!` results in:
 ```md
 @Guildbot#2193 Has joined the server, welcome Guildbot!
 ```
 Disabling this is as simple as `!config delete JoinMessage`
 
-##### Welcome Channel
+#### Welcome Channel
 Aliases: `Aliases: `JoinChannel, JC, WelcomeChannel, WC, JChnl, wChnl`<br/>
 This sets the welcome message channel for the guild.
 This setting can be altered with `!config set WelcomeChannel` or `!config set WelcomeChannel < channel >`<br/>
@@ -49,18 +49,18 @@ This will set the star channel to either the channel it is done in, or the chann
 
 Disabling this is as simple as `!config delete WelcomeChannel`
 
-##### Leave Message
+#### Leave Message
 Aliases: `LeaveMessage, LM, LMsg`<br/>
-This command will set a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.
-Putting `<@user>` in the message will be converted to a mention of the user.
-Putting `<user>` in the message will be converted to the users username.
+This command will set a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.<br/>
+Putting `<@user>` in the message will be converted to a mention of the user.<br/>
+Putting `<user>` in the message will be converted to the users username.<br/>
 For example, `!config set LeaveMessage <@user> Has left the server, bye bye <user>!` results in:
 ```md
 @Guildbot#2193 Has left the server, bye bye Guildbot.
 ```
 Disabling this is as simple as `!config delete LeaveMessage`
 
-##### Leave Message Channel
+#### Leave Message Channel
 Aliases: `Aliases: `LeaveChannel, LC, LChnl`<br/>
 This sets the leave message channel for the guild.
 This setting can be altered with `!config set LeaveChannel` or `!config set LeaveChannel < channel >`<br/>
@@ -68,11 +68,11 @@ This will set the star channel to either the channel it is done in, or the chann
 
 Disabling this is as simple as `!config delete LeaveChannel`
 
-##### Admin
+#### Admin
 
-##### Member
+#### Member
 
-##### Moderator
+#### Moderator
 
 ## Misc Commands
 
