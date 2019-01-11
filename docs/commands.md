@@ -7,7 +7,7 @@ This page lists and explains how to use commands and the results that you get wh
 Guild Master Only
 #### Aliases:
 `Config, Bot`
-#### Usage:
+#### Description:
 Before getting into the main commands, I'll cover the config command as it has many parts.<br/>
 The Config command is used to set, edit or remove certain configuration settings.
 
@@ -27,7 +27,7 @@ Settings available and their Aliases:
 `none`
 #### Description:
 Changes the prefix of the guild.
-#### Usage:
+#### Usage Example:
 Set a new prefix: `!config set prefix < new prefix >`<br/>
 Reset the prefix: `!config delete prefix`
 
@@ -36,7 +36,7 @@ Reset the prefix: `!config delete prefix`
 `StarChannel, Stars`
 #### Description:
 Sets the guilds [Star Channel](https://multarix.github.io/Guildbot/starchannel).<br/>
-#### Usage:
+#### Usage Example:
 Set current channel as the Star Channel: `!config set stars`<br/>
 Set a different channel as the Star Channel: `!config set stars < channel >`<br/>
 Disabling this is as simple as: `!config delete stars`
@@ -46,7 +46,7 @@ Disabling this is as simple as: `!config delete stars`
 `JoinMessage, JM, WelcomeMessage, WM, JMsg, WMsg`
 #### Description:
 Sets a custom welcome message for anyone who enters the server. The welcome channel must also be set for this to function.
-#### Usage:
+#### Usage Example:
 Putting `<@user>` in the message will be converted to a mention of the user.<br/>
 Putting `<user>` in the message will be converted to the users username.<br/>
 `!config set joinmessage <@user> Has joined the server, welcome <user>!` results in:
@@ -60,7 +60,7 @@ Disabling this is as simple as `!config delete JoinMessage`
 `JoinChannel, JC, WelcomeChannel, WC, JChnl, wChnl`
 #### Description:
 Sets the welcome message channel for the guild.
-#### Usage:
+#### Usage Example:
 Set current channel as the Welcome Channel: `!config set WelcomeChannel`<br/>
 Set a different channel as the Welcome Channel: `!config set WelcomeChannel < channel >`<br/>
 Disabling this is as simple as: `!config delete WelcomeChannel`
@@ -70,7 +70,7 @@ Disabling this is as simple as: `!config delete WelcomeChannel`
 `LeaveMessage, LM, LMsg`
 #### Description:
 Sets a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.
-#### Usage:
+#### Usage Example:
 Putting `<@user>` in the message will be converted to a mention of the user.<br/>
 Putting `<user>` in the message will be converted to the users username.<br/>
 `!config set LeaveMessage <@user> Has left the server, bye bye <user>!` results in:
@@ -84,7 +84,7 @@ Disabling this is as simple as `!config delete LeaveMessage`
 `LeaveChannel, LC, LChnl`
 #### Description:
 Sets the leave message channel for the guild.
-#### Usage:
+#### Usage Example:
 Set current channel as the Leave Channel: `!config set LeaveChannel`<br/>
 Set a different channel as the Leave Channel: `!config set LeaveChannel < channel >`<br/>
 Disabling this is as simple as: `!config delete LeaveChannel`
@@ -94,7 +94,7 @@ Disabling this is as simple as: `!config delete LeaveChannel`
 `Admin, Admins`
 #### Description:
 Sets the Admin permission check role. Anyone with this role is able to use any command marked as Admin or lower.
-#### Usage:
+#### Usage Example:
 Set the role: !config set Admin <@role>
 Remove the role: !config delete Admin
 
@@ -103,7 +103,7 @@ Remove the role: !config delete Admin
 `Moderator, Moderators, Mod, Mods`
 #### Description:
 Sets the Moderator permission check role. Anyone with this role is able to use any command marked as Moderator or lower.
-#### Usage:
+#### Usage Example:
 Set the role: !config set Moderator <@role>
 Remove the role: !config delete Moderator
 
@@ -112,7 +112,7 @@ Remove the role: !config delete Moderator
 `Member, Members`
 #### Description:
 Sets the Member permission check role. Anyone with this role is able to use any command marked as Member or lower.
-#### Usage:
+#### Usage Example:
 Set the role: !config set Member <@role>
 Remove the role: !config delete Member
 <br/>
@@ -126,8 +126,9 @@ Member+
 #### Aliases:
 `Cancer`
 #### Description:
-This command will take any text you write and will randomize the capitalization of it.<br/>
-For example, `!cancer this is a demonstration of what this command does` results in:
+This command will take any text you write and will randomize the capitalization of it.
+#### Usage Example:
+`!cancer this is a demonstration of what this command does` results in:
 ```md
 tHiS is a deMOnStrAtiON Of WhaT THIS coMmAnD dOes
 ```
@@ -138,8 +139,10 @@ tHiS is a deMOnStrAtiON Of WhaT THIS coMmAnD dOes
 Everyone
 #### Aliases:
 `Define`
-This command will get dictionary.com link of whatever word you input afterwards.<br/>
-For example, `!define notification` results in:
+#### Description:
+Posts a dictionary.com link of whatever word you input afterwards.
+#### Usage Example:
+`!define notification` results in:
 ```md
 http://www.dictionary.com/browse/notification
 ```
@@ -150,8 +153,10 @@ http://www.dictionary.com/browse/notification
 Member+
 #### Aliases:
 `Echo`
-This command will simply take anything you say and simply repeat it. If the bot has permission to delete messages, it will also delete yours - making it seem like the bot sent the message all by itself, and not you.<br/>
-For example, `!echo I love Guildbot` results in:
+#### Description:
+Repeats anything you say. If the bot has permission to delete messages, it will also delete yours - making it seem like the bot sent the message all by itself.<br/>
+#### Usage Example:
+`!echo I love Guildbot` results in:
 ```md
 I love Guildbot
 ```
@@ -162,8 +167,10 @@ I love Guildbot
 Member+
 #### Aliases:
 `Fancy`
-This command will take any text you write and turn it into "fancy" looking text.<br/>
-For example, `!fancy I love Guildbot` results in:
+#### Description:
+Takes any text you write and turns it into "fancy" looking text.<br/>
+#### Usage Example:
+`!fancy I love Guildbot` results in:
 ```md
 𝓘 ˡᵒᵛᵉ 𝓖ᵘᶤˡᵈᵇᵒᵗ
 ```
@@ -174,16 +181,21 @@ For example, `!fancy I love Guildbot` results in:
 Member+
 #### Aliases:
 `Gay, Gey`
-This command allows you to see just how gay you or a friend is. It will generate a random number between 0 and 100.<br/>
-Usage of the command would simply be: `!gay` or `!gay @Guildbot#2193`
----
+#### Description:
+Check just how gay you or a friend is. It will generate a random number between 0 and 100.<br/>
+#### Usage Example:
+`!gay` or `!gay @Guildbot#2193`
+<br/>
+<br/>
 ### Invite
 #### Permission level:
 Everyone
 #### Aliases:
 `Invite, Inv`
+#### Description:
 This command will simply make the bot post its invite link with the recommended permissions.<br/>
-Usage of the command would simply be: `!invite`
+#### Usage Example:
+`!invite`
 <br/>
 <br/>
 ### Leet Speak
@@ -191,8 +203,10 @@ Usage of the command would simply be: `!invite`
 Member+
 #### Aliases:
 `Leet, 1337, L33T`
+#### Description:
 This command will take any text you write and turn it into "1337 5P34K" (Leet Speak).<br/>
-For example, `!leet I love guildbot` results in:
+#### Usage Example:
+`!leet I love guildbot` results in:
 ```md
 ! 10V3 9U!1D807
 ```
@@ -203,10 +217,12 @@ For example, `!leet I love guildbot` results in:
 Member+
 #### Aliases:
 `Love, Crush`
+#### Description:
 This command allows you to see who you or a friend has a secret crush on.<br/>
 The command will grab a random user from the guild the command is executed in and output that as the persons crush.<br/>
-Due to the nature of how this command is written, it's actually possible to have a crush on yourself but it's very rare.<br/>
-For example, `!love` & `!love @Guildbot#2193` results in:
+Due to the nature of how this command is written, it's actually possible to have a crush on yourself but it's very rare.
+#### Usage Example:
+`!love` & `!love @Guildbot#2193` results in:
 ```md
 Multarix#1337 has a crush on @Guildbot#2193 ❤😍
 @Guildbot#2193 has a crush on Multarix#1337 ❤😍
@@ -218,9 +234,11 @@ Multarix#1337 has a crush on @Guildbot#2193 ❤😍
 Everyone
 #### Aliases:
 `Ping`
+#### Description:
 This command reveals to you the bots ping to discord.<br/>
-(It's probably pretty high as I live in Australia and host the bot here ¯\\_(ツ)_/¯)<br/>
-Usage of the command would simply be: `!ping`
+(It's probably pretty high as I live in Australia and host the bot here ¯\\_(ツ)_/¯)
+#### Usage Example:
+`!ping`
 <br/>
 <br/>
 ### Points
@@ -228,8 +246,10 @@ Usage of the command would simply be: `!ping`
 Everyone
 #### Aliases:
 `Points, Point, P`
+#### Description:
 This command checks how many points you or a friend has. Points are accumulated by simply making posts. There is no annoying level feature that notifies you or any of that crap. Points are points and points are all you get.<br/>
-Usage of the command would simply be: `!points` or `!points @Guildbot#2193`
+#### Usage Example:
+`!points` or `!points @Guildbot#2193`
 <br/>
 <br/>
 ### Rank
@@ -237,8 +257,10 @@ Usage of the command would simply be: `!points` or `!points @Guildbot#2193`
 Everyone
 #### Aliases:
 `Rank, Ranks, Ranking, Rankings`
+#### Description:
 This command will post the users with the top 5 (or less) amount of points from the guild alongside how many points they currently have.<br/>
-Usage of the command would simply be: `!rank`
+#### Usage Example:
+`!rank`
 <br/>
 <br/>
 ### Server Status
@@ -246,8 +268,10 @@ Usage of the command would simply be: `!rank`
 Everyone
 #### Aliases:
 `Server, Discord`
+#### Description:
 This command simply posts a link to the [discord server status](https://status.discordapp.com/) page.<br/>
-Usage of the command would simply be: `!status` which results in:
+#### Usage Example:
+`!status` results in:
 ```md
 https://status.discordapp.com/
 ```
@@ -258,8 +282,10 @@ https://status.discordapp.com/
 Everyone
 #### Aliases:
 `Urban, UD`
+#### Description:
 This command will get an urban dictionary link of whatever word you input afterwards.<br/>
-For example, `!urban notification` results in:
+#### Usage Example:
+`!urban notification` results in:
 ```md
 http://www.urbandictionary.com/define.php?term=notification
 ```
@@ -270,9 +296,11 @@ http://www.urbandictionary.com/define.php?term=notification
 Everyone
 #### Aliases:
 `UserInfo, uInfo`
+#### Description:
 This command will post some basic information about you or a mentioned user.<br/>
-This will include: Username, discriminator, discord ID, when you joined discord, your current status and if you're a bot account or not.<br/>
-Usage of the command would simply be: `!uinfo` or `!uinfo @Guildbot#2193`
+This will include: Username, discriminator, discord ID, when you joined discord, your current status and if you're a bot account or not.
+#### Usage Example:
+`!uinfo` or `!uinfo @Guildbot#2193`
 <br/>
 <br/>
 <br/>
@@ -285,8 +313,8 @@ Moderator+
 `Purge, PurgeSelf, Prune, PruneSelf`
 #### Description:
 Instantly delete up to 100 messages from a channel sent by the bot.
-#### Usage:
-Usage of the command would simply be:`!purge 76` or `!md 42`
+#### Usage Example:
+`!purge 76` or `!md 42`
 <br/>
 <br/>
 ### Mass Delete
@@ -297,7 +325,7 @@ Moderator+
 #### Description:
 Instantly delete up to 100 messages from a channel (including the command you just sent).<br/>
 *I am not responsible for any information you may lose.*
-#### Usage:
+#### Usage Example:
 Usage of the command would simply be: `!md 76` or `!md 42`
 <br/>
 <br/>
@@ -309,9 +337,11 @@ Usage of the command would simply be: `!md 76` or `!md 42`
 Everyone
 #### Aliases:
 `Help`
+#### Description:
 This command currently doesn't link to this site, but it will in the future (maybe).<br/>
 At the moment it will simply DM the user that uses the command with some basic command information.<br/>
-Usage of the command would simply be: `!help`
+#### Usage Example:
+`!help`
 <br/>
 <br/>
 ### Info
@@ -319,6 +349,8 @@ Usage of the command would simply be: `!help`
 Member+
 #### Aliases:
 `Info, Stats`
+#### Description:
 This command will post some bot statistics such as:<br/>
 Memory Usage, Node & Discord.js versions, the uptime of the bot as well as how many users, channels and servers it has access to.<br/>
-Usage of the command would simply be: `!info`
+#### Usage Example:
+`!info`
