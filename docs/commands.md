@@ -1,6 +1,8 @@
 # Commands List
-This page lists and explains how to use commands and the results that you get while using these commands.
+This page lists and explains how to use commands and the results that you get while using these commands.<br/>
 ---
+___
+***
 ## Config Command
 #### Permission level:
 Guild Master Only
