@@ -1,8 +1,7 @@
 # Commands List
 This page lists and explains how to use commands and the results that you get while using these commands.<br/>
----
-___
-***
+<br/>
+<br/>
 ## Config Command
 #### Permission level:
 Guild Master Only
@@ -116,7 +115,9 @@ Sets the Member permission check role. Anyone with this role is able to use any 
 #### Usage:
 Set the role: !config set Member <@role>
 Remove the role: !config delete Member
----
+<br/>
+<br/>
+<br/>
 # Misc Commands
 
 ### Cancerous Text
@@ -130,7 +131,8 @@ For example, `!cancer this is a demonstration of what this command does` results
 ```md
 tHiS is a deMOnStrAtiON Of WhaT THIS coMmAnD dOes
 ```
----
+<br/>
+<br/>
 ### Define
 #### Permission level:
 Everyone
@@ -141,7 +143,8 @@ For example, `!define notification` results in:
 ```md
 http://www.dictionary.com/browse/notification
 ```
----
+<br/>
+<br/>
 ### Echo
 #### Permission level:
 Member+
@@ -152,7 +155,8 @@ For example, `!echo I love Guildbot` results in:
 ```md
 I love Guildbot
 ```
----
+<br/>
+<br/>
 ### Fancy Text
 #### Permission level:
 Member+
@@ -163,7 +167,8 @@ For example, `!fancy I love Guildbot` results in:
 ```md
 𝓘 ˡᵒᵛᵉ 𝓖ᵘᶤˡᵈᵇᵒᵗ
 ```
----
+<br/>
+<br/>
 ### Gay
 #### Permission level:
 Member+
@@ -179,7 +184,8 @@ Everyone
 `Invite, Inv`
 This command will simply make the bot post its invite link with the recommended permissions.<br/>
 Usage of the command would simply be: `!invite`
----
+<br/>
+<br/>
 ### Leet Speak
 #### Permission level:
 Member+
@@ -190,7 +196,8 @@ For example, `!leet I love guildbot` results in:
 ```md
 ! 10V3 9U!1D807
 ```
----
+<br/>
+<br/>
 ### Love
 #### Permission level:
 Member+
@@ -204,7 +211,8 @@ For example, `!love` & `!love @Guildbot#2193` results in:
 Multarix#1337 has a crush on @Guildbot#2193 ❤😍
 @Guildbot#2193 has a crush on Multarix#1337 ❤😍
 ```
----
+<br/>
+<br/>
 ### Ping
 #### Permission level:
 Everyone
@@ -213,7 +221,8 @@ Everyone
 This command reveals to you the bots ping to discord.<br/>
 (It's probably pretty high as I live in Australia and host the bot here ¯\\_(ツ)_/¯)<br/>
 Usage of the command would simply be: `!ping`
----
+<br/>
+<br/>
 ### Points
 #### Permission level:
 Everyone
@@ -221,7 +230,8 @@ Everyone
 `Points, Point, P`
 This command checks how many points you or a friend has. Points are accumulated by simply making posts. There is no annoying level feature that notifies you or any of that crap. Points are points and points are all you get.<br/>
 Usage of the command would simply be: `!points` or `!points @Guildbot#2193`
----
+<br/>
+<br/>
 ### Rank
 #### Permission level:
 Everyone
@@ -229,7 +239,8 @@ Everyone
 `Rank, Ranks, Ranking, Rankings`
 This command will post the users with the top 5 (or less) amount of points from the guild alongside how many points they currently have.<br/>
 Usage of the command would simply be: `!rank`
----
+<br/>
+<br/>
 ### Server Status
 #### Permission level:
 Everyone
@@ -240,7 +251,8 @@ Usage of the command would simply be: `!status` which results in:
 ```md
 https://status.discordapp.com/
 ```
----
+<br/>
+<br/>
 ### Urban Dictionary
 #### Permission level:
 Everyone
@@ -251,7 +263,8 @@ For example, `!urban notification` results in:
 ```md
 http://www.urbandictionary.com/define.php?term=notification
 ```
----
+<br/>
+<br/>
 ### User Info
 #### Permission level:
 Everyone
@@ -260,7 +273,9 @@ Everyone
 This command will post some basic information about you or a mentioned user.<br/>
 This will include: Username, discriminator, discord ID, when you joined discord, your current status and if you're a bot account or not.<br/>
 Usage of the command would simply be: `!uinfo` or `!uinfo @Guildbot#2193`
----
+<br/>
+<br/>
+<br/>
 # Moderation
 
 ### Purge Self
@@ -272,7 +287,8 @@ Moderator+
 Instantly delete up to 100 messages from a channel sent by the bot.
 #### Usage:
 Usage of the command would simply be:`!purge 76` or `!md 42`
----
+<br/>
+<br/>
 ### Mass Delete
 #### Permission level:
 Moderator+
@@ -283,7 +299,9 @@ Instantly delete up to 100 messages from a channel (including the command you ju
 *I am not responsible for any information you may lose.*
 #### Usage:
 Usage of the command would simply be: `!md 76` or `!md 42`
----
+<br/>
+<br/>
+<br/>
 # System Commands
 
 ### Help
@@ -294,7 +312,8 @@ Everyone
 This command currently doesn't link to this site, but it will in the future (maybe).<br/>
 At the moment it will simply DM the user that uses the command with some basic command information.<br/>
 Usage of the command would simply be: `!help`
----
+<br/>
+<br/>
 ### Info
 #### Permission level:
 Member+
