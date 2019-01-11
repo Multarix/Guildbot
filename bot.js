@@ -53,7 +53,7 @@ const init = async () => {
 
 init();
 
-setTimeout(restartBot, 86400000);
+setTimeout(restartBot, 172800000);
 
 client.on('error', e => {
 	console.error(e);
