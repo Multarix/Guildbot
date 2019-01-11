@@ -70,6 +70,7 @@ Check just how gay you or a friend is. It will generate a random number between 
 `!gay` or `!gay @Guildbot#2193`
 <br/>
 <br/>
+<br/>
 ### Invite
 #### Permission level:
 Everyone
@@ -79,6 +80,7 @@ Everyone
 This command will simply make the bot post its invite link with the recommended permissions.<br/>
 #### Usage Example:
 `!invite`
+<br/>
 <br/>
 <br/>
 ### Leet Speak
@@ -124,6 +126,7 @@ This command reveals to you the bots ping to discord.<br/>
 `!ping`
 <br/>
 <br/>
+<br/>
 ### Points
 #### Permission level:
 Everyone
@@ -135,6 +138,7 @@ This command checks how many points you or a friend has. Points are accumulated 
 `!points` or `!points @Guildbot#2193`
 <br/>
 <br/>
+<br/>
 ### Rank
 #### Permission level:
 Everyone
@@ -144,6 +148,7 @@ Everyone
 This command will post the users with the top 5 (or less) amount of points from the guild alongside how many points they currently have.<br/>
 #### Usage Example:
 `!rank`
+<br/>
 <br/>
 <br/>
 ### Server Status
@@ -200,6 +205,7 @@ Instantly delete up to 100 messages from a channel sent by the bot.
 `!purge 76` or `!md 42`
 <br/>
 <br/>
+<br/>
 ### Mass Delete
 #### Permission level:
 Moderator+
@@ -227,6 +233,7 @@ At the moment it will simply DM the user that uses the command with some basic c
 `!help`
 <br/>
 <br/>
+<br/>
 ### Info
 #### Permission level:
 Member+
@@ -237,6 +244,7 @@ This command will post some bot statistics such as:<br/>
 Memory Usage, Node & Discord.js versions, the uptime of the bot as well as how many users, channels and servers it has access to.<br/>
 #### Usage Example:
 `!info`
+<br/>
 <br/>
 <br/>
 ## Config Command
