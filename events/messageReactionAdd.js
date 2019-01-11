@@ -14,6 +14,7 @@ module.exports = async (client, messageReaction, user) => {
 		if(!starboard) return client.log("Guild does not have a starboard channel, skipping starboard message", "Stars");
 
 		if(!starboard.memberPermissions(message.guild.me).has("SEND_MESSAGES")) return;
+		if(!starboard.memberPermissions(message.guild.me).has("EMBED_LINKS")) return;
 
 		if(user.id === message.author.id){
 			return message.reply(`You cannot star your own messages`).then(m => {
@@ -77,6 +78,5 @@ module.exports = async (client, messageReaction, user) => {
 
 module.exports.help = {
 	name: "messageReactionAdd",
-	aliases: ["addReaction"],
 	description: "Emitted when a user adds a reaction",
 };

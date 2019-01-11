@@ -15,6 +15,5 @@ module.exports = async client => {
 
 module.exports.help = {
 	name: "ready",
-	aliases: [],
 	description: "Emitted when the client is ready",
 };

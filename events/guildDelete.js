@@ -16,6 +16,5 @@ module.exports = (client, guild) => {
 
 module.exports.help = {
 	name: "guildDelete",
-	aliases: ["guildLeave"],
 	description: "Emitted when the client leaves a guild",
 };
