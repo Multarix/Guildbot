@@ -3,12 +3,9 @@ const moment = require("moment");
 require("moment-duration-format");
 
 const Discord = require("discord.js");
-const os = require("os");
 
 exports.run = (client, message, args, level) => {
 	const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
-
-	const cpuType = os.cpus()[0].model.split(/\s+/g).join(" ");
 
 	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 		const embed = new Discord.RichEmbed()
@@ -44,7 +41,7 @@ exports.conf = {
 	enabled: true,
 	guildOnly: false,
 	aliases: ["stats"],
-	permLevel: 10,
+	permLevel: 1,
 };
 
 exports.help = {

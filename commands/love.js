@@ -22,7 +22,7 @@ exports.conf = {
 	enabled: true,
 	guildOnly: true,
 	aliases: ["crush"],
-	permLevel: 0,
+	permLevel: 1,
 };
 
 exports.help = {

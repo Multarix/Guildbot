@@ -19,7 +19,7 @@ exports.conf = {
 	enabled: true,
 	guildOnly: true,
 	aliases: ["gey"],
-	permLevel: 0,
+	permLevel: 1,
 };
 
 exports.help = {

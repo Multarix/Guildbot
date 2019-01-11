@@ -12,13 +12,13 @@ exports.run = (client, message, args, level) => {
 exports.conf = {
 	enabled: true,
 	guildOnly: false,
-	aliases: ["prune", "purge"],
-	permLevel: 10,
+	aliases: ["purgeself", "purge"],
+	permLevel: 3,
 };
 
 exports.help = {
-	name: "purgeself",
+	name: "prune",
 	category: "Moderation",
-	description: "Prunes a selected amount of messages",
+	description: "Prunes a selected amount of messages from the bot itself.",
 	usage: "prune](<..number>)",
 };

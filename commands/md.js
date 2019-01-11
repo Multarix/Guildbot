@@ -33,6 +33,6 @@ exports.conf = {
 exports.help = {
 	name: "md",
 	category: "Moderation",
-	description: "Deletes the specified amount of posts",
+	description: "Mass deletes the specified amount of posts",
 	usage: "md](<..number>)",
 };
