@@ -1,7 +1,8 @@
 # Guildbot
 This page serves as an introduction to Guildbot.<br/>
-For a full rundown of all the commands/ features please visit [this link](https://multarix.github.io/Guildbot/commands).
-
+For a full rundown of all the commands/ features please visit **[this link](https://multarix.github.io/Guildbot/commands)**.<br/>
+<br/>
+<br/>
 ### Who are you, and what is Guildbot?
 
 Hi, I'm Multarix. I'm an Australian gamer dude thing... yeah idk how to describe who I am.<br/>
