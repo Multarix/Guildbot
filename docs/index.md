@@ -1,5 +1,5 @@
 # Guildbot
-This bots contains all the most useless things you could want. This page will serve as a rundown of all the features the bot has.
+This bots contains all the most useless things you could want. This page will serve as a rundown of all the features the bot has.<br/>
 For a full rundown of all the commands please visit [this link](https://multarix.github.io/Guildbot/commands).
 
 ### Who are you, and what is Guildbot?
@@ -18,7 +18,7 @@ Guildbot can do a wide variety of things. Such as:
 
 ### So how does it work?
 
-Guildbot runs on Javascript, using Node and the discord.js library. It also supports an sqlite database for storing information, such as custom prefixes.<br/>
+Guildbot runs on Javascript, using Node and the Discord.js library. It also uses an Sqlite database for storing information, such as custom prefixes.<br/>
 Its code is readily available on github [here](https://github.com/Multarix/Guildbot). And even allows you to download and run the bot yourself if you wish to make an separate version of it.
 
 ### So why should I use Guildbot instead of any other bot?

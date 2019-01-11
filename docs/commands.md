@@ -92,7 +92,7 @@ Usage of the command would simply be: `!uinfo` or `!uinfo @Guildbot#2193`
 
 ### Mass Delete
 This command will instantly delete up to 100 messages from a channel (including the command you just sent).<br/>
-I am not responsible for any information you may lose.
+I am not responsible for any information you may lose.<br/>
 Usage of the command would simply be: `!md 76` or `!md 42`
 
 ## System Commands
