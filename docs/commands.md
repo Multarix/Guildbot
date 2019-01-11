@@ -37,7 +37,7 @@ Member+
 #### Aliases:
 `Echo`
 #### Description:
-Repeats anything you say. If the bot has permission to delete messages, it will also delete yours - making it seem like the bot sent the message all by itself.<br/>
+Repeats anything you say. If the bot has permission to delete messages, it will also delete yours - making it seem like the bot sent the message all by itself.
 #### Usage Example:
 `!echo I love Guildbot` results in:
 ```md
@@ -51,7 +51,7 @@ Member+
 #### Aliases:
 `Fancy`
 #### Description:
-Takes any text you write and turns it into "fancy" looking text.<br/>
+Takes any text you write and turns it into "fancy" looking text.
 #### Usage Example:
 `!fancy I love Guildbot` results in:
 ```md
@@ -65,7 +65,7 @@ Member+
 #### Aliases:
 `Gay, Gey`
 #### Description:
-Check just how gay you or a friend is. It will generate a random number between 0 and 100.<br/>
+Check just how gay you or a friend is. Generates a random number between 0 and 100.<br/>
 #### Usage Example:
 `!gay` or `!gay @Guildbot#2193`
 <br/>
@@ -77,7 +77,7 @@ Everyone
 #### Aliases:
 `Invite, Inv`
 #### Description:
-This command will simply make the bot post its invite link with the recommended permissions.<br/>
+Makes the bot post its invite link with the recommended permissions.<br/>
 #### Usage Example:
 `!invite`
 <br/>
@@ -89,7 +89,7 @@ Member+
 #### Aliases:
 `Leet, 1337, L33T`
 #### Description:
-This command will take any text you write and turn it into "1337 5P34K" (Leet Speak).<br/>
+Takes any text you write and turn it into "1337 5P34K" (Leet Speak).<br/>
 #### Usage Example:
 `!leet I love guildbot` results in:
 ```md
@@ -103,9 +103,8 @@ Member+
 #### Aliases:
 `Love, Crush`
 #### Description:
-This command allows you to see who you or a friend has a secret crush on.<br/>
-The command will grab a random user from the guild the command is executed in and output that as the persons crush.<br/>
-Due to the nature of how this command is written, it's actually possible to have a crush on yourself but it's very rare.
+Allows you to see who you or a friend has a secret crush on.<br/>
+Due to the nature of how this command is written, it's actually possible to have a crush on yourself, but it's very rare.
 #### Usage Example:
 `!love` & `!love @Guildbot#2193` results in:
 ```md
@@ -120,7 +119,7 @@ Everyone
 #### Aliases:
 `Ping`
 #### Description:
-This command reveals to you the bots ping to discord.<br/>
+Reveals to you the bots ping to discord.<br/>
 (It's probably pretty high as I live in Australia and host the bot here ¯\\_(ツ)_/¯)
 #### Usage Example:
 `!ping`
@@ -133,7 +132,7 @@ Everyone
 #### Aliases:
 `Points, Point, P`
 #### Description:
-This command checks how many points you or a friend has. Points are accumulated by simply making posts. There is no annoying level feature that notifies you or any of that crap. Points are points and points are all you get.<br/>
+Checks how many points you or a friend has. Points are accumulated by simply making posts. There is no annoying level feature that notifies you or any of that crap. Points are points and points are all you get.<br/>
 #### Usage Example:
 `!points` or `!points @Guildbot#2193`
 <br/>
@@ -145,7 +144,7 @@ Everyone
 #### Aliases:
 `Rank, Ranks, Ranking, Rankings`
 #### Description:
-This command will post the users with the top 5 (or less) amount of points from the guild alongside how many points they currently have.<br/>
+Lists the users with the top 5 (or less) amount of points from the guild, alongside how many points they currently have.
 #### Usage Example:
 `!rank`
 <br/>
@@ -157,7 +156,7 @@ Everyone
 #### Aliases:
 `Server, Discord`
 #### Description:
-This command simply posts a link to the [discord server status](https://status.discordapp.com/) page.<br/>
+Posts a link to the [discord server status](https://status.discordapp.com/) page.
 #### Usage Example:
 `!status` results in:
 ```md
@@ -171,7 +170,7 @@ Everyone
 #### Aliases:
 `Urban, UD`
 #### Description:
-This command will get an urban dictionary link of whatever word you input afterwards.<br/>
+Posts an Urban Dictionary link of whatever word you input afterwards.<br/>
 #### Usage Example:
 `!urban notification` results in:
 ```md
@@ -185,8 +184,8 @@ Everyone
 #### Aliases:
 `UserInfo, uInfo`
 #### Description:
-This command will post some basic information about you or a mentioned user.<br/>
-This will include: Username, discriminator, discord ID, when you joined discord, your current status and if you're a bot account or not.
+Posts some basic information about you or a mentioned user.<br/>
+This Includes: Username, discriminator, discord ID, when you joined discord, your current status and if you're a bot or not.
 #### Usage Example:
 `!uinfo` or `!uinfo @Guildbot#2193`
 <br/>
@@ -240,7 +239,7 @@ Member+
 #### Aliases:
 `Info, Stats`
 #### Description:
-This command will post some bot statistics such as:<br/>
+Posts some bot statistics such as:<br/>
 Memory Usage, Node & Discord.js versions, the uptime of the bot as well as how many users, channels and servers it has access to.<br/>
 #### Usage Example:
 `!info`
