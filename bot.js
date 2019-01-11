@@ -40,9 +40,6 @@ const init = async () => {
 			const eventName = file.split(".")[0];
 			client.on(eventName, event.bind(null, client));
 			client.events.set(event.help.name, event);
-			event.help.aliases.forEach(alias => {
-				client.eventAliases.set(alias, event.help.name);
-			});
 
 			delete require.cache[require.resolve(`./events/${file}`)];
 

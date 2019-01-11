@@ -46,6 +46,5 @@ module.exports = (client, member) => {
 
 module.exports.help = {
 	name: "guildMemberAdd",
-	aliases: ["memberJoin"],
 	description: "Emitted when a user joins a guild",
 };

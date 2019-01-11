@@ -57,6 +57,5 @@ module.exports = (client, message) => {
 
 module.exports.help = {
 	name: "message",
-	aliases: [],
 	description: "Emitted when a user sends a message",
 };
