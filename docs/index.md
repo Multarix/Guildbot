@@ -1,5 +1,5 @@
 # Guildbot
-This bot contains all the most useless things you could want. This page serves as an introduction to the bot.<br/>
+This page serves as an introduction to Guildbot.<br/>
 For a full rundown of all the commands/ features please visit [this link](https://multarix.github.io/Guildbot/commands).
 
 ### Who are you, and what is Guildbot?
