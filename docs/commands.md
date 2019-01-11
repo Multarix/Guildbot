@@ -201,7 +201,7 @@ Moderator+
 #### Description:
 Instantly delete up to 100 messages from a channel sent by the bot.
 #### Usage Example:
-`!purge 76` or `!md 42`
+`!purge 76` or `!prune 42`
 <br/>
 <br/>
 <br/>
@@ -214,7 +214,7 @@ Moderator+
 Instantly delete up to 100 messages from a channel (including the command you just sent).<br/>
 *I am not responsible for any information you may lose.*
 #### Usage Example:
-Usage of the command would simply be: `!md 76` or `!md 42`
+Usage of the command would simply be: `!massdelete 76` or `!md 42`
 <br/>
 <br/>
 <br/>
@@ -227,7 +227,7 @@ Everyone
 `Help`
 #### Description:
 This command currently doesn't link to this site, but it will in the future (maybe).<br/>
-At the moment it will simply DM the user that uses the command with some basic command information.<br/>
+At the moment it will simply DM the user that uses the command with some basic command information.
 #### Usage Example:
 `!help`
 <br/>
@@ -240,7 +240,7 @@ Member+
 `Info, Stats`
 #### Description:
 Posts some bot statistics such as:<br/>
-Memory Usage, Node & Discord.js versions, the uptime of the bot as well as how many users, channels and servers it has access to.<br/>
+Memory Usage, Node & Discord.js versions, the uptime of the bot as well as how many users, channels and servers it has access to.
 #### Usage Example:
 `!info`
 <br/>
@@ -336,7 +336,7 @@ Disabling this is as simple as: `!config delete LeaveChannel`
 #### Description:
 Sets the Admin permission check role. Anyone with this role is able to use any command marked as Admin or lower.
 #### Usage Example:
-Set the role: !config set Admin <@role>
+Set the role: !config set Admin <@role><br/>
 Remove the role: !config delete Admin
 
 ### Moderator
@@ -345,7 +345,7 @@ Remove the role: !config delete Admin
 #### Description:
 Sets the Moderator permission check role. Anyone with this role is able to use any command marked as Moderator or lower.
 #### Usage Example:
-Set the role: !config set Moderator <@role>
+Set the role: !config set Moderator <@role><br/>
 Remove the role: !config delete Moderator
 
 ### Member
@@ -354,5 +354,5 @@ Remove the role: !config delete Moderator
 #### Description:
 Sets the Member permission check role. Anyone with this role is able to use any command marked as Member or lower.
 #### Usage Example:
-Set the role: !config set Member <@role>
+Set the role: !config set Member <@role><br/>
 Remove the role: !config delete Member
