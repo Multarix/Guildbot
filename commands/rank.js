@@ -4,30 +4,33 @@ const sql = require("sqlite");
 exports.run = (client, message, args, level) => {
 	const players = client.users;
 
-	let ecolor;
-
-	if(!message.guild.me.highestRole.color){
-		ecolor = 13238272;
-	} else {
-		ecolor = message.guild.me.highestRole.color;
-	}
-
 	sql.all(`SELECT * FROM pointTable WHERE guildID = "${message.guild.id}" ORDER BY points DESC`).then(res => {
+		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
+			let ecolor = 13238272;
+			if(message.guild.me.highestRole.color) ecolor = message.guild.me.highestRole.color;
 
-		const embed = new Discord.RichEmbed()
-			.setAuthor(`Point Leaderboard - ${message.guild.name}`)
-			.setThumbnail(client.user.displayAvatarURL)
-			.setColor(ecolor)
-			.addField("**Rank #1** :crown:", `**${res[0].points}** Points - **${players.get(`${res[0].playerID}`).tag}**`, false)
-			.setTimestamp()
-			.setFooter(client.user.tag);
+			const embed = new Discord.RichEmbed()
+				.setAuthor(`Point Leaderboard - ${message.guild.name}`)
+				.setColor(ecolor)
+				.addField("**Rank #1** :crown:", `**${res[0].points}** Points - **${players.get(`${res[0].playerID}`).tag}**`, false)
+				.setTimestamp()
+				.setFooter(client.user.tag);
 
-		let i;
-		for(i = 1;i < res.length && i <= 4; i++) {
-			embed.addField(`**Rank #${i + 1}**`, `**${res[i].points}** Points - **${players.get(`${res[i].playerID}`).tag}**`, false);
+			if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
+
+			let i;
+			for(i = 1;i < res.length && i <= 4; i++) {
+				embed.addField(`**Rank #${i + 1}**`, `**${res[i].points}** Points - **${players.get(`${res[i].playerID}`).tag}**`, false);
+			}
+
+			return message.channel.send({ embed });
 		}
-
-		message.channel.send({ embed });
+		let i;
+		let noEmbed = `< Rank #1 > 👑\n[${res[0].points} Points](${players.get(`${res[0].playerID}`).tag})`;
+		for(i = 1;i < res.length && i <= 4; i++) {
+			noEmbed += `\n< Rank #${i + 1} >\n[${res[i].points} Points](${players.get(`${res[i].playerID}`).tag})`;
+		}
+		return message.channel.send(noEmbed, { code: "markdown" });
 	});
 };
 

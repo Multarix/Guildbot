@@ -1,16 +1,16 @@
 const Discord = require('discord.js');
 
 exports.run = (client, message, args, level) => {
-	const embed = new Discord.RichEmbed()
-		.setThumbnail(message.author.displayAvatarURL)
-		.setColor(14487568)
-		.addField('Invite me to a server!', `[Click here to invite this bot!](https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=2146958551)`, false)
-		.setFooter(client.user.tag, client.user.displayAvatarURL)
-		.setTimestamp();
+	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
+		const embed = new Discord.RichEmbed()
+			.setThumbnail(client.user.displayAvatarURL)
+			.setColor(14487568)
+			.addField(`${client.user.username} Invite Link`, `[Click Here](https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=2146958551 "Invite Guildbot to your server") to invite\n${client.user.username} to your\nown server.`, false)
+			.setFooter(client.user.tag, client.user.displayAvatarURL)
+			.setTimestamp();
 
-	message.channel.send({ embed });
-
-
+		return message.author.send({ embed });
+	}
 };
 
 exports.conf = {
