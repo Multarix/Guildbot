@@ -8,6 +8,7 @@ module.exports = async client => {
 		sql.get(`SELECT * FROM settings where guildID = "${g.id}"`).then(data => {
 			if(!data){
 				sql.run(`INSERT INTO settings (prefix, memberRole, modRole, adminRole, guildID, joinMessage, leaveMessage, starChannel) VALUES ("${client.config.prefix}", "null", "null", "null", "${g.id}", "null", "null", "null")`).then(() => {
+					client.log(`Joined the "${g.name}" (${g.id}) server`, "Notify");
 					client.log(`Applied default settings to the "${g.name}" server`, "SQL");
 				});
 			}
