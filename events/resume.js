@@ -1,4 +1,3 @@
-const colors = require("colors");
 module.exports = client => {
 	client.log("Re-established a connection to the websocket.", "Notify");
 };
