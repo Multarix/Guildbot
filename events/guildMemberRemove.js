@@ -2,7 +2,7 @@ const sql = require("sqlite");
 
 module.exports = (client, member) => {
 
-	client.log(`"${member.user.tag}" (${member.user.id}) left the "${member.guild.name}" server.`, "memberLeave");
+	client.log(`"${member.user.tag}" (${member.user.id}) left the "${member.guild.name}" server.`, "Log");
 
 	sql.get(`SELECT * From pointTable WHERE playerID = "${member.user.id}" AND guildID = "${member.guild.id}"`).then(mem => {
 		if(!mem){

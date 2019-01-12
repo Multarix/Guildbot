@@ -2,7 +2,7 @@ const sql = require("sqlite");
 
 module.exports = (client, member) => {
 
-	client.log(`"${member.user.tag}" (${member.user.id}) joined the "${member.guild.name}" server.`, "memberJoin");
+	client.log(`"${member.user.tag}" (${member.user.id}) joined the "${member.guild.name}" server.`, "Log");
 
 	sql.run(`INSERT INTO pointTable (points, playerID, guildID) VALUES ("-1", "${member.user.id}", "${member.guild.id}")`).then(res => {
 		client.log(`Set "${member.user.tag}" to the default amount of points`, "SQL");
