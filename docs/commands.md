@@ -77,7 +77,7 @@ Everyone
 #### Aliases:
 `Invite, Inv`
 #### Description:
-Makes the bot post its invite link with the recommended permissions.<br/>
+Sends a private message with the bots invite link.<br/>
 #### Usage Example:
 `!invite`
 <br/>
