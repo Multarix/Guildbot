@@ -1,6 +1,6 @@
 const colors = require("colors");
 module.exports = async client => {
-	client.log("Failed to connect to the websocket, restarting bot.", "Error");
+	client.log("Failed to re-establish a connection to the websocket.", "Error");
 	await wait(1000);
 	restartBot("Websocket disconnected");
 };
