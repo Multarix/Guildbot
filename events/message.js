@@ -43,10 +43,10 @@ module.exports = (client, message) => {
 			if(cmd.conf.enabled === true){
 				cmd.run(client, message, args, level);
 			} else {
-				client.log(`"${message.author.tag}" tried to use the disabled command "${cmd.help.name}"`, "Notify");
+				client.log(`"${message.author.tag}" tried to use the disabled command "${cmd.help.name}"`, "Log");
 			}
 		} else if (cmd && level < cmd.conf.permLevel){
-			client.log(`"${message.author.tag}" tried to use command: "${cmd.help.name}"`, "Notify");
+			client.log(`"${message.author.tag}" tried to use command: "${cmd.help.name}"`, "Log");
 		}
 	});
 };
