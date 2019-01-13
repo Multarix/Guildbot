@@ -1,7 +1,7 @@
 exports.run = (client, message, args, level) => {
 
 	function geyPercent() {
-		const tagged = message.mentions.users.first();
+		const tagged = grabUser(args[0]);
 		let geyPerson;
 		if(!tagged){
 			geyPerson = message.author.username;

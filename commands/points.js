@@ -2,8 +2,9 @@ const Discord = require('discord.js');
 const sql = require("sqlite");
 
 exports.run = (client, message, args, level) => {
-	const tagged = message.mentions.users.first();
-	const memtag = message.mentions.members.first();
+	const tagged = grabUser(args[0]);
+	let memtag;
+	if(tagged) memtag = message.guild.members.get(tagged.id);
 
 	let pointPerson;
 	if(!tagged){
@@ -12,21 +13,14 @@ exports.run = (client, message, args, level) => {
 		pointPerson = tagged;
 	}
 
-	let ecolor;
+	let ecolor = 13238272;
 
 	if(!memtag){
-		if(!message.member.highestRole.color){
-			ecolor = 13238272;
-		} else {
-			ecolor = message.member.highestRole.color;
-		}
+		if(message.member.highestRole.color) ecolor = message.member.highestRole.color;
 	} else {
-		if(!memtag.highestRole.color){		// eslint-disable-line
-			ecolor = 13238272;
-		} else {
-			ecolor = memtag.highestRole.color;
-		}
+		ecolor = memtag.highestRole.color;
 	}
+
 
 	sql.get(`SELECT * FROM pointTable WHERE playerID = "${pointPerson.id}" AND guildID = "${message.guild.id}"`).then(p => {
 
@@ -40,7 +34,7 @@ exports.run = (client, message, args, level) => {
 		if(!p){
 			sql.run(`INSERT INTO pointTable (points, playerID, guildID) VALUES (0, "${pointPerson.id}", "${message.guild.id}")`).then(pnp => {
 				client.log(`Set "${pointPerson.tag}" (${pointPerson.id}) to the default amount of points`, "SQL");
-				embed.addField("**Current Points**", "**0**", false);
+				embed.addField("**Current Points**", "0", false);
 				message.channel.send({ embed });
 			});
 		} else {

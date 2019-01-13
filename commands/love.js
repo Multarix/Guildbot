@@ -1,6 +1,6 @@
 exports.run = (client, message, args, level) => {
 
-	const tagged = message.mentions.users.first();
+	const tagged = grabUser(args[0]);
 	const theCrush = message.guild.members.random().user.tag;
 	const backupCrush = message.guild.members.random().user.tag;
 
