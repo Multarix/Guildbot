@@ -93,7 +93,7 @@ module.exports = async (client) => {
 	global.pause = async (num) => {
 		await wait(num);
 	};
-
+	// Custom Global functions
 	global.restartBot = async (restartInfo) => {
 		if(!restartInfo){
 			restartInfo = "Automatic Restart";
@@ -103,6 +103,26 @@ module.exports = async (client) => {
 			process.exit();
 		});
 	};
+
+	global.grabUser = (userID) => {
+		if(!userID) return;
+		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
+		if(userID.startsWith("!")) userID.slice(1);
+		return client.users.get(userID);
+	};
+
+	global.grabChannel = (channelID) => {
+		if(!channelID) return;
+		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
+		return client.users.get(channelID);
+	};
+
+	global.grabRole = (roleID) => {
+		if(!roleID) return;
+		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
+		return client.users.get(roleID);
+	};
+
 
 	// I see your unhandled things, and present to you, handled things!
 
