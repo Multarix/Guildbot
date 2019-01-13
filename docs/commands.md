@@ -265,26 +265,26 @@ Settings available and their Aliases:
 
 ### Prefix
 #### Aliases:
-`none`
+`Prefix`
 #### Description:
 Changes the prefix of the guild.
 #### Usage Example:
 Set a new prefix: `!config set prefix < new prefix >`<br/>
 Reset the prefix: `!config delete prefix`
 
-### Star Channel
+### Starboard
 #### Aliases:
-`StarChannel, Stars`
+`Starboard, starChannel, Stars`
 #### Description:
-Sets the guilds [Star Channel](https://multarix.github.io/Guildbot/starchannel).<br/>
+Sets the guilds [Starboard](https://multarix.github.io/Guildbot/starchannel).<br/>
 #### Usage Example:
-Set current channel as the Star Channel: `!config set stars`<br/>
-Set a different channel as the Star Channel: `!config set stars < channel >`<br/>
+Set current channel as the Starboard: `!config set stars`<br/>
+Set a different channel as the Starboard: `!config set stars < channel >`<br/>
 Disabling this is as simple as: `!config delete stars`
 
 ### Welcome Message
 #### Aliases:
-`JoinMessage, JM, WelcomeMessage, WM, JMsg, WMsg`
+`joinMessage, JM, welcomeMessage, WM, jMsg, wMsg`
 #### Description:
 Sets a custom welcome message for anyone who enters the server. The welcome channel must also be set for this to function.
 #### Usage Example:
@@ -298,7 +298,7 @@ Disabling this is as simple as `!config delete JoinMessage`
 
 ### Welcome Channel
 #### Aliases:
-`JoinChannel, JC, WelcomeChannel, WC, JChnl, wChnl`
+`welcomeChannel, wChnl, WC, WMC`
 #### Description:
 Sets the welcome message channel for the guild.
 #### Usage Example:
@@ -308,7 +308,7 @@ Disabling this is as simple as: `!config delete WelcomeChannel`
 
 ### Leave Message
 #### Aliases:
-`LeaveMessage, LM, LMsg`
+`leaveMessage, leaveMsg, lMsg, LM`
 #### Description:
 Sets a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.
 #### Usage Example:
@@ -322,7 +322,7 @@ Disabling this is as simple as `!config delete LeaveMessage`
 
 ### Leave Message Channel
 #### Aliases:
-`LeaveChannel, LC, LChnl`
+`leaveChannel, lChnl, LC, LMC`
 #### Description:
 Sets the leave message channel for the guild.
 #### Usage Example:
