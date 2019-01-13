@@ -114,13 +114,14 @@ module.exports = async (client) => {
 	global.grabChannel = (channelID) => {
 		if(!channelID) return;
 		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
-		return client.users.get(channelID);
+		return client.channels.get(channelID);
 	};
 
-	global.grabRole = (roleID) => {
+	global.grabRole = (roleID, guild) => {
 		if(!roleID) return;
+		if(!guild) return;
 		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
-		return client.users.get(roleID);
+		return guild.roles.get(roleID);
 	};
 
 
