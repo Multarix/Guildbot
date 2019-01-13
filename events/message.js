@@ -31,11 +31,25 @@ module.exports = (client, message) => {
 	}
 
 	sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`).then(data => {
+		const mention = new RegExp(`^<@!?${client.user.id}>`);
+		const mentionCheck = message.content.match(mention) ? message.content.match(mention)[0] : '!';
 
-		if(message.content.indexOf(data.prefix) !== 0) return;
-		const args = message.content.split(/\s+/g);
-		const command = args.shift().slice(data.prefix.length).toLowerCase();
+		const prefixes = [`${mentionCheck} `, data.prefix];
+		let prefix = false;
+		for(const thisPrefix of prefixes){
+			if(message.content.startsWith(thisPrefix)) prefix = thisPrefix;
+		}
+		if(!prefix) return;
 
+		let args = message.content.split(/\s+/g);
+
+		let command;
+		if(args[0] === mentionCheck){
+			args = args.slice(1);
+			command = args.shift().toLowerCase();
+		} else {
+			command = args.shift().slice(prefix.length).toLowerCase();
+		}
 		const level = client.permlevel(message, data);
 		const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
 
