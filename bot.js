@@ -4,7 +4,7 @@ const sql = require("sqlite");
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 
-const client = new Discord.Client();
+const client = new Discord.Client({ disableEveryone: true });
 
 client.config = require("./config.json");
 require("./modules/functions.js")(client);
