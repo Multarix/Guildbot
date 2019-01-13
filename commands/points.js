@@ -3,43 +3,32 @@ const sql = require("sqlite");
 
 exports.run = (client, message, args, level) => {
 	const tagged = grabUser(args[0]);
-	let memtag;
-	if(tagged) memtag = message.guild.members.get(tagged.id);
 
-	let pointPerson;
-	if(!tagged){
-		pointPerson = message.author;
-	} else {
-		pointPerson = tagged;
-	}
+	let user = message.author;
+	let member = message.member;
+	if(tagged) user = tagged; member = message.guild.members.get(tagged.id);
 
-	let ecolor = 13238272;
+	let ecolor = 16777215;
+	if(member.highestRole.color) ecolor = member.highestRole.color;
 
-	if(!memtag){
-		if(message.member.highestRole.color) ecolor = message.member.highestRole.color;
-	} else {
-		ecolor = memtag.highestRole.color;
-	}
-
-
-	sql.get(`SELECT * FROM pointTable WHERE playerID = "${pointPerson.id}" AND guildID = "${message.guild.id}"`).then(p => {
+	sql.get(`SELECT * FROM pointTable WHERE playerID = "${user.id}" AND guildID = "${message.guild.id}"`).then(p => {
 
 		const embed = new Discord.RichEmbed()
-			.setAuthor(`${pointPerson.tag}`)
+			.setAuthor(`${user.tag}`)
 			.setThumbnail(message.author.displayAvatarURL)
 			.setColor(ecolor)
 			.setTimestamp()
 			.setFooter(client.user.tag);
 
 		if(!p){
-			sql.run(`INSERT INTO pointTable (points, playerID, guildID) VALUES (0, "${pointPerson.id}", "${message.guild.id}")`).then(pnp => {
-				client.log(`Set "${pointPerson.tag}" (${pointPerson.id}) to the default amount of points`, "SQL");
+			sql.run(`INSERT INTO pointTable (points, playerID, guildID) VALUES (0, "${user.id}", "${message.guild.id}")`).then(() => {
+				client.log(`Set "${user.tag}" (${user.id}) to the default amount of points`, "SQL");
 				embed.addField("**Current Points**", "0", false);
-				message.channel.send({ embed });
+				return message.channel.send({ embed });
 			});
 		} else {
 			embed.addField("Current Points", `${p.points}`, false);
-			message.channel.send({ embed });
+			return message.channel.send({ embed });
 		}
 	});
 
