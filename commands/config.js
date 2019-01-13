@@ -14,7 +14,7 @@ exports.run = async (client, message, args, level) => {
 				names += "Not Set\u200b";
 				ids += "Not Set\u200b";
 			} else {
-				names += `${message.guild.roles.get(test[i]).name}\u200b`;
+				names += `@${message.guild.roles.get(test[i]).name}\u200b`;
 				ids += `${message.guild.roles.get(test[i]).id}\u200b`;
 			}
 		}
@@ -28,7 +28,7 @@ exports.run = async (client, message, args, level) => {
 		if(!message.guild.channels.get(data.starChannel)){
 			starChannel = "Not Set";
 		} else {
-			starChannel = message.guild.channels.get(data.starChannel).name;
+			starChannel = "#" + message.guild.channels.get(data.starChannel).name.toProperCase();
 		}
 
 		let roleName = args[0];
@@ -44,7 +44,7 @@ exports.run = async (client, message, args, level) => {
 					.addField("Admin Role", nameData[0], false)
 					.addField("Member Role", nameData[1], false)
 					.addField("Moderator Role", nameData[2], false)
-					.addField("Star Channel", starChannel, false)
+					.addField("Starboard", starChannel, false)
 					.setFooter(client.user.tag, client.user.displayAvatarURL)
 					.setTimestamp();
 
@@ -58,7 +58,7 @@ exports.run = async (client, message, args, level) => {
 [•](Admin Role)         <=>     < ${nameData[0]} >
 [•](Member Role)        <=>     < ${nameData[1]} >
 [•](Moderator Role)     <=>     < ${nameData[2]} >
-[•](Star Channel)       <=>     < ${starChannel} >`, { code: "markdown" });
+[•](Starboard)          <=>     < ${starChannel} >`, { code: "markdown" });
 		}
 
 		roleName = roleName.toLowerCase();
@@ -67,8 +67,9 @@ exports.run = async (client, message, args, level) => {
 		if(roleName === "admin" || roleName === "admins") return message.channel.send(`[•](Admin Role)   ::   [${nameData[0]}](${idData[0]})`, { code: "markdown" });
 		if(roleName === "member" || roleName === "members") return message.channel.send(`[•](Member Role)   ::   [${nameData[1]}](${idData[1]})`, { code: "markdown" });
 		if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods") return message.channel.send(`[•](Moderator Role)   ::   [${nameData[2]}](${idData[2]})`, { code: "markdown" });
-		if(roleName === "stars" || roleName === "starchannel") return message.channel.send(`[•](Star Channel)   ::   [${starChannel}](${data.starChannel})`, { code: "markdown" });
+		if(roleName === "stars" || roleName === "starchannel") return message.channel.send(`[•](Starboard)   ::   [${starChannel}](${data.starChannel})`, { code: "markdown" });
 
+		let aliases = [];
 		if(roleName === "set"){
 			if(!args[1]){
 				return message.channel.send("Usage: [roles](set)< Prefix/Admin/Mod/Member/Stars >", { code: "markdown" }).then(m => {
@@ -81,7 +82,8 @@ exports.run = async (client, message, args, level) => {
 
 			roleName = args[1].toLowerCase();
 			// Welcome Messages
-			if(roleName === "jmsg" || roleName === "jm" || roleName === "joinmsg" || roleName === "join"){
+			aliases = ["joinmessage", "jm", "welcomemessage", "wm", "jmsg", "wmsg"];
+			if(aliases.includes(roleName)){
 				const joinMsg = args.slice(2).join(" ");
 				if(!joinMsg){
 					return message.channel.send(`Usage: [config](set) <joinmsg> < message you want >\n
@@ -96,27 +98,17 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 					message.channel.send(`The welcome message has been saved. An example of your message is below:\n${joinExample}`);
 				});
 			}
+			// Welcome Channel
+			aliases = ["welcomechannel", "wchnl", "wc", "wmc"];
+			if(aliases.includes(roleName)){
+				const channelMention = grabChannel(args[2]);
+				let channel = message.channel;
+				if(channelMention) channel = channelMention;
 
-			if(roleName === "welcomechannel" || roleName === "wc" || roleName === "wmc" || roleName === "jmc"){
-				const channelMention = message.mentions.channels.first();
-				if(!channelMention){
-					if(message.channel.id === data.welcomeChannel) return message.channel.send("The welcome message channel is already set to this channel.");
-
-					return sql.get(`UPDATE settings SET welcomeChannel = "${message.channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-						client.log(`"${message.guild.name}" set their welcome message channel to "${message.channel.name}" (${message.channel.id})`, `SQL`);
-						message.channel.send(`The welcome message channel has been set to ${message.channel}`).then(m => {
-							if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-								m.delete(10000);
-								message.delete(10000);
-							}
-						});
-					});
-				}
-				if(channelMention.id === data.welcomeChannel) return message.channel.send("The welcome message channel is already set to that channel.");
-
-				return sql.get(`UPDATE settings SET welcomeChannel = "${channelMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-					client.log(`"${message.guild.name}" set their welcome message channel to "${channelMention.name}" (${channelMention.id})`, `SQL`);
-					message.channel.send(`The welcome message channel has been set to ${channelMention}`).then(m => {
+				if(channel.id === data.leaveChannel) return message.channel.send(`${channel} is already set as the leave message channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``);
+				return sql.get(`UPDATE settings SET welcomeChannel = "${message.channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+					client.log(`"${message.guild.name}" set their welcome message channel to "${message.channel.name}" (${message.channel.id})`, `SQL`);
+					message.channel.send(`The welcome message channel has been set to ${message.channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``).then(m => {
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
@@ -125,7 +117,8 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 				});
 			}
 			// Leave Messages
-			if(roleName === "lmsg" || roleName === "lm" || roleName === "leavemsg" || roleName === "leave"){
+			aliases = ["leavemessage", "leavemsg", "lmsg", "lm"];
+			if(aliases.includes(roleName)){
 				const leaveMsg = args.slice(2).join(" ");
 				if(!leaveMsg){
 					return message.channel.send(`Usage: [config](set) <leavemsg> < message you want >\n
@@ -140,27 +133,17 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 					message.channel.send(`The member leave message has been saved. An example of your message is below:\n${leaveExample}`);
 				});
 			}
+			// Leave Message Channel
+			aliases = ["leavechannel", "lchnl", "lc", "lmc"];
+			if(aliases.includes(roleName)){
+				const channelMention = grabChannel(args[2]);
+				let channel = message.channel;
+				if(channelMention) channel = channelMention;
 
-			if(roleName === "leavechannel" || roleName === "lc" || roleName === "lmc"){
-				const channelMention = message.mentions.channels.first();
-				if(!channelMention){
-					if(message.channel.id === data.leaveChannel) return message.channel.send("The leave message channel is already set to this channel.");
-
-					return sql.get(`UPDATE settings SET leaveChannel = "${message.channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-						client.log(`"${message.guild.name}" set their leave message channel to "${message.channel.name}" (${message.channel.id})`, `SQL`);
-						message.channel.send(`The leave message channel has been set to ${message.channel}`).then(m => {
-							if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-								m.delete(10000);
-								message.delete(10000);
-							}
-						});
-					});
-				}
-				if(channelMention.id === data.leaveChannel) return message.channel.send("The leave message channel is already set to that channel.");
-
-				return sql.get(`UPDATE settings SET leaveChannel = "${channelMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-					client.log(`"${message.guild.name}" set their leave message channel to "${channelMention.name}" (${channelMention.id})`, `SQL`);
-					message.channel.send(`The leave message channel has been set to ${channelMention}`).then(m => {
+				if(channel.id === data.leaveChannel) return message.channel.send(`${channel} is already set as the leave message channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) lmc\n\`\`\``);
+				return sql.get(`UPDATE settings SET leaveChannel = "${channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+					client.log(`"${message.guild.name}" set their leave message channel to "${channel.name}" (${channel.id})`, `SQL`);
+					message.channel.send(`The leave message channel has been set to ${channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) lmc\n\`\`\``).then(m => {
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
@@ -168,14 +151,16 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 					});
 				});
 			}
+
 			// Prefix
-			if(roleName === "prefix"){
+			aliases = ["prefix"];
+			if(aliases.includes(roleName)){
 				if(!args[2]) return message.channel.send(`Usage:\n[config](set) <prefix> < new prefix >`, { code: "markdown" });
 				if(args[2] === data.prefix) return message.channel.send(`The prefix is already set to \`${data.prefix}\``);
 
 				return sql.get(`UPDATE settings SET prefix = "${args[2]}" WHERE guildID = "${message.guild.id}"`).then(() => {
 					client.log(`"${message.guild.name}" changed their prefix to "${args[2]}"`, `SQL`);
-					message.channel.send(`Prefix has been set to \`${args[2]}\``).then(m => {
+					message.channel.send(`Prefix has been set to \`${args[2]}\`\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) prefix\n\`\`\``).then(m => {
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
@@ -183,47 +168,52 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 					});
 				});
 			}
-			// Star Channel
-			if(roleName === "stars" || roleName === "starchannel"){
-				const channelMention = message.mentions.channels.first();
-				if(!channelMention){
-					return sql.get(`UPDATE settings SET starChannel = "${message.channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-						client.log(`"${message.guild.name}" set their Star Channel to "${message.channel.name}" (${message.channel.id})`, `SQL`);
-						message.channel.send("The current channel will be used for the star channel.\nYou can delete this setting by doing:\n```md\n[config](delete) <starchannel>\n```");
-					});
-				} else {
-					return sql.get(`UPDATE settings SET starChannel = "${channelMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
-						client.log(`"${message.guild.name}" set their Star Channel to "${channelMention.name}" (${channelMention.id})`, `SQL`);
-						message.channel.send(`The \`${channelMention.name}\` channel will be used for the star channel.\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) <starchannel>\n\`\`\``);
-					});
-				}
+			// Starboard
+			aliases = ["stars", "starchannel", "starboard"];
+			if(aliases.includes(roleName)){
+				const channelMention = grabChannel(args[2]);
+				let channel = message.channel;
+				if(channelMention) channel = channelMention;
+
+				if(channel.id === data.starChannel) return message.channel.send(`The channel is already set as the starboard.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) starboard\n\`\`\``);
+				return sql.get(`UPDATE settings SET starChannel = "${channel.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
+					client.log(`"${message.guild.name}" set their Starboard to "${channel.name}" (${channel.id})`, `SQL`);
+					message.channel.send(`The \`${channel.name}\` channel will be used as the starboard.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) starboard\n\`\`\``);
+				});
 			}
 
 			let sqlName = "invalid";
 			let realName = "invalid";
-
-			if(roleName === "admin" || roleName === "admins"){
+			let dataCheck;
+			aliases = ["admin", "admins"];
+			if(aliases.includes(roleName)){
 				sqlName = "adminRole";
 				realName = "Admin";
+				dataCheck = data.adminRole;
 			}
-			if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
+			aliases = ["moderator", "moderators", "mod", "mods"];
+			if(aliases.includes(roleName)){
 				sqlName = "modRole";
 				realName = "Moderator";
+				dataCheck = data.modRole;
 			}
-			if(roleName === "member" || roleName === "members"){
+			aliases = ["member", "members"];
+			if(aliases.includes(roleName)){
 				sqlName = "memberRole";
 				realName = "Member";
+				dataCheck = data.memberRole;
 			}
 
 			if(sqlName === "invalid" || realName === "invalid") return message.channel.send(`\`${roleName.toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Admin\`, \`Moderator\`, \`Member\`, \`Prefix\` or \`Stars\`.`);
 
-			const roleMention = message.mentions.roles.first();
+			const roleMention = grabRole(args[2], message.guild);
 
 			if(!roleMention) return message.channel.send(`No role was mentioned. Usage:\n[${data.prefix}config](set) < admin/member/moderator > <@role>`, { code: "markdown" });
+			if(roleMention.id === dataCheck) return message.channel.send(`That role is already the \`${realName}\` role.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) ${realName}\`\`\``);
 
 			return sql.run(`UPDATE settings SET ${sqlName} = "${roleMention.id}" WHERE guildID = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" changed their ${realName} role to "@${roleMention.name}" (${roleMention.id})`, "SQL");
-				message.channel.send(`Your permission settings have been updated.\n\`@${roleMention.name}\` is now the \`${realName}\` role.`).then(m => {
+				message.channel.send(`Your permission settings have been updated.\n\`@${roleMention.name}\` is now the \`${realName}\` role.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) ${realName}\`\`\``).then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);
@@ -244,7 +234,8 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 
 			roleName = args[1].toLowerCase();
 			// Welcome Message
-			if(roleName === "jmsg" || roleName === "jm" || roleName === "joinmsg" || roleName === "join"){
+			aliases = ["joinmessage", "jm", "welcomemessage", "wm", "jmsg", "wmsg"];
+			if(aliases.includes(roleName)){
 				if(data.joinMessage === "null") return message.channel.send("The member join message is already disabled and therefore cannot be removed.");
 				return sql.get(`UPDATE settings SET joinMessage = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
 					client.log(`"${message.guild.name}" removed their member join message`, `SQL`);
@@ -256,8 +247,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 					});
 				});
 			}
-
-			if(roleName === "welcomechannel" || roleName === "wc" || roleName === "jmcs"){
+			// Welcome Channel
+			aliases = ["welcomechannel", "wchnl", "wc", "wmc"];
+			if(aliases.includes(roleName)){
 				if(data.welcomeChannel === "null") return message.channel.send("The welcome message channel is already disabled and therefore cannot be removed.");
 				return sql.get(`UPDATE settings SET welcomeChannel = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
 					client.log(`"${message.guild.name}" removed their welcome message channel`, `SQL`);
@@ -270,7 +262,8 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 				});
 			}
 			// Leave Messages
-			if(roleName === "lmsg" || roleName === "lm" || roleName === "leavemsg" || roleName === "leave"){
+			aliases = ["leavemessage", "leavemsg", "lmsg", "lm"];
+			if(aliases.includes(roleName)){
 				if(data.leaveMessage === "null") return message.channel.send("The join message is already disabled and therefore cannot be removed.");
 				return sql.get(`UPDATE settings SET leaveMessage = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
 					client.log(`"${message.guild.name}" removed their member join message`, `SQL`);
@@ -283,7 +276,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 				});
 			}
 
-			if(roleName === "leavechannel" || roleName === "lc" || roleName === "lmcs"){
+			// Leave Message Channel
+			aliases = ["leavechannel", "lchnl", "lc"];
+			if(aliases.includes(roleName)){
 				if(data.leaveChannel === "null") return message.channel.send("The leave message channel is already disabled and therefore cannot be removed.");
 				return sql.get(`UPDATE settings SET leaveChannel = "null" WHERE guildID = "${message.guild.id}"`).then(() => {
 					client.log(`"${message.guild.name}" removed their leave message channel`, `SQL`);
@@ -296,7 +291,8 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 				});
 			}
 			// Prefix
-			if(roleName === "prefix"){
+			aliases = ["prefix"];
+			if(aliases.includes(roleName)){
 				if(data.prefix === client.config.prefix) return message.channel.send("Your prefix is already set to default, therefore cannot be reset.");
 				return sql.get(`UPDATE settings SET prefix = "${client.config.prefix}" WHERE guildID = ${message.guild.id}`).then(() => {
 					client.log(`"${message.guild.name}" changed their prefix to "${client.config.prefix}"`, `SQL`);
@@ -308,11 +304,12 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 					});
 				});
 			}
-			// Star Channel
-			if(roleName === "stars" || roleName === "starchannel"){
-				if(data.starChannel === "null") return message.channel.send("The star channel is not currently set and therefore cannot be removed.");
+			// Starboard
+			aliases = ["stars", "starchannel"];
+			if(aliases.includes(roleName)){
+				if(data.starChannel === "null") return message.channel.send("The Starboard is not currently set and therefore cannot be removed.");
 				return sql.get(`UPDATE settings SET starChannel = "null" WHERE guildID = ${message.guild.id}`).then(() => {
-					message.channel.send("The star channel has been removed.").then(m => {
+					message.channel.send("The Starboard has been removed.").then(m => {
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 							m.delete(10000);
 							message.delete(10000);
@@ -324,17 +321,20 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			let sqlName = "invalid";
 			let realName = "invalid";
 
-			if(roleName === "admin" || roleName === "admins"){
+			aliases = ["admin", "admins"];
+			if(aliases.includes(roleName)){
 				if(data.adminRole === "null") return message.channel.send(`The \`Admin\` level permission check is already disabled.`);
 				sqlName = "adminRole";
 				realName = "Admin";
 			}
-			if(roleName === "moderator" || roleName === "moderators" || roleName === "mod" || roleName === "mods"){
+			aliases = ["moderator", "moderators", "mod", "mods"];
+			if(aliases.includes(roleName)){
 				if(data.modRole === "null") return message.channel.send(`The \`Moderator\` level permission check is already disabled.`);
 				sqlName = "modRole";
 				realName = "Moderator";
 			}
-			if(roleName === "member" || roleName === "members"){
+			aliases = ["member", "members"];
+			if(aliases.includes(roleName)){
 				if(data.memberRole === "null") return message.channel.send(`The \`Member\` level permission check is already disabled.`);
 				sqlName = "memberRole";
 				realName = "Member";
@@ -353,7 +353,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			});
 		}
 
-		return message.channel.send(`\`${args[0].toProperCase()}\` doesn't appear to be a valid argument, acceptable arguments are:\n\`Prefix\`, \`Admin\`, \`Moderator\`, \`Member\`, \`Stars\`, \`Set\` or \`Reset\`.`).then(m => {
+		return message.channel.send(`\`${args[0].toProperCase()}\` doesn't appear to be a valid argument. Usage:\n\`\`\`md\n[config](set/delete) < setting >\`\`\``).then(m => {
 			if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 				m.delete(10000);
 				message.delete(10000);
