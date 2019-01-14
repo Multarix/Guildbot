@@ -33,7 +33,7 @@ exports.conf = {
 
 exports.help = {
 	name: "pr",
-	category: "Misc",
+	category: "Moderation",
 	description: "Reset the amount of points all users on a server has",
 	usage: "pe](<..user>)",
 };
