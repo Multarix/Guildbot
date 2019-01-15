@@ -27,7 +27,7 @@ exports.run = (client, message, args, level) => {
 	}).catch(e => {
 		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 			const embed = new Discord.RichEmbed()
-				.addField(`Error ${bad}`, `Couldn't find a definition for the word \`${args[0]}\``)
+				.addField(`Error ${bad}`, `Couldn't find a definition for the word \`${define}\``)
 				.setFooter(message.author.tag, message.author.displayAvatarURL)
 				.setTimestamp();
 			return message.channel.send({ embed });
