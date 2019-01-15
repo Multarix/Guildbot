@@ -24,14 +24,14 @@ exports.run = (client, message, args, level) => {
 	if (newStatus === "invalid"){
 		message.react(bad);
 		message.channel.send(`\`${args[0]}\` is not a valid status. Try again.`).then(m => {
-			m.delete(5000);
-			message.delete(5000);
+			if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+				m.delete(5000);
+				message.delete(5000);
+			}
 		});
 	} else {
 		client.user.setStatus(newStatus);
-		return message.channel.send(`Status set to \`${newStatus}\``).then(m => {
-			message.react(good);
-		});
+		message.react(good);
 	}
 };
 
