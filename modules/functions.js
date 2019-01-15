@@ -44,12 +44,12 @@ module.exports = async (client) => {
 	client.log = (msg, title) => {
 		const t = new Date();
 
-		let hour = t.getHours();
-		if(hour < 10) hour = "0" + hour;
-		let minute = t.getMinutes();
-		if(minute < 10) minute = "0" + minute;
+		let hours = t.getHours();
+		if(hours < 10) hours = "0" + hours;
+		let minutes = t.getMinutes();
+		if(minutes < 10) minutes = "0" + minutes;
 
-		const time = `${hour}:${minute}`;
+		const time = `${hours}:${minutes}`;
 
 		if(!title) title = "Log";
 		if(title.toLowerCase() === "error"){
@@ -112,11 +112,11 @@ module.exports = async (client) => {
 		});
 	};
 
-	global.grabUser = (userID) => {
+	global.grabUser = async (userID) => {
 		if(!userID) return;
 		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
 		if(userID.startsWith("!")) userID = userID.slice(1);
-		client.fetchUser(userID).catch(e => { return; });
+		await client.fetchUser(userID).catch(e => { return; });
 		return client.users.get(userID);
 	};
 
