@@ -17,3 +17,4 @@ If you don't know how to find any of the above information, or simply don't know
 - Moment (2.22.2 or higher)
 - Moment-duration-format (2.2.2 or higher)
 - Sqlite (3.0.0 or higher)
+- Urban-Dictionary (2.2.1 or higher)
