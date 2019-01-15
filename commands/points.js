@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const sql = require("sqlite");
 
-exports.run = (client, message, args, level) => {
-	const tagged = grabUser(args[0]);
+exports.run = async (client, message, args, level) => {
+	const tagged = await grabUser(args[0]);
 
 	let user = message.author;
 	let member = message.member;

@@ -1,7 +1,7 @@
 exports.run = (client, message, args, level) => {
 
-	function geyPercent() {
-		const tagged = grabUser(args[0]);
+	async function geyPercent() {
+		const tagged = await grabUser(args[0]);
 		let geyPerson = message.author.username;
 		if(tagged) geyPerson = tagged.username;
 
