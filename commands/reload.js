@@ -27,8 +27,10 @@ exports.run = async (client, message, args, level) => {
 	});
 	client.log(`The command '${command}' was reloaded`, "Log");
 	message.reply(`The command '${command}' has been reloaded`).then(msg =>{
-		msg.delete(5000);
-		message.delete(5000);
+		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
+			msg.delete(5000);
+			message.delete(5000);
+		}
 	});
 };
 
