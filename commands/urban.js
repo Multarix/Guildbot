@@ -6,6 +6,7 @@ exports.run = (client, message, args, level) => {
 	const good = client.emojis.get("340357918996299778");
 
 	const define = args.join(" ");
+	if(!define) return message.channel.send("Usage: [urban](<..words>)", { code: "markdown" });
 	ud.term(define).then(defined => {
 		const results = defined.entries;
 		const filter = /[[\]]/g;
@@ -16,7 +17,7 @@ exports.run = (client, message, args, level) => {
 
 		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 			const embed = new Discord.RichEmbed()
-				.setAuthor(word)
+				.setAuthor(word, "https://i.imgur.com/mpeuwPm.png")
 				.addField("Definition:", definition + `\n\u200b`, false)
 				.addField("Usage:", example, false)
 				.setFooter(message.author.tag, message.author.displayAvatarURL)
