@@ -42,21 +42,29 @@ module.exports = async (client) => {
 	//	Client log, semi-useful for keeping track of what is what in the console
 
 	client.log = (msg, title) => {
+		const t = new Date();
+
+		let hour = t.getHours();
+		if(hour < 10) hour = "0" + hour;
+		let minute = t.getMinutes();
+		if(minute < 10) minute = "0" + minute;
+
+		const time = `${hour}:${minute}`;
+
 		if(!title) title = "Log";
 		if(title.toLowerCase() === "error"){
-			return console.log(`[${colors.red(title)}] ${colors.red(msg)}`);
+			return console.log(`[${colors.red(time)}](${colors.red(title)}) ${colors.red(msg)}`);
 		}
 		if(title.toLowerCase() === "warn"){
-			return console.log(`[${colors.yellow(title)}] ${colors.yellow(msg)}`);
+			return console.log(`[${colors.yellow(time)}](${colors.yellow(title)}) ${colors.yellow(msg)}`);
 		}
 		if(title.toLowerCase() === "notify"){
-			return console.log(`[${colors.cyan(title)}] ${colors.cyan(msg)}`);
-			// return console.log(colors.cyan('[') + title + colors.cyan('] ') + msg);
+			return console.log(`[${colors.cyan(time)}](${colors.cyan(title)}) ${colors.cyan(msg)}`);
 		}
 		if(title.toLowerCase() === "sql"){
-			return console.log(`[${colors.magenta(title)}] ${colors.magenta(msg)}`);
+			return console.log(`[${colors.magenta(time)}](${colors.magenta(title)}) ${colors.magenta(msg)}`);
 		}
-		console.log(`[${colors.gray(title)}] ${colors.gray(msg)}`);
+		console.log(`[${colors.gray(time)}](${colors.gray(title)}) ${colors.gray(msg)}`);
 	};
 
 	/*
@@ -107,7 +115,8 @@ module.exports = async (client) => {
 	global.grabUser = (userID) => {
 		if(!userID) return;
 		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
-		if(userID.startsWith("!")) userID.slice(1);
+		if(userID.startsWith("!")) userID = userID.slice(1);
+		client.fetchUser(userID).catch(e => { return; });
 		return client.users.get(userID);
 	};
 
