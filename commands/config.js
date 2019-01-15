@@ -86,7 +86,7 @@ exports.run = async (client, message, args, level) => {
 			if(aliases.includes(roleName)){
 				const joinMsg = args.slice(2).join(" ");
 				if(!joinMsg){
-					return message.channel.send(`Usage: [config](set) <joinmsg> < message you want >\n
+					return message.channel.send(`Usage: [config](set) joinmessage < message you want >\n
 Handy Tips:
 -----------
 If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
@@ -121,7 +121,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			if(aliases.includes(roleName)){
 				const leaveMsg = args.slice(2).join(" ");
 				if(!leaveMsg){
-					return message.channel.send(`Usage: [config](set) <leavemsg> < message you want >\n
+					return message.channel.send(`Usage: [config](set) leavemessage < message you want >\n
 Handy Tips:
 -----------
 If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
@@ -155,7 +155,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			// Prefix
 			aliases = ["prefix"];
 			if(aliases.includes(roleName)){
-				if(!args[2]) return message.channel.send(`Usage:\n[config](set) <prefix> < new prefix >`, { code: "markdown" });
+				if(!args[2]) return message.channel.send(`Usage:\n[config](set) prefix < new prefix >`, { code: "markdown" });
 				if(args[2] === data.prefix) return message.channel.send(`The prefix is already set to \`${data.prefix}\``);
 
 				return sql.get(`UPDATE settings SET prefix = "${args[2]}" WHERE guildID = "${message.guild.id}"`).then(() => {
@@ -224,7 +224,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		// Delete/ Remove/ Reset things
 		if(roleName === "delete" || roleName === "reset" || roleName === "disable"){
 			if(!args[1]){
-				return message.channel.send("Usage: [roles](reset)< Prefix/Admin/Mod/Member/Stars >", { code: "markdown" }).then(m => {
+				return message.channel.send("Usage: [roles](reset)< setting >", { code: "markdown" }).then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);
