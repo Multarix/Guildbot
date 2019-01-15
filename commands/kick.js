@@ -1,18 +1,18 @@
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
-	if(message.channel.memberPermissions(message.guild.me).has("KICK_MEMBERS")) return message.channel.send("I don't have permission to kick users\nUsage: [ban](<..user>)", { code: "markdown" });
-	const kickUser = grabUser(args.shift());
+	if(!message.channel.memberPermissions(message.guild.me).has("KICK_MEMBERS")) return message.reply("I don't have permission to kick users");
+	const kickUser = await grabUser(args.shift());
 
-	if(!kickUser) return message.channel.send("No user was specified.\nUsage: [kick](<..user>)", { code: "markdown" });
-	if(kickUser.id === message.author.id) return message.channel.send("You cannot kick yourself.\nUsage: [kick](<..user>)", { code: "markdown" });
-	if(kickUser.id === client.user.id) return message.channel.send("I cannot and will not kick myself.\nUsage: [kick](<..user>)", { code: "markdown" });
-	if(kickUser.id === message.guild.owner.id) return message.channel.send("I cannot and will not kick the server owner.\nUsage: [kick](<..user>)", { code: "markdown" });
-	if(kickUser.discriminator === "0000") return message.channel.send("You cannot kick a webhook\nUsage: [kick](<..user>)", { code: "markdown" });
+	if(!kickUser) return message.reply("No User/ Invalid User.\nUsage: [kick](<..user> <..reason)", { code: "markdown" });
+	if(kickUser.id === message.author.id) return message.reply("You cannot kick yourself.");
+	if(kickUser.id === client.user.id) return message.reply("How about I kick you instead?");
+	if(kickUser.id === message.guild.owner.id) return message.reply("The server owner is a god and cannot be kicked.");
+	if(kickUser.discriminator === "0000") return message.reply("You cannot kick a webhook (What did it ever do to you?!).");
 
 	const kickMember = message.guild.members.get(kickUser.id);
-	if(!kickMember) return message.channel.send("That user does not appear to be in the guild.\nUsage: [kick](<..user>)", { code: "markdown" });
-	if(kickMember.highestRole.calculatedPosition >= message.guild.me.highestRole.calculatedPosition) return message.channel.send("That user's highest role is the same or higher than mine.\nUsage: [kick](<..user>)", { code: "markdown" });
-	if(!kickMember.kickable) return message.channel.send("For some unforseen reason, I cannot kick that person.\nUsage: [kick](<..user>)", { code: "markdown" });
+	if(!kickMember) return message.channel.send("That user does not appear to be in the guild.", { code: "markdown" });
+	if(kickMember.highestRole.calculatedPosition >= message.guild.me.highestRole.calculatedPosition) return message.reply("That users powerlevel is higher than mine, I am unable to kick them.");
+	if(!kickMember.kickable) message.reply("With all the powers bestowed in me, I am unable to kick that user.");
 
 	let reason = args.join(" ");
 	if(!reason) reason = "Not Specified";
@@ -21,7 +21,7 @@ exports.run = async (client, message, args, level) => {
 	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 		mContent = new Discord.RichEmbed()
 			.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
-			.setColor(16748032)
+			.setColor(16750080)
 			.addField(`Action:`, "Kick", false)
 			.addField(`Reason:`, `${reason}`, false)
 			.addField(`Are you sure?`, "`Yes` or `No`", false)
@@ -40,7 +40,7 @@ exports.run = async (client, message, args, level) => {
 				if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 					const embed = new Discord.RichEmbed()
 						.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
-						.setColor(16748032)
+						.setColor(16750080)
 						.setTitle("Working..")
 						.setFooter(message.author.tag, message.author.displayAvatarURL)
 						.setTimestamp();
@@ -48,13 +48,13 @@ exports.run = async (client, message, args, level) => {
 					return m.edit({ embed }).then(m => {
 						const embed = new Discord.RichEmbed()
 							.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
-							.setColor(16748032)
+							.setColor(16750080)
 							.setFooter(message.author.tag, message.author.displayAvatarURL)
 							.setTimestamp();
 
 						if(kickMember.kickable){
 							kickMember.kick().then(member => {
-								embed.setTitle(`\`${member.user.tag}\` was succesfully kicked`);
+								embed.setTitle(`\`${member.user.tag}\` was succesfully kicked.`);
 								return m.edit({ embed });
 							});
 						}
@@ -74,17 +74,35 @@ exports.run = async (client, message, args, level) => {
 
 			}
 			if(msg.toLowerCase() === "no" || msg.toLowerCase() === "n"){
-				return message.channel.send("Command Canceled.");
+				if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
+					const embed = new Discord.RichEmbed()
+						.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
+						.setColor(16750080)
+						.setTitle(`Command Canceled.`)
+						.setFooter(message.author.tag, message.author.displayAvatarURL)
+						.setTimestamp();
+					return m.edit({ embed });
+				}
+				return m.edit("Command Canceled.");
 			}
 		}).catch(() => {
-			m.edit("Command Canceled.");
+			if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
+				const embed = new Discord.RichEmbed()
+					.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
+					.setColor(16750080)
+					.setTitle(`Command Canceled.`)
+					.setFooter(message.author.tag, message.author.displayAvatarURL)
+					.setTimestamp();
+				return m.edit({ embed });
+			}
+			return m.edit("Command Canceled.");
 		});
 	});
 
 };
 
 exports.conf = {
-	enabled: false,
+	enabled: true,
 	guildOnly: true,
 	aliases: [],
 	permLevel: 3,
