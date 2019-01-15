@@ -18,3 +18,4 @@ If you don't know how to find any of the above information, or simply don't know
 - Moment-duration-format (2.2.2 or higher)
 - Sqlite (3.0.0 or higher)
 - Urban-Dictionary (2.2.1 or higher)
+- Word-Definition (2.1.6 or higher)

@@ -1,15 +1,15 @@
 {
   "name": "GuildBot",
   "version": "2.1",
-	"description": "Guildbot is a collection of all the most useless things you could (n)ever want",
-	"author": "Multarix",
-	"private": true,
-	"licence": "MIT",
+  "description": "Guildbot is a collection of all the most useless things you could (n)ever want",
+  "author": "Multarix",
+  "private": true,
+  "licence": "MIT",
   "main": "bot.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Multarix/Guildbot.git"
-	},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Multarix/Guildbot.git"
+  },
   "scripts": {
     "start": "node bot.js"
   },
@@ -23,6 +23,7 @@
     "moment": "^2.23.0",
     "moment-duration-format": "^2.2.2",
     "sqlite": "^3.0.0",
-    "urban-dictionary": "^2.2.1"
+    "urban-dictionary": "^2.2.1",
+    "word-definition": "^2.1.6"
   }
 }
