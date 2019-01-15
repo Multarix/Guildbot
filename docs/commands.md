@@ -3,13 +3,26 @@ This page lists and explains how to use commands and the results that you get wh
 <br/>
 # Misc Commands
 
+### Ban
+#### Permission level:
+Admin+
+#### Aliases:
+`Ban`
+#### Description:
+Bans a user from the guild. Will ask for confirmation.<br/>
+Any extra text will be converted to the ban reason.
+#### Usage Example:
+`!ban @Guildbot#2193 Causes drama`
+<br/>
+<br/>
+<br/>
 ### Cancerous Text
 #### Permission level:
 Member+
 #### Aliases:
 `Cancer`
 #### Description:
-This command will take any text you write and will randomize the capitalization of it.
+Takes any text you write and will randomize the capitalization of it.
 #### Usage Example:
 `!cancer this is a demonstration of what this command does` results in:
 ```md
@@ -21,14 +34,12 @@ tHiS is a deMOnStrAtiON Of WhaT THIS coMmAnD dOes
 #### Permission level:
 Everyone
 #### Aliases:
-`Define`
+`Define, Word`
 #### Description:
-Posts a dictionary.com link of whatever word you input afterwards.
+Defines a word from [wiktionary.com](https://en.wiktionary.org/wiki/Wiktionary:Main_Page "Wiktionary").
 #### Usage Example:
-`!define notification` results in:
-```md
-http://www.dictionary.com/browse/notification
-```
+`!define mountain`
+<br/>
 <br/>
 <br/>
 ### Echo
@@ -80,6 +91,19 @@ Everyone
 Sends a private message with the bots invite link.<br/>
 #### Usage Example:
 `!invite`
+<br/>
+<br/>
+<br/>
+### Kick
+#### Permission level:
+Admin+
+#### Aliases:
+`Kick`
+#### Description:
+Kicks a user from the guild. Will ask for confirmation.<br/>
+Any extra text will be converted to the kick reason.
+#### Usage Example:
+`!kick @Guildbot#2193 Causes drama`
 <br/>
 <br/>
 <br/>
@@ -156,7 +180,7 @@ Everyone
 #### Aliases:
 `Server, Discord`
 #### Description:
-Posts a link to the [discord server status](https://status.discordapp.com/) page.
+Posts a link to the [discord server status](https://status.discordapp.com/ "Discord Server Status") page.
 #### Usage Example:
 `!status` results in:
 ```md
@@ -170,12 +194,10 @@ Everyone
 #### Aliases:
 `Urban, UD`
 #### Description:
-Posts an Urban Dictionary link of whatever word you input afterwards.<br/>
+Defines a word from [urbandictionary.com](https://www.urbandictionary.com/ "Urban Dictionary").
 #### Usage Example:
-`!urban notification` results in:
-```md
-http://www.urbandictionary.com/define.php?term=notification
-```
+`!urban notification`
+<br/>
 <br/>
 <br/>
 ### User Info
