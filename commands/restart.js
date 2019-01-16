@@ -1,5 +1,6 @@
 exports.run = (client, message, args, level) => {
-	const good = client.emojis.get("340357918996299778");
+	let good = client.emojis.get("340357918996299778");
+	if(!good) good = "👍";
 
 	message.react(good).then(m =>{
 		restartBot("Manual Restart");

@@ -1,6 +1,7 @@
 const colors = require('colors');
 exports.run = (client, message, args, level) => {
-	const good = client.emojis.get("340357918996299778");
+	let good = client.emojis.get("340357918996299778");
+	if(!good) good = "👍";
 
 	const activity = args[0];
 	if(!activity) return message.channel.send("Usage: [activity](<play/watch/listen> <..new-activity>)", { code: "markdown" });

@@ -1,10 +1,11 @@
 const Discord = require("discord.js");
 const wd = require("word-definition");
 exports.run = (client, message, args, level) => {
+	let bad = client.emojis.get("340357882606256137");
+	if(!bad) bad = "👎";
+
 	const word = args.join(" ");
 	if(!word) return message.channel.send("Usage: [define](<..words>)", { code: "markdown" });
-
-	const bad = client.emojis.get("340357882606256137");
 
 	message.channel.send(`Searching the dictionary, Gimme a sec..`).then(m => {
 

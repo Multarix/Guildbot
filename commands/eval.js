@@ -5,8 +5,10 @@ const moment = require("moment");
 require("moment-duration-format");
 
 exports.run = async (client, message, args, level) => {
-	const good = client.emojis.get("340357918996299778");
-	const bad = client.emojis.get("340357882606256137");
+	let good = client.emojis.get("340357918996299778");
+	if(!good) good = "👍";
+	let bad = client.emojis.get("340357882606256137");
+	if(!bad) bad = "👎";
 
 	const code = args.join(" ");
 	try {
