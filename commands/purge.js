@@ -1,7 +1,17 @@
 exports.run = (client, message, args, level) => {
+	if(!args[0]){
+		return message.channel.send(`Usage: [md](<..number>)`, { code: "markdown" });
+	}
+
+	if(!parseInt(args[0])){
+		return message.channel.send(`Yea hey.. \`${args[0]}\` isn't a number.`);
+	}
 
 	const messagecount = parseInt(args[0]);
-	message.channel.fetchMessages({ limit: 100 }).then(messages => {
+	let toDelete = messagecount + 1;
+	if(toDelete >= 101) toDelete = 100;
+
+	message.channel.fetchMessages({ limit: toDelete }).then(messages => {
 		let msg_array = messages.array();
 		msg_array = msg_array.filter(m => m.author.id === client.user.id);
 		msg_array.length = messagecount;

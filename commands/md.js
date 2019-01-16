@@ -11,9 +11,7 @@ exports.run = (client, message, args, level) => {
 
 	const messagecount = parseInt(args[0]);
 	let toDelete = messagecount + 1;
-	if(toDelete >= 101){
-		toDelete = 100;
-	}
+	if(toDelete >= 101) toDelete = 100;
 
 	if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 		return message.reply("I don't have permission to delete messages.").catch(console.error);
