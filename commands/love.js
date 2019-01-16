@@ -1,16 +1,11 @@
 exports.run = async (client, message, args, level) => {
-
 	const tagged = await grabUser(args[0]);
-	const theCrush = message.guild.members.random().user.tag;
-	const backupCrush = message.guild.members.random().user.tag;
 
-	let lover = message.author.tag;
-	if(tagged) lover = tagged.tag;
+	let lover = message.author;
+	if(tagged) lover = tagged;
 
-	if(lover === theCrush){
-		return message.channel.send(`\`${lover}\` has a crush on \`${backupCrush}\` ❤😍`);
-	}
-	return message.channel.send(`\`${lover}\` has a crush on \`${theCrush}\` ❤😍`);
+	const theCrush = message.guild.members.filter(m => m.user.id !== lover.id).random().user.tag;
+	return message.channel.send(`\`${lover.tag}\` has a crush on \`${theCrush}\` ❤😍`);
 };
 
 exports.conf = {
