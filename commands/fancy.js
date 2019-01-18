@@ -1,5 +1,5 @@
+const fancyKey = require("../objects/fancyKey.json");
 exports.run = (client, message, args, level) => {
-	const fancyKey = require("../objects/fancyKey.json");
 
 	const joinargs = args.join(" ");
 	if(!joinargs) return message.channel.send("Usage: [fancy](<..text>)", { code: "markdown" });

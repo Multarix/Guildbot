@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const os = require("os");
-
 exports.run = (client, message, args, level) => {
+
 	const cpuType = os.cpus()[0].model.split(/\s+/g).join(" ");
 
 	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){

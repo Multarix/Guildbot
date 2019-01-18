@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
+
 	if(!message.channel.memberPermissions(message.guild.me).has("BAN_MEMBERS")) return message.reply("I don't have permission to ban users.");
 	const banUser = await grabUser(args.shift());
 

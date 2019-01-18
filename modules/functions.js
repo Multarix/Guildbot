@@ -1,5 +1,4 @@
 const colors = require('colors');
-
 module.exports = async (client) => {
 
 
@@ -9,9 +8,7 @@ module.exports = async (client) => {
 		let permlvl = 0;
 
 		if(!message.guild || !message.member) permlvl = 0;
-
 		if(message.author.id === client.config.ownerID) return permlvl = 10;
-
 		if(message.author.id === message.guild.owner.id) return permlvl = 5;
 
 		try {
@@ -43,27 +40,17 @@ module.exports = async (client) => {
 
 	client.log = (msg, title) => {
 		const t = new Date();
-
 		let hours = t.getHours();
 		if(hours < 10) hours = "0" + hours;
 		let minutes = t.getMinutes();
 		if(minutes < 10) minutes = "0" + minutes;
-
 		const time = `${hours}:${minutes}`;
 
 		if(!title) title = "Log";
-		if(title.toLowerCase() === "error"){
-			return console.log(`[${colors.red(time)}](${colors.red(title)}) ${colors.red(msg)}`);
-		}
-		if(title.toLowerCase() === "warn"){
-			return console.log(`[${colors.yellow(time)}](${colors.yellow(title)}) ${colors.yellow(msg)}`);
-		}
-		if(title.toLowerCase() === "notify"){
-			return console.log(`[${colors.cyan(time)}](${colors.cyan(title)}) ${colors.cyan(msg)}`);
-		}
-		if(title.toLowerCase() === "sql"){
-			return console.log(`[${colors.magenta(time)}](${colors.magenta(title)}) ${colors.magenta(msg)}`);
-		}
+		if(title.toLowerCase() === "error") return console.log(`[${colors.red(time)}](${colors.red(title)}) ${colors.red(msg)}`);
+		if(title.toLowerCase() === "warn") return console.log(`[${colors.yellow(time)}](${colors.yellow(title)}) ${colors.yellow(msg)}`);
+		if(title.toLowerCase() === "notify") return console.log(`[${colors.cyan(time)}](${colors.cyan(title)}) ${colors.cyan(msg)}`);
+		if(title.toLowerCase() === "sql") return console.log(`[${colors.magenta(time)}](${colors.magenta(title)}) ${colors.magenta(msg)}`);
 		console.log(`[${colors.gray(time)}](${colors.gray(title)}) ${colors.gray(msg)}`);
 	};
 

@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const moment = require("moment");
 require("moment-duration-format");
-
 exports.run = async (client, message, args, level) => {
+
 	const tagged = await grabUser(args[0]);
 
 	let user = message.author;

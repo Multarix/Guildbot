@@ -1,6 +1,6 @@
 exports.run = (client, message, args, level) => {
-	if(!args[0]) return message.channel.send(`Usage: [md](<..number>)`, { code: "markdown" });
 
+	if(!args[0]) return message.channel.send(`Usage: [md](<..number>)`, { code: "markdown" });
 	if(!parseInt(args[0])) return message.channel.send(`Yea hey.. \`${args[0]}\` isn't a number.`);
 
 	const messagecount = parseInt(args[0]);

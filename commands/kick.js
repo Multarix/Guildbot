@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
+
 	if(!message.channel.memberPermissions(message.guild.me).has("KICK_MEMBERS")) return message.reply("I don't have permission to kick users");
 	const kickUser = await grabUser(args.shift());
 

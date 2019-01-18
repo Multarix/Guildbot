@@ -3,6 +3,7 @@ const moment = require("moment");
 require("moment-duration-format");
 const Discord = require("discord.js");
 exports.run = (client, message, args, level) => {
+
 	const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
 
 	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){

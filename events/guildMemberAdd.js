@@ -1,5 +1,4 @@
 const sql = require("sqlite");
-
 module.exports = (client, member) => {
 
 	client.log(`"${member.user.tag}" (${member.user.id}) joined the "${member.guild.name}" server.`, "Log");

@@ -1,4 +1,4 @@
-exports.run = async (client, message, args, level) => {
+exports.run = (client, message, args, level) => {
 	message.channel.send("https://status.discordapp.com/");
 };
 

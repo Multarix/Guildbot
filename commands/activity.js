@@ -1,5 +1,6 @@
 const colors = require('colors');
 exports.run = (client, message, args, level) => {
+
 	let good = client.emojis.get("340357918996299778");
 	if(!good) good = "👍";
 

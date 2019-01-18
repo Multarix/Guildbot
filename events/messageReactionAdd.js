@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const sql = require("sqlite");
-
 module.exports = async (client, messageReaction, user) => {
 
 	const message = messageReaction.message;

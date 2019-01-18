@@ -1,13 +1,7 @@
-const sql = require("sqlite");
-
 exports.run = (client, message, args, level) => {
-	if(!args[0]){
-		return message.channel.send(`Usage: [md](<..number>)`, { code: "markdown" });
-	}
 
-	if(!parseInt(args[0])){
-		return message.channel.send(`Yea hey.. \`${args[0]}\` isn't a number.`);
-	}
+	if(!args[0]) return message.channel.send(`Usage: [md](<..number>)`, { code: "markdown" });
+	if(!parseInt(args[0])) return message.channel.send(`Yea hey.. \`${args[0]}\` isn't a number.`);
 
 	const messagecount = parseInt(args[0]);
 	let toDelete = messagecount + 1;

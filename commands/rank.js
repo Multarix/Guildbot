@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const sql = require("sqlite");
-
 exports.run = (client, message, args, level) => {
+
 	const players = client.users;
 
 	sql.all(`SELECT * FROM pointTable WHERE guildID = "${message.guild.id}" ORDER BY points DESC`).then(res => {

@@ -1,4 +1,5 @@
 exports.run = async (client, message, args, level) => {
+
 	const joinargs = args.join(" ");
 	if(!joinargs) return message.channel.send("Usage: [echo](<..text>)", { code: "markdown" });
 

@@ -1,6 +1,6 @@
 exports.run = (client, message, args, level) => {
-	const joinargs = args.join(" ");
 
+	const joinargs = args.join(" ");
 	if(!joinargs) return message.channel.send("Usage: [cancer](<..text>)", { code: "markdown" });
 	const s = joinargs.toLowerCase().split("");
 
