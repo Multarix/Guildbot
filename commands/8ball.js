@@ -1,12 +1,15 @@
 const predict = require("../objects/8ball.json");
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
-	if(!args[0]) return message.channel.send("error");
+
+	const joinargs = args.join(" ");
+	if(!joinargs) return message.channel.send("Usage: [8ball](<..question)", { code: "markdown" });
 	const reply = Math.floor(Math.random() * predict.length);
 	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 		const embed = new Discord.RichEmbed()
+			.setDescription(`**Question:** ${joinargs}`)
 			.setColor(1)
-			.addField("\:8ball: Magic 8-Ball \:8ball:", predict[reply], false);	//	eslint-disable-line
+			.addField("Magic 8-Ball Reponse \:8ball:", predict[reply], false);	//	eslint-disable-line no-useless-escape
 		return message.channel.send({ embed });
 	}
 	message.channel.send(predict[reply]);
@@ -22,6 +25,6 @@ exports.conf = {
 exports.help = {
 	name: "8ball",
 	category: "Misc",
-	description: "Repeats what you say",
-	usage: "echo](<..text>)",
+	description: "Consult the magic 8-ball for advice.",
+	usage: "8ball](<..question>)",
 };
