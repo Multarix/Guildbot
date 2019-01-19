@@ -120,7 +120,6 @@ module.exports = async (client) => {
 		return guild.roles.get(roleID);
 	};
 
-
 	// I see your unhandled things, and present to you, handled things!
 
 	process.on("uncaughtException", (err) => {

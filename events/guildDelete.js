@@ -1,6 +1,6 @@
 const sql = require("sqlite");
 module.exports = (client, guild) => {
-	
+
 	sql.get(`DELETE FROM settings WHERE guildID = "${guild.id}"`).then(() => {
 		client.log(`Left the "${guild.name}" (${guild.id}) server`, "Notify");
 	});
