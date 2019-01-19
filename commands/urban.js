@@ -31,7 +31,7 @@ exports.run = (client, message, args, level) => {
 		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 			const embed = new Discord.RichEmbed()
 				.setAuthor(define.toProperCase(), "https://i.imgur.com/mpeuwPm.png")
-				.addField(`Error ${bad}`, `Couldn't find a definition \:(`) // eslint-disable-line
+				.addField(`Error ${bad}`, `Couldn't find a definition \:(`)	//	eslint-disable-line no-useless-escape
 				.setFooter(message.author.tag, message.author.displayAvatarURL)
 				.setTimestamp();
 			return message.channel.send({ embed });

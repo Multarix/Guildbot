@@ -16,7 +16,7 @@ exports.run = (client, message, args, level) => {
 				if(!definition.definition){
 					embed = new Discord.RichEmbed()
 						.setAuthor(word.toProperCase(), "https://i.imgur.com/0hHZB9Z.png")
-						.addField(`Error ${bad}`, "No definition found \:(") // eslint-disable-line
+						.addField(`Error ${bad}`, "No definition found \:(")	//	eslint-disable-line no-useless-escape
 						.setFooter(message.author.tag, message.author.displayAvatarURL)
 						.setTimestamp();
 				} else {
