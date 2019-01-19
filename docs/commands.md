@@ -3,6 +3,18 @@ This page lists and explains how to use commands and the results that you get wh
 <br/>
 # Misc Commands
 
+### 8-Ball
+#### Permission level:
+Everyone
+#### Aliases:
+`8-ball, predict, ball`
+#### Description:
+Consults the magic 8-ball for some much needed advice.<br/>
+#### Usage Example:
+`!8ball does Guildbot love me?`
+<br/>
+<br/>
+<br/>
 ### Ban
 #### Permission level:
 Admin+
