@@ -1,7 +1,6 @@
 const colors = require('colors');
 module.exports = async (client) => {
 
-
 	//	Permission level for commands.
 
 	client.permlevel = (message, data) => {
