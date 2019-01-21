@@ -1,7 +1,7 @@
 const sql = require("sqlite");
 exports.run = async (client, message, args, level) => {
 
-	const settings = await sql.get(`SELECT * FROM settings WHERE guildID = "${message.guild.id}"`);
+	const settings = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
 	if(!args[0]) {
 
 		const myCommands = client.commands.filter(c=>c.conf.permLevel <= level);

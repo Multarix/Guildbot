@@ -1,9 +1,9 @@
 const sql = require("sqlite");
-module.exports = (client, member) => {
+module.exports = async (client, member) => {
 
 	client.log(`"${member.user.tag}" (${member.user.id}) joined the "${member.guild.name}" server.`, "Log");
 
-	sql.run(`INSERT INTO pointTable (points, playerID, guildID) VALUES ("-1", "${member.user.id}", "${member.guild.id}")`).then(res => {
+	sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${member.guild.id}", "${member.user.id}", "0")`).then(() => {
 		client.log(`Set "${member.user.tag}" to the default amount of points`, "SQL");
 	});
 
@@ -13,7 +13,7 @@ module.exports = (client, member) => {
 		if(member.user.bot === true){
 			member.addRole(botDefault, "New Bot, pls don't replace me >.<");
 		} else {
-			member.addRoles(games, `New member, are you ready ${member.user.username}?`).catch(console.error);
+			member.addRoles(games, `New member, are you ready ${member.user.username}?`).catch(e => console.log(e.message));
 		}
 	}
 
@@ -30,17 +30,14 @@ module.exports = (client, member) => {
 		}
 	}
 
-	sql.get(`SELECT * FROM settings WHERE guildID = "${member.guild.id}"`).then(data => {
-		if(data.welcomeChannel !== "null" && data.welcomeMessage !== "null"){
-			if(member.guild.channels.get(data.welcomeChannel)){
-				if(member.guild.channels.get(data.welcomeChannel).memberPermissions(member.guild.me).has("SEND_MESSAGES")){
-					const welcomeMessage = data.welcomeMessage.replace("<@user>", member.user).replace("<user>", member.user.username);
-					member.guild.channels.get(data.welcomeChannel).send(welcomeMessage);
-				}
-			}
-		}
-	});
-
+	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${member.guild.id}"`);
+	if(!data.joinChannel || !data.joinMsg) return;
+	const joinChannel = member.guild.channels.get(data.joinChannel);
+	if(!joinChannel) return;
+	if(joinChannel.memberPermissions(member.guild.me).has("SEND_MESSAGES")){
+		const joinMsg = data.joinMsg.replace("<@user>", member.user).replace("<user>", member.user.username);
+		joinChannel.send(joinMsg);
+	}
 };
 
 module.exports.help = {

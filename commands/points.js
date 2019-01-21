@@ -6,12 +6,15 @@ exports.run = async (client, message, args, level) => {
 
 	let user = message.author;
 	let member = message.member;
-	if(tagged) user = tagged; member = message.guild.members.get(tagged.id);
+	if(tagged){
+		user = tagged;
+		member = message.guild.members.get(tagged.id);
+	}
 
 	let ecolor = 16777215;
 	if(member.highestRole.color) ecolor = member.highestRole.color;
 
-	const p = await sql.get(`SELECT * FROM pointTable WHERE playerID = "${user.id}" AND guildID = "${message.guild.id}"`);
+	const p = await sql.get(`SELECT * FROM points WHERE user = "${user.id}" AND guild = "${message.guild.id}"`);
 
 	const embed = new Discord.RichEmbed()
 		.setAuthor(`${user.tag}`)
@@ -21,16 +24,15 @@ exports.run = async (client, message, args, level) => {
 		.setFooter(client.user.tag);
 
 	if(!p){
-		sql.run(`INSERT INTO pointTable (points, playerID, guildID) VALUES (0, "${user.id}", "${message.guild.id}")`).then(() => {
+		sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${message.guild.id}", "${user.id}", "0")`).then(() => {
 			client.log(`Set "${user.tag}" (${user.id}) to the default amount of points`, "SQL");
-			embed.addField("**Current Points**", "0", false);
+			embed.addField("Current Points", "0", false);
 			return message.channel.send({ embed });
 		});
 	} else {
-		embed.addField("Current Points", `${p.points}`, false);
+		embed.addField("Current Points", `${p.amount}`, false);
 		return message.channel.send({ embed });
 	}
-
 };
 
 exports.conf = {
