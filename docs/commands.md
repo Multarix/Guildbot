@@ -28,6 +28,18 @@ Any extra text will be converted to the ban reason.
 <br/>
 <br/>
 <br/>
+### Cat Pictures
+#### Permission level:
+Everyone
+#### Aliases:
+`Cat, Cats, Neko`
+#### Description:
+Posts a random cat picture.<br/>
+#### Usage Example:
+`!cats`
+<br/>
+<br/>
+<br/>
 ### Cancerous Text
 #### Permission level:
 Member+
