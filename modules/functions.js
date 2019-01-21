@@ -11,21 +11,21 @@ module.exports = async (client) => {
 		if(message.author.id === message.guild.owner.id) return permlvl = 5;
 
 		try {
-			const adminRole = message.guild.roles.get(data.adminRole);
+			const adminRole = message.guild.roles.get(data.admin);
 			if (adminRole && message.member.roles.has(adminRole.id)) return permlvl = 4;
 		} catch (e) {
 			client.log("Oopsie, something went wrong D: (adminRole)", "Warn");
 		}
 
 		try {
-			const modRole = message.guild.roles.get(data.modRole);
+			const modRole = message.guild.roles.get(data.moderator);
 			if (modRole && message.member.roles.has(modRole.id)) return permlvl = 3;
 		} catch (e) {
 			client.log("Oopsie, something went wrong D: (modRole)", "Warn");
 		}
 
 		try {
-			const memRole = message.guild.roles.get(data.memberRole);
+			const memRole = message.guild.roles.get(data.member);
 			if (memRole && message.member.roles.has(memRole.id)) return permlvl = 1;
 		} catch (e) {
 			client.log("Oopsie, something went wrong D: (memberRole)", "Warn");
