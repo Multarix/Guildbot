@@ -4,6 +4,7 @@
 	"repository": "https://github.com/Multarix/Guildbot.git",
 	"license": "MIT",
 	"dependencies": {
+		"cats-js": "^1.0.2",
 		"colors": "^1.3.3",
 		"discord.js": "^11.4.2",
 		"eslint": "^5.12.0",
