@@ -54,6 +54,20 @@ tHiS is a deMOnStrAtiON Of WhaT THIS coMmAnD dOes
 ```
 <br/>
 <br/>
+### Custom Commands
+#### Permission level:
+Moderator+
+#### Aliases:
+`Custom, CC`
+#### Description:
+Allows you to create/ delete custom text based commands.
+#### Usage Example:
+`!cc set guildbot The best bot ever!` results in:
+```md
+The best bot ever!
+```
+<br/>
+<br/>
 ### Define
 #### Permission level:
 Everyone
