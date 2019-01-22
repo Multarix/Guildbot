@@ -34,7 +34,7 @@ Everyone
 #### Aliases:
 `Cat, Cats, Neko`
 #### Description:
-Posts a random cat picture.<br/>
+Posts a random cat picture.
 #### Usage Example:
 `!cats`
 <br/>
@@ -63,6 +63,18 @@ Everyone
 Defines a word from [wiktionary.com](https://en.wiktionary.org/wiki/Wiktionary:Main_Page "Wiktionary").
 #### Usage Example:
 `!define mountain`
+<br/>
+<br/>
+<br/>
+### Dog Pictures
+#### Permission level:
+Everyone
+#### Aliases:
+`Dog, Dogs, Doggo`
+#### Description:
+Posts a random dog picture.
+#### Usage Example:
+`!dog`
 <br/>
 <br/>
 <br/>
