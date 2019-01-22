@@ -59,6 +59,12 @@ module.exports = async (client, message) => {
 	} else if (cmd && level < cmd.conf.permLevel){
 		client.log(`"${message.author.tag}" tried to use command: "${cmd.help.name}"`, "Log");
 	}
+	if(!cmd){
+		const cc = await sql.all(`SELECT * FROM commands WHERE guild = "${message.guild.id}"`);
+		const cmdList = {};
+		cc.forEach(data => cmdList[data.name] = data.output);
+		if(cmdList[command]) return message.channel.send(cmdList[command]);
+	}
 };
 
 module.exports.help = {
