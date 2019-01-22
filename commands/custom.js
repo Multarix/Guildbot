@@ -11,7 +11,8 @@ exports.run = async (client, message, args, level) => {
 		cmdList[data.name] = data.output;
 	});
 
-	const cmdStr = cmdArray.join(", ");
+	let cmdStr = cmdArray.join(", ");
+	if(!cmdStr) cmdStr = "No custom commands added.";
 
 	const tag = args[0];
 	if(!tag){
@@ -76,12 +77,13 @@ exports.run = async (client, message, args, level) => {
 			});
 		});
 	}
+	return message.channel.send(`Usage: [custom](set/delete) <name> <..output>`, { code: "markdown" });
 };
 
 exports.conf = {
 	enabled: true,
 	guildOnly: false,
-	aliases: ["cc"],
+	aliases: ["cc", "tag"],
 	permLevel: 2,
 };
 
