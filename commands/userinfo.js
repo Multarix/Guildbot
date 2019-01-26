@@ -14,12 +14,18 @@ exports.run = async (client, message, args, level) => {
 	let game = "nothing";
 	if(user.presence.game) game = user.presence.game.name;
 
+	let displayName = user.username;
+	if(member) displayName = member.displayName;
+
 	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-		let ecolor1 = 16777215;
-		if(member.highestRole.color) ecolor1 = member.highestRole.color;
+		let ecolor1 = 14487568;
+		if(member){
+			if(member.highestRole.color) ecolor1 = member.highestRole.color;
+		}
+
 
 		const embed = new Discord.RichEmbed()
-			.setAuthor(member.displayName)
+			.setAuthor(displayName)
 			.setThumbnail(user.displayAvatarURL)
 			.setColor(ecolor1)
 			.addField("Username:", user.username, true)
@@ -37,7 +43,7 @@ exports.run = async (client, message, args, level) => {
 	return message.channel.send(`User Information
 ----------------
 < Username >
-${user.username}
+${displayName}
 < Discrim >
 ${user.discriminator}
 < Discord ID >
