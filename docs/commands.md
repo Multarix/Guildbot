@@ -9,9 +9,21 @@ Everyone
 #### Aliases:
 `8-ball, predict, ball`
 #### Description:
-Consults the magic 8-ball for some much needed advice.<br/>
+Consults the magic 8-ball for some much needed advice.
 #### Usage Example:
 `!8ball does Guildbot love me?`
+<br/>
+<br/>
+<br/>
+### Astronomy Picture of the Day
+#### Permission level:
+Everyone
+#### Aliases:
+`space, apod, nasa, astronomy`
+#### Description:
+Posts the astronomy picture of the day.
+#### Usage Example:
+`!space`
 <br/>
 <br/>
 <br/>
