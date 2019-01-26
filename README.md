@@ -21,3 +21,4 @@ If you don't know how to find any of the above information, or simply don't know
 - Word-Definition (2.1.6 or higher)
 - Cats-js (1.0.2 or higher)
 - Random.Dog.js (1.0.2 or higher)
+- Apod-Nasa (1.0.0 or higher)
