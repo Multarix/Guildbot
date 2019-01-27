@@ -66,6 +66,18 @@ tHiS is a deMOnStrAtiON Of WhaT THIS coMmAnD dOes
 ```
 <br/>
 <br/>
+### Chuck Norris Facts
+#### Permission level:
+Everyone
+#### Aliases:
+`Chuck, Norris, ChuckNorris, CN`
+#### Description:
+Posts a random Chuck Norris Fact.
+#### Usage Example:
+`!ChuckNorris`
+<br/>
+<br/>
+<br/>
 ### Custom Commands
 #### Permission level:
 Moderator+
