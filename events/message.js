@@ -38,7 +38,7 @@ module.exports = async (client, message) => {
 	}
 	if(!prefix) return;
 
-	let args = message.content.split(/\s+/g);
+	let args = message.content.replace(/(?:\r\n|\r|\n)/g, "\u200b").split(/\s+/g);
 
 	let command;
 	if(args[0] === mentionCheck){

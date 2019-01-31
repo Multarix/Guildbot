@@ -84,7 +84,7 @@ exports.run = async (client, message, args, level) => {
 		// Welcome Messages
 		aliases = ["joinmessage", "jm", "welcomemessage", "wm", "jmsg", "wmsg"];
 		if(aliases.includes(roleName)){
-			const joinMsg = args.slice(2).join(" ");
+			const joinMsg = args.slice(2).join(" ").replace(/\u200b/g, "\n");
 			if(!joinMsg){
 				return message.channel.send(`Usage: [config](set) joinmessage < message you want >\n
 Handy Tips:
@@ -92,6 +92,7 @@ Handy Tips:
 If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
 If you put '<user>' anywhere in the message, it will be converted to that users username.`, { code: "markdown" });
 			}
+			console.log(joinMsg);
 			return sql.get(`UPDATE settings SET joinMsg = "${joinMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their member join message`, `SQL`);
 				const joinExample = joinMsg.replace("<@user>", client.user).replace("<user>", client.user.username);
@@ -119,7 +120,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		// Leave Messages
 		aliases = ["leavemessage", "leavemsg", "lmsg", "lm"];
 		if(aliases.includes(roleName)){
-			const leaveMsg = args.slice(2).join(" ");
+			const leaveMsg = args.slice(2).join(" ").replace(/\u200b/g, "\n");
 			if(!leaveMsg){
 				return message.channel.send(`Usage: [config](set) leavemessage < message you want >\n
 Handy Tips:
@@ -236,10 +237,10 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		// Welcome Message
 		aliases = ["joinmessage", "jm", "welcomemessage", "wm", "jmsg", "wmsg"];
 		if(aliases.includes(roleName)){
-			if(!data.joinMsg) return message.channel.send("The member join message is already disabled and therefore cannot be removed.");
+			if(!data.joinMsg) return message.channel.send("The welcome message is already disabled and therefore cannot be removed.");
 			return sql.get(`UPDATE settings SET joinMsg = null WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" removed their member join message`, `SQL`);
-				message.channel.send("The join message has been removed.").then(m => {
+				client.log(`"${message.guild.name}" removed their welcome message`, `SQL`);
+				message.channel.send("The welcome message has been removed.").then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);
@@ -264,7 +265,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		// Leave Messages
 		aliases = ["leavemessage", "leavemsg", "lmsg", "lm"];
 		if(aliases.includes(roleName)){
-			if(!data.leaveMsg) return message.channel.send("The join message is already disabled and therefore cannot be removed.");
+			if(!data.leaveMsg) return message.channel.send("The leave message is already disabled and therefore cannot be removed.");
 			return sql.get(`UPDATE settings SET leaveMsg = null WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" removed their member join message`, `SQL`);
 				message.channel.send("The leave message has been removed.").then(m => {

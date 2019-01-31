@@ -1,6 +1,6 @@
 exports.run = async (client, message, args, level) => {
 
-	const joinargs = args.join(" ");
+	const joinargs = args.join(" ").replace(/\u200b/g, "\n");
 	if(!joinargs) return message.channel.send("Usage: [echo](<..text>)", { code: "markdown" });
 
 	if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
