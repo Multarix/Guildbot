@@ -106,7 +106,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			let channel = message.channel;
 			if(channelMention) channel = channelMention;
 
-			if(channel.id === data.leaveChannel) return message.channel.send(`${channel} is already set as the leave message channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``);
+			if(channel.id === data.leaveChannel) return message.channel.send(`${channel} is already set as the goodbye channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``);
 			return sql.get(`UPDATE settings SET joinChannel = "${message.channel.id}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their welcome message channel to "${message.channel.name}" (${message.channel.id})`, `SQL`);
 				message.channel.send(`The welcome message channel has been set to ${message.channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``).then(m => {
@@ -118,7 +118,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			});
 		}
 		// Leave Messages
-		aliases = ["leavemessage", "leavemsg", "lmsg", "lm"];
+		aliases = ["byemessage", "byeemsg", "bmsg", "bm", "lm"];
 		if(aliases.includes(roleName)){
 			const leaveMsg = args.slice(2).join(" ").replace(/\u200b/g, "\n");
 			if(!leaveMsg){
@@ -129,22 +129,22 @@ If you put '<@user>' anywhere in the message, it will be converted to a mention 
 If you put '<user>' anywhere in the message, it will be converted to that users username.`, { code: "markdown" });
 			}
 			return sql.get(`UPDATE settings SET leaveMsg = "${leaveMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" set their member leave message`, `SQL`);
+				client.log(`"${message.guild.name}" set their goodbye message`, `SQL`);
 				const leaveExample = leaveMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
-				message.channel.send(`The member leave message has been saved. An example of your message is below:\n${leaveExample}`);
+				message.channel.send(`The goodbye message has been saved. An example of your message is below:\n${leaveExample}`);
 			});
 		}
 		// Leave Message Channel
-		aliases = ["leavechannel", "lchnl", "lc", "lmc"];
+		aliases = ["goodbye", "gchnl", "gc", "gmc", "lmc"];
 		if(aliases.includes(roleName)){
 			const channelMention = grabChannel(args[2]);
 			let channel = message.channel;
 			if(channelMention) channel = channelMention;
 
-			if(channel.id === data.leaveChannel) return message.channel.send(`${channel} is already set as the leave message channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) lmc\n\`\`\``);
+			if(channel.id === data.leaveChannel) return message.channel.send(`${channel} is already set as the goodbye channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) lmc\n\`\`\``);
 			return sql.get(`UPDATE settings SET leaveChannel = "${channel.id}" WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" set their leave message channel to "${channel.name}" (${channel.id})`, `SQL`);
-				message.channel.send(`The leave message channel has been set to ${channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) lmc\n\`\`\``).then(m => {
+				client.log(`"${message.guild.name}" set their goodbye channel to "${channel.name}" (${channel.id})`, `SQL`);
+				message.channel.send(`The goodbye channel has been set to ${channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) lmc\n\`\`\``).then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);
@@ -263,12 +263,12 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			});
 		}
 		// Leave Messages
-		aliases = ["leavemessage", "leavemsg", "lmsg", "lm"];
+		aliases = ["byemessage", "byeemsg", "bmsg", "bm", "lm"];
 		if(aliases.includes(roleName)){
-			if(!data.leaveMsg) return message.channel.send("The leave message is already disabled and therefore cannot be removed.");
+			if(!data.leaveMsg) return message.channel.send("The goodbye message is already disabled and therefore cannot be removed.");
 			return sql.get(`UPDATE settings SET leaveMsg = null WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" removed their welcome message`, `SQL`);
-				message.channel.send("The leave message has been removed.").then(m => {
+				client.log(`"${message.guild.name}" removed their goodbye message`, `SQL`);
+				message.channel.send("The goodbye message has been removed.").then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);
@@ -278,12 +278,12 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		}
 
 		// Leave Message Channel
-		aliases = ["leavechannel", "lchnl", "lc"];
+		aliases = ["goodbye", "gchnl", "gc", "gmc", "lmc"];
 		if(aliases.includes(roleName)){
-			if(!data.leaveChannel) return message.channel.send("The leave message channel is already disabled and therefore cannot be removed.");
+			if(!data.leaveChannel) return message.channel.send("The goodbye channel is already disabled and therefore cannot be removed.");
 			return sql.get(`UPDATE settings SET leaveChannel = null WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" removed their leave message channel`, `SQL`);
-				message.channel.send("The leave message channel has been removed.").then(m => {
+				client.log(`"${message.guild.name}" removed their goodbye channel`, `SQL`);
+				message.channel.send("The goodbye channel has been removed.").then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);

@@ -404,7 +404,7 @@ Disabling this is as simple as: `!config delete WelcomeChannel`
 
 ### Leave Message
 #### Aliases:
-`leaveMessage, leaveMsg, lMsg, LM`
+`byemessage, byeemsg, bmsg, bm, lm`
 #### Description:
 Sets a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.
 #### Usage Example:
@@ -418,7 +418,7 @@ Disabling this is as simple as `!config delete LeaveMessage`
 
 ### Leave Message Channel
 #### Aliases:
-`leaveChannel, lChnl, LC, LMC`
+`goodbye, gchnl, gc, gmc, lmc`
 #### Description:
 Sets the leave message channel for the guild.
 #### Usage Example:
