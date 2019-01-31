@@ -95,7 +95,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			console.log(joinMsg);
 			return sql.get(`UPDATE settings SET joinMsg = "${joinMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their member join message`, `SQL`);
-				const joinExample = joinMsg.replace("<@user>", client.user).replace("<user>", client.user.username);
+				const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
 				message.channel.send(`The welcome message has been saved. An example of your message is below:\n${joinExample}`);
 			});
 		}
@@ -130,7 +130,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			}
 			return sql.get(`UPDATE settings SET leaveMsg = "${leaveMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their member leave message`, `SQL`);
-				const leaveExample = leaveMsg.replace("<@user>", client.user).replace("<user>", client.user.username);
+				const leaveExample = leaveMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
 				message.channel.send(`The member leave message has been saved. An example of your message is below:\n${leaveExample}`);
 			});
 		}
