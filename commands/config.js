@@ -94,7 +94,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			}
 			console.log(joinMsg);
 			return sql.get(`UPDATE settings SET joinMsg = "${joinMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" set their member join message`, `SQL`);
+				client.log(`"${message.guild.name}" set their welcome message`, `SQL`);
 				const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
 				message.channel.send(`The welcome message has been saved. An example of your message is below:\n${joinExample}`);
 			});
@@ -267,7 +267,7 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		if(aliases.includes(roleName)){
 			if(!data.leaveMsg) return message.channel.send("The leave message is already disabled and therefore cannot be removed.");
 			return sql.get(`UPDATE settings SET leaveMsg = null WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" removed their member join message`, `SQL`);
+				client.log(`"${message.guild.name}" removed their welcome message`, `SQL`);
 				message.channel.send("The leave message has been removed.").then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
