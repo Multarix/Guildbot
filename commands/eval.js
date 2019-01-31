@@ -10,7 +10,7 @@ exports.run = async (client, message, args, level) => {
 	let bad = client.emojis.get("340357882606256137");
 	if(!bad) bad = "👎";
 
-	const code = args.join(" ");
+	const code = args.join(" ").replace(/\u200b/g, "\n");
 	try {
 		const evaled = eval(code);
 		const clean = await client.clean(client, evaled);
