@@ -92,7 +92,6 @@ Handy Tips:
 If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
 If you put '<user>' anywhere in the message, it will be converted to that users username.`, { code: "markdown" });
 			}
-			console.log(joinMsg);
 			return sql.get(`UPDATE settings SET joinMsg = "${joinMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their welcome message`, `SQL`);
 				const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
@@ -106,10 +105,10 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			let channel = message.channel;
 			if(channelMention) channel = channelMention;
 
-			if(channel.id === data.leaveChannel) return message.channel.send(`${channel} is already set as the goodbye channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``);
-			return sql.get(`UPDATE settings SET joinChannel = "${message.channel.id}" WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" set their welcome message channel to "${message.channel.name}" (${message.channel.id})`, `SQL`);
-				message.channel.send(`The welcome message channel has been set to ${message.channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``).then(m => {
+			if(channel.id === data.joinChannel) return message.channel.send(`${channel} is already set as the welcome channel.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``);
+			return sql.get(`UPDATE settings SET joinChannel = "${channel.id}" WHERE guild = "${message.guild.id}"`).then(() => {
+				client.log(`"${message.guild.name}" set their welcome message channel to "${channel.name}" (${channel.id})`, `SQL`);
+				message.channel.send(`The welcome message channel has been set to ${channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``).then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);
 						message.delete(10000);
