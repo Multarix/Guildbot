@@ -13,7 +13,7 @@ exports.run = async (client, message, args, level) => {
 	const banMember = message.guild.members.get(banUser.id);
 	if(banMember){
 		if(banMember.highestRole.calculatedPosition >= message.guild.me.highestRole.calculatedPosition) return message.reply("That users powerlevel is higher than mine, I am unable to ban them.");
-		if(!banMember.banable) return message.reply("With all the powers bestowed in me, I am unable to ban that user.");
+		if(!banMember.bannable) return message.reply("With all the powers bestowed in me, I am unable to ban that user.");
 	}
 
 	let reason = args.join(" ");
