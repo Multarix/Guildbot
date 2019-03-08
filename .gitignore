@@ -7,3 +7,4 @@ shards.js
 .eslintrc.json
 objects/settings.sqlite
 objects/settings.sqlite-journal
+logs.txt
