@@ -20,8 +20,6 @@ module.exports = async (client, member) => {
 		const leaveMessage = data.leaveMsg.replace("<@user>", member.user).replace("<user>", member.user.username);
 		leaveChannel.send(leaveMessage);
 	}
-
-
 };
 
 module.exports.help = {
