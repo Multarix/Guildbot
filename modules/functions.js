@@ -23,41 +23,10 @@ module.exports = async (client) => {
 		return permlvl;
 	};
 
-	// Date Prefix
-	function daySuffix(n) {
-		if(n === "1" || n === "21" || n === "31") return `${n}st`;
-		if(n === "2" || n === "22") return `${n}nd`;
-		if(n === "3" || n === "23") return `${n}rd`;
-		return `${n}th`;
-	}
-
-	// Time Function
-	function thime() {
-		const t = new Date();
-		let hours = t.getHours();
-		if(hours < 10) hours = "0" + hours;
-		let minutes = t.getMinutes();
-		if(minutes < 10) minutes = "0" + minutes;
-		const monthArray = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		const dayArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-		let dayNumber = t.getDate().toString();
-		dayNumber = daySuffix(dayNumber);
-
-		return {
-			time : `${hours}:${minutes}`,
-			day : `${dayArray[t.getDay()]}`,
-			date : `${dayNumber} of ${monthArray[t.getMonth()]}`,
-		};
-	}
-
-	global.time = thime();
-
-
 	//	Client log, semi-useful for keeping track of what is what in the console
 	client.log = (msg, title) => {
 		if(!title) title = "Log";
-		fs.appendFileSync("./logs.txt", `\n[${time.date}] (${time.time}) ${msg.replace(/\[3[7&9]m/g, "")}`);		// eslint-disable-line no-control-regex
+		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${msg.replace(/\[3[7&9]m/g, "")}`);		// eslint-disable-line no-control-regex
 		if(title.toLowerCase() === "error") return console.log(`[${colors.red(time.time)}](${colors.red(title)}) ${colors.red(msg)}`);
 		if(title.toLowerCase() === "warn") return console.log(`[${colors.yellow(time.time)}](${colors.yellow(title)}) ${colors.yellow(msg)}`);
 		if(title.toLowerCase() === "notify") return console.log(`[${colors.cyan(time.time)}](${colors.cyan(title)}) ${colors.cyan(msg)}`);
@@ -88,7 +57,17 @@ module.exports = async (client) => {
 		return text;
 	};
 
-	//	Non-Critical Misc Functions
+	// Ordinal indicators (1st, 2nd, 3rd, 4th.. etc.)
+	client.ordinal = (num) => {
+		if(isNaN(num)) return NaN;
+		num = num.toString();
+		if(num.endsWith("1") && !num.endsWith("11")) return `${num}st`;
+		if(num.endsWith("2") && !num.endsWith("12")) return `${num}nd`;
+		if(num.endsWith("3") && !num.endsWith("13")) return `${num}rd`;
+		return `${num}th`;
+	};
+
+	/* Non-Critical Misc Functions */
 
 	String.prototype.toProperCase = function() {
 		return this.replace(/([^\W_]+[^\s-]*) */g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -99,7 +78,9 @@ module.exports = async (client) => {
 	global.pause = async (num) => {
 		await wait(num);
 	};
-	// Custom Global functions
+
+	/* Custom Globals */
+
 	global.restartBot = async (restartInfo) => {
 		if(!restartInfo){
 			restartInfo = "Automatic Restart";
@@ -131,16 +112,39 @@ module.exports = async (client) => {
 		return guild.roles.get(roleID);
 	};
 
+	// Time Function
+	function thime() {
+		const t = new Date();
+		let hours = t.getHours();
+		if(hours < 10) hours = "0" + hours;
+		let minutes = t.getMinutes();
+		if(minutes < 10) minutes = "0" + minutes;
+		const monthArray = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		const dayArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+		const dayNumber = t.getDate().toString();
+		const daySuffix = client.ordinal(dayNumber);
+
+		return {
+			time : `${hours}:${minutes}`,
+			day : `${dayArray[t.getDay()]}`,
+			exactDate : `${t.getDate()}/${t.getMonth()}/${t.getFullYear()}`,
+			date : `${daySuffix} of ${monthArray[t.getMonth()]}`,
+		};
+	}
+
+	global.time = thime();
+
 	// I see your unhandled things, and present to you, handled things!
 
 	process.on("uncaughtException", (err) => {
 		const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
 		console.error("Uncaught Exception: ", errorMsg);
-		fs.appendFileSync("./logs.txt", `\n[${time.date}] (${time.time}) ${errorMsg}`);
+		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${errorMsg}`);
 	});
 
 	process.on("unhandledRejection", err => {
 		console.error("Uncaught Promise Error: ", err);
-		fs.appendFileSync("./logs.txt", `\n[${time.date}] (${time.time}) ${err}`);
+		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${err}`);
 	});
 };
