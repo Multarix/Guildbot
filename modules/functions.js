@@ -3,7 +3,6 @@ const fs = require('fs');
 module.exports = async (client) => {
 
 	//	Permission level for commands.
-
 	client.permlevel = (message, data) => {
 		let permlvl = 0;
 
@@ -39,7 +38,7 @@ module.exports = async (client) => {
 	"Clean" removes @everyone pings, as well as tokens, and makes code blocks
 	escaped so they're shown more easily. As a bonus it resolves promises
 	and stringifies objects!
-	This is mostly only used by the Eval and Exec commands.
+	This is mostly only used by Eval and Exec commands.
 	*/
 
 	client.clean = async (client, text) => {
@@ -81,16 +80,16 @@ module.exports = async (client) => {
 
 	/* Custom Globals */
 
+	// Calls process exit, if using something like pm2, the bot should automatically restart.
 	global.restartBot = async (restartInfo) => {
-		if(!restartInfo){
-			restartInfo = "Automatic Restart";
-		}
+		if(!restartInfo) restartInfo = "Automatic Restart";
 		client.log(`Perfmorming reboot.. Reason: ${restartInfo}`, "Log");
 		await wait(1000).then(w => {
 			process.exit();
 		});
 	};
 
+	// Checks for and fetches a user if it exists.
 	global.grabUser = async (userID) => {
 		if(!userID) return;
 		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
@@ -99,16 +98,23 @@ module.exports = async (client) => {
 		return client.users.get(userID);
 	};
 
+	// Checks for and fetches a channel if it exists.
 	global.grabChannel = (channelID) => {
 		if(!channelID) return;
 		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
+		if(!client.channel.get(channelID)) return "Invalid Channel";
 		return client.channels.get(channelID);
 	};
 
+	// Checks for a role and returns it if it exists.
 	global.grabRole = (roleID, guild) => {
 		if(!roleID) return;
 		if(!guild) return;
+		if(guild.id) guild = guild.id;
+		guild = client.guilds.get(guild);
+		if(!guild) return "Invalid Guild";
 		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
+		if(!guild.roles.get(roleID)) return "Invalid Role";
 		return guild.roles.get(roleID);
 	};
 
