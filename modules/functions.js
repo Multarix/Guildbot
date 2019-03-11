@@ -125,8 +125,8 @@ module.exports = async (client) => {
 		if(hours < 10) hours = "0" + hours;
 		let minutes = t.getMinutes();
 		if(minutes < 10) minutes = "0" + minutes;
-		const monthArray = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		const dayArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+		const monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		const dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 		const dayNumber = t.getDate().toString();
 		const daySuffix = client.ordinal(dayNumber);
