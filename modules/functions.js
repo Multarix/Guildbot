@@ -24,6 +24,8 @@ module.exports = async (client) => {
 
 	//	Client log, semi-useful for keeping track of what is what in the console
 	client.log = (msg, title) => {
+		const thime = require("../modules/time.js");
+		const time = thime();
 		if(!title) title = "Log";
 		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${msg.replace(/\[3[7&9]m/g, "")}`);		// eslint-disable-line no-control-regex
 		if(title.toLowerCase() === "error") return console.log(`[${colors.red(time.time)}](${colors.red(title)}) ${colors.red(msg)}`);
@@ -56,14 +58,13 @@ module.exports = async (client) => {
 		return text;
 	};
 
-	// Ordinal indicators (1st, 2nd, 3rd, 4th.. etc.)
-	client.ordinal = (num) => {
+	// Factorial functions.
+	client.factorial = (num) => {
 		if(isNaN(num)) return NaN;
-		num = num.toString();
-		if(num.endsWith("1") && !num.endsWith("11")) return `${num}st`;
-		if(num.endsWith("2") && !num.endsWith("12")) return `${num}nd`;
-		if(num.endsWith("3") && !num.endsWith("13")) return `${num}rd`;
-		return `${num}th`;
+		num = parseInt(num);
+		let mNum = 1;
+		for(let i = 2; i <= num; i++) mNum = mNum * i;
+		return mNum;
 	};
 
 	/* Non-Critical Misc Functions */
@@ -117,29 +118,6 @@ module.exports = async (client) => {
 		if(!guild.roles.get(roleID)) return "Invalid Role";
 		return guild.roles.get(roleID);
 	};
-
-	// Time Function
-	function thime() {
-		const t = new Date();
-		let hours = t.getHours();
-		if(hours < 10) hours = "0" + hours;
-		let minutes = t.getMinutes();
-		if(minutes < 10) minutes = "0" + minutes;
-		const monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		const dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-		const dayNumber = t.getDate().toString();
-		const daySuffix = client.ordinal(dayNumber);
-
-		return {
-			time : `${hours}:${minutes}`,
-			day : `${dayArray[t.getDay()]}`,
-			exactDate : `${t.getDate()}/${t.getMonth()}/${t.getFullYear()}`,
-			date : `${daySuffix} of ${monthArray[t.getMonth()]}`,
-		};
-	}
-
-	global.time = thime();
 
 	// I see your unhandled things, and present to you, handled things!
 
