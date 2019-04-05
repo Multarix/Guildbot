@@ -54,7 +54,7 @@ exports.run = async (client, message, args, level) => {
 							.setTimestamp();
 
 						if(kickMember.kickable){
-							kickMember.kick().then(member => {
+							return kickMember.kick().then(member => {
 								embed.setTitle(`\`${member.user.tag}\` was succesfully kicked.`);
 								return m.edit({ embed });
 							});
@@ -66,7 +66,7 @@ exports.run = async (client, message, args, level) => {
 
 				m.edit("Working..").then(m => {
 					if(kickMember.kickable){
-						kickMember.kick().then(member => {
+						return kickMember.kick().then(member => {
 							return m.edit(`\`${member.user.tag}\` was succesfully kicked`);
 						});
 					}
