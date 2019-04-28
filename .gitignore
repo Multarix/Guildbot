@@ -5,6 +5,7 @@ node_modules
 ecosystem.config.js
 shards.js
 .eslintrc.json
+objects/test.js
 objects/settings.sqlite
 objects/settings.sqlite-journal
 logs.txt
