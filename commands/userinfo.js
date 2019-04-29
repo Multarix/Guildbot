@@ -3,14 +3,16 @@ const moment = require("moment");
 require("moment-duration-format");
 exports.run = async (client, message, args, level) => {
 
-	// Cheap fix
-	let tagged = "null";
-	if(args[0]) tagged = await grabUser(args[0]);
-
 	let user = message.author;
 	let member = message.member;
 
-	if(tagged !== "null") user = tagged; member = message.guild.members.get(tagged.id);
+	let tagged;
+	if(args[0]) tagged = await grabUser(args[0]);
+
+	if(tagged){
+		user = tagged;
+		member = message.guild.members.get(tagged.id);
+	}
 
 	const joinDate = moment.duration(Date.now() - user.createdTimestamp).format("Y [years], M [months], D [days]");
 
