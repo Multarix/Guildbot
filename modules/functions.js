@@ -103,7 +103,7 @@ module.exports = async (client) => {
 	global.grabChannel = (channelID) => {
 		if(!channelID) return;
 		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
-		if(!client.channel.get(channelID)) return "Invalid Channel";
+		if(!client.channel.get(channelID)) return null;
 		return client.channels.get(channelID);
 	};
 
@@ -113,9 +113,9 @@ module.exports = async (client) => {
 		if(!guild) return;
 		if(guild.id) guild = guild.id;
 		guild = client.guilds.get(guild);
-		if(!guild) return "Invalid Guild";
+		if(!guild) return null;
 		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
-		if(!guild.roles.get(roleID)) return "Invalid Role";
+		if(!guild.roles.get(roleID)) return null;
 		return guild.roles.get(roleID);
 	};
 
@@ -124,11 +124,9 @@ module.exports = async (client) => {
 	process.on("uncaughtException", (err) => {
 		const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
 		console.error("Uncaught Exception: ", errorMsg);
-		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${errorMsg}`);
 	});
 
 	process.on("unhandledRejection", err => {
 		console.error("Uncaught Promise Error: ", err);
-		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${err}`);
 	});
 };
