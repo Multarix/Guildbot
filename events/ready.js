@@ -12,6 +12,19 @@ module.exports = async client => {
 					client.log(`Applied default settings to the "${g.name}" server`, "SQL");
 				});
 			}
+			let assignChannel = data.assignChannel;
+			const assignMessage = data.assignMessage;
+			if(assignChannel && assignMessage){
+				if(client.channels.get(assignChannel)) assignChannel = client.channels.get(assignChannel);
+				if(assignChannel){
+					assignChannel.fetchMessage(assignMessage).then(m => {
+						if(!m) return;
+						m.reactions.forEach(x => {
+							x.fetchUsers();
+						});
+					});
+				}
+			}
 		});
 	});
 

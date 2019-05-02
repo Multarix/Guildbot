@@ -1,10 +1,42 @@
 const Discord = require("discord.js");
+const sql = require("sqlite");
 module.exports = async (client, messageReaction, user) => {
+	if(user.bot) return;
 
 	const reaction = messageReaction;
-	if(reaction.emoji.name !== '⭐') return;
-
 	const message = reaction.message;
+
+	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+
+	const emojiMessageID = data.assignMessage;
+	if(message.id === emojiMessageID){
+		const roleEmoji = data.assignRoles;
+		const roleDataInfo = roleEmoji.split("*");
+
+		const emojiRoles = [];
+		roleDataInfo.forEach(x => {
+			const emojiID = x.match(/\[(.*?)\]/)[0].replace(/[\][]/g, "");
+			const roleID = x.match(/\((.*?)\)/)[0].replace(/[)(]/g, "");
+			return emojiRoles.push({ emojiID, roleID });
+		});
+
+		let emojiIdentifier = reaction.emoji.id;
+		if(!emojiIdentifier) emojiIdentifier = reaction.emoji.name;
+
+		let checkEmoji = false;
+		emojiRoles.forEach(y => {
+			if(y.emojiID === emojiIdentifier){
+				const role = grabRole(y.roleID, message.guild.id);
+				if(!role) return;
+				if(role.comparePositionTo(message.guild.me.highestRole) >= 0) return;
+				message.guild.members.get(user.id).removeRole(role, "UnReacted on self assign message.").catch(e => { client.log(e.message, "error"); });
+				checkEmoji = true;
+			}
+		});
+		if(!checkEmoji) return reaction.remove(user.id);
+	}
+
+	if(reaction.emoji.name !== '⭐') return;
 	const starboard = message.channel.guild.channels.find(x => x.name === "starboard");
 
 	if(!starboard) return;

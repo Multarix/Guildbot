@@ -103,7 +103,7 @@ module.exports = async (client) => {
 	global.grabChannel = (channelID) => {
 		if(!channelID) return;
 		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
-		if(!client.channel.get(channelID)) return null;
+		if(!client.channels.get(channelID)) return null;
 		return client.channels.get(channelID);
 	};
 
