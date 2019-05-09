@@ -1,24 +1,45 @@
 const sql = require("sqlite");
+const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
 
 	const settings = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+
+	let ecolor = false;
+	if(message.member.highestRole.color) ecolor = message.member.highestRole.color;
+
+	const embed = new Discord.RichEmbed()
+		.setAuthor(`Commands for:  ${message.author.tag}`, message.author.displayAvatarURL)
+		.setDescription(`Use ${settings.prefix}help <commandname> for more details`)
+		.setThumbnail(message.guild.iconURL)
+		.setFooter(client.user.tag, client.user.displayAvatarURL)
+		.setTimestamp();
+
+	if(ecolor) embed.setColor(ecolor);
+
 	if(!args[0]) {
 
 		const myCommands = client.commands.filter(c=>c.conf.permLevel <= level);
 		const commandNames = myCommands.keyArray();
 		const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 		let currentCategory = "";
-		let output = `< Command List >\n\nUse [${settings.prefix}help](commandname) for details\n`;
+		let output = "";
 		const sorted = myCommands.sort((p, c) => p.help.category > c.help.category ? 1 : -1);
 		sorted.forEach(c => {
 			const cat = c.help.category.toProperCase();
-			if(currentCategory !== cat) {
-				output += `\n< ${cat} >\n`;
-				currentCategory = cat;
-			}
-			output += `[${settings.prefix}](${c.help.name})${" ".repeat(longest - c.help.name.length)} <:> ${c.help.description}\n`;
+			if(currentCategory !== cat && currentCategory === "") output += `|${cat}|`;
+			if(currentCategory !== cat && currentCategory !== "") output += `◙|${cat}|`;
+
+			output += `${c.help.name}  -:-  ${c.help.description}\n`;
+			currentCategory = cat;
 		});
-		message.author.send(output, { code:"markdown" });
+
+		const catCommands = output.split("◙");
+		catCommands.forEach(deeta => {
+			const catName = deeta.match(/(?!\|)(.*?)(?=\|)/)[0];
+			embed.addField(catName, deeta.replace(`|${catName}|`, ""));
+		});
+
+		message.author.send({ embed });
 	} else {
 		let command = args[0];
 		if (client.commands.has(command)) {
