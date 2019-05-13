@@ -1,6 +1,11 @@
 # Commands List
 This page lists and explains how to use commands and the results that you get while using these commands.<br/>
 <br/>
+## Sections
+### [Misc Commands](#misc-commands-1)
+### [Moderation Commands](#moderation-commands-1)
+### [System Commands](#system-commands-1)
+
 # Misc Commands
 [8-Ball](#8-ball), [Apod](#astronomy-picture-of-the-day), [Cancer](#cancer), [Cats](#cats), [Chuck](#chuck-norris-facts), [Define](#define), [Dog](#dog-pictures), [Echo](#echo), [Fancy](#fancy-text), [Gay](#gay), [Invite](#invite), [Leet](#leet-speak), [Love](#love), [Ping](#ping), [Points](#points), [Rank](#rank), [Server](#server-status), [Urban](#urban-dictionary), [UserInfo](#user-info)<br/>
 <br/>
@@ -25,19 +30,6 @@ Everyone
 Posts the astronomy picture of the day.
 #### Usage Example:
 `!space`
-<br/>
-<br/>
-<br/>
-## Ban
-#### Permission level:
-Admin+
-#### Aliases:
-`Ban`
-#### Description:
-Bans a user from the guild. Will ask for confirmation.<br/>
-Any extra text will be converted to the ban reason.
-#### Usage Example:
-`!ban @Guildbot#2193 Causes drama`
 <br/>
 <br/>
 <br/>
@@ -149,19 +141,6 @@ Sends a private message with the bots invite link.<br/>
 <br/>
 <br/>
 <br/>
-## Kick
-#### Permission level:
-Admin+
-#### Aliases:
-`Kick`
-#### Description:
-Kicks a user from the guild. Will ask for confirmation.<br/>
-Any extra text will be converted to the kick reason.
-#### Usage Example:
-`!kick @Guildbot#2193 Causes drama`
-<br/>
-<br/>
-<br/>
 ## Leet Speak
 #### Permission level:
 Member+
@@ -261,8 +240,35 @@ This Includes: Username, discriminator, discord ID, when you joined discord, you
 <br/>
 <br/>
 <br/>
-# Moderation
-
+# Moderation Commands
+[Ban](#ban), [Kick](#kick), [Purge](#purge-self), [MassDelete](#mass-delete), [SelfAssign](#self-assign)<br/>
+<br/>
+## Ban
+#### Permission level:
+Admin+
+#### Aliases:
+`Ban`
+#### Description:
+Bans a user from the guild. Will ask for confirmation.<br/>
+Any extra text will be converted to the ban reason.
+#### Usage Example:
+`!ban @Guildbot#2193 Causes drama`
+<br/>
+<br/>
+<br/>
+## Kick
+#### Permission level:
+Admin+
+#### Aliases:
+`Kick`
+#### Description:
+Kicks a user from the guild. Will ask for confirmation.<br/>
+Any extra text will be converted to the kick reason.
+#### Usage Example:
+`!kick @Guildbot#2193 Causes drama`
+<br/>
+<br/>
+<br/>
 ## Purge Self
 #### Permission level:
 Moderator+
@@ -288,8 +294,31 @@ Usage of the command would simply be: `!massdelete 76` or `!md 42`
 <br/>
 <br/>
 <br/>
+## Self-Assign
+#### Permission level:
+Admin+
+#### Aliases:
+`selfassign, sa, assign`
+#### Description:
+Allows for self assigning roles via reactions.<br/>
+Full documentation can be found [here](https://multarix.github.io/Guildbot/selfassign).
+<br/>
+<br/>
+<br/>
 # System Commands
-
+[Config](#config), [Custom](#custom-commands), [Help](#help), [Info](#info)<br/>
+<br/>
+## Config
+#### Permission level:
+Guild Master Only
+#### Aliases:
+`config, bot`
+#### Description:
+Allows you to configure the bot as you wish.<br/>
+Full documentation can be found [here](https://multarix.github.io/Guildbot/config).
+<br/>
+<br/>
+<br/>
 ## Custom Commands
 #### Permission level:
 Moderator+
@@ -298,11 +327,11 @@ Moderator+
 #### Description:
 Allows you to create/ delete custom text based commands.
 #### Usage Example:
-`!cc set guildbot The best bot ever!` results in:
+`!cc set guildbot The best bot ever!`
 <br/>
 <br/>
 <br/>
-### Help
+## Help
 #### Permission level:
 Everyone
 #### Aliases:
@@ -315,7 +344,7 @@ At the moment it will simply DM the user that uses the command with some basic c
 <br/>
 <br/>
 <br/>
-### Info
+## Info
 #### Permission level:
 Member+
 #### Aliases:
@@ -325,116 +354,3 @@ Posts some bot statistics such as:<br/>
 Memory Usage, Node & Discord.js versions, the uptime of the bot as well as how many users, channels and servers it has access to.
 #### Usage Example:
 `!info`
-<br/>
-<br/>
-<br/>
-## Config Command
-#### Permission level:
-Guild Master Only
-#### Aliases:
-`Config, Bot`
-#### Description:
-Within config you can see the settings you have by doing `!config <setting>`<br/>
-Example, `!config prefix` would result in the current prefix set for the guild.
-
-You can change a setting by doing `!config set <setting> < New Setting >`<br/>
-Example, `!config set prefix &&` would set the guilds prefix to '&&'
-
-You can delete or reset a setting by doing `!config delete <setting>`<br/>
-Example, `!config delete prefix` would reset the guilds prefix back to '!'
-
-Settings available and their Aliases:
-
-### Prefix
-#### Aliases:
-`Prefix`
-#### Description:
-Changes the prefix of the guild.
-#### Usage Example:
-Set a new prefix: `!config set prefix < new prefix >`<br/>
-Reset the prefix: `!config delete prefix`
-
-### Starboard
-#### Aliases:
-`Starboard, starChannel, Stars`
-#### Description:
-Sets the guilds [Starboard](https://multarix.github.io/Guildbot/starchannel).<br/>
-#### Usage Example:
-Set current channel as the Starboard: `!config set stars`<br/>
-Set a different channel as the Starboard: `!config set stars < channel >`<br/>
-Disabling this is as simple as: `!config delete stars`
-
-### Welcome Message
-#### Aliases:
-`joinMessage, JM, welcomeMessage, WM, jMsg, wMsg`
-#### Description:
-Sets a custom welcome message for anyone who enters the server. The welcome channel must also be set for this to function.
-#### Usage Example:
-Putting `<@user>` in the message will be converted to a mention of the user.<br/>
-Putting `<user>` in the message will be converted to the users username.<br/>
-`!config set joinmessage <@user> Has joined the server, welcome <user>!` results in:
-```md
-@Guildbot#2193 Has joined the server, welcome Guildbot!
-```
-Disabling this is as simple as `!config delete JoinMessage`
-
-### Welcome Channel
-#### Aliases:
-`welcomeChannel, wChnl, WC, WMC`
-#### Description:
-Sets the welcome message channel for the guild.
-#### Usage Example:
-Set current channel as the Welcome Channel: `!config set WelcomeChannel`<br/>
-Set a different channel as the Welcome Channel: `!config set WelcomeChannel < channel >`<br/>
-Disabling this is as simple as: `!config delete WelcomeChannel`
-
-### Leave Message
-#### Aliases:
-`byemessage, byeemsg, bmsg, bm, lm`
-#### Description:
-Sets a custom leave message for anyone who leaves the server. The leave channel must also be set for this to function.
-#### Usage Example:
-Putting `<@user>` in the message will be converted to a mention of the user.<br/>
-Putting `<user>` in the message will be converted to the users username.<br/>
-`!config set LeaveMessage <@user> Has left the server, bye bye <user>!` results in:
-```md
-@Guildbot#2193 Has left the server, bye bye Guildbot.
-```
-Disabling this is as simple as `!config delete LeaveMessage`
-
-### Leave Message Channel
-#### Aliases:
-`goodbye, gchnl, gc, gmc, lmc`
-#### Description:
-Sets the leave message channel for the guild.
-#### Usage Example:
-Set current channel as the Leave Channel: `!config set LeaveChannel`<br/>
-Set a different channel as the Leave Channel: `!config set LeaveChannel < channel >`<br/>
-Disabling this is as simple as: `!config delete LeaveChannel`
-
-### Admin
-#### Aliases:
-`Admin, Admins`
-#### Description:
-Sets the Admin permission check role. Anyone with this role is able to use any command marked as Admin or lower.
-#### Usage Example:
-Set the role: !config set Admin <@role><br/>
-Remove the role: !config delete Admin
-
-### Moderator
-#### Aliases:
-`Moderator, Moderators, Mod, Mods`
-#### Description:
-Sets the Moderator permission check role. Anyone with this role is able to use any command marked as Moderator or lower.
-#### Usage Example:
-Set the role: !config set Moderator <@role><br/>
-Remove the role: !config delete Moderator
-
-### Member
-#### Aliases:
-`Member, Members`
-#### Description:
-Sets the Member permission check role. Anyone with this role is able to use any command marked as Member or lower.
-#### Usage Example:
-Set the role: !config set Member <@role><br/>
-Remove the role: !config delete Member
