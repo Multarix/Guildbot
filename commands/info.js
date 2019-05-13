@@ -47,5 +47,5 @@ exports.help = {
 	name: "info",
 	category: "System",
 	description: "Gives some useful bot statistics",
-	usage: "stats](..)",
+	usage: "..",
 };

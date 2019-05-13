@@ -1,6 +1,6 @@
 exports.run = async (client, message, args, level) => {
 
-	if(!args[0] || args.size < 1) return message.reply("Usage: [reload](..command)", { code: "markdown" });
+	if(!args[0] || args.size < 1) return message.channel.send("Usage: [reload](..command)", { code: "markdown" });
 
 	let command;
 	if (client.commands.has(args[0])) {
@@ -43,5 +43,5 @@ exports.help = {
 	name: "reload",
 	category: "System",
 	description: "Reloads a command that's been modified",
-	usage: "reload](<..command-name>)",
+	usage: "command-name",
 };

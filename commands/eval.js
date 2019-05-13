@@ -60,5 +60,5 @@ exports.help = {
 	name: "eval",
 	category: "System",
 	description: "Evaluates javascript",
-	usage: "e](<..code>)",
+	usage: "code",
 };

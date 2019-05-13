@@ -51,5 +51,5 @@ exports.help = {
 	name: "urban",
 	category: "Misc",
 	description: "Defines a given word from UrbanDictionary.com",
-	usage: "urban](<..word>)",
+	usage: "word",
 };

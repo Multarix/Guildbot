@@ -274,5 +274,5 @@ exports.help = {
 	name: "selfassign",
 	category: "Moderation",
 	description: "Self assign roles via reactions",
-	usage: "selfassign](<..set/add/remove>)",
+	usage: "set/add/remove ..channel/role",
 };

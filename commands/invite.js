@@ -27,5 +27,5 @@ exports.help = {
 	name: "invite",
 	category: "Misc",
 	description: "Generates the bot's invite link",
-	usage: "invite](..)",
+	usage: "..",
 };

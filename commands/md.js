@@ -26,5 +26,5 @@ exports.help = {
 	name: "md",
 	category: "Moderation",
 	description: "Mass deletes the specified amount of posts",
-	usage: "md](<..number>)",
+	usage: "number",
 };

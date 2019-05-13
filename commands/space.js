@@ -28,5 +28,5 @@ exports.help = {
 	name: "space",
 	category: "Misc",
 	description: "Posts the Astronomy picture of the day.",
-	usage: "space](..)",
+	usage: "..",
 };

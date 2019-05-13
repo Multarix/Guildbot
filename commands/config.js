@@ -372,5 +372,5 @@ exports.help = {
 	name: "config",
 	category: "System",
 	description: "View or change bot settings.",
-	usage: "config](<..variable>)",
+	usage: "..variable",
 };

@@ -19,5 +19,5 @@ exports.help = {
 	name: "echo",
 	category: "Misc",
 	description: "Repeats what you say",
-	usage: "echo](<..text>)",
+	usage: "text",
 };

@@ -91,5 +91,5 @@ exports.help = {
 	name: "custom",
 	category: "System",
 	description: "Creates a custom command",
-	usage: "custom](<..unknown>)",
+	usage: "key text",
 };

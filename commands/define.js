@@ -51,5 +51,5 @@ exports.help = {
 	name: "define",
 	category: "Misc",
 	description: "Defines a given word from Wictionary.com",
-	usage: "define](<..word>)",
+	usage: "word",
 };

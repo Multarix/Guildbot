@@ -20,5 +20,5 @@ exports.help = {
 	name: "love",
 	category: "Misc",
 	description: "See who has a crush on who",
-	usage: "love](<..user>)",
+	usage: "..user",
 };

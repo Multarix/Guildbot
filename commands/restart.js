@@ -20,5 +20,5 @@ exports.help = {
 	name: "restart",
 	category: "System",
 	description: "Restarts the bot",
-	usage: "restart](..)",
+	usage: "..",
 };

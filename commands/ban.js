@@ -116,5 +116,5 @@ exports.help = {
 	name: "ban",
 	category: "Moderation",
 	description: "Bans a user from the server",
-	usage: "ban](<..user> <..reason>)",
+	usage: "user ..reason",
 };

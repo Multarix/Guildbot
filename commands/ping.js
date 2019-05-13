@@ -16,5 +16,5 @@ exports.help = {
 	name: "ping",
 	category: "Misc",
 	description: "Gets the bot's ping",
-	usage: "ping](..)",
+	usage: "..",
 };

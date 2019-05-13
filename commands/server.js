@@ -13,5 +13,5 @@ exports.help = {
 	name: "server",
 	category: "Misc",
 	description: "Posts the discord server link page",
-	usage: "server](<..>)",
+	usage: "..",
 };

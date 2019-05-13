@@ -39,5 +39,5 @@ exports.help = {
 	name: "system",
 	category: "System",
 	description: "Lists the system information upon which the bot is running",
-	usage: "system](..)",
+	usage: "..",
 };

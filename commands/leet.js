@@ -30,5 +30,5 @@ exports.help = {
 	name: "leet",
 	category: "Misc",
 	description: "1337 5pe4k 47 17'5 f1ne57",
-	usage: "leet](<..text>)",
+	usage: "text",
 };

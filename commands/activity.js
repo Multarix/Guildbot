@@ -41,5 +41,5 @@ exports.help = {
 	name: "activity",
 	category: "System",
 	description: "Sets the activity of the bot",
-	usage: "activity](<setting> <activity>)",
+	usage: "setting ..activity",
 };

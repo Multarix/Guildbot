@@ -35,5 +35,5 @@ exports.help = {
 	name: "pr",
 	category: "Moderation",
 	description: "Reset the amount of points all users on a server has",
-	usage: "pr](..)",
+	usage: "..",
 };

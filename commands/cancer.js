@@ -28,5 +28,5 @@ exports.help = {
 	name: "cancer",
 	category: "Misc",
 	description: "lIteRal CaNcEr",
-	usage: "cancer](<..text>)",
+	usage: "text",
 };

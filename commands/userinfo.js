@@ -75,5 +75,5 @@ exports.help = {
 	name: "userinfo",
 	category: "Misc",
 	description: "Grabs information about a user",
-	usage: "uinfo](<..user>)",
+	usage: "..user",
 };

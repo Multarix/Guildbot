@@ -113,5 +113,5 @@ exports.help = {
 	name: "kick",
 	category: "Moderation",
 	description: "Kicks a user from the server",
-	usage: "Kick](<..user> <..reason>)",
+	usage: "user ..reason)",
 };

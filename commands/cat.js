@@ -27,5 +27,5 @@ exports.help = {
 	name: "cat",
 	category: "Misc",
 	description: "Posts a random cat picture or gif.",
-	usage: "cat](..)",
+	usage: "..",
 };

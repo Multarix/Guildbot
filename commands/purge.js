@@ -26,5 +26,5 @@ exports.help = {
 	name: "purge",
 	category: "Moderation",
 	description: "Prunes a selected amount of messages from the bot itself.",
-	usage: "prune](<..number>)",
+	usage: "number",
 };

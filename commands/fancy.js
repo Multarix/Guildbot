@@ -30,5 +30,5 @@ exports.help = {
 	name: "fancy",
 	category: "Misc",
 	description: "Converts words into fancy text",
-	usage: "fancy](<..text>)",
+	usage: "text",
 };

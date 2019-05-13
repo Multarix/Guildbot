@@ -40,5 +40,5 @@ exports.help = {
 	name: "status",
 	category: "System",
 	description: "Changes the bot's status",
-	usage: "status](<..status>)",
+	usage: "status",
 };

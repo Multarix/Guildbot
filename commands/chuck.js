@@ -16,5 +16,5 @@ exports.help = {
 	name: "chuck",
 	category: "Misc",
 	description: "Posts a random chuck norris fact",
-	usage: "chuck](..)",
+	usage: "..",
 };

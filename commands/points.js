@@ -46,5 +46,5 @@ exports.help = {
 	name: "points",
 	category: "Misc",
 	description: "See how many points you or another user has",
-	usage: "points](<..user>)",
+	usage: "..user",
 };
