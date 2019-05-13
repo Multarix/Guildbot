@@ -31,7 +31,7 @@ Sets the channel for the self assign message.
 Adds a role to the list of self assignable roles.<br/>
 <br/>
 There is only one thing to remember:<br/>
-The emoji you pick either originate from a server the bot is in, or be a default emoji.
+The emoji you pick MUST either originate from a server the bot is in, or be a default emoji.
 #### Usage Example:
 `!selfassign add @FancyPantsRole`
 
