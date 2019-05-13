@@ -2,39 +2,9 @@
 This page lists and explains how to use commands and the results that you get while using these commands.<br/>
 <br/>
 # Misc Commands
-
-[8-Ball](#8-ball)
-[Ban](#ban)
-[Cancer](#cancer)
-[Cats](#cats)
-[Chuck](#chuck)
-[Config](#config)
-[Custom](#custom)
-[Define](#define)
-[Dog](#dog)
-[Echo](#echo)
-[Fancy](#fancy)
-[Gay](#gay)
-[Help](#help)
-[Info](#info)
-[Invite](#invite)
-[Kick](#kick)
-[Leet](#leet)
-[Love](#love)
-[MassDelete]()
-[Ping](#ping)
-[Points](#points)
-[Purge](#purge)
-[Rank](#rank)
-[SelfAssign]()
-[Server](#server)
-[Space]()
-[System](#system)
-[Urban]()
-[UserInfo]()
-
-
-### 8-Ball
+[8-Ball](#8-ball), [Apod](#astronomy-picture-of-the-day), [Cancer](#cancer), [Cats](#cats), [Chuck](#chuck-norris-facts), [Define](#define), [Dog](#dog-pictures), [Echo](#echo), [Fancy](#fancy-text), [Gay](#gay), [Invite](#invite), [Leet](#leet-speak), [Love](#love), [Ping](#ping), [Points](#points), [Rank](#rank), [Server](#server-status), [Urban](#urban-dictionary), [UserInfo](#user-info)<br/>
+<br/>
+## 8-Ball
 #### Permission level:
 Everyone
 #### Aliases:
@@ -46,7 +16,7 @@ Consults the magic 8-ball for some much needed advice.
 <br/>
 <br/>
 <br/>
-### Astronomy Picture of the Day
+## Astronomy Picture of the Day
 #### Permission level:
 Everyone
 #### Aliases:
@@ -58,7 +28,7 @@ Posts the astronomy picture of the day.
 <br/>
 <br/>
 <br/>
-### Ban
+## Ban
 #### Permission level:
 Admin+
 #### Aliases:
@@ -71,19 +41,7 @@ Any extra text will be converted to the ban reason.
 <br/>
 <br/>
 <br/>
-### Cat Pictures
-#### Permission level:
-Everyone
-#### Aliases:
-`Cat, Cats, Neko`
-#### Description:
-Posts a random cat picture.
-#### Usage Example:
-`!cats`
-<br/>
-<br/>
-<br/>
-### Cancerous Text
+## Cancerous Text
 #### Permission level:
 Member+
 #### Aliases:
@@ -95,7 +53,19 @@ Takes any text you write and will randomize the capitalization of it.
 <br/>
 <br/>
 <br/>
-### Chuck Norris Facts
+## Cat Pictures
+#### Permission level:
+Everyone
+#### Aliases:
+`Cat, Cats, Neko`
+#### Description:
+Posts a random cat picture.
+#### Usage Example:
+`!cats`
+<br/>
+<br/>
+<br/>
+## Chuck Norris Facts
 #### Permission level:
 Everyone
 #### Aliases:
@@ -107,19 +77,7 @@ Posts a random Chuck Norris Fact.
 <br/>
 <br/>
 <br/>
-### Custom Commands
-#### Permission level:
-Moderator+
-#### Aliases:
-`Custom, CC`
-#### Description:
-Allows you to create/ delete custom text based commands.
-#### Usage Example:
-`!cc set guildbot The best bot ever!` results in:
-<br/>
-<br/>
-<br/>
-### Define
+## Define
 #### Permission level:
 Everyone
 #### Aliases:
@@ -131,7 +89,7 @@ Defines a word from [wiktionary.com](https://en.wiktionary.org/wiki/Wiktionary:M
 <br/>
 <br/>
 <br/>
-### Dog Pictures
+## Dog Pictures
 #### Permission level:
 Everyone
 #### Aliases:
@@ -143,7 +101,7 @@ Posts a random dog picture.
 <br/>
 <br/>
 <br/>
-### Echo
+## Echo
 #### Permission level:
 Member+
 #### Aliases:
@@ -155,7 +113,7 @@ Repeats anything you say. If the bot has permission to delete messages, it will 
 <br/>
 <br/>
 <br/>
-### Fancy Text
+## Fancy Text
 #### Permission level:
 Member+
 #### Aliases:
@@ -167,7 +125,7 @@ Takes any text you write and turns it into "fancy" looking text.
 <br/>
 <br/>
 <br/>
-### Gay
+## Gay
 #### Permission level:
 Member+
 #### Aliases:
@@ -179,7 +137,7 @@ Check just how gay you or a friend is. Generates a random number between 0 and 1
 <br/>
 <br/>
 <br/>
-### Invite
+## Invite
 #### Permission level:
 Everyone
 #### Aliases:
@@ -191,7 +149,7 @@ Sends a private message with the bots invite link.<br/>
 <br/>
 <br/>
 <br/>
-### Kick
+## Kick
 #### Permission level:
 Admin+
 #### Aliases:
@@ -204,7 +162,7 @@ Any extra text will be converted to the kick reason.
 <br/>
 <br/>
 <br/>
-### Leet Speak
+## Leet Speak
 #### Permission level:
 Member+
 #### Aliases:
@@ -216,7 +174,7 @@ Takes any text you write and turn it into "1337 5P34K" (Leet Speak).<br/>
 <br/>
 <br/>
 <br/>
-### Love
+## Love
 #### Permission level:
 Member+
 #### Aliases:
@@ -229,7 +187,7 @@ Due to the nature of how this command is written, it's actually possible to have
 <br/>
 <br/>
 <br/>
-### Ping
+## Ping
 #### Permission level:
 Everyone
 #### Aliases:
@@ -242,7 +200,7 @@ Reveals to you the bots ping to discord.<br/>
 <br/>
 <br/>
 <br/>
-### Points
+## Points
 #### Permission level:
 Everyone
 #### Aliases:
@@ -254,7 +212,7 @@ Checks how many points you or a friend has. Points are accumulated by simply mak
 <br/>
 <br/>
 <br/>
-### Rank
+## Rank
 #### Permission level:
 Everyone
 #### Aliases:
@@ -266,7 +224,7 @@ Lists the users with the top 5 (or less) amount of points from the guild, alongs
 <br/>
 <br/>
 <br/>
-### Server Status
+## Server Status
 #### Permission level:
 Everyone
 #### Aliases:
@@ -278,7 +236,7 @@ Posts a link to the [discord server status](https://status.discordapp.com/ "Disc
 <br/>
 <br/>
 <br/>
-### Urban Dictionary
+## Urban Dictionary
 #### Permission level:
 Everyone
 #### Aliases:
@@ -290,7 +248,7 @@ Defines a word from [urbandictionary.com](https://www.urbandictionary.com/ "Urba
 <br/>
 <br/>
 <br/>
-### User Info
+## User Info
 #### Permission level:
 Everyone
 #### Aliases:
@@ -305,7 +263,7 @@ This Includes: Username, discriminator, discord ID, when you joined discord, you
 <br/>
 # Moderation
 
-### Purge Self
+## Purge Self
 #### Permission level:
 Moderator+
 #### Aliases:
@@ -317,7 +275,7 @@ Instantly delete up to 100 messages from a channel sent by the bot.
 <br/>
 <br/>
 <br/>
-### Mass Delete
+## Mass Delete
 #### Permission level:
 Moderator+
 #### Aliases:
@@ -332,6 +290,18 @@ Usage of the command would simply be: `!massdelete 76` or `!md 42`
 <br/>
 # System Commands
 
+## Custom Commands
+#### Permission level:
+Moderator+
+#### Aliases:
+`Custom, CC`
+#### Description:
+Allows you to create/ delete custom text based commands.
+#### Usage Example:
+`!cc set guildbot The best bot ever!` results in:
+<br/>
+<br/>
+<br/>
 ### Help
 #### Permission level:
 Everyone
