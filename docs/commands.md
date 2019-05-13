@@ -2,10 +2,14 @@
 This page lists and explains how to use commands and the results that you get while using these commands.<br/>
 <br/>
 ## Sections
-### [Misc Commands](#misc-commands-1)
-### [Moderation Commands](#moderation-commands-1)
-### [System Commands](#system-commands-1)
-
+#### [Misc Commands](#misc-commands-1)
+Things like defining words, or gayness levels.
+#### [Moderation Commands](#moderation-commands-1)
+Things like kicking or banning users.
+#### [System Commands](#system-commands-1)
+Things like help or custom commands.
+<br/>
+<br/>
 # Misc Commands
 [8-Ball](#8-ball), [Apod](#astronomy-picture-of-the-day), [Cancer](#cancer), [Cats](#cats), [Chuck](#chuck-norris-facts), [Define](#define), [Dog](#dog-pictures), [Echo](#echo), [Fancy](#fancy-text), [Gay](#gay), [Invite](#invite), [Leet](#leet-speak), [Love](#love), [Ping](#ping), [Points](#points), [Rank](#rank), [Server](#server-status), [Urban](#urban-dictionary), [UserInfo](#user-info)<br/>
 <br/>
