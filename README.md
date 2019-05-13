@@ -12,7 +12,7 @@ You'll need to do the following:
 If you don't know how to find any of the above information, or simply don't know how to run this bot, there are plenty of guides on the internet that explain how to do so. It is not my job to babysit you, so I expect you to at least know how to find this information yourself.
 
 # Packages required for the bot
-- Discord.js (11.4.2 or higher)
+- Discord.js (11.5 or higher)
 - Colors (1.3.3 or higher)
 - Moment (2.22.2 or higher)
 - Moment-duration-format (2.2.2 or higher)
