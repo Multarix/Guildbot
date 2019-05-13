@@ -44,7 +44,7 @@ exports.run = async (client, message, args, level) => {
 		let command = args[0];
 		if (client.commands.has(command)) {
 			command = client.commands.get(command);
-			message.channel.send(`< ${command.help.name.toProperCase()} > \n${command.help.description}\nUsage: [${settings.prefix}${command.help.usage}`, { code:"markdown" });
+			message.channel.send(`< ${command.help.name.toProperCase()} > \n${command.help.description}\nUsage: [${settings.prefix}${command.help.name}](<${command.help.usage.split(" ").join("> <")}>)`, { code:"markdown" });
 		}
 	}
 };
@@ -60,5 +60,5 @@ exports.help = {
 	name: "help",
 	category: "System",
 	description: "Displays all the commands",
-	usage: "help](<..command-name>)",
+	usage: "..command-name",
 };
