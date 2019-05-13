@@ -3,6 +3,37 @@ This page lists and explains how to use commands and the results that you get wh
 <br/>
 # Misc Commands
 
+[8-Ball](#8-ball)
+[Ban](#ban)
+[Cancer](#cancer)
+[Cats](#cats)
+[Chuck](#chuck)
+[Config](#config)
+[Custom](#custom)
+[Define](#define)
+[Dog](#dog)
+[Echo](#echo)
+[Fancy](#fancy)
+[Gay](#gay)
+[Help](#help)
+[Info](#info)
+[Invite](#invite)
+[Kick](#kick)
+[Leet](#leet)
+[Love](#love)
+[MassDelete]()
+[Ping](#ping)
+[Points](#points)
+[Purge](#purge)
+[Rank](#rank)
+[SelfAssign]()
+[Server](#server)
+[Space]()
+[System](#system)
+[Urban]()
+[UserInfo]()
+
+
 ### 8-Ball
 #### Permission level:
 Everyone
@@ -60,10 +91,8 @@ Member+
 #### Description:
 Takes any text you write and will randomize the capitalization of it.
 #### Usage Example:
-`!cancer this is a demonstration of what this command does` results in:
-```md
-tHiS is a deMOnStrAtiON Of WhaT THIS coMmAnD dOes
-```
+`!cancer words go here`
+<br/>
 <br/>
 <br/>
 ### Chuck Norris Facts
@@ -87,9 +116,7 @@ Moderator+
 Allows you to create/ delete custom text based commands.
 #### Usage Example:
 `!cc set guildbot The best bot ever!` results in:
-```md
-The best bot ever!
-```
+<br/>
 <br/>
 <br/>
 ### Define
@@ -124,10 +151,8 @@ Member+
 #### Description:
 Repeats anything you say. If the bot has permission to delete messages, it will also delete yours - making it seem like the bot sent the message all by itself.
 #### Usage Example:
-`!echo I love Guildbot` results in:
-```md
-I love Guildbot
-```
+`!echo I love Guildbot`
+<br/>
 <br/>
 <br/>
 ### Fancy Text
@@ -138,10 +163,8 @@ Member+
 #### Description:
 Takes any text you write and turns it into "fancy" looking text.
 #### Usage Example:
-`!fancy I love Guildbot` results in:
-```md
-𝓘 ˡᵒᵛᵉ 𝓖ᵘᶤˡᵈᵇᵒᵗ
-```
+`!fancy I love Guildbot`
+<br/>
 <br/>
 <br/>
 ### Gay
@@ -190,9 +213,7 @@ Member+
 Takes any text you write and turn it into "1337 5P34K" (Leet Speak).<br/>
 #### Usage Example:
 `!leet I love guildbot` results in:
-```md
-! 10V3 9U!1D807
-```
+<br/>
 <br/>
 <br/>
 ### Love
@@ -204,11 +225,8 @@ Member+
 Allows you to see who you or a friend has a secret crush on.<br/>
 Due to the nature of how this command is written, it's actually possible to have a crush on yourself, but it's very rare.
 #### Usage Example:
-`!love` & `!love @Guildbot#2193` results in:
-```md
-Multarix#1337 has a crush on @Guildbot#2193 ❤😍
-@Guildbot#2193 has a crush on Multarix#1337 ❤😍
-```
+`!love` & `!love @Guildbot#2193`
+<br/>
 <br/>
 <br/>
 ### Ping
@@ -257,9 +275,7 @@ Everyone
 Posts a link to the [discord server status](https://status.discordapp.com/ "Discord Server Status") page.
 #### Usage Example:
 `!status` results in:
-```md
-https://status.discordapp.com/
-```
+<br/>
 <br/>
 <br/>
 ### Urban Dictionary
