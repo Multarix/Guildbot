@@ -1,14 +1,12 @@
-exports.run = (client, message, args, level) => {
+exports.run = async (client, message, args, level) => {
 
-	async function geyPercent() {
-		const tagged = await grabUser(args[0]);
-		let geyPerson = message.author.username;
-		if(tagged) geyPerson = tagged.username;
 
-		return message.channel.send(`\`${geyPerson}\` is ${Math.floor(Math.random() * 100)}% gey!`);
-	}
+	const tagged = await grabUser(args[0]);
+	let geyPerson = message.author;
+	if(tagged) geyPerson = tagged;
 
-	geyPercent();
+	if(geyPerson.id === "336709922647441409") return message.channel.send(`\`${geyPerson.username}\` is ${Math.floor(Math.random() * 100) + 100}% gey!`);
+	return message.channel.send(`\`${geyPerson.username}\` is ${Math.floor(Math.random() * 100)}% gey!`);
 
 };
 
