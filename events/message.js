@@ -28,6 +28,16 @@ module.exports = async (client, message) => {
 	}
 
 	const guildData = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+	const level = client.permlevel(message, guildData);
+	const regicide = /(https?:\/\/)?(discord\.gg\/)([^\s]*)/g;
+	const serverAd = message.content.toLowerCase().match(regicide);
+	if(serverAd && level < 3){
+		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES"));{
+			message.delete();
+			message.reply("Advertising for random discord servers is Illegal.\nIf this is a mistake, please get a moderator to post the server link.");
+		}
+	}
+
 	const mention = new RegExp(`^<@!?${client.user.id}>`);
 	const mentionCheck = message.content.match(mention) ? message.content.match(mention)[0] : '!';
 
@@ -47,7 +57,6 @@ module.exports = async (client, message) => {
 	} else {
 		command = args.shift().slice(prefix.length).toLowerCase();
 	}
-	const level = client.permlevel(message, guildData);
 	const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
 
 	if (cmd && level >= cmd.conf.permLevel) {
