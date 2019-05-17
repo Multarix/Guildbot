@@ -41,9 +41,8 @@ exports.run = async (client, message, args, level) => {
 
 		message.author.send({ embed });
 	} else {
-		let command = args[0];
-		if (client.commands.has(command)) {
-			command = client.commands.get(command);
+		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
+		if(command) {
 			message.channel.send(`< ${command.help.name.toProperCase()} > \n${command.help.description}\nUsage: [${settings.prefix}${command.help.name}](<${command.help.usage.split(" ").join("> <")}>)`, { code:"markdown" });
 		}
 	}
