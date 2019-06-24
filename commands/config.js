@@ -92,7 +92,7 @@ Handy Tips:
 If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
 If you put '<user>' anywhere in the message, it will be converted to that users username.`, { code: "markdown" });
 			}
-			return sql.get(`UPDATE settings SET joinMsg = "${joinMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
+			return sql.get(`UPDATE settings SET joinMsg = '${sanity(joinMsg)}' WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their welcome message`, `SQL`);
 				const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
 				message.channel.send(`The welcome message has been saved. An example of your message is below:\n${joinExample}`);
@@ -127,7 +127,7 @@ Handy Tips:
 If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
 If you put '<user>' anywhere in the message, it will be converted to that users username.`, { code: "markdown" });
 			}
-			return sql.get(`UPDATE settings SET leaveMsg = "${leaveMsg}" WHERE guild = "${message.guild.id}"`).then(() => {
+			return sql.get(`UPDATE settings SET leaveMsg = '${sanity(leaveMsg)}' WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their goodbye message`, `SQL`);
 				const leaveExample = leaveMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
 				message.channel.send(`The goodbye message has been saved. An example of your message is below:\n${leaveExample}`);
@@ -158,8 +158,8 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			if(!args[2]) return message.channel.send(`Usage:\n[config](set) prefix < new prefix >`, { code: "markdown" });
 			if(args[2] === data.prefix) return message.channel.send(`The prefix is already set to \`${data.prefix}\``);
 
-			return sql.get(`UPDATE settings SET prefix = "${args[2]}" WHERE guild = "${message.guild.id}"`).then(() => {
-				client.log(`"${message.guild.name}" changed their prefix to "${args[2]}"`, `SQL`);
+			return sql.get(`UPDATE settings SET prefix = '${sanity(args[2])}' WHERE guild = "${message.guild.id}"`).then(() => {
+				client.log(`"${message.guild.name}" changed their prefix to '${args[2]}'`, `SQL`);
 				message.channel.send(`Prefix has been set to \`${args[2]}\`\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) prefix\n\`\`\``).then(m => {
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 						m.delete(10000);

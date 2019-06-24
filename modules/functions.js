@@ -79,6 +79,14 @@ module.exports = async (client) => {
 		await wait(num);
 	};
 
+	global.sanity = (text) => {
+		console.log(text);
+		text = text
+			.replace(/'/g, "''");	// test
+		console.log(text);
+		return text;
+	};
+
 	/* Custom Globals */
 
 	// Calls process exit, if using something like pm2, the bot should automatically restart.
