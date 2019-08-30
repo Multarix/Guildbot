@@ -15,7 +15,9 @@ exports.run = async (client, message, args, level) => {
 	// Check if the channel exists, if it doesnt return the channel as null and update the database
 	let channel = undefined;
 	if(channelID) channel = grabChannel(channelID);
-	if(channelID && !channel) sql.run(`UPDATE settings SET assignChannel = null WHERE guild = "${message.guild.id}"`);
+	if(channelID && !channel) {
+		sql.run(`UPDATE settings SET assignChannel = null, assignMessage = null WHERE guild = "${message.guild.id}"`);
+	}
 	// Check if the message exists, if it doesnt, return the message as null and update the database
 	let assignMessage = undefined;
 	if(channel && messageID) assignMessage = channel.fetchMessage(messageID).catch(e => { return null; });
@@ -235,7 +237,7 @@ exports.run = async (client, message, args, level) => {
 	// Completely remove all roles from the list. (Useful for if you delete a role without first updating the bot.)
 	match = ["reset", "reload", "retry"];
 	if(match.includes(secondary)){
-		message.channel.send("This will remove **__ALL__** roles from the self assign message.\nAre you sure you wish to proceed?\n`Yes` / `No`").then(m => {
+		return message.channel.send("This will remove **__ALL__** roles from the self assign message.\nAre you sure you wish to proceed?\n`Yes` / `No`").then(m => {
 			const response = ["y", "yes", "n", "no"];
 			const filter = m => m.author.id === message.author.id && response.includes(m.content.toLowerCase());
 
@@ -244,8 +246,13 @@ exports.run = async (client, message, args, level) => {
 				// Yes response
 				let reply = ["yes", "y"];
 				if(reply.includes(msg)){
-					sql.run(`UPDATE settings SET assignRoles = null WHERE guild = "${message.guild.id}"`);	// wipe all roles from sql
-					channel.fetchMessage(messageID).then(msg => {msg.edit({ embed }); });
+					// Wipe all roles from sql
+					sql.run(`UPDATE settings SET assignRoles = null WHERE guild = "${message.guild.id}"`);
+					channel.fetchMessage(messageID).then(msg => {
+						// Clear and remove all reactions from the message
+						msg.edit({ embed });
+						msg.clearReactions();
+					});
 					m.delete();
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) c.first().delete();
 				}
