@@ -152,13 +152,13 @@ exports.run = async (client, message, args, level) => {
 								sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
 								m.delete();
 								if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-								msg.react(actualEmoji);
+								saReact(msg);
 							});
 						} else {
 							return msg.edit({ embed }).then(msg => {
 								m.delete();
 								if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-								msg.react(actualEmoji);
+								saReact(msg);
 							});
 						}
 					});
@@ -167,7 +167,7 @@ exports.run = async (client, message, args, level) => {
 						sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
 						m.delete();
 						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-						msg.react(actualEmoji);
+						saReact(msg);
 					});
 				}
 			}).catch(e => {
@@ -225,11 +225,7 @@ exports.run = async (client, message, args, level) => {
 		return channel.fetchMessage(messageID).then(msg => {
 			msg.edit({ embed }).then(msg => {
 				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-				msg.reactions.find(x => x.emoji === actualEmoji).then(r => {
-					r.users.forEach(u => {
-						r.remove(u.id);
-					});
-				});
+				saReact(msg);
 			});
 		});
 	}
@@ -255,6 +251,7 @@ exports.run = async (client, message, args, level) => {
 					});
 					m.delete();
 					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) c.first().delete();
+					message.delete();
 				}
 				// No response
 				reply = ["no", "n"];

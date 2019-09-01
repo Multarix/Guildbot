@@ -1,5 +1,6 @@
 const colors = require('colors');
 const fs = require('fs');
+const sql = require("sqlite");
 module.exports = async (client) => {
 
 	//	Permission level for commands.
@@ -34,6 +35,7 @@ module.exports = async (client) => {
 		if(title.toLowerCase() === "sql") return console.log(`[${colors.magenta(time.time)}](${colors.magenta(title)}) ${colors.magenta(msg)}`);
 		console.log(`[${colors.gray(time.time)}](${colors.gray(title)}) ${colors.gray(msg)}`);
 	};
+
 
 	/*
 	MESSAGE CLEAN FUNCTION
@@ -125,6 +127,21 @@ module.exports = async (client) => {
 		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
 		if(!guild.roles.get(roleID)) return null;
 		return guild.roles.get(roleID);
+	};
+
+	global.saReact = async (msg) => {
+		if(!msg) return null;
+		msg.clearReactions();
+		wait(1000);
+		const data = await sql.get(`SELECT * FROM settings WHERE guild = "${msg.guild.id}"`);
+		const saData = data.assignRoles;
+		const assignArray = saData.split("*");
+		assignArray.forEach(x => {
+			const emojiID = x.match(/\[(.*?)\]/)[0].replace(/[\][]/g, "");
+			let actualEmoji = emojiID;
+			if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
+			msg.react(actualEmoji);
+		});
 	};
 
 	// I see your unhandled things, and present to you, handled things!
