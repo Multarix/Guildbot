@@ -4,9 +4,10 @@ module.exports = async (client, messageReaction, user) => {
 
 	if(user.bot) return;
 	const message = messageReaction.message;
+	const reaction = messageReaction;
+	if(message.content.toLowerCase() === "!reboot" && user.id === client.config.ownerID && reaction.emoji.id === "340357918996299778") message.delete();
 
 	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
-	const reaction = messageReaction;
 
 	const emojiMessageID = data.assignMessage;
 	if(message.id === emojiMessageID){
