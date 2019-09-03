@@ -131,7 +131,7 @@ module.exports = async (client) => {
 
 	global.saReact = async (msg) => {
 		if(!msg) return null;
-		msg.clearReactions();
+		await msg.clearReactions();
 		wait(1000);
 		const data = await sql.get(`SELECT * FROM settings WHERE guild = "${msg.guild.id}"`);
 		const saData = data.assignRoles;
