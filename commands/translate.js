@@ -8,8 +8,8 @@ exports.run = async (client, message, args) => {
 	let res;
 	try {
 		res = await translate(str, { from: "auto", to: lang });
-		return message.channel.send(`${res.text}`);
-	} catch(err) { return message.channel.send(err.message); }
+		return message.channel.send(`${message.author.username} Translated: ${res.text}`);
+	} catch (err){ return message.channel.send(err.message); }
 };
 
 exports.conf = {

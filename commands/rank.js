@@ -19,7 +19,7 @@ exports.run = async (client, message, args, level) => {
 		if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
 
 		let i;
-		for(i = 1;i < res.length && i <= 4; i++) {
+		for(i = 1;i < res.length && i <= 4; i++){
 			embed.addField(`**Rank #${i + 1}**`, `**${res[i].amount}** Points - **${players.get(`${res[i].user}`).tag}**`, false);
 		}
 
@@ -27,7 +27,7 @@ exports.run = async (client, message, args, level) => {
 	}
 	let i;
 	let noEmbed = `< Rank #1 > 👑\n[${res[0].amount} Points](${players.get(`${res[0].user}`).tag})`;
-	for(i = 1;i < res.length && i <= 4; i++) {
+	for(i = 1;i < res.length && i <= 4; i++){
 		noEmbed += `\n< Rank #${i + 1} >\n[${res[i].amount} Points](${players.get(`${res[i].user}`).tag})`;
 	}
 	return message.channel.send(noEmbed, { code: "markdown" });

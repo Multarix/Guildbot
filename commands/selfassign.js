@@ -15,7 +15,7 @@ exports.run = async (client, message, args, level) => {
 	// Check if the channel exists, if it doesnt return the channel as null and update the database
 	let channel = undefined;
 	if(channelID) channel = grabChannel(channelID);
-	if(channelID && !channel) {
+	if(channelID && !channel){
 		sql.run(`UPDATE settings SET assignChannel = null, assignMessage = null WHERE guild = "${message.guild.id}"`);
 	}
 	// Check if the message exists, if it doesnt, return the message as null and update the database
@@ -138,7 +138,7 @@ exports.run = async (client, message, args, level) => {
 				// Grab the emoji object and role name, add them to the embed.
 				let i;
 				let actualEmoji;
-				for(i = 0; i < emojiRoles.length; i++) {
+				for(i = 0; i < emojiRoles.length; i++){
 					actualEmoji = emojiRoles[i].emojiID;
 					if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
 					embed.addField(`${actualEmoji} - ${grabRole(emojiRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
@@ -216,7 +216,7 @@ exports.run = async (client, message, args, level) => {
 		// Create the embed
 		let i;
 		let actualEmoji;
-		for(i = 0; i < updateRoles.length; i++) {
+		for(i = 0; i < updateRoles.length; i++){
 			actualEmoji = updateRoles[i].emojiID;
 			if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
 			embed.addField(`${actualEmoji} - ${grabRole(updateRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);

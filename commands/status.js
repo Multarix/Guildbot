@@ -9,12 +9,12 @@ exports.run = (client, message, args, level) => {
 
 	let newStatus = "invalid";
 
-	if (status === "online") newStatus = "Online";
-	if (status === "dnd") newStatus = "dnd";
-	if (status === "idle") newStatus = "idle";
-	if (status === "offline" || status === "invisible") newStatus = "invisible";
+	if(status === "online") newStatus = "Online";
+	if(status === "dnd") newStatus = "dnd";
+	if(status === "idle") newStatus = "idle";
+	if(status === "offline" || status === "invisible") newStatus = "invisible";
 
-	if (newStatus === "invalid"){
+	if(newStatus === "invalid"){
 		message.react(bad);
 		message.channel.send(`\`${args[0]}\` is not a valid status. Try again.`).then(m => {
 			if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){

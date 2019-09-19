@@ -16,7 +16,7 @@ exports.run = async (client, message, args, level) => {
 
 	if(ecolor) embed.setColor(ecolor);
 
-	if(!args[0]) {
+	if(!args[0]){
 
 		const myCommands = client.commands.filter(c=>c.conf.permLevel <= level);
 		const commandNames = myCommands.keyArray();
@@ -42,7 +42,7 @@ exports.run = async (client, message, args, level) => {
 		message.author.send({ embed });
 	} else {
 		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
-		if(command) {
+		if(command){
 			message.channel.send(`< ${command.help.name.toProperCase()} > \n${command.help.description}\nUsage: [${settings.prefix}${command.help.name}](<${command.help.usage.split(" ").join("> <")}>)`, { code:"markdown" });
 		}
 	}

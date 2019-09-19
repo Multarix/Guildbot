@@ -54,14 +54,14 @@ module.exports = async (client, messageReaction, user) => {
 		});
 	}
 
-	if(message.author.bot) {
+	if(message.author.bot){
 		return message.channel.send(`${user}, You cannot star bot messages`).then(m => {
 			reaction.remove(user);
 			m.delete(5000);
 		});
 	}
 
-	if(reaction.count >= 2) {
+	if(reaction.count >= 2){
 		const fetchedMsgs = starboard.fetchMessages({ limit: 100 });
 		const starredMessage = fetchedMsgs.find(m => m.embeds[0].footer.text.startsWith("⭐") && m.embeds[0].footer.text.endsWith(message.id));
 		if(starredMessage){
@@ -95,7 +95,7 @@ module.exports = async (client, messageReaction, user) => {
 				.setFooter(`⭐2 | ${message.id}`)
 				.setTimestamp();
 
-			if(message.attachments.first()) {
+			if(message.attachments.first()){
 				embed.setImage(message.attachments.first().url);
 			}
 			client.log(`"${message.content}" was starred in the "${message.guild.name}" discord.`, "Stars");

@@ -15,7 +15,7 @@ exports.run = async (client, message, args, level) => {
 		const evaled = eval(code);
 		const clean = await client.clean(client, evaled);
 		const evalString = `**OUTPUT** ${good}\n\`\`\`javascript\n${clean}\n\`\`\``;
-		if (evalString.length >= 1024){
+		if(evalString.length >= 1024){
 			console.log(clean);
 			return message.channel.send(`**OUTPUT** ${good}\nThe output was too long, check the console.`);
 		}
@@ -30,10 +30,10 @@ exports.run = async (client, message, args, level) => {
 		}
 		message.channel.send(evalString);
 
-	} catch(err) {
+	} catch (err){
 		const errMsg = await client.clean(client, err);
 		const errString = `**ERROR** ${bad}\n\`\`\`javascript\n${errMsg}\n\`\`\``;
-		if (errString.length >= 1024){
+		if(errString.length >= 1024){
 			console.log(errString);
 			return message.channel.send(`**ERROR** ${bad}\nThe error message was too long, check the console.`);
 		}

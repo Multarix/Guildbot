@@ -25,7 +25,7 @@ const init = async () => {
 			props.conf.aliases.forEach(alias => {
 				client.aliases.set(alias, props.help.name);
 			});
-		} catch (e) {
+		} catch (e){
 			client.log(`Unable to load command ${f}: ${e}`, "Error");
 		}
 	});
@@ -42,7 +42,7 @@ const init = async () => {
 
 			delete require.cache[require.resolve(`./events/${file}`)];
 
-		} catch (e) {
+		} catch (e){
 			client.log(`Unable to load event ${file}: ${e}`, "Error");
 		}
 	});

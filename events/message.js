@@ -20,7 +20,7 @@ module.exports = async (client, message) => {
 	}
 
 	const str = message.content.toLowerCase();
-	if(random[message.content]) {
+	if(random[message.content]){
 		return message.channel.send(random[message.content]).catch(console.error);
 	} else
 	if(random2[str]){
@@ -59,13 +59,13 @@ module.exports = async (client, message) => {
 	}
 	const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
 
-	if (cmd && level >= cmd.conf.permLevel) {
+	if(cmd && level >= cmd.conf.permLevel){
 		if(cmd.conf.enabled === true){
 			cmd.run(client, message, args, level);
 		} else {
 			client.log(`"${message.author.tag}" tried to use the disabled command "${cmd.help.name}"`, "Log");
 		}
-	} else if (cmd && level < cmd.conf.permLevel){
+	} else if(cmd && level < cmd.conf.permLevel){
 		client.log(`"${message.author.tag}" tried to use command: "${cmd.help.name}"`, "Log");
 	}
 	if(!cmd){

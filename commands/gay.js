@@ -1,6 +1,5 @@
 exports.run = async (client, message, args, level) => {
 
-
 	const tagged = await grabUser(args[0]);
 	let geyPerson = message.author;
 	if(tagged) geyPerson = tagged;

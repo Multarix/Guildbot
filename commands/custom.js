@@ -37,7 +37,7 @@ exports.run = async (client, message, args, level) => {
 		if(!joinOutput) return message.channel.send("No output was specified\nUsage: [custom](set) <name> <..output>", { code: "markdown" });
 		if(!commandName.length > 15) return message.channel.send("Command name is too long. It must be 15 characters or less in length.");
 
-		if(cmdList[args[1]]) {
+		if(cmdList[args[1]]){
 			return sql.get(`UPDATE commands SET output = "${joinOutput}" WHERE guild = "${message.guild.id}" AND name = "${commandName}"`).then(() => {
 				client.log(`"${message.guild.name}" updated a custom command (${commandName})`, `SQL`);
 				message.channel.send(`Updated the custom command: \`${commandName}\``).then(m => {

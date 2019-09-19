@@ -9,7 +9,7 @@ exports.run = async (client, message, args, level) => {
 	let names = "";
 	let ids = "";
 	let i;
-	for(i = 0; i < test.length; i++) {
+	for(i = 0; i < test.length; i++){
 		if(!test[i] || !message.guild.roles.get(test[i])){
 			names += "Not Set\u200b";
 			ids += "Not Set\u200b";
@@ -33,7 +33,7 @@ exports.run = async (client, message, args, level) => {
 
 	let roleName = args[0];
 
-	if (!roleName){
+	if(!roleName){
 		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
 			let ecolor = 13238272;
 			if(message.guild.owner.highestRole.color) ecolor = message.guild.owner.highestRole.color;

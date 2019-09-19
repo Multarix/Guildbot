@@ -3,9 +3,9 @@ exports.run = async (client, message, args, level) => {
 	if(!args[0] || args.size < 1) return message.channel.send("Usage: [reload](..command)", { code: "markdown" });
 
 	let command;
-	if (client.commands.has(args[0])) {
+	if(client.commands.has(args[0])){
 		command = client.commands.get(args[0]);
-	} else if (client.aliases.has(args[0])) {
+	} else if(client.aliases.has(args[0])){
 		command = client.commands.get(client.aliases.get(args[0]));
 	}
 	if(!command){
@@ -17,7 +17,7 @@ exports.run = async (client, message, args, level) => {
 	const cmd = require(`./${command}`);
 	client.commands.delete(command);
 	client.aliases.forEach((cmd, alias) => {
-		if (cmd === command) client.aliases.delete(alias);
+		if(cmd === command) client.aliases.delete(alias);
 	});
 	client.commands.set(command, cmd);
 	cmd.conf.aliases.forEach(alias => {
