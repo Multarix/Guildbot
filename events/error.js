@@ -1,6 +1,6 @@
 module.exports = (client, error) => {
-	client.log("Encountered a websocket error", "Error");
-	console.log(error);
+	client.log(error, "Error");
+	console.error(error);
 };
 
 module.exports.help = {
