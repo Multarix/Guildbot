@@ -1,4 +1,4 @@
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 
 	if(!args[0]) return message.channel.send("Usage:\n [status](..status)", { code: "markdown" });
 

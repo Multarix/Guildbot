@@ -1,6 +1,6 @@
 const randomDogJs = require("random.dog.js");
 const Discord = require("discord.js");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 	const dogPic = randomDogJs.api();
 	const dog = await dogPic.getDog();
 	if(!dog) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape

@@ -1,6 +1,6 @@
 const ud = require("urban-dictionary");
 const Discord = require("discord.js");
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 
 	let bad = client.emojis.get("340357882606256137");
 	if(!bad) bad = "👎";

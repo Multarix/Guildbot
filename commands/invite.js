@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 
 	let good = client.emojis.get("340357918996299778");
 	if(!good) good = "👍";

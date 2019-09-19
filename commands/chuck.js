@@ -1,5 +1,5 @@
 const chuck = require("../objects/chuck.json");
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 
 	const fact = Math.floor(Math.random() * chuck.length);
 	message.channel.send(chuck[fact]);

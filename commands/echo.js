@@ -1,4 +1,4 @@
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const joinargs = args.join(" ").replace(/\u200b/g, "\n");
 	if(!joinargs) return message.channel.send("Usage: [echo](<..text>)", { code: "markdown" });

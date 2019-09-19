@@ -1,6 +1,6 @@
 const predict = require("../objects/8ball.json");
 const Discord = require("discord.js");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const joinargs = args.join(" ");
 	if(!joinargs) return message.channel.send("Usage: [8ball](<..question)", { code: "markdown" });

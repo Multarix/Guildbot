@@ -1,6 +1,6 @@
 const sql = require("sqlite");
 const Discord = require("discord.js");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
 

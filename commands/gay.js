@@ -1,4 +1,4 @@
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const tagged = await grabUser(args[0]);
 	let geyPerson = message.author;

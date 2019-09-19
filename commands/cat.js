@@ -1,6 +1,6 @@
 const cats = require("cats-js");
 const Discord = require("discord.js");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const cat = new cats();
 	const pic = await cat.get();

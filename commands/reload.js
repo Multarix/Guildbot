@@ -1,4 +1,4 @@
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	if(!args[0] || args.size < 1) return message.channel.send("Usage: [reload](..command)", { code: "markdown" });
 

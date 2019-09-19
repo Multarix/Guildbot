@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const nasa = require("apod-nasa");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const apod = await nasa();
 	if(!apod) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape

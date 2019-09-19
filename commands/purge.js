@@ -1,4 +1,4 @@
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 
 	if(!args[0]) return message.channel.send(`Usage: [md](<..number>)`, { code: "markdown" });
 	if(!parseInt(args[0])) return message.channel.send(`Yea hey.. \`${args[0]}\` isn't a number.`);

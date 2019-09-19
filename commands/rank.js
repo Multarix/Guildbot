@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const sql = require("sqlite");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const players = client.users;
 

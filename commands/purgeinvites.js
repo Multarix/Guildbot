@@ -1,4 +1,4 @@
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 	const invites = await message.guild.fetchInvites();
 	const deleted = [];
 	invites.forEach(i => {

@@ -1,5 +1,5 @@
 const sql = require("sqlite");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	message.channel.send(`Are you sure you want to reset everybody in the server to \`0\` points?\n \`Y\`/\`N\``).then(() => {
 		const filter = m => m.author.id === message.author.id && m.content.toLowerCase() === "yes" || m.author.id === message.author.id && m.content.toLowerCase() === "y" || m.author.id === message.author.id && m.content.toLowerCase() === "no" || m.author.id === message.author.id && m.content.toLowerCase() === "n";

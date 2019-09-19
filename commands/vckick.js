@@ -1,4 +1,4 @@
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 	return;
 };
 

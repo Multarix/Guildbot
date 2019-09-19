@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const sql = require("sqlite");
-exports.run = async (client, message, args, level) => {
+exports.run = async (client, message, args) => {
 
 	const secondary = args[0];
 	if(!args[0]) return message.channel.send("Usage: [selfassign](<..set/add/remove>)", { code: "markdown" });

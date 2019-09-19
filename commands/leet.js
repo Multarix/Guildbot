@@ -1,5 +1,5 @@
 const leetKey = require("../objects/1337Key.json");
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 
 	const joinargs = args.join(" ");
 	if(!joinargs) return message.channel.send("Usage: [fancy](<..text>)", { code: "markdown" });

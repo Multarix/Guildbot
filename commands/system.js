@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const os = require("os");
-exports.run = (client, message, args, level) => {
+exports.run = (client, message, args) => {
 
 	const cpuType = os.cpus()[0].model.split(/\s+/g).join(" ");
 
