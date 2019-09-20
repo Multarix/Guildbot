@@ -7,13 +7,10 @@ exports.run = async (client, message, args) => {
 
 	if(!pic) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape
 
-	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-		const embed = new Discord.RichEmbed()
-			.setImage(pic.images.image.url);
+	const embed = new Discord.RichEmbed()
+		.setImage(pic.images.image.url);
 
-		return message.channel.send({ embed });
-	}
-	message.channel.send(pic.images.image.url);
+	return message.channel.send({ embed });
 };
 
 exports.conf = {

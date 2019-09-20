@@ -6,14 +6,10 @@ exports.run = async (client, message, args) => {
 	if(!dog) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape
 
 	if(dog.url.endsWith(".mp4")) return message.channel.send(dog.url);
+	const embed = new Discord.RichEmbed()
+		.setImage(dog.url);
 
-	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-		const embed = new Discord.RichEmbed()
-			.setImage(dog.url);
-
-		return message.channel.send({ embed });
-	}
-	return message.channel.send(dog.url);
+	return message.channel.send({ embed });
 };
 
 exports.conf = {

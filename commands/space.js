@@ -5,16 +5,13 @@ exports.run = async (client, message, args) => {
 	const apod = await nasa();
 	if(!apod) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape
 
-	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-		const embed = new Discord.RichEmbed()
-			.setAuthor(apod.title)
-			.setImage(apod.image)
-			.setTimestamp()
-			.setFooter(`Astronomy Picture of the Day`, "https://i.imgur.com/CO4a8X6.png");
+	const embed = new Discord.RichEmbed()
+		.setAuthor(apod.title)
+		.setImage(apod.image)
+		.setTimestamp()
+		.setFooter(`Astronomy Picture of the Day`, "https://i.imgur.com/CO4a8X6.png");
 
-		return message.channel.send({ embed });
-	}
-	return message.channel.send(apod.image);
+	return message.channel.send({ embed });
 };
 
 exports.conf = {

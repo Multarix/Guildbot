@@ -19,16 +19,13 @@ exports.run = async (client, message, args, level) => {
 			console.log(clean);
 			return message.channel.send(`**OUTPUT** ${good}\nThe output was too long, check the console.`);
 		}
-		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-			const embed = new Discord.RichEmbed()
-				.setColor(2734377)
-				.addField('Javascript Evaluated', evalString, false)
-				.setFooter(client.user.tag, client.user.displayAvatarURL)
-				.setTimestamp();
+		const embed = new Discord.RichEmbed()
+			.setColor(2734377)
+			.addField('Javascript Evaluated', evalString, false)
+			.setFooter(client.user.tag, client.user.displayAvatarURL)
+			.setTimestamp();
 
-			return message.channel.send({ embed });
-		}
-		message.channel.send(evalString);
+		return message.channel.send({ embed });
 
 	} catch (err){
 		const errMsg = await client.clean(client, err);
@@ -37,15 +34,12 @@ exports.run = async (client, message, args, level) => {
 			console.log(errString);
 			return message.channel.send(`**ERROR** ${bad}\nThe error message was too long, check the console.`);
 		}
-		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-			const embed = new Discord.RichEmbed()
-				.setColor(14487568)
-				.addField(`Javascript Evaluated`, errString, false)
-				.setFooter(client.user.tag, client.user.displayAvatarURL)
-				.setTimestamp();
-			return message.channel.send({ embed });
-		}
-		return message.channel.send(errString);
+		const embed = new Discord.RichEmbed()
+			.setColor(14487568)
+			.addField(`Javascript Evaluated`, errString, false)
+			.setFooter(client.user.tag, client.user.displayAvatarURL)
+			.setTimestamp();
+		return message.channel.send({ embed });
 	}
 };
 
