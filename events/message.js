@@ -61,6 +61,8 @@ module.exports = async (client, message) => {
 
 	if(cmd && level >= cmd.conf.permLevel){
 		if(cmd.conf.enabled === true){
+			const string = "Due to the nature of this bot, it requires embed permissions to run certain commands.\nPlease grant the bot embed permissions and try the command again.";
+			if(!message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")) return message.channel.send(string);
 			cmd.run(client, message, args, level);
 		} else {
 			client.log(`"${message.author.tag}" tried to use the disabled command "${cmd.help.name}"`, "Log");
