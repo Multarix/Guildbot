@@ -22,51 +22,35 @@ exports.run = async (client, message, args) => {
 	let displayName = user.username;
 	if(member) displayName = member.displayName;
 
-	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-		let ecolor1 = 14487568;
-		if(member){
-			if(member.highestRole.color) ecolor1 = member.highestRole.color;
+	const embed = new Discord.RichEmbed()
+		.setAuthor(displayName)
+		.setThumbnail(user.displayAvatarURL)
+		.addField("Username:", user.username, true)
+		.addField("Discrim:", user.discriminator, true)
+		.addField("Discord ID:", user.id, true)
+		.addField("Is bot?", user.bot.toString().toProperCase(), true)
+		.addField("Status:", user.presence.status.toProperCase(), true)
+		.addField("Playing:", game, true)
+		.addField("Joined Discord:", `${joinDate} ago`, false)
+		.setTimestamp()
+		.setFooter(client.user.tag, client.user.displayAvatarURL);
+
+	let ecolor1 = 14487568;
+	if(member){
+		if(member.highestRole.color) ecolor1 = member.highestRole.color;
+		if(member.roles){
+			const s = function(a, b) { return a.calculatedPosition - b.calculatedPosition; };
+			const r = member.roles.array().sort(s).slice(1).join(", ");
+			embed.addField("Roles:", r);
 		}
-
-
-		const embed = new Discord.RichEmbed()
-			.setAuthor(displayName)
-			.setThumbnail(user.displayAvatarURL)
-			.setColor(ecolor1)
-			.addField("Username:", user.username, true)
-			.addField("Discrim:", user.discriminator, true)
-			.addField("Discord ID:", user.id, true)
-			.addField("Is bot?", user.bot.toString().toProperCase(), true)
-			.addField("Status:", user.presence.status.toProperCase(), true)
-			.addField("Playing:", game, true)
-			.addField("Joined Discord:", `${joinDate} ago`, false)
-			.setTimestamp()
-			.setFooter(client.user.tag, client.user.displayAvatarURL);
-
-		return message.channel.send({ embed });
 	}
-	return message.channel.send(`User Information
-----------------
-< Username >
-${displayName}
-< Discrim >
-${user.discriminator}
-< Discord ID >
-${user.id}
-< Is Bot? >
-${user.bot.toString().toProperCase()}
-< Status >
-${user.presence.status.toProperCase()}
-< Playing >
-${game}
-< Joined Discord >
-${joinDate}`, { code: "markdown" });
-
+	embed.setColor(ecolor1);
+	return message.channel.send({ embed });
 };
 
 exports.conf = {
 	enabled: true,
-	guildOnly: true,
+	allowDM: true,
 	aliases: ["uinfo", "ui", "user"],
 	permLevel: 0,
 };
