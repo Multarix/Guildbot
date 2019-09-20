@@ -10,7 +10,6 @@ exports.run = (client, message, args) => {
 	let i;
 	for(i = 0;i < s.length; i++){
 		if(fancyKey[s[i]]){
-
 			newStr += fancyKey[s[i]];
 		} else {
 			newStr += s[i];
