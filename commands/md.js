@@ -8,18 +8,19 @@ exports.run = (client, message, args) => {
 	if(toDelete >= 101) toDelete = 100;
 
 	if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-		return message.reply("I don't have permission to delete messages.").catch(console.error);
+		return message.reply("I don't have permission to delete messages.");
 	} else {
-		message.channel.fetchMessages({ limit: toDelete }).then(messages => message.channel.bulkDelete(messages)).catch(console.error);
+		message.channel.fetchMessages({ limit: toDelete }).then(messages => message.channel.bulkDelete(messages)).catch(e => {
+			return message.channel.send(`\`Error:\` ${e.message}`);
+		});
 	}
-
 };
 
 exports.conf = {
 	enabled: true,
-	guildOnly: false,
+	allowDM: false,
 	aliases: ["massdelete"],
-	permLevel: 3,
+	permLevel: 1,
 };
 
 exports.help = {
