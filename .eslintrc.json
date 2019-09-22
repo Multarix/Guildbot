@@ -59,6 +59,7 @@
           "time" : true,
           "ordinalIndicator" : true,
 					"sanity" : true,
-					"saReact" : true
+					"saReact" : true,
+					"talkedRecently" : true
     }
 }

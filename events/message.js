@@ -8,29 +8,33 @@ module.exports = async (client, message) => {
 	if(message.channel.type === "dm") return;
 	if(!message.channel.memberPermissions(message.guild.me).has("SEND_MESSAGES")) return;
 
-	if(message.mentions.everyone) return message.react(client.emojis.get("519919364485677066"));
+	if(message.mentions.everyone) message.react(client.emojis.get("519919364485677066")).catch(e => { return; });
 
-	const points = await sql.get(`SELECT * FROM points WHERE user = "${message.author.id}" AND guild = "${message.guild.id}"`);
-	if(!points){
-		sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${message.guild.id}", "${message.author.id}", "1")`).then(() => {
-			client.log(`Added "${message.author.tag}" from the "${message.guild.name}" server.`, "SQL");
-		});
-	} else {
-		sql.run(`UPDATE points SET amount = "${points.amount + 1}" WHERE user = "${message.author.id}" AND guild = "${message.guild.id}"`);
+	if(!talkedRecently.has(`${message.author.id}|${message.guild.id}`)){
+		talkedRecently.add(`${message.author.id}|${message.guild.id}`);
+		const points = await sql.get(`SELECT * FROM points WHERE user = "${message.author.id}" AND guild = "${message.guild.id}"`);
+		if(!points){
+			sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${message.guild.id}", "${message.author.id}", "1")`).then(() => {
+				client.log(`Added "${message.author.tag}" from the "${message.guild.name}" server.`, "SQL");
+			});
+		} else {
+			sql.run(`UPDATE points SET amount = "${points.amount + 1}" WHERE user = "${message.author.id}" AND guild = "${message.guild.id}"`);
+		}
+		setTimeout(() => { talkedRecently.delete(`${message.author.id}|${message.guild.id}`); }, 10000);
 	}
 
 	const str = message.content.toLowerCase();
 	if(random[message.content]){
-		return message.channel.send(random[message.content]).catch(console.error);
+		return message.channel.send(random[message.content]);
 	} else
 	if(random2[str]){
-		return message.channel.send(random2[str]).catch(console.error);
+		return message.channel.send(random2[str]);
 	}
 
 	const guildData = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
 	const level = client.permlevel(message, guildData);
-	const regicide = /(https?:\/\/)?(discord\.gg\/)([^\s]*)/g;
-	const serverAd = message.content.toLowerCase().match(regicide);
+	const regicide = /(https?:\/\/)?(discord\.gg\/)([^\s]*)/gi;
+	const serverAd = message.content.match(regicide);
 	if(serverAd && level < 3){
 		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES"));{
 			message.delete();
