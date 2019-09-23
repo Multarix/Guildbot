@@ -1,5 +1,5 @@
 module.exports = (client, error) => {
-	client.log(error, "Error");
+	client.log(error.message, "error");
 	console.error(error);
 };
 
