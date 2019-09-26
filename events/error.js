@@ -1,6 +1,5 @@
 module.exports = (client, error) => {
 	client.log(error.message, "error");
-	console.error(error);
 };
 
 module.exports.help = {
