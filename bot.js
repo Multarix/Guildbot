@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const sql = require("sqlite");
+const cron = require("node-cron");
 
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
@@ -48,8 +49,10 @@ const init = async () => {
 	});
 	sql.open("./objects/settings.sqlite");
 	client.login(client.config.clientToken);
+
+	cron.schedule("0 12 * * */2", async () => {
+		client.asshole();
+	});
 };
 
 init();
-
-setTimeout(restartBot, 172800000);

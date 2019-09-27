@@ -37,6 +37,11 @@ module.exports = async (client) => {
 	};
 
 
+	client.asshole = () => {
+		const member = client.guilds.get("237543420543893505").members.random();
+		client.channels.get("237543420543893505").send(`${member} faggot`).catch(e => { return; });
+	};
+
 	/*
 	MESSAGE CLEAN FUNCTION
 	"Clean" removes @everyone pings, as well as tokens, and makes code blocks
@@ -76,10 +81,6 @@ module.exports = async (client) => {
 	};
 
 	global.wait = require("util").promisify(setTimeout);
-
-	global.pause = async (num) => {
-		await wait(num);
-	};
 
 	global.sanity = (text) => {
 		console.log(text);
