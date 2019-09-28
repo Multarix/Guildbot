@@ -26,8 +26,7 @@ module.exports = async (client) => {
 	//	Client log, semi-useful for keeping track of what is what in the console
 	client.log = (msg, title) => {
 		if(!title) title = "Log";
-		const thime = require("../modules/time.js");
-		const time = thime();
+		const time = require("../modules/misc/time.js")();
 		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${msg.replace(/\[3[7&9]m/g, "")}`);		// eslint-disable-line no-control-regex
 		if(title.toLowerCase() === "error") return console.log(`[${colors.red(time.time)}](${colors.red(title)}) ${colors.red(msg)}`);
 		if(title.toLowerCase() === "warn") return console.log(`[${colors.yellow(time.time)}](${colors.yellow(title)}) ${colors.yellow(msg)}`);
@@ -150,16 +149,14 @@ module.exports = async (client) => {
 	// I see your unhandled things, and present to you, handled things!
 
 	process.on("uncaughtException", (err) => {
-		const thime = require("../modules/time.js");
-		const time = thime();
+		const time = require("../modules/misc/time.js")();
 		const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
 		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${"Uncaught Exception:" + errorMsg.toString().replace(/\[3[7&9]m/g, "")}`);	// eslint-disable-line no-control-regex
 		console.error("Uncaught Exception: ", errorMsg);
 	});
 
 	process.on("unhandledRejection", err => {
-		const thime = require("../modules/time.js");
-		const time = thime();
+		const time = require("../modules/misc/time.js")();
 		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${err.toString().replace(/\[3[7&9]m/g, "")}`);	// eslint-disable-line no-control-regex
 		console.error("Uncaught Promise Error: ", err);
 	});
