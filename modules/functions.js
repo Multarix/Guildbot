@@ -36,10 +36,7 @@ module.exports = async (client) => {
 	};
 
 
-	client.asshole = () => {
-		const member = client.guilds.get("237543420543893505").members.random();
-		client.channels.get("237543420543893505").send(`${member} faggot`).catch(e => { return; });
-	};
+	client.asshole = require("../modules/asshole.js");
 
 	/*
 	MESSAGE CLEAN FUNCTION

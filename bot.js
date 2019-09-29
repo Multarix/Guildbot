@@ -50,8 +50,8 @@ const init = async () => {
 	sql.open("./objects/settings.sqlite");
 	client.login(client.config.clientToken);
 
-	cron.schedule("0 12 * * */2", async () => {
-		client.asshole();
+	cron.schedule("0 0 12 * * *", async () => {
+		client.asshole(client);
 	});
 };
 
