@@ -2,18 +2,13 @@ exports.run = (client, message, args) => {
 
 	const joinargs = args.join(" ");
 	if(!joinargs) return message.channel.send("Usage: [cancer](<..text>)", { code: "markdown" });
+
 	const s = joinargs.toLowerCase().split("");
 
 	let newStr = "";
-	let i;
-	for(i = 0;i < s.length; i++){
-		if(Math.random() >= 0.5){
-			const upperStr = s[i].toUpperCase();
-			newStr += upperStr;
-		} else {
-			newStr += s[i];
-		}
-	}
+	s.forEach(letter => {
+		newStr += (Math.random() > 0.5) ? letter.toUpperCase() : letter;
+	});
 	message.channel.send(newStr, { code: "markdown" });
 };
 

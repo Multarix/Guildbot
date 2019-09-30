@@ -7,14 +7,12 @@ exports.run = (client, message, args) => {
 	const s = joinargs.split("");
 
 	let newStr = "";
-	let i;
-	for(i = 0;i < s.length; i++){
-		if(fancyKey[s[i]]){
-			newStr += fancyKey[s[i]];
-		} else {
-			newStr += s[i];
-		}
-	}
+	s.forEach(letter => {
+		if(fancyKey[letter]){
+			newStr += fancyKey[letter];
+		} else { newStr += letter; }
+	});
+
 	message.channel.send(newStr, { code: "markdown" });
 };
 
