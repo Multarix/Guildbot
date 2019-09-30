@@ -36,6 +36,7 @@ exports.run = async (client, message, args) => {
 	}
 	client.user.setStatus(newStatus);
 	message.react(good);
+	if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) return message.delete(5000);
 };
 
 
