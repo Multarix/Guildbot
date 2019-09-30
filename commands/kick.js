@@ -18,88 +18,64 @@ exports.run = async (client, message, args) => {
 	let reason = args.join(" ");
 	if(!reason) reason = "Not Specified";
 
-	let mContent;
-	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-		mContent = new Discord.RichEmbed()
+	const embed = new Discord.RichEmbed()
+		.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
+		.setColor(16750080)
+		.addField(`Action:`, "Kick", false)
+		.addField(`Reason:`, `${reason}`, false)
+		.addField(`Are you sure?`, "`Yes` or `No`", false)
+		.setFooter(message.author.tag, message.author.displayAvatarURL)
+		.setTimestamp();
+
+	const msg = await message.channel.send({ embed });
+	const response = ["y", "yes", "n", "no"];
+	const filter = x => x.author.id === message.author.id && response.includes(x.content.toLowerCase());
+	const collected = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).catch(() => {
+		const embed = new Discord.RichEmbed()
 			.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
 			.setColor(16750080)
-			.addField(`Action:`, "Kick", false)
-			.addField(`Reason:`, `${reason}`, false)
-			.addField(`Are you sure?`, "`Yes` or `No`", false)
+			.setTitle(`Command Canceled.`)
 			.setFooter(message.author.tag, message.author.displayAvatarURL)
 			.setTimestamp();
-	} else {
-		mContent = `\`\`\`md\n${kickUser.tag} (${kickUser.id})\nAction: kick\nReason: ${reason}\nAre you sure?\nYes or No\`\`\``;
+
+		msg.edit({ embed });
+		return undefined;
+	});
+	if(!collected) return;
+	const m = collected.first().content;
+	if(msg.toLowerCase() === "yes" || msg.toLowerCase() === "y"){
+		const embed = new Discord.RichEmbed()
+			.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
+			.setColor(16750080)
+			.setTitle("Working..")
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
+			.setTimestamp();
+
+		await msg.edit({ embed });
+		const embedDetail = new Discord.RichEmbed()
+			.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
+			.setColor(16750080)
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
+			.setTimestamp();
+
+		const member = await kickMember.kick().catch(e => {
+			embed.setTitle(`Ruh roh, I was unable to kick \`${kickUser.tag}\``);
+			embedDetail.addField(`Reason:`, e.message, false);
+			return null;
+		});
+		if(member) embed.setTitle(`\`${member.user.tag}\` was succesfully kicked.`);
+		return await msg.edit(embedDetail);
 	}
 
-	message.channel.send(mContent).then(m => {
-		const response = ["y", "yes", "n", "no"];
-		const filter = m => m.author.id === message.author.id && response.includes(m.content.toLowerCase());
-		message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).then(collected => {
-			const msg = collected.first().content;
-			if(msg.toLowerCase() === "yes" || msg.toLowerCase() === "y"){
-				if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-					const embed = new Discord.RichEmbed()
-						.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
-						.setColor(16750080)
-						.setTitle("Working..")
-						.setFooter(message.author.tag, message.author.displayAvatarURL)
-						.setTimestamp();
-
-					return m.edit({ embed }).then(m => {
-						const embed = new Discord.RichEmbed()
-							.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
-							.setColor(16750080)
-							.setFooter(message.author.tag, message.author.displayAvatarURL)
-							.setTimestamp();
-
-						if(kickMember.kickable){
-							return kickMember.kick().then(member => {
-								embed.setTitle(`\`${member.user.tag}\` was succesfully kicked.`);
-								return m.edit({ embed });
-							});
-						}
-						embed.setTitle(`Ruh roh, I was unable to kick \`${kickUser.tag}\``);
-						return m.edit({ embed });
-					});
-				}
-
-				m.edit("Working..").then(m => {
-					if(kickMember.kickable){
-						return kickMember.kick().then(member => {
-							return m.edit(`\`${member.user.tag}\` was succesfully kicked`);
-						});
-					}
-					return m.edit(`Ruh roh, I was unable to kick \`${kickUser.tag}\``);
-				});
-
-			}
-			if(msg.toLowerCase() === "no" || msg.toLowerCase() === "n"){
-				if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-					const embed = new Discord.RichEmbed()
-						.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
-						.setColor(16750080)
-						.setTitle(`Command Canceled.`)
-						.setFooter(message.author.tag, message.author.displayAvatarURL)
-						.setTimestamp();
-					return m.edit({ embed });
-				}
-				return m.edit("Command Canceled.");
-			}
-		}).catch(() => {
-			if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-				const embed = new Discord.RichEmbed()
-					.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
-					.setColor(16750080)
-					.setTitle(`Command Canceled.`)
-					.setFooter(message.author.tag, message.author.displayAvatarURL)
-					.setTimestamp();
-				return m.edit({ embed });
-			}
-			return m.edit("Command Canceled.");
-		});
-	});
-
+	if(msg.toLowerCase() === "no" || msg.toLowerCase() === "n"){
+		const embed = new Discord.RichEmbed()
+			.setAuthor(`${kickUser.tag} (${kickUser.id})`, kickUser.displayAvatarURL)
+			.setColor(16750080)
+			.setTitle(`Command Canceled.`)
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
+			.setTimestamp();
+		return await m.edit({ embed });
+	}
 };
 
 exports.conf = {

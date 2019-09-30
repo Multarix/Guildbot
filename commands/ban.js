@@ -19,90 +19,64 @@ exports.run = async (client, message, args) => {
 	let reason = args.join(" ");
 	if(!reason) reason = "Not Specified";
 
-	let mContent;
-	if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-		mContent = new Discord.RichEmbed()
+	const embed = new Discord.RichEmbed()
+		.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
+		.setColor(16711680)
+		.addField(`Action:`, "Ban", false)
+		.addField(`Reason:`, `${reason}`, false)
+		.addField(`Are you sure?`, "`Yes` or `No`", false)
+		.setFooter(message.author.tag, message.author.displayAvatarURL)
+		.setTimestamp();
+
+	const msg = await message.channel.send({ embed });
+	const response = ["y", "yes", "n", "no"];
+	const filter = x => x.author.id === message.author.id && response.includes(x.content.toLowerCase());
+	const collected = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).catch(() => {
+		const embed = new Discord.RichEmbed()
 			.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
 			.setColor(16711680)
-			.addField(`Action:`, "Ban", false)
-			.addField(`Reason:`, `${reason}`, false)
-			.addField(`Are you sure?`, "`Yes` or `No`", false)
+			.setTitle(`Command Canceled.`)
 			.setFooter(message.author.tag, message.author.displayAvatarURL)
 			.setTimestamp();
-	} else {
-		mContent = `\`\`\`md\n${banUser.tag} (${banUser.id})\nAction: ban\nReason: ${reason}\nAre you sure?\nYes or No\`\`\``;
+
+		msg.edit({ embed });
+		return undefined;
+	});
+	if(!collected) return;
+	const m = collected.first().content;
+	if(m.toLowerCase() === "yes" || m.toLowerCase() === "y"){
+		const embed = new Discord.RichEmbed()
+			.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
+			.setColor(16711680)
+			.setTitle("Working..")
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
+			.setTimestamp();
+
+		await msg.edit({ embed });
+		const embedDetail = new Discord.RichEmbed()
+			.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
+			.setColor(16711680)
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
+			.setTimestamp();
+
+		const user = await message.guild.ban(banUser, reason).catch(e => {
+			embedDetail.setTitle(`Ruh roh, I was unable to ban \`${banUser.tag}\``);
+			embedDetail.addField(`Reason:`, e.message, false);
+			return null;
+		});
+		if(user) embedDetail.setTitle(`\`${user.tag}\` was succesfully banned`);
+		return await msg.edit(embedDetail);
 	}
 
-	message.channel.send(mContent).then(m => {
-		const response = ["y", "yes", "n", "no"];
-		const filter = m => m.author.id === message.author.id && response.includes(m.content.toLowerCase());
-		message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).then(collected => {
-			const msg = collected.first().content;
-			if(msg.toLowerCase() === "yes" || msg.toLowerCase() === "y"){
-				if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-					const embed = new Discord.RichEmbed()
-						.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
-						.setColor(16711680)
-						.setTitle("Working..")
-						.setFooter(message.author.tag, message.author.displayAvatarURL)
-						.setTimestamp();
-
-					return m.edit({ embed }).then(m => {
-						const embed = new Discord.RichEmbed()
-							.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
-							.setColor(16711680)
-							.setFooter(message.author.tag, message.author.displayAvatarURL)
-							.setTimestamp();
-
-						message.guild.ban(banUser, reason).then(user => {
-							embed.setTitle(`\`${user.tag}\` was succesfully banned`);
-							return m.edit({ embed });
-						}).catch(e => {
-							embed.setTitle(`Ruh roh, I was unable to ban \`${banUser.tag}\``);
-							embed.addField(`Reason:`, e.message, false);
-							return m.edit({ embed });
-						});
-
-					});
-				}
-
-				m.edit("Working..").then(m => {
-
-					message.guild.ban(banUser, reason).then(user => {
-						return m.edit(`\`${user.tag}\` was succesfully banned.`);
-					}).catch(e => {
-						return m.edit(`Ruh roh, I was unable to ban \`${banUser.tag}\`\nReason: ${e.message}`);
-					});
-
-				});
-
-			}
-			if(msg.toLowerCase() === "no" || msg.toLowerCase() === "n"){
-				if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-					const embed = new Discord.RichEmbed()
-						.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
-						.setColor(16711680)
-						.setTitle(`Command Canceled.`)
-						.setFooter(message.author.tag, message.author.displayAvatarURL)
-						.setTimestamp();
-					return m.edit({ embed });
-				}
-				return m.edit("Command Canceled.");
-			}
-		}).catch(() => {
-			if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-				const embed = new Discord.RichEmbed()
-					.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
-					.setColor(16711680)
-					.setTitle(`Command Canceled.`)
-					.setFooter(message.author.tag, message.author.displayAvatarURL)
-					.setTimestamp();
-				return m.edit({ embed });
-			}
-			return m.edit("Command Canceled.");
-		});
-	});
-
+	if(m.toLowerCase() === "no" || m.toLowerCase() === "n"){
+		const embed = new Discord.RichEmbed()
+			.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL)
+			.setColor(16711680)
+			.setTitle(`Command Canceled.`)
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
+			.setTimestamp();
+		return msg.edit({ embed });
+	}
 };
 
 exports.conf = {
