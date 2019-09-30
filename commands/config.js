@@ -34,31 +34,20 @@ exports.run = async (client, message, args) => {
 	let roleName = args[0];
 
 	if(!roleName){
-		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-			let ecolor = 13238272;
-			if(message.guild.owner.highestRole.color) ecolor = message.guild.owner.highestRole.color;
-			const embed = new Discord.RichEmbed()
-				.setAuthor(`Guild Settings`)
-				.setColor(ecolor)
-				.addField("Prefix", `${data.prefix}`, false)
-				.addField("Admin Role", nameData[0], false)
-				.addField("Member Role", nameData[1], false)
-				.addField("Moderator Role", nameData[2], false)
-				.addField("Starboard", starboard, false)
-				.setFooter(client.user.tag, client.user.displayAvatarURL)
-				.setTimestamp();
-
-			if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
-
-			return message.channel.send({ embed });
-		}
-		return message.channel.send(`=== Guild Settings ===
-----------------------
-[•](Prefix)             <=>     < ${data.prefix} >
-[•](Admin Role)         <=>     < ${nameData[0]} >
-[•](Member Role)        <=>     < ${nameData[1]} >
-[•](Moderator Role)     <=>     < ${nameData[2]} >
-[•](Starboard)          <=>     < ${starboard} >`, { code: "markdown" });
+		let ecolor = 13238272;
+		if(message.guild.owner.highestRole.color) ecolor = message.guild.owner.highestRole.color;
+		const embed = new Discord.RichEmbed()
+			.setAuthor(`Guild Settings`)
+			.setColor(ecolor)
+			.addField("Prefix", `${data.prefix}`, false)
+			.addField("Admin Role", nameData[0], false)
+			.addField("Member Role", nameData[1], false)
+			.addField("Moderator Role", nameData[2], false)
+			.addField("Starboard", starboard, false)
+			.setFooter(client.user.tag, client.user.displayAvatarURL)
+			.setTimestamp();
+		if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
+		return message.channel.send({ embed });
 	}
 
 	roleName = roleName.toLowerCase();
