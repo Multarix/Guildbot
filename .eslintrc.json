@@ -43,7 +43,8 @@
 					"after": true,
 					"overrides": {
 						"if": { "after": false },
-						"for": { "after": false }
+						"for": { "after": false },
+						"while": { "after": false }
 					}
 				}],
         "yoda": "error"
