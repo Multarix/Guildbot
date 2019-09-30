@@ -2,9 +2,10 @@ module.exports = {
 	apps : [{
 		name: "bot",
 		script: "./bot.js",
-		watch: ["events", "modules", "./bot.js"],
-		ignore_watch: ["node_modules", "objects/settings.sqlite", "objects.settings.sqlite-journal", "docs"],
-		cron_restart : "30 5 * * 6",
+		watch: ["commands", "events", "modules", "objects", "./bot.js"],
+		ignore_watch: ["node_modules", "objects/settings.sqlite", "objects/settings.sqlite-journal", "docs"],
+		cron_restart : "30 5 * * 7",
+		restart_delay: 5000,
 		max_restarts: 10,
 		env: {
 			NODE_ENV: 'development',
