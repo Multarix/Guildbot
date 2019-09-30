@@ -1,5 +1,5 @@
 const colors = require('colors');
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
 
 	let good = client.emojis.get("340357918996299778");
 	if(!good) good = "👍";
@@ -10,24 +10,24 @@ exports.run = (client, message, args) => {
 	const joinargs = args.slice(1).join(" ");
 	if(!joinargs) return message.channel.send("Usage: [activity](<play/watch/listen> <..new-activity>)", { code: "markdown" });
 
-	if(activity === "play"){
-		return client.user.setActivity(`${joinargs}`).then(() => {
-			client.log("Now playing " + colors.white("[") + joinargs + colors.white("]"), "Activity");
-			message.react(good);
-		});
+	switch (activity){
+	case "play":
+		await client.user.setActivity(`${joinargs}`);
+		client.log("Now playing " + colors.white("[") + joinargs + colors.white("]"), "Activity");
+		message.react(good);
+		break;
+	case "watch":
+		await client.user.setActivity(`${joinargs}`, { type: 'WATCHING' });
+		client.log("Now watching " + colors.white("[") + joinargs + colors.white("]"), "Activity");
+		message.react(good);
+		break;
+	case "listen":
+		await client.user.setActivity(`${joinargs}`, { type: 'LISTENING' });
+		client.log("Now listening to " + colors.white("[") + joinargs + colors.white("]"), "Activity");
+		message.react(good);
+		break;
 	}
-	if(activity === "watch"){
-		return client.user.setActivity(`${joinargs}`, { type: 'WATCHING' }).then(() => {
-			client.log("Now watching " + colors.white("[") + joinargs + colors.white("]"), "Activity");
-			message.react(good);
-		});
-	}
-	if(activity === "listen"){
-		return client.user.setActivity(`${joinargs}`, { type: 'LISTENING' }).then(() => {
-			client.log("Now listening to " + colors.white("[") + joinargs + colors.white("]"), "Activity");
-			message.react(good);
-		});
-	}
+
 };
 
 exports.conf = {
