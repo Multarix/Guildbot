@@ -150,11 +150,13 @@ module.exports = async (client) => {
 		const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
 		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${"Uncaught Exception:" + errorMsg.toString().replace(/\[3[7&9]m/g, "")}`);	// eslint-disable-line no-control-regex
 		console.error("Uncaught Exception: ", errorMsg);
+		restartBot("Uncaught Exception");
 	});
 
 	process.on("unhandledRejection", err => {
 		const time = require("../modules/time.js")();
 		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${err.toString().replace(/\[3[7&9]m/g, "")}`);	// eslint-disable-line no-control-regex
 		console.error("Uncaught Promise Error: ", err);
+		restartBot("Unhandled Rejection");
 	});
 };
