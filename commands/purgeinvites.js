@@ -1,9 +1,9 @@
 exports.run = async (client, message, args) => {
+	if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_GUILD")) return;
 	const invites = await message.guild.fetchInvites();
 	const deleted = [];
 	invites.forEach(i => {
 		if(i.inviter && i.inviter.id !== i.guild.ownerID){
-			if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_GUILD")) return;
 			deleted.push(`[${i.code}](${i.inviter.tag})`);
 			return i.delete();
 		}
