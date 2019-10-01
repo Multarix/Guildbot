@@ -5,8 +5,7 @@ module.exports = {
 		watch: ["commands", "events", "modules", "objects", "./bot.js"],
 		ignore_watch: ["node_modules", "objects/settings.sqlite", "objects/settings.sqlite-journal", "docs"],
 		cron_restart : "30 5 * * 7",
-		restart_delay: 5000,
-		max_restarts: 10,
+		exp_backoff_restart_delay: 1000,
 		env: {
 			NODE_ENV: 'development',
 		},
