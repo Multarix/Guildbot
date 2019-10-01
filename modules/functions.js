@@ -24,17 +24,26 @@ module.exports = async (client) => {
 	};
 
 	//	Client log, semi-useful for keeping track of what is what in the console
-	client.log = (msg, title) => {
+	client.log = (msg, title, shardID) => {
 		if(!title) title = "Log";
-		const time = require("../modules/time.js")();
-		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${msg.replace(/\[3[7&9]m/g, "")}`);		// eslint-disable-line no-control-regex
-		if(title.toLowerCase() === "error") return console.log(`[${colors.red(time.time)}](${colors.red(title)}) ${colors.red(msg)}`);
-		if(title.toLowerCase() === "warn") return console.log(`[${colors.yellow(time.time)}](${colors.yellow(title)}) ${colors.yellow(msg)}`);
-		if(title.toLowerCase() === "notify") return console.log(`[${colors.cyan(time.time)}](${colors.cyan(title)}) ${colors.cyan(msg)}`);
-		if(title.toLowerCase() === "sql") return console.log(`[${colors.magenta(time.time)}](${colors.magenta(title)}) ${colors.magenta(msg)}`);
-		console.log(`[${colors.gray(time.time)}](${colors.gray(title)}) ${colors.gray(msg)}`);
-	};
+		if(isNaN(shardID)) shardID = "null";
 
+		let str = "";
+		const time = require("../modules/time.js")();
+		switch (title.toLowerCase()){
+		/* eslint-disable indent*/
+			case "error": str = `<${colors.red(time.time)}>[${colors.red(`Shard-${shardID}`)}](${colors.red(title)}> ${colors.red(msg)}`; break;
+			case "warn": str = `<${colors.yellow(time.time)}>[${colors.yellow(`Shard-${shardID}`)}](${colors.yellow(title)}> ${colors.yellow(msg)}`; break;
+			case "notify": str = `<${colors.cyan(time.time)}>[${colors.cyan(`Shard-${shardID}`)}](${colors.cyan(title)}) ${colors.cyan(msg)}`; break;
+			case "sql":	str = `<${colors.magenta(time.time)}>[${colors.magenta(`Shard-${shardID}`)}](${colors.magenta(title)}) ${colors.magenta(msg)}`; break;
+			default: str = `<${colors.gray(time.time)}>[${colors.gray(`Shard-${shardID}`)}](${colors.gray(title)}) ${colors.gray(msg)}`;	break;
+		/* eslint-enable indent */
+		}
+		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${msg.replace(/\[\d+m/g, "")}`);		// eslint-disable-line no-control-regex
+		const reggie = /\[\[\d+mShard-null\[\d+m\]/;	// eslint-disable-line no-control-regex
+		str = str.replace(reggie, "");
+		console.log(str);
+	};
 
 	client.asshole = require("../modules/asshole.js");
 
@@ -45,7 +54,6 @@ module.exports = async (client) => {
 	and stringifies objects!
 	This is mostly only used by Eval and Exec commands.
 	*/
-
 	client.clean = async (client, text) => {
 		if(text && text.constructor.name == "Promise"){
 			text = await text;
@@ -79,10 +87,8 @@ module.exports = async (client) => {
 	global.wait = require("util").promisify(setTimeout);
 
 	global.sanity = (text) => {
-		console.log(text);
 		text = text
 			.replace(/'/g, "''");	// test
-		console.log(text);
 		return text;
 	};
 
@@ -102,7 +108,7 @@ module.exports = async (client) => {
 		if(!userID) return;
 		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
 		if(userID.startsWith("!")) userID = userID.slice(1);
-		await client.fetchUser(userID).catch(e => { return; });
+		await client.users.fetch(userID).catch(e => { return undefined; });
 		return client.users.get(userID);
 	};
 
@@ -116,8 +122,8 @@ module.exports = async (client) => {
 
 	// Checks for a role and returns it if it exists.
 	global.grabRole = (roleID, guild) => {
-		if(!roleID) return;
-		if(!guild) return;
+		if(!roleID) return undefined;
+		if(!guild) return undefined;
 		if(guild.id) guild = guild.id;
 		guild = client.guilds.get(guild);
 		if(!guild) return null;
@@ -128,7 +134,7 @@ module.exports = async (client) => {
 
 	global.saReact = async (msg) => {
 		if(!msg) return null;
-		await msg.clearReactions();
+		await msg.reactions.removeAll();
 		wait(1000);
 		const data = await sql.get(`SELECT * FROM settings WHERE guild = "${msg.guild.id}"`);
 		const saData = data.assignRoles;

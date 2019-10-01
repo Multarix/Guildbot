@@ -16,8 +16,8 @@ module.exports = async (client, member) => {
 	if(!data.leaveChannel || !data.leaveMsg) return;
 	const leaveChannel = member.guild.channels.get(data.leaveChannel);
 	if(!leaveChannel) return;
-	if(leaveChannel.memberPermissions(member.guild.me).has("SEND_MESSAGES")){
-		const leaveMessage = data.leaveMsg.replace("<@user>", member.user).replace("<user>", member.user.username);
+	if(leaveChannel.permissionsFor(member.guild.me).has("SEND_MESSAGES")){
+		const leaveMessage = data.leaveMsg.replace("<@user>", `${member.user}`).replace("<user>", member.user.username);
 		leaveChannel.send(leaveMessage);
 	}
 };

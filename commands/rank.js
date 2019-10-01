@@ -7,8 +7,8 @@ exports.run = async (client, message, args) => {
 	const res = await sql.all(`SELECT * FROM points WHERE guild = "${message.guild.id}" ORDER BY amount DESC`);
 
 	let ecolor = 13238272;
-	if(message.guild.me.highestRole.color) ecolor = message.guild.me.highestRole.color;
-	const embed = new Discord.RichEmbed()
+	if(message.guild.me.roles.highest.color) ecolor = message.guild.me.roles.highest.color;
+	const embed = new Discord.MessageEmbed()
 		.setAuthor(`Point Leaderboard - ${message.guild.name}`)
 		.setColor(ecolor)
 		.addField("**Rank #1** :crown:", `**${res[0].amount}** Points - **${players.get(`${res[0].user}`).tag}**`, false)

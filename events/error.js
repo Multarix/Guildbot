@@ -1,8 +1,8 @@
 module.exports = (client, error) => {
-	client.log(error.message, "error");
+	client.log(error.message, "Error");
 };
 
 module.exports.help = {
 	name: "error",
-	description: "Emitted whenever the client's WebSocket encounters a connection error.",
+	description: "Emitted when the client encounters an error",
 };

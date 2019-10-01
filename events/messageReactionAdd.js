@@ -30,12 +30,14 @@ module.exports = async (client, messageReaction, user) => {
 			if(y.emojiID === emojiIdentifier){
 				const role = grabRole(y.roleID, message.guild.id);
 				if(!role) return;
-				if(role.comparePositionTo(message.guild.me.highestRole) >= 0) return;
-				message.guild.members.get(user.id).addRole(role, "Reacted on self assign message.").catch(e => { client.log(e.message, "error"); });
+				if(role.comparePositionTo(message.guild.me.roles.highest) >= 0) return;
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_ROLES")){
+					message.guild.members.get(user.id).roles.add(role, "Reacted on self assign message.").catch(e => { client.log(e.message, "error"); });
+				}
 				checkEmoji = true;
 			}
 		});
-		if(!checkEmoji) return reaction.remove(user.id);
+		if(!checkEmoji && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) return reaction.remove(user.id);
 	}
 
 	if(reaction.emoji.name !== '⭐') return;
@@ -68,7 +70,7 @@ module.exports = async (client, messageReaction, user) => {
 			const embedFound = starredMessage.embeds[0];
 			const starCount = /\d+/g.exec(embedFound.footer.text);
 
-			const embed = new Discord.RichEmbed()
+			const embed = new Discord.MessageEmbed()
 				.setThumbnail(embedFound.thumbnail.url)
 				.setColor(15844367)
 				.addField("Author", `${embedFound.fields[0].value}`, true)
@@ -85,8 +87,8 @@ module.exports = async (client, messageReaction, user) => {
 			starredMessage.edit({ embed });
 		}
 		if(!starredMessage){
-			const embed = new Discord.RichEmbed()
-				.setThumbnail(message.author.displayAvatarURL)
+			const embed = new Discord.MessageEmbed()
+				.setThumbnail(message.author.displayAvatarURL())
 				.setColor(15844367)
 				.addField("Author", `${message.author}`, true)
 				.addField("Channel", `${message.channel}`, true)

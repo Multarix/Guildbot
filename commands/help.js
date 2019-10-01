@@ -5,13 +5,13 @@ exports.run = async (client, message, args, level) => {
 	const settings = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
 
 	let ecolor = false;
-	if(message.member.highestRole.color) ecolor = message.member.highestRole.color;
+	if(message.member.roles.highest.color) ecolor = message.member.roles.highest.color;
 
-	const embed = new Discord.RichEmbed()
-		.setAuthor(`Commands for:  ${message.author.tag}`, message.author.displayAvatarURL)
+	const embed = new Discord.MessageEmbed()
+		.setAuthor(`Commands for:  ${message.author.tag}`, message.author.displayAvatarURL())
 		.setDescription(`Use ${settings.prefix}help <commandname> for more details`)
 		.setThumbnail(message.guild.iconURL)
-		.setFooter(client.user.tag, client.user.displayAvatarURL)
+		.setFooter(client.user.tag, client.user.displayAvatarURL())
 		.setTimestamp();
 
 	if(ecolor) embed.setColor(ecolor);

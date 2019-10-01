@@ -12,13 +12,13 @@ exports.run = async (client, message, args) => {
 	}
 
 	let ecolor = 16777215;
-	if(member.highestRole.color) ecolor = member.highestRole.color;
+	if(member.roles.highest.color) ecolor = member.roles.highest.color;
 
 	const p = await sql.get(`SELECT * FROM points WHERE user = "${user.id}" AND guild = "${message.guild.id}"`);
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setAuthor(`${user.tag}`)
-		.setThumbnail(message.author.displayAvatarURL)
+		.setThumbnail(message.author.displayAvatarURL())
 		.setColor(ecolor)
 		.setTimestamp()
 		.setFooter(client.user.tag);

@@ -21,7 +21,7 @@ const init = async () => {
 		try {
 			if(f.split(".").slice(-1)[0] !== "js") return;
 			const props = require(`./commands/${f}`);
-			client.log(`Loaded Command File: ${props.help.name}.js`, "Log");
+			client.log(`Loaded Command File: ${props.help.name}.js`);
 			client.commands.set(props.help.name, props);
 			props.conf.aliases.forEach(alias => {
 				client.aliases.set(alias, props.help.name);

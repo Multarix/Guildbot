@@ -10,7 +10,7 @@ exports.run = (client, message, args) => {
 	if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 		return message.reply("I don't have permission to delete messages.");
 	} else {
-		message.channel.fetchMessages({ limit: toDelete }).then(messages => message.channel.bulkDelete(messages)).catch(e => {
+		message.channel.messages.fetch({ limit: toDelete }).then(messages => message.channel.bulkDelete(messages)).catch(e => {
 			return message.channel.send(`\`Error:\` ${e.message}`);
 		});
 	}

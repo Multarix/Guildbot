@@ -15,24 +15,24 @@ exports.run = async (client, message, args) => {
 		await client.user.setActivity(`${joinargs}`);
 		client.log("Now playing " + colors.white("[") + joinargs + colors.white("]"), "Activity");
 		await message.react(good);
-		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete(5000);
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 5000 });
 		break;
 	case "watch":
 		await client.user.setActivity(`${joinargs}`, { type: 'WATCHING' });
 		client.log("Now watching " + colors.white("[") + joinargs + colors.white("]"), "Activity");
 		await message.react(good);
-		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete(5000);
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 5000 });
 		break;
 	case "listen":
 		await client.user.setActivity(`${joinargs}`, { type: 'LISTENING' });
 		client.log("Now listening to " + colors.white("[") + joinargs + colors.white("]"), "Activity");
 		await message.react(good);
-		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete(5000);
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 5000 });
 		break;
 	default:
 		message.channel.send("Usage: [activity](<play/watch/listen> <..new-activity>)", { code: "markdown" }).then(m => {
 			m.delete(5000);
-			if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete(5000);
+			if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 5000 });
 		});
 	}
 

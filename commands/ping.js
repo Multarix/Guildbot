@@ -1,7 +1,7 @@
 exports.run = (client, message, args) => {
 
 	message.channel.send('Pinging...').then(sent => {
-		sent.edit(`Pong! Took ${sent.createdTimestamp - message.createdTimestamp}ms\nHeartbeat ping is: ${Math.round(client.ping)}ms`);
+		sent.edit(`Pong! Took ${sent.createdTimestamp - message.createdTimestamp}ms\nHeartbeat ping is: ${Math.round(client.ws.ping)}ms`);
 	});
 };
 

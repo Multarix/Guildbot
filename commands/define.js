@@ -12,17 +12,17 @@ exports.run = async (client, message, args) => {
 	wd.getDef(word, "en", null, function(definition) {
 		let embed;
 		if(!definition.definition){
-			embed = new Discord.RichEmbed()
+			embed = new Discord.MessageEmbed()
 				.setAuthor(word.toProperCase(), "https://i.imgur.com/0hHZB9Z.png")
 				.addField(`Error ${bad}`, "No definition found \:(")	//	eslint-disable-line no-useless-escape
-				.setFooter(message.author.tag, message.author.displayAvatarURL)
+				.setFooter(message.author.tag, message.author.displayAvatarURL())
 				.setTimestamp();
 		} else {
-			embed = new Discord.RichEmbed()
+			embed = new Discord.MessageEmbed()
 				.setAuthor(definition.word.toProperCase(), "https://i.imgur.com/0hHZB9Z.png")
 				.addField("Class", definition.category.toProperCase() + "\u200b", false)
 				.addField("Definition:", definition.definition + "\u200b", false)
-				.setFooter(message.author.tag, message.author.displayAvatarURL)
+				.setFooter(message.author.tag, message.author.displayAvatarURL())
 				.setTimestamp();
 		}
 		return m.edit("Results:", { embed });

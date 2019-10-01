@@ -35,8 +35,8 @@ exports.run = async (client, message, args) => {
 
 	if(!roleName){
 		let ecolor = 13238272;
-		if(message.guild.owner.highestRole.color) ecolor = message.guild.owner.highestRole.color;
-		const embed = new Discord.RichEmbed()
+		if(message.guild.owner.roles.color) ecolor = message.guild.owner.roles.highest.color;
+		const embed = new Discord.MessageEmbed()
 			.setAuthor(`Guild Settings`)
 			.setColor(ecolor)
 			.addField("Prefix", `${data.prefix}`, false)
@@ -44,7 +44,7 @@ exports.run = async (client, message, args) => {
 			.addField("Member Role", nameData[1], false)
 			.addField("Moderator Role", nameData[2], false)
 			.addField("Starboard", starboard, false)
-			.setFooter(client.user.tag, client.user.displayAvatarURL)
+			.setFooter(client.user.tag, client.user.displayAvatarURL())
 			.setTimestamp();
 		if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
 		return message.channel.send({ embed });
@@ -62,9 +62,9 @@ exports.run = async (client, message, args) => {
 	if(roleName === "set"){
 		if(!args[1]){
 			return message.channel.send("Usage: [roles](set)< Prefix/Admin/Mod/Member/Stars >", { code: "markdown" }).then(m => {
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-					m.delete(10000);
-					message.delete(10000);
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+					m.delete({ timeout: 10000 });
+					message.delete({ timeout: 10000 });
 				}
 			});
 		}
@@ -98,9 +98,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET joinChannel = "${channel.id}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their welcome message channel to "${channel.name}" (${channel.id})`, `SQL`);
 				message.channel.send(`The welcome message channel has been set to ${channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) wmc\n\`\`\``).then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -133,9 +133,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET leaveChannel = "${channel.id}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" set their goodbye channel to "${channel.name}" (${channel.id})`, `SQL`);
 				message.channel.send(`The goodbye channel has been set to ${channel}.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) lmc\n\`\`\``).then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -150,9 +150,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET prefix = '${sanity(args[2])}' WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" changed their prefix to '${args[2]}'`, `SQL`);
 				message.channel.send(`Prefix has been set to \`${args[2]}\`\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) prefix\n\`\`\``).then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -203,9 +203,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		return sql.run(`UPDATE settings SET ${sqlName} = "${roleMention.id}" WHERE guild = "${message.guild.id}"`).then(() => {
 			client.log(`"${message.guild.name}" changed their ${realName} role to "@${roleMention.name}" (${roleMention.id})`, "SQL");
 			message.channel.send(`Your permission settings have been updated.\n\`@${roleMention.name}\` is now the \`${realName}\` role.\n\nYou can delete this setting by doing:\n\`\`\`md\n[config](delete) ${realName}\`\`\``).then(m => {
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-					m.delete(10000);
-					message.delete(10000);
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+					m.delete({ timeout: 10000 });
+					message.delete({ timeout: 10000 });
 				}
 			});
 		});
@@ -214,9 +214,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 	if(roleName === "delete" || roleName === "reset" || roleName === "disable"){
 		if(!args[1]){
 			return message.channel.send("Usage: [roles](reset)< setting >", { code: "markdown" }).then(m => {
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-					m.delete(10000);
-					message.delete(10000);
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+					m.delete({ timeout: 10000 });
+					message.delete({ timeout: 10000 });
 				}
 			});
 		}
@@ -229,9 +229,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET joinMsg = null WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" removed their welcome message`, `SQL`);
 				message.channel.send("The welcome message has been removed.").then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -243,9 +243,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET joinChannel = null WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" removed their welcome message channel`, `SQL`);
 				message.channel.send("The welcome message channel has been removed.").then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -257,9 +257,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET leaveMsg = null WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" removed their goodbye message`, `SQL`);
 				message.channel.send("The goodbye message has been removed.").then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -272,9 +272,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET leaveChannel = null WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" removed their goodbye channel`, `SQL`);
 				message.channel.send("The goodbye channel has been removed.").then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -286,9 +286,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			return sql.get(`UPDATE settings SET prefix = "${client.config.prefix}" WHERE guild = "${message.guild.id}"`).then(() => {
 				client.log(`"${message.guild.name}" changed their prefix to "${client.config.prefix}"`, `SQL`);
 				message.channel.send(`Your prefix has been reset to \`${client.config.prefix}\``).then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -299,9 +299,9 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 			if(!data.starboard) return message.channel.send("The Starboard is not currently set and therefore cannot be removed.");
 			return sql.get(`UPDATE settings SET starboard = null WHERE guild = ${message.guild.id}`).then(() => {
 				message.channel.send("The Starboard has been removed.").then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -334,18 +334,18 @@ If you put '<user>' anywhere in the message, it will be converted to that users 
 		return sql.run(`UPDATE settings SET ${sqlName} = null WHERE guild = "${message.guild.id}"`).then(() => {
 			client.log(`"${message.guild.name}" removed their ${realName} level permission check`, "SQL");
 			message.channel.send(`Your permission settings have been updated.\nThe \`${realName}\` level permission check has been disabled`).then(m => {
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-					m.delete(10000);
-					message.delete(10000);
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+					m.delete({ timeout: 10000 });
+					message.delete({ timeout: 10000 });
 				}
 			});
 		});
 	}
 
 	return message.channel.send(`\`${args[0].toProperCase()}\` doesn't appear to be a valid argument. Usage:\n\`\`\`md\n[config](set/delete) < setting >\`\`\``).then(m => {
-		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-			m.delete(10000);
-			message.delete(10000);
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+			m.delete({ timeout: 10000 });
+			message.delete({ timeout: 10000 });
 		}
 	});
 };

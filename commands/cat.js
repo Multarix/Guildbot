@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
 
 	if(!pic) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setImage(pic.images.image.url);
 
 	return message.channel.send({ embed });

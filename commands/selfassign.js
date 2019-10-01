@@ -20,15 +20,15 @@ exports.run = async (client, message, args) => {
 	}
 	// Check if the message exists, if it doesnt, return the message as null and update the database
 	let assignMessage = undefined;
-	if(channel && messageID) assignMessage = channel.fetchMessage(messageID).catch(e => { return null; });
+	if(channel && messageID) assignMessage = channel.messages.fetch(messageID).catch(e => { return null; });
 	if(messageID && !assignMessage) sql.run(`UPDATE settings SET assignMessage = null WHERE guild = "${message.guild.id}"`);
 
 	// Embed variable
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setTitle("Self Assignable Roles")
 		.setDescription("React with one of the following emoji to recieve the corresponding role\n\u200b")
 		.setColor(14487568)
-		.setFooter(client.user.tag, client.user.displayAvatarURL);
+		.setFooter(client.user.tag, client.user.displayAvatarURL());
 
 	// Setting the self assign channel
 	match = ["set", "channel"];
@@ -36,8 +36,8 @@ exports.run = async (client, message, args) => {
 		if(channel){
 			if(channel.id === message.channel.id){
 				return message.channel.send(`\`${message.channel.name}\` is already set as the selfassign channel.`).then(m => {
-					m.delete(15000);
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+					m.delete({ timeout: 15000 });
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 				});
 			}
 		}
@@ -54,15 +54,15 @@ exports.run = async (client, message, args) => {
 				if(match.includes(msg)){
 					sql.run(`UPDATE settings SET assignChannel = "${message.channel.id}" WHERE guild = "${message.guild.id}"`);
 					message.channel.send(`Auto-Assign channel has been set to \`${message.channel.name}\`.`).then(msng => {
-						m.delete(15000);
-						msng.delete(15000);
-						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete(15000);
+						m.delete({ timeout: 15000 });
+						msng.delete({ timeout: 15000 });
+						if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 15000 });
 					});
 				}
 			}).catch(e => {
 				m.edit('Command Canceled.').then(m => {
-					m.delete(15000);
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete(15000);
+					m.delete({ timeout: 15000 });
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 15000 });
 					return;
 				});
 			});
@@ -78,21 +78,21 @@ exports.run = async (client, message, args) => {
 		const role = grabRole(args[1], message.guild);
 		if(!role){
 			return message.channel.send("That's not a valid role. Please tag the role.").then(m => {
-				m.delete(15000);
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+				m.delete({ timeout: 15000 });
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 			});
 		}
-		if(role.comparePositionTo(message.guild.me.highestRole) >= 0){
+		if(role.comparePositionTo(message.guild.me.roles.highest) >= 0){
 			return message.channel.send("That's quite a powerful role you got there, sadly, my powerlevel is inferior, so I can't assign that role to others.").then(m => {
-				m.delete(15000);
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+				m.delete({ timeout: 15000 });
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 			});
 		}
 		if(roleData){
 			if(roleData.includes(`(${role.id})`)){
 				return message.channel.send("That role is already set. If you'd like to update it, please delete it and re-add it.").then(m => {
-					m.delete(15000);
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+					m.delete({ timeout: 15000 });
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 				});
 			}
 		}
@@ -105,8 +105,8 @@ exports.run = async (client, message, args) => {
 				if(emoji.id){
 					if(!client.emojis.get(emoji.id)){
 						return m.edit("Woah hang on there bud, I don't have access to your fancy emoji. Try that command again.").then(m => {
-							m.delete(15000);
-							if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+							m.delete({ timeout: 15000 });
+							if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 						});
 					}
 					emojiInfo = emoji.id;
@@ -146,18 +146,18 @@ exports.run = async (client, message, args) => {
 
 				// Check if there is a reaction message already, if so edit it, otherwise send one.
 				if(messageID){
-					return channel.fetchMessage(messageID).then(msg => {
+					return channel.messages.fetch(messageID).then(msg => {
 						if(!msg){
 							return channel.send({ embed }).then(msg => {
 								sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
 								m.delete();
-								if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+								if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 								saReact(msg);
 							});
 						} else {
 							return msg.edit({ embed }).then(msg => {
 								m.delete();
-								if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+								if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 								saReact(msg);
 							});
 						}
@@ -166,13 +166,13 @@ exports.run = async (client, message, args) => {
 					return channel.send({ embed }).then(msg => {
 						sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
 						m.delete();
-						if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+						if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 						saReact(msg);
 					});
 				}
 			}).catch(e => {
-				m.delete(15000);
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete(15000);
+				m.delete({ timeout: 15000 });
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete(15000);
 				return;
 			});
 		});
@@ -187,14 +187,14 @@ exports.run = async (client, message, args) => {
 		const role = grabRole(args[1], message.guild);
 		if(!role){
 			return message.channel.send("That's not a valid role. Please tag the role.").then(m => {
-				m.delete(15000);
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+				m.delete({ timeout: 15000 });
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 			});
 		}
 		if(!roleData.includes(`(${role.id})`)){
 			return message.channel.send("That role is already not in the self assign roles.\nIf you deleted a role prior to updating the bot, you'll need to do `!selfassign reset`").then(m => {
-				m.delete(15000);
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+				m.delete({ timeout: 15000 });
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 			});
 		}
 
@@ -222,9 +222,9 @@ exports.run = async (client, message, args) => {
 			embed.addField(`${actualEmoji} - ${grabRole(updateRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
 		}
 		sql.run(`UPDATE settings SET assignRoles = "${updateSQLString}" WHERE guild = "${message.guild.id}"`);
-		return channel.fetchMessage(messageID).then(msg => {
+		return channel.messages.fetch(messageID).then(msg => {
 			msg.edit({ embed }).then(msg => {
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 				saReact(msg);
 			});
 		});
@@ -244,26 +244,26 @@ exports.run = async (client, message, args) => {
 				if(reply.includes(msg)){
 					// Wipe all roles from sql
 					sql.run(`UPDATE settings SET assignRoles = null WHERE guild = "${message.guild.id}"`);
-					channel.fetchMessage(messageID).then(msg => {
+					channel.messages.fetch(messageID).then(msg => {
 						// Clear and remove all reactions from the message
 						msg.edit({ embed });
 						msg.clearReactions();
 					});
 					m.delete();
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) c.first().delete();
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) c.first().delete();
 					message.delete();
 				}
 				// No response
 				reply = ["no", "n"];
 				if(reply.includes(msg)) return message.channel.send("Command Canceled.");
 
-			}).catch(e => { message.channel.send("Command Canceled."); });
+			}).catch(() => { message.channel.send("Command Canceled."); });
 		});
 	}
 
 	return message.channel.send("That doesn't appear to be a valid argument. Try again.").then(m => {
-		m.delete(15000);
-		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
+		m.delete({ timeout: 15000 });
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
 	});
 };
 

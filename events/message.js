@@ -6,7 +6,7 @@ module.exports = async (client, message) => {
 
 	if(message.author.bot) return;
 	if(message.channel.type === "dm") return;
-	if(!message.channel.memberPermissions(message.guild.me).has("SEND_MESSAGES")) return;
+	if(!message.channel.permissionsFor(message.guild.me).has("SEND_MESSAGES")) return;
 
 	if(message.mentions.everyone) message.react(client.emojis.get("519919364485677066")).catch(e => { return; });
 
@@ -36,7 +36,7 @@ module.exports = async (client, message) => {
 	const regicide = /(https?:\/\/)?(discord\.gg\/)([^\s]*)/gi;
 	const serverAd = message.content.match(regicide);
 	if(serverAd && level < 3){
-		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES"));{
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"));{
 			message.delete();
 			message.reply("Advertising for random discord servers is Illegal.\nIf this is a mistake, please get a moderator to post the server link.");
 		}
@@ -66,7 +66,7 @@ module.exports = async (client, message) => {
 	if(cmd && level >= cmd.conf.permLevel){
 		if(cmd.conf.enabled === true){
 			const string = "Due to the nature of this bot, it requires embed permissions to run certain commands.\nPlease grant the bot embed permissions and try the command again.";
-			if(!message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")) return message.channel.send(string);
+			if(!message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")) return message.channel.send(string);
 			cmd.run(client, message, args, level);
 		} else {
 			client.log(`"${message.author.tag}" tried to use the disabled command "${cmd.help.name}"`, "Log");

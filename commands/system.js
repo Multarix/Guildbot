@@ -3,15 +3,15 @@ const os = require("os");
 exports.run = (client, message, args) => {
 
 	const cpuType = os.cpus()[0].model.split(/\s+/g).join(" ");
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setAuthor(`System information`)
 		.setColor(13238272)
-		.setThumbnail(client.user.displayAvatarURL)
+		.setThumbnail(client.user.displayAvatarURL())
 		.addField("CPU", `${cpuType}`, false)
 		.addField("Architecture", `${os.arch()}`, true)
 		.addField("OS", `${os.platform}`, true)
 		.addField("Total Memory", `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)}GB`, true)
-		.setFooter(client.user.tag, client.user.displayAvatarURL)
+		.setFooter(client.user.tag, client.user.displayAvatarURL())
 		.setTimestamp();
 
 	return message.channel.send({ embed });

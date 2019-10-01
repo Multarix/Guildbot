@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 	const joinargs = args.join(" ");
 	if(!joinargs) return message.channel.send("Usage: [8ball](<..question)", { code: "markdown" });
 	const reply = Math.floor(Math.random() * predict.length);
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setDescription(`**Question:** ${joinargs}`)
 		.setColor(1)
 		.addField("Magic 8-Ball Reponse \:8ball:", predict[reply], false);	//	eslint-disable-line no-useless-escape

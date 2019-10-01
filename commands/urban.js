@@ -10,10 +10,10 @@ exports.run = async (client, message, args) => {
 	const define = args.join(" ");
 	if(!define) return message.channel.send("Usage: [urban](<..words>)", { code: "markdown" });
 	const defined = await ud.term(define).catch(e => {
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 			.setAuthor(define.toProperCase(), "https://i.imgur.com/mpeuwPm.png")
 			.addField(`Error ${bad}`, `Couldn't find a definition \:(`)	//	eslint-disable-line no-useless-escape
-			.setFooter(message.author.tag, message.author.displayAvatarURL)
+			.setFooter(message.author.tag, message.author.displayAvatarURL())
 			.setTimestamp();
 		message.channel.send({ embed });
 		return undefined;
@@ -27,11 +27,11 @@ exports.run = async (client, message, args) => {
 	const definition = results[0].definition.replace(filter, "");
 	const example = results[0].example.replace(filter, "");
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setAuthor(word, "https://i.imgur.com/mpeuwPm.png")
 		.addField("Definition:", definition, false)
 		.addField("Usage:", example, false)
-		.setFooter(message.author.tag, message.author.displayAvatarURL)
+		.setFooter(message.author.tag, message.author.displayAvatarURL())
 		.setTimestamp();
 	return message.channel.send({ embed });
 };

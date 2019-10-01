@@ -28,15 +28,15 @@ exports.run = async (client, message, args) => {
 	if(newStatus === "invalid"){
 		message.react(bad);
 		const m = await message.channel.send(`\`${args[0]}\` is not a valid status. Try again.`);
-		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-			m.delete(5000);
-			message.delete(5000);
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+			m.delete({ timeout: 5000 });
+			message.delete({ timeout: 5000 });
 		}
 		return;
 	}
 	client.user.setStatus(newStatus);
 	message.react(good);
-	if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) return message.delete(5000);
+	if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) return message.delete({ timeout: 5000 });
 };
 
 

@@ -16,8 +16,8 @@ exports.run = async (client, message, args) => {
 
 	const tag = args[0];
 	if(!tag){
-		if(message.channel.memberPermissions(message.guild.me).has("EMBED_LINKS")){
-			const embed = new Discord.RichEmbed()
+		if(message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")){
+			const embed = new Discord.MessageEmbed()
 				.setColor(14487568)
 				.addField("Custom Commands", cmdStr, false);
 			if(message.guild.iconURL){
@@ -41,9 +41,9 @@ exports.run = async (client, message, args) => {
 			return sql.get(`UPDATE commands SET output = "${joinOutput}" WHERE guild = "${message.guild.id}" AND name = "${commandName}"`).then(() => {
 				client.log(`"${message.guild.name}" updated a custom command (${commandName})`, `SQL`);
 				message.channel.send(`Updated the custom command: \`${commandName}\``).then(m => {
-					if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-						m.delete(10000);
-						message.delete(10000);
+					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+						m.delete({ timeout: 10000 });
+						message.delete({ timeout: 10000 });
 					}
 				});
 			});
@@ -54,9 +54,9 @@ exports.run = async (client, message, args) => {
 		return sql.run(`INSERT INTO commands (name, output, guild) VALUES ("${commandName}", "${joinOutput}", "${message.guild.id}")`).then(() => {
 			client.log(`"${message.guild.name}" added a custom command (${commandName})`, `SQL`);
 			message.channel.send(`Added the custom command: \`${commandName}\``).then(m => {
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-					m.delete(10000);
-					message.delete(10000);
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+					m.delete({ timeout: 10000 });
+					message.delete({ timeout: 10000 });
 				}
 			});
 		});
@@ -70,9 +70,9 @@ exports.run = async (client, message, args) => {
 		return sql.run(`DELETE FROM commands WHERE name = "${commandName}" AND guild = "${message.guild.id}"`).then(() => {
 			client.log(`"${message.guild.name}" deleted a custom command (${commandName})`, `SQL`);
 			message.channel.send(`The custom command \`${commandName}\` has been deleted.`).then(m => {
-				if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
-					m.delete(10000);
-					message.delete(10000);
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+					m.delete({ timeout: 10000 });
+					message.delete({ timeout: 10000 });
 				}
 			});
 		});

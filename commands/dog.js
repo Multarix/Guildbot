@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
 	if(!dog) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape
 
 	if(dog.url.endsWith(".mp4")) return message.channel.send(dog.url);
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setImage(dog.url);
 
 	return message.channel.send({ embed });

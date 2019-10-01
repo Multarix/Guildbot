@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 	const apod = await nasa();
 	if(!apod) return message.channel.send("Uh oh, it seems that something broke \:("); // eslint-disable-line no-useless-escape
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setAuthor(apod.title)
 		.setImage(apod.image)
 		.setTimestamp()

@@ -22,9 +22,9 @@ exports.run = async (client, message, args) => {
 	let displayName = user.username;
 	if(member) displayName = member.displayName;
 
-	const embed = new Discord.RichEmbed()
+	const embed = new Discord.MessageEmbed()
 		.setAuthor(displayName)
-		.setThumbnail(user.displayAvatarURL)
+		.setThumbnail(user.displayAvatarURL())
 		.addField("Username:", user.username, true)
 		.addField("Discrim:", user.discriminator, true)
 		.addField("Discord ID:", user.id, true)
@@ -33,11 +33,11 @@ exports.run = async (client, message, args) => {
 		.addField("Playing:", game, true)
 		.addField("Joined Discord:", `${joinDate} ago`, false)
 		.setTimestamp()
-		.setFooter(client.user.tag, client.user.displayAvatarURL);
+		.setFooter(client.user.tag, client.user.displayAvatarURL());
 
 	let ecolor1 = 14487568;
 	if(member){
-		if(member.highestRole.color) ecolor1 = member.highestRole.color;
+		if(member.roles.highest.color) ecolor1 = member.roles.highest.color;
 		if(member.roles){
 			const s = function(a, b) { return a.calculatedPosition - b.calculatedPosition; };
 			const r = member.roles.array().sort(s).slice(1).join(", ");

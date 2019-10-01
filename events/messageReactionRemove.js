@@ -28,12 +28,14 @@ module.exports = async (client, messageReaction, user) => {
 			if(y.emojiID === emojiIdentifier){
 				const role = grabRole(y.roleID, message.guild.id);
 				if(!role) return;
-				if(role.comparePositionTo(message.guild.me.highestRole) >= 0) return;
-				message.guild.members.get(user.id).removeRole(role, "UnReacted on self assign message.").catch(e => { client.log(e.message, "error"); });
+				if(role.comparePositionTo(message.guild.me.roles.highest) >= 0) return;
+				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_ROLES")){
+					message.guild.members.get(user.id).roles.remove(role, "Unreacted on self assign message.").catch(e => { client.log(e.message, "error"); });
+				}
 				checkEmoji = true;
 			}
 		});
-		if(!checkEmoji) return reaction.remove(user.id);
+		if(!checkEmoji && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) return reaction.remove(user.id);
 	}
 
 	if(reaction.emoji.name !== '⭐') return;
@@ -52,7 +54,7 @@ module.exports = async (client, messageReaction, user) => {
 
 		if(parseInt(starCount) - 1 == 1) return starredMessage.delete();
 
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 			.setThumbnail(embedFound.thumbnail.url)
 			.setColor(15844367)
 			.addField("Author", `${embedFound.fields[0].value}`, true)

@@ -14,9 +14,9 @@ module.exports = async (client, member) => {
 		const newMem = member.guild.roles.get("237975739243298816");
 
 		if(member.user.bot === true){
-			member.addRole(botRole, "New Bot, pls don't replace me >.<");
+			member.roles.add(botRole, "New Bot, pls don't replace me >.<");
 		} else {
-			member.addRoles([dj, newMem], `New member, are you ready ${member.user.username}?`).catch(console.error);
+			member.roles.add([dj, newMem], `New member, are you ready ${member.user.username}?`).catch(console.error);
 		}
 	}
 
@@ -24,7 +24,7 @@ module.exports = async (client, member) => {
 	if(!data.joinChannel || !data.joinMsg) return;
 	const joinChannel = member.guild.channels.get(data.joinChannel);
 	if(!joinChannel) return;
-	if(joinChannel.memberPermissions(member.guild.me).has("SEND_MESSAGES")){
+	if(joinChannel.permissionsFor(member.guild.me).has("SEND_MESSAGES")){
 		const joinMsg = data.joinMsg.replace("<@user>", member.user).replace("<user>", member.user.username);
 		joinChannel.send(joinMsg);
 	}
