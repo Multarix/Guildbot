@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
 
 	if(tagged){
 		user = tagged;
-		member = await message.guild.fetchMember(tagged).catch(e => { return undefined; });
+		member = await message.guild.members.fetch(tagged).catch(e => { return undefined; });
 	}
 
 	const joinDate = moment.duration(Date.now() - user.createdTimestamp).format("Y [years], M [months], D [days]");
