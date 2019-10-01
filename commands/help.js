@@ -39,7 +39,10 @@ exports.run = async (client, message, args, level) => {
 			embed.addField(catName, deeta.replace(`|${catName}|`, ""));
 		});
 
-		message.author.send({ embed });
+		message.author.send({ embed }).catch(e => {
+			if(e.code === 50007) return;
+			return client.log(e.message, "Error");
+		});
 	} else {
 		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
 		if(command){
