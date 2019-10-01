@@ -22,7 +22,7 @@ module.exports = async (client, shardID) => {
 						m.reactions.forEach(x => {
 							x.users.fetch();
 						});
-					});
+					}).catch(() => { return; });
 				}
 			}
 		});
