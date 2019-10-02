@@ -26,7 +26,9 @@ exports.run = async (client, message, args) => {
 	const word = results[0].word.toProperCase();
 	const definition = results[0].definition.replace(filter, "");
 	const example = results[0].example.replace(filter, "");
-
+	// Temporary solution to max character limit issue
+	if(definition.length > 1024) return;
+	if(example.length > 1024) return;
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(word, "https://i.imgur.com/mpeuwPm.png")
 		.addField("Definition:", definition, false)
