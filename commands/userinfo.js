@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
 	const joinDate = moment.duration(Date.now() - user.createdTimestamp).format("Y [years], M [months], D [days]");
 
 	let game = "nothing";
-	if(user.presence.game) game = user.presence.game.name;
+	if(user.presence.activity) game = user.presence.activity.name;
 
 	let displayName = user.username;
 	if(member) displayName = member.displayName;
