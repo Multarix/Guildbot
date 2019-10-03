@@ -21,20 +21,24 @@ exports.run = async (client, message, args) => {
 	if(!defined) return;
 
 	const results = defined.entries;
+
 	const filter = /[[\]]/g;
+	const filter2 = /[\r\n\r\n]+/g;
 
 	const word = results[0].word.toProperCase();
-	const definition = results[0].definition.replace(filter, "");
-	const example = results[0].example.replace(filter, "");
+	const definition = results[0].definition.replace(filter, "").replace(filter2, "\n");
+	const example = results[0].example.replace(filter, "").replace(filter2, "\n");
+	const link = results[0].permalink;
+
+	const defArray = definition.split("\n");
+	const exaArray = example.split("\n");
 	// Temporary solution to max character limit issue
-	if(definition.length > 1024) return;
-	if(example.length > 1024) return;
 	const embed = new Discord.MessageEmbed()
-		.setAuthor(word, "https://i.imgur.com/mpeuwPm.png")
-		.addField("Definition:", definition, false)
-		.addField("Usage:", example, false)
+		.setAuthor(word, "https://i.imgur.com/mpeuwPm.png", link)
 		.setFooter(message.author.tag, message.author.displayAvatarURL())
-		.setTimestamp();
+		.setTimestamp()
+		.addField("Definition:", defArray[0], false)
+		.addField("Usage:", exaArray[0], false);
 	return message.channel.send({ embed });
 };
 
