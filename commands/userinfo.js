@@ -39,7 +39,7 @@ exports.run = async (client, message, args) => {
 	if(member){
 		if(member.roles.highest.color) ecolor1 = member.roles.highest.color;
 		if(member.roles){
-			const s = function(a, b) { return a.calculatedPosition - b.calculatedPosition; };
+			const s = function(a, b) { return a.position - b.position; };
 			const r = member.roles.array().sort(s).slice(1).join(", ");
 			embed.addField("Roles:", r);
 		}
