@@ -36,9 +36,9 @@ module.exports = async (client, message) => {
 	const regicide = /(https?:\/\/)?(discord\.gg\/)([^\s]*)/gi;
 	const serverAd = message.content.match(regicide);
 	if(serverAd && level < 3){
-		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"));{
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
 			message.delete();
-			message.reply("Advertising for random discord servers is Illegal.\nIf this is a mistake, please get a moderator to post the server link.");
+			message.reply("Advertising for random discord servers is not allowed.\nIf you think this was a mistake, contact an admin. ");
 		}
 	}
 
