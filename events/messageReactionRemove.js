@@ -5,6 +5,7 @@ module.exports = async (client, messageReaction, user) => {
 
 	const reaction = messageReaction;
 	const message = reaction.message;
+	if(message.partial) await message.fetch();
 
 	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
 

@@ -12,27 +12,11 @@ module.exports = async (client, shardID) => {
 					client.log(`Applied default settings to the "${g.name}" server`, "SQL");
 				});
 			}
-			let assignChannel = data.assignChannel;
-			const assignMessage = data.assignMessage;
-			if(assignChannel && assignMessage){
-				if(client.channels.get(assignChannel)) assignChannel = client.channels.get(assignChannel);
-				if(assignChannel){
-					assignChannel.messages.fetch(assignMessage).then(m => {
-						if(!m) return;
-						m.reactions.forEach(x => {
-							x.users.fetch();
-						});
-					}).catch(() => { return; });
-				}
-			}
 		});
 	});
 
-	client.channels.filter(c => c.type === "text" && c.memberPermissions(c.guild.me).has("VIEW_CHANNEL")).forEach(c => c.messages.fetch({ limit: 5 }));
-
 	const time = new Date();
-	client.log(`Logged in as ${client.user.tag}
-    > Accessing a total of '${client.guilds.size}' server(s) With a total of '${client.users.size}' users\nReady called at: ${time}`, "Ready", shardID);
+	client.log(`Accessing a total of '${client.guilds.size}' server(s) With a total of '${client.users.size}' users`, "Ready", shardID);
 
 	let game = "with Auto-D&D";
 	if(client.user.id === "260372003310010368") game = "hide the sausage";
