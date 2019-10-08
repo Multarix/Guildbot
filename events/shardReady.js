@@ -15,7 +15,6 @@ module.exports = async (client, shardID) => {
 		});
 	});
 
-	const time = new Date();
 	client.log(`Accessing a total of '${client.guilds.size}' server(s) With a total of '${client.users.size}' users`, "Ready", shardID);
 
 	let game = "with Auto-D&D";
