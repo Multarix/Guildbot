@@ -88,7 +88,10 @@ module.exports = async (client) => {
 
 	global.sanity = (text) => {
 		text = text
-			.replace(/'/g, "''");	// test
+			.replace(/`/g, "\\`")
+			.replace(/"/g, '\\"')
+			.replace(/'/g, "\\'")
+			.replace(/\\/g, "\\\\");	// test
 		return text;
 	};
 
