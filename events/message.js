@@ -3,6 +3,11 @@ const sql = require("sqlite");
 const random = require("../objects/random.json");
 const random2 = require("../objects/random2.json");
 module.exports = async (client, message) => {
+	try {
+		if(message.partial) await message.fetch().catch(e => { return; });
+		if(message.author.partial) await message.author.fetch().catch(e => { return; });
+		if(message.member.partial) await message.member.fetch().catch(e => { return; });
+	} catch (e){ return; }
 
 	if(message.author.bot) return;
 	if(message.channel.type === "dm") return;

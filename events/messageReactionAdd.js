@@ -2,9 +2,11 @@ const Discord = require("discord.js");
 const sql = require("sqlite");
 module.exports = async (client, messageReaction, user) => {
 
+	if(messageReaction.message.partial) await message.fetch().catch(e => { return; });
+	if(user.partial) await user.fetch().catch(e => { return; });
+
 	if(user.bot) return;
 	const message = messageReaction.message;
-	if(message.partial) await message.fetch();
 	const reaction = messageReaction;
 	const regPrefix = /[!\/]reboot/g;	// eslint-disable-line no-useless-escape
 	if(message.content.toLowerCase().match(regPrefix) && user.id === client.config.ownerID && reaction.emoji.id === "340357918996299778") return message.delete().catch(e => { return; });

@@ -1,11 +1,13 @@
 const Discord = require("discord.js");
 const sql = require("sqlite");
 module.exports = async (client, messageReaction, user) => {
-	if(user.bot) return;
 
+	if(messageReaction.message.partial) await message.fetch().catch(e => { return; });
+	if(user.partial) await user.fetch().catch(e => { return; });
+
+	if(user.bot) return;
 	const reaction = messageReaction;
 	const message = reaction.message;
-	if(message.partial) await message.fetch();
 
 	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
 
