@@ -7,7 +7,6 @@ exports.run = (client, message, args) => {
 	const s = joinargs.split("");
 
 	let newStr = "";
-	let i;
 	s.forEach(l => {
 		if(leetKey[l]){ newStr += leetKey[l]; } else { newStr += l; }
 	});
