@@ -17,7 +17,6 @@ exports.run = async (client, message, args) => {
 	let idArray = geyPerson.id.split("").slice(1);
 	let num = 0;
 	while(num === 0){
-		console.log(num + parseInt(idArray[0]));
 		if(!idArray || idArray.length === 0){ num = 1; continue; }
 		if(parseInt(idArray[0]) === 0){ idArray = idArray.slice(1); continue; }
 		num = parseInt(idArray[0]);
