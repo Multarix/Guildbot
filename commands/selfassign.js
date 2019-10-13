@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const sql = require("sqlite");
+const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
 
 	const secondary = args[0];
@@ -35,39 +36,34 @@ exports.run = async (client, message, args) => {
 	if(match.includes(secondary)){
 		if(channel){
 			if(channel.id === message.channel.id){
-				return message.channel.send(`\`${message.channel.name}\` is already set as the selfassign channel.`).then(m => {
-					m.delete({ timeout: 15000 });
-					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-				});
+				const m = await message.channel.send(`\`${message.channel.name}\` is already set as the selfassign channel.`);
+				return await delMsg(client, message, m);
 			}
 		}
-		return message.channel.send(`Set \`${message.channel.name}\` to be the self assign channel?\n\`Yes\` / \`No\``).then(m => {
-			const response = ["y", "yes", "n", "no"];
-			const messageFilter = m => m.author.id === message.author.id && response.includes(m.content.toLowerCase());
-			message.channel.awaitMessages(messageFilter, { max: 1, time: 15000, errors: ['time'] }).then((collected) => {
-				const msg = collected.first().content.toLowerCase();
-				// Response was no
-				match = ["no", "n"];
-				if(match.includes(msg)) return message.channel.send("Command Canceled.");
-				// Response was yes
-				match = ["yes", "y"];
-				if(match.includes(msg)){
-					sql.run(`UPDATE settings SET assignChannel = "${message.channel.id}" WHERE guild = "${message.guild.id}"`);
-					message.channel.send(`Auto-Assign channel has been set to \`${message.channel.name}\`.`).then(msng => {
-						m.delete({ timeout: 15000 });
-						msng.delete({ timeout: 15000 });
-						if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 15000 });
-					});
-				}
-			}).catch(e => {
-				m.edit('Command Canceled.').then(m => {
-					m.delete({ timeout: 15000 });
-					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete({ timeout: 15000 });
-					return;
-				});
+		const m = await message.channel.send(`Set \`${message.channel.name}\` to be the self assign channel?\n\`Yes\` / \`No\``);
+		const response = ["y", "yes", "n", "no"];
+		const messageFilter = x => x.author.id === message.author.id && response.includes(x.content.toLowerCase());
+		const collected = await	message.channel.awaitMessages(messageFilter, { max: 1, time: 15000, errors: ['time'] }).catch(() => {
+			m.edit("Command Canceled").then(m => {
+				delMsg(client, message, m);
+				return undefined;
 			});
 		});
-
+		if(!collected) return;
+		const msg = collected.first().content.toLowerCase();
+		// Response was no
+		match = ["no", "n"];
+		if(match.includes(msg)){
+			await m.edit("Command Canceled.");
+			return await delMsg(client, message, m);
+		}
+		// Response was yes
+		match = ["yes", "y"];
+		if(match.includes(msg)){
+			sql.run(`UPDATE settings SET assignChannel = "${message.channel.id}" WHERE guild = "${message.guild.id}"`);
+			await m.edit(`Auto-Assign channel has been set to \`${message.channel.name}\`.`);
+			return await delMsg(client, message, m);
+		}
 	}
 
 	// Adding a new role to the list
@@ -77,105 +73,86 @@ exports.run = async (client, message, args) => {
 		if(!args[1]) return message.channel.send("Usage: [selfassign](add) < role >", { code: "markdown" });
 		const role = grabRole(args[1], message.guild);
 		if(!role){
-			return message.channel.send("That's not a valid role. Please tag the role.").then(m => {
-				m.delete({ timeout: 15000 });
-				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-			});
+			const m = await message.channel.send("That's not a valid role. Please tag the role.");
+			return await delMsg(client, message, m);
 		}
 		if(role.comparePositionTo(message.guild.me.roles.highest) >= 0){
-			return message.channel.send("That's quite a powerful role you got there, sadly, my powerlevel is inferior, so I can't assign that role to others.").then(m => {
-				m.delete({ timeout: 15000 });
-				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-			});
+			const m = await message.channel.send("That's quite a powerful role you got there, sadly, my powerlevel is inferior, so I can't assign that role to others.");
+			return await delMsg(client, message, m);
 		}
 		if(roleData){
 			if(roleData.includes(`(${role.id})`)){
-				return message.channel.send("That role is already set. If you'd like to update it, please delete it and re-add it.").then(m => {
-					m.delete({ timeout: 15000 });
-					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-				});
+				const m = await message.channel.send("That role is already set. If you'd like to update it, please delete it and re-add it.");
+				return await delMsg(client, message, m);
 			}
 		}
 		// Send a message and await a message reaction.
 		const reactionFilter = (reaction, user) => reaction.emoji.name !== "⭐" && user.id === message.author.id;
-		return message.channel.send(`Please react to this message with the emoji you'd like to use for the \`${role.name}\` role.\nPlease note, it cannot be the :star: emoji.`).then(m => {
-			m.awaitReactions(reactionFilter, { max: 1, time: 30000, errors: ['time'] }).then(collected => {
-				const emoji = collected.first().emoji;
-				let emojiInfo;
-				if(emoji.id){
-					if(!client.emojis.get(emoji.id)){
-						return m.edit("Woah hang on there bud, I don't have access to your fancy emoji. Try that command again.").then(m => {
-							m.delete({ timeout: 15000 });
-							if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-						});
-					}
-					emojiInfo = emoji.id;
-				} else {
-					emojiInfo = emoji.name;
-				}
-
-				// Add the data to the set if the set exists.
-				let roleDataInfo = [`[${emojiInfo}](${role.id})`];
-				let roleDataString = `[${emojiInfo}](${role.id})`;
-				if(roleData){
-					roleDataInfo = roleData.split("*");
-					roleDataInfo.push(`[${emojiInfo}](${role.id})`);
-					roleDataString = roleDataInfo.join("*");
-				}
-
-				// Split the emoji and role id to a more friendly format.
-				const emojiRoles = [];
-				roleDataInfo.forEach(x => {
-
-					const emojiID = x.match(/\[(.*?)\]/)[0].replace(/[\][]/g, "");
-					const roleID = x.match(/\((.*?)\)/)[0].replace(/[)(]/g, "");
-
-					return emojiRoles.push({ emojiID, roleID });
-				});
-
-				sql.run(`UPDATE settings SET assignRoles = "${roleDataString}" WHERE guild = "${message.guild.id}"`);
-
-				// Grab the emoji object and role name, add them to the embed.
-				let i;
-				let actualEmoji;
-				for(i = 0; i < emojiRoles.length; i++){
-					actualEmoji = emojiRoles[i].emojiID;
-					if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
-					embed.addField(`${actualEmoji} - ${grabRole(emojiRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
-				}
-
-				// Check if there is a reaction message already, if so edit it, otherwise send one.
-				if(messageID){
-					return channel.messages.fetch(messageID).then(msg => {
-						if(!msg){
-							return channel.send({ embed }).then(msg => {
-								sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
-								m.delete();
-								if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-								saReact(msg);
-							});
-						} else {
-							return msg.edit({ embed }).then(msg => {
-								m.delete();
-								if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-								saReact(msg);
-							});
-						}
-					});
-				} else {
-					return channel.send({ embed }).then(msg => {
-						sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
-						m.delete();
-						if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-						saReact(msg);
-					});
-				}
-			}).catch(e => {
-				m.delete({ timeout: 15000 });
-				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete(15000);
-				return;
-			});
+		const m = await message.channel.send(`Please react to this message with the emoji you'd like to use for the \`${role.name}\` role.\nPlease note, it cannot be the :star: emoji.`);
+		const collected = await m.awaitReactions(reactionFilter, { max: 1, time: 30000, errors: ['time'] }).catch(() => {
+			delMsg(client, message, m);
+			return undefined;
 		});
+		if(!collected) return;
+		const emoji = collected.first().emoji;
+		let emojiInfo;
+		if(emoji.id){
+			if(!client.emojis.get(emoji.id)){
+				await m.edit("Woah hang on there bud, I don't have access to your fancy emoji. Try that command again.");
+				return await delMsg(client, message, m);
+			}
+			emojiInfo = emoji.id;
+		} else {
+			emojiInfo = emoji.name;
+		}
+
+		// Add the data to the set if the set exists.
+		let roleDataInfo = [`[${emojiInfo}](${role.id})`];
+		let roleDataString = `[${emojiInfo}](${role.id})`;
+		if(roleData){
+			roleDataInfo = roleData.split("*");
+			roleDataInfo.push(`[${emojiInfo}](${role.id})`);
+			roleDataString = roleDataInfo.join("*");
+		}
+
+		// Split the emoji and role id to a more friendly format.
+		const emojiRoles = [];
+		roleDataInfo.forEach(x => {
+			const emojiID = x.match(/\[(.*?)\]/)[0].replace(/[\][]/g, "");
+			const roleID = x.match(/\((.*?)\)/)[0].replace(/[)(]/g, "");
+			return emojiRoles.push({ emojiID, roleID });
+		});
+
+		await sql.run(`UPDATE settings SET assignRoles = "${roleDataString}" WHERE guild = "${message.guild.id}"`);
+
+		// Grab the emoji object and role name, add them to the embed.
+		let i;
+		let actualEmoji;
+		for(i = 0; i < emojiRoles.length; i++){
+			actualEmoji = emojiRoles[i].emojiID;
+			if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
+			embed.addField(`${actualEmoji} - ${grabRole(emojiRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
+		}
+
+		// Check if there is a reaction message already, if so edit it, otherwise send one.
+		if(messageID){
+			const msg = await channel.messages.fetch(messageID);
+			if(!msg){
+				const msg = await channel.send({ embed });
+				await sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
+				await saReact(msg);
+				return await delMsg(client, message, m);
+			} else {
+				await msg.edit({ embed });
+				await saReact(msg);
+				return await delMsg(client, message, m);
+			}
+		} else {
+			const msg = await channel.send({ embed });
+			sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
+			saReact(msg);
+			return await delMsg(client, message, m);
+		}
 	}
 
 	// Removing a role from the list
@@ -186,16 +163,12 @@ exports.run = async (client, message, args) => {
 		if(!args[1]) return message.channel.send("Usage: [selfassign](remove) < role >", { code: "markdown" });
 		const role = grabRole(args[1], message.guild);
 		if(!role){
-			return message.channel.send("That's not a valid role. Please tag the role.").then(m => {
-				m.delete({ timeout: 15000 });
-				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-			});
+			const m = await message.channel.send("That's not a valid role. Please tag the role.");
+			return await delMsg(client, message, m);
 		}
 		if(!roleData.includes(`(${role.id})`)){
-			return message.channel.send("That role is already not in the self assign roles.\nIf you deleted a role prior to updating the bot, you'll need to do `!selfassign reset`").then(m => {
-				m.delete({ timeout: 15000 });
-				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-			});
+			const m = await message.channel.send("That role is already not in the self assign roles.\nIf you deleted a role prior to updating the bot, you'll need to do `!selfassign reset`");
+			return await delMsg(client, message, m);
 		}
 
 		// Find the role to delete, and don't add it to the new array.
@@ -221,50 +194,49 @@ exports.run = async (client, message, args) => {
 			if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
 			embed.addField(`${actualEmoji} - ${grabRole(updateRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
 		}
-		sql.run(`UPDATE settings SET assignRoles = "${updateSQLString}" WHERE guild = "${message.guild.id}"`);
-		return channel.messages.fetch(messageID).then(msg => {
-			msg.edit({ embed }).then(msg => {
-				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-				saReact(msg);
-			});
-		});
+
+		await sql.run(`UPDATE settings SET assignRoles = "${updateSQLString}" WHERE guild = "${message.guild.id}"`);
+		const msg = await channel.messages.fetch(messageID).catch(() => { return undefined; });
+		if(!msg) return;
+		await msg.edit({ embed });
+		saReact(msg);
+		return await message.delete();
 	}
 
 	// Completely remove all roles from the list. (Useful for if you delete a role without first updating the bot.)
 	match = ["reset", "reload", "retry"];
 	if(match.includes(secondary)){
-		return message.channel.send("This will remove **__ALL__** roles from the self assign message.\nAre you sure you wish to proceed?\n`Yes` / `No`").then(m => {
-			const response = ["y", "yes", "n", "no"];
-			const filter = m => m.author.id === message.author.id && response.includes(m.content.toLowerCase());
+		const m = await message.channel.send("This will remove **__ALL__** roles from the self assign message.\nAre you sure you wish to proceed?\n`Yes` / `No`");
+		const response = ["y", "yes", "n", "no"];
+		const filter = x => x.author.id === message.author.id && response.includes(x.content.toLowerCase());
 
-			message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).then(c => {
-				const msg = c.first().content.toLowerCase();
-				// Yes response
-				let reply = ["yes", "y"];
-				if(reply.includes(msg)){
-					// Wipe all roles from sql
-					sql.run(`UPDATE settings SET assignRoles = null WHERE guild = "${message.guild.id}"`);
-					channel.messages.fetch(messageID).then(msg => {
-						// Clear and remove all reactions from the message
-						msg.edit({ embed });
-						msg.clearReactions();
-					});
-					m.delete();
-					if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) c.first().delete();
-					message.delete();
-				}
-				// No response
-				reply = ["no", "n"];
-				if(reply.includes(msg)) return message.channel.send("Command Canceled.");
+		const c = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).catch(() => { message.channel.send("Command Canceled."); return undefined; });
+		if(!c) return;
+		const msg = c.first().content.toLowerCase();
+		// Yes response
+		let reply = ["yes", "y"];
+		if(reply.includes(msg)){
+			// Wipe all roles from sql
+			await sql.run(`UPDATE settings SET assignRoles = null WHERE guild = "${message.guild.id}"`);
+			const mID = await channel.messages.fetch(messageID).catch(() => { return undefined; });
+			if(!mID){
+				msg.delete({ timeout: 10000 });
+				return await delMsg(client, message, m);
+			}
+			// Clear and remove all reactions from the message
+			mID.edit({ embed });
+			mID.clearReactions();
 
-			}).catch(() => { message.channel.send("Command Canceled."); });
-		});
+			msg.delete({ timeout: 10000 });
+			return await delMsg(client, message, m);
+		}
+		// No response
+		reply = ["no", "n"];
+		if(reply.includes(msg)) return message.channel.send("Command Canceled.");
 	}
 
-	return message.channel.send("That doesn't appear to be a valid argument. Try again.").then(m => {
-		m.delete({ timeout: 15000 });
-		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) message.delete();
-	});
+	const m = await message.channel.send("That doesn't appear to be a valid argument. Try again.");
+	return await delMsg(client, message, m);
 };
 
 exports.conf = {
