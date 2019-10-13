@@ -1,4 +1,6 @@
+const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
+
 	if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_GUILD")) return;
 	const invites = await message.guild.fetchInvites();
 	const deleted = [];
@@ -12,10 +14,8 @@ exports.run = async (client, message, args) => {
 
 	let deletedMessage = `Deleted ${deleted.length} invites`;
 	if(deleted.length !== 0) deletedMessage = `Deleted ${deleted.length} invites:\n${deleted.join("\n")}`;
-	message.channel.send(deletedMessage, { code: "markdown" }).then(m => {
-		if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")) return;
-		message.delete();
-	});
+	const m = await message.channel.send(deletedMessage, { code: "markdown" });
+	return await delMsg(client, message, m);
 };
 
 exports.conf = {
