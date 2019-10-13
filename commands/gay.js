@@ -4,7 +4,7 @@ exports.run = async (client, message, args) => {
 	let geyPerson = message.author;
 	if(tagged) geyPerson = tagged;
 
-	// if(geyPerson.id === "336709922647441409") return message.channel.send(`\`${geyPerson.username}\` is ${Math.floor(Math.random() * 100) + 100}% gey!`);
+	if(geyPerson.id === "336709922647441409") return message.channel.send(`\`${geyPerson.username}\` is ${Math.floor(Math.random() * 100) + 100}% gey!`);
 	const userArray = geyPerson.username.split("");
 	let geyPercent = 0;
 	userArray.forEach(char => {
@@ -14,11 +14,12 @@ exports.run = async (client, message, args) => {
 		return geyPercent += 5;
 	});
 
-	const idArray = geyPerson.id.split("").slice(1);
+	let idArray = geyPerson.id.split("").slice(1);
 	let num = 0;
 	while(num === 0){
+		console.log(num + parseInt(idArray[0]));
 		if(!idArray || idArray.length === 0){ num = 1; continue; }
-		if(parseInt(idArray[0]) === 0){ idArray.slice(1); continue; }
+		if(parseInt(idArray[0]) === 0){ idArray = idArray.slice(1); continue; }
 		num = parseInt(idArray[0]);
 	}
 	geyPercent *= num;
