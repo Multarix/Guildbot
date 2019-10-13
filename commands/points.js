@@ -24,11 +24,10 @@ exports.run = async (client, message, args) => {
 		.setFooter(client.user.tag);
 
 	if(!p){
-		sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${message.guild.id}", "${user.id}", "0")`).then(() => {
-			client.log(`Set "${user.tag}" (${user.id}) to the default amount of points`, "SQL");
-			embed.addField("Current Points", "0", false);
-			return message.channel.send({ embed });
-		});
+		await sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${message.guild.id}", "${user.id}", "0")`);
+		client.log(`Set "${user.tag}" (${user.id}) to the default amount of points`, "SQL");
+		embed.addField("Current Points", "0", false);
+		return message.channel.send({ embed });
 	} else {
 		embed.addField("Current Points", `${p.amount}`, false);
 		return message.channel.send({ embed });
