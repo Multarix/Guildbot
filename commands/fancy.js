@@ -8,11 +8,8 @@ exports.run = (client, message, args) => {
 
 	let newStr = "";
 	s.forEach(letter => {
-		if(fancyKey[letter]){
-			newStr += fancyKey[letter];
-		} else { newStr += letter; }
+		newStr += (fancyKey[letter]) ? fancyKey[letter] : letter;
 	});
-
 	message.channel.send(newStr, { code: "markdown" });
 };
 

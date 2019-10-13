@@ -2,13 +2,13 @@ const leetKey = require("../objects/1337Key.json");
 exports.run = (client, message, args) => {
 
 	const joinargs = args.join(" ");
-	if(!joinargs) return message.channel.send("Usage: [fancy](<..text>)", { code: "markdown" });
+	if(!joinargs) return message.channel.send("Usage: [leet](<..text>)", { code: "markdown" });
 
 	const s = joinargs.split("");
 
 	let newStr = "";
-	s.forEach(l => {
-		if(leetKey[l]){ newStr += leetKey[l]; } else { newStr += l; }
+	s.forEach(letter => {
+		newStr += (leetKey[letter]) ? leetKey[letter] : letter;
 	});
 	message.channel.send(newStr, { code: "markdown" });
 };
