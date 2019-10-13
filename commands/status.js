@@ -1,3 +1,4 @@
+const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
 
 	if(!args[0]) return message.channel.send("Usage:\n [status](..status)", { code: "markdown" });
@@ -28,11 +29,7 @@ exports.run = async (client, message, args) => {
 	if(newStatus === "invalid"){
 		message.react(bad);
 		const m = await message.channel.send(`\`${args[0]}\` is not a valid status. Try again.`);
-		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
-			m.delete({ timeout: 5000 });
-			message.delete({ timeout: 5000 });
-		}
-		return;
+		return await delMsg(client, message, m);
 	}
 	client.user.setStatus(newStatus);
 	message.react(good);
