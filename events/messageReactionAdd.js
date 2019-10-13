@@ -1,11 +1,12 @@
 const Discord = require("discord.js");
 const sql = require("sqlite");
-module.exports = async (client, messageReaction, user) => {
+module.exports = async (client, messageReaction, usr) => {
 
-	const message = messageReaction.message;
-	if(message.partial) await message.fetch().catch(e => { return undefined; });
-	if(!messageReaction.message) return;
-	if(user.partial) await user.fetch().catch(e => { return undefined; });
+	let message = messageReaction.message;
+	if(messageReaction.message.partial) message = await message.fetch().catch(e => { return undefined; });
+	if(!message) return;
+	let user = usr;
+	if(usr.partial) user = await usr.fetch().catch(e => { return undefined; });
 	if(!user) return;
 
 	if(user.bot) return;
