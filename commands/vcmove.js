@@ -4,7 +4,7 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
 	enabled: false,
-	guildOnly: true,
+	allowDM: false,
 	aliases: ["discord"],
 	permLevel: 0,
 };

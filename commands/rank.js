@@ -28,7 +28,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
 	enabled: true,
-	guildOnly: true,
+	allowDM: false,
 	aliases: ["ranking", "rankings", "ranks"],
 	permLevel: 0,
 };

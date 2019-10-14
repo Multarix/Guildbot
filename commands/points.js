@@ -36,7 +36,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
 	enabled: true,
-	guildOnly: true,
+	allowDM: false,
 	aliases: ["p", "point"],
 	permLevel: 0,
 };

@@ -17,7 +17,7 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
 	enabled: true,
-	guildOnly: false,
+	allowDM: true,
 	aliases: ["purgeself", "prune", "pruneself"],
 	permLevel: 3,
 };

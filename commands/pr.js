@@ -22,7 +22,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
 	enabled: true,
-	guildOnly: true,
+	allowDM: false,
 	aliases: ["pointreset", "pointsreset", "resetpoints", "resetpoint", "rp"],
 	permLevel: 10,
 };

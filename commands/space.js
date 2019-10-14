@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
 	enabled: true,
-	guildOnly: true,
+	allowDM: true,
 	aliases: ["apod", "nasa", "astronomy"],
 	permLevel: 0,
 };

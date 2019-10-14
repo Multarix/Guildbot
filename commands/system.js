@@ -20,7 +20,7 @@ exports.run = (client, message, args) => {
 
 exports.conf = {
 	enabled: true,
-	guildOnly: false,
+	allowDM: true,
 	aliases: ["sys", "sysinfo"],
 	permLevel: 10,
 };

@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
 	enabled: true,
-	guildOnly: false,
+	allowDM: true,
 	aliases: ["8-ball", "predict", "ball"],
 	permLevel: 0,
 };
