@@ -1,11 +1,9 @@
 const Discord = require('discord.js');
-const sql = require("sqlite");
 exports.run = async (client, message, args) => {
 
 	const players = client.users;
-
-	const res = await sql.all(`SELECT * FROM points WHERE guild = "${message.guild.id}" ORDER BY amount DESC`);
-
+	const res = sqlAll("SELECT * FROM points WHERE guild = ? ORDER BY amount DESC", message.guild.id);
+	console.log(res);
 	let ecolor = 13238272;
 	if(message.guild.me.roles.highest.color) ecolor = message.guild.me.roles.highest.color;
 	const embed = new Discord.MessageEmbed()

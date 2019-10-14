@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const sql = require("sqlite");
 const cron = require("node-cron");
 
 const { promisify } = require("util");
@@ -47,7 +46,7 @@ const init = async () => {
 			client.log(`Unable to load event ${file}: ${e}`, "Error");
 		}
 	});
-	sql.open("./objects/settings.sqlite");
+
 	client.login(client.config.clientToken);
 
 	cron.schedule("0 0 12 * * *", async () => {

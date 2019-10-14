@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const colors = require('colors');
-const sql = require('sqlite');
 const moment = require("moment");
 require("moment-duration-format");
 exports.run = async (client, message, args, level) => {

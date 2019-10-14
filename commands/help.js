@@ -1,8 +1,6 @@
-const sql = require("sqlite");
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
-
-	const settings = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+	const settings = sqlGet("SELECT * FROM settings WHERE guild = ?", message.guild.id);
 
 	let ecolor = false;
 	if(message.member.roles.highest.color) ecolor = message.member.roles.highest.color;

@@ -1,18 +1,14 @@
-const sql = require("sqlite");
 module.exports = async (client, member) => {
 
 	client.log(`"${member.user.tag}" (${member.user.id}) left the "${member.guild.name}" server.`, "Log");
 
-	const mem = await sql.get(`SELECT * From points WHERE user = "${member.user.id}" AND guild = "${member.guild.id}"`);
-	if(!mem){
-		return client.log(`"${member.user.tag}" was not in the database, skipping delete..`, "SQL");
-	} else {
-		sql.run(`DELETE FROM points WHERE user = "${member.user.id}" AND guild = "${member.guild.id}"`).then(() => {
-			client.log(`Removed "${member.user.tag}" from the database`, "SQL");
-		});
-	}
+	const mem = sqlGet(`SELECT * From points WHERE user = ? AND guild = ?`, member.user.id, member.guild.id);
+	if(!mem) return client.log(`"${member.user.tag}" was not in the database, skipping delete..`, "SQL");
+	sqlRun(`DELETE FROM points WHERE user = ? AND guild = ?`, member.user.id, member.guild.id);
+	client.log(`Removed "${member.user.tag}" from the database`, "SQL");
 
-	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${member.guild.id}"`);
+
+	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, member.guild.id);
 	if(!data.leaveChannel || !data.leaveMsg) return;
 	const leaveChannel = member.guild.channels.get(data.leaveChannel);
 	if(!leaveChannel) return;

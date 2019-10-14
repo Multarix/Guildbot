@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const sql = require("sqlite");
 const random = require("../objects/random.json");
 const random2 = require("../objects/random2.json");
 module.exports = async (client, message) => {
@@ -17,13 +16,12 @@ module.exports = async (client, message) => {
 
 	if(!talkedRecently.has(`${message.author.id}|${message.guild.id}`)){
 		talkedRecently.add(`${message.author.id}|${message.guild.id}`);
-		const points = await sql.get(`SELECT * FROM points WHERE user = "${message.author.id}" AND guild = "${message.guild.id}"`);
+		const points = sqlGet(`SELECT * FROM points WHERE user = ? AND guild = ?`, message.author.id, message.guild.id);
 		if(!points){
-			sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${message.guild.id}", "${message.author.id}", "1")`).then(() => {
-				client.log(`Added "${message.author.tag}" from the "${message.guild.name}" server.`, "SQL");
-			});
+			sqlRun(`INSERT INTO points (guild, user, amount) VALUES (?, ?, "1")`, message.guild.id, message.author.id);
+			client.log(`Added "${message.author.tag}" from the "${message.guild.name}" server.`, "SQL");
 		} else {
-			sql.run(`UPDATE points SET amount = "${points.amount + 1}" WHERE user = "${message.author.id}" AND guild = "${message.guild.id}"`);
+			sqlRun(`UPDATE points SET amount = ? WHERE user = ? AND guild = ?`, points.amount + 1, message.author.id, message.guild.id);
 		}
 		setTimeout(() => { talkedRecently.delete(`${message.author.id}|${message.guild.id}`); }, 10000);
 	}
@@ -36,7 +34,7 @@ module.exports = async (client, message) => {
 		return message.channel.send(random2[str]);
 	}
 
-	const guildData = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+	const guildData = sqlGet("SELECT * FROM settings WHERE guild = ?", message.guild.id);
 	const level = client.permlevel(message, guildData);
 	const regicide = /(https?:\/\/)?(discord\.gg\/)([^\s]*)/gi;
 	const serverAd = message.content.match(regicide);
@@ -80,7 +78,7 @@ module.exports = async (client, message) => {
 		client.log(`"${message.author.tag}" tried to use command: "${cmd.help.name}"`, "Log");
 	}
 	if(!cmd){
-		const cc = await sql.all(`SELECT * FROM commands WHERE guild = "${message.guild.id}"`);
+		const cc = await sqlAll(`SELECT * FROM commands WHERE guild = ?`, message.guild.id);
 		const cmdList = {};
 		cc.forEach(data => cmdList[data.name] = data.output);
 		if(cmdList[command]) return message.channel.send(cmdList[command]);

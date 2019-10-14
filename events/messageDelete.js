@@ -1,8 +1,7 @@
-const sql = require("sqlite");
 module.exports = async (client, message) => {
-	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+	const data = sqlGet("SELECT * FROM settings WHERE guild = ?", message.guild.id);
 	const messageID = data.assignMessage;
-	if(message.id === messageID) return sql.run(`UPDATE settings SET assignMessage = null WHERE guild = "${message.guild.id}"`);
+	if(message.id === messageID) return sqlRun(`UPDATE settings SET assignMessage = null WHERE guild = ?`, message.guild.id);
 };
 
 module.exports.help = {

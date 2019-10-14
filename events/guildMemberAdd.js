@@ -1,12 +1,9 @@
-const sql = require("sqlite");
 module.exports = async (client, member) => {
 
 	client.log(`"${member.user.tag}" (${member.user.id}) joined the "${member.guild.name}" server.`, "Log");
 
-	sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${member.guild.id}", "${member.user.id}", "0")`).then(() => {
-		client.log(`Set "${member.user.tag}" to the default amount of points`, "SQL");
-	});
-
+	sqlRun(`INSERT INTO points (guild, user, amount) VALUES (?, ?, "0")`, member.guild.id, member.user.id);
+	client.log(`Set "${member.user.tag}" to the default amount of points`, "SQL");
 
 	if(member.guild.id === "237543420543893505"){
 		const botRole = member.guild.roles.get("237976002930671616");
@@ -20,7 +17,7 @@ module.exports = async (client, member) => {
 		}
 	}
 
-	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${member.guild.id}"`);
+	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, member.guild.id);
 	if(!data.joinChannel || !data.joinMsg) return;
 	const joinChannel = member.guild.channels.get(data.joinChannel);
 	if(!joinChannel) return;

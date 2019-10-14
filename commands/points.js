@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const sql = require("sqlite");
 exports.run = async (client, message, args) => {
 
 	const tagged = await grabUser(args[0]);
@@ -14,7 +13,7 @@ exports.run = async (client, message, args) => {
 	let ecolor = 16777215;
 	if(member.roles.highest.color) ecolor = member.roles.highest.color;
 
-	const p = await sql.get(`SELECT * FROM points WHERE user = "${user.id}" AND guild = "${message.guild.id}"`);
+	const p = sqlGet("SELECT * FROM points WHERE user = ? AND guild = ?", user.id, message.guild.id);
 
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(`${user.tag}`)
@@ -24,7 +23,7 @@ exports.run = async (client, message, args) => {
 		.setFooter(client.user.tag);
 
 	if(!p){
-		await sql.run(`INSERT INTO points (guild, user, amount) VALUES ("${message.guild.id}", "${user.id}", "0")`);
+		await sqlRun("INSERT INTO points (guild, user, amount) VALUES (?, ?, '0')", message.guild.id, user.id);
 		client.log(`Set "${user.tag}" (${user.id}) to the default amount of points`, "SQL");
 		embed.addField("Current Points", "0", false);
 		return message.channel.send({ embed });

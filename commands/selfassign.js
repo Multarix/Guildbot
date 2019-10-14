@@ -1,12 +1,11 @@
 const Discord = require("discord.js");
-const sql = require("sqlite");
 const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
 
 	const secondary = args[0];
 	if(!args[0]) return message.channel.send("Usage: [selfassign](<..set/add/remove>)", { code: "markdown" });
 
-	const saData = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+	const saData = sqlGet(`SELECT * FROM settings WHERE guild = ?`, message.guild.id);
 	let match = [];
 
 	const roleData = saData.assignRoles;
@@ -17,12 +16,12 @@ exports.run = async (client, message, args) => {
 	let channel = undefined;
 	if(channelID) channel = grabChannel(channelID);
 	if(channelID && !channel){
-		sql.run(`UPDATE settings SET assignChannel = null, assignMessage = null WHERE guild = "${message.guild.id}"`);
+		sqlRun(`UPDATE settings SET assignChannel = null, assignMessage = null WHERE guild = ?`, message.guild.id);
 	}
 	// Check if the message exists, if it doesnt, return the message as null and update the database
 	let assignMessage = undefined;
 	if(channel && messageID) assignMessage = channel.messages.fetch(messageID).catch(e => { return null; });
-	if(messageID && !assignMessage) sql.run(`UPDATE settings SET assignMessage = null WHERE guild = "${message.guild.id}"`);
+	if(messageID && !assignMessage) sqlRun(`UPDATE settings SET assignMessage = null WHERE guild = ?`, message.guild.id);
 
 	// Embed variable
 	const embed = new Discord.MessageEmbed()
@@ -60,7 +59,7 @@ exports.run = async (client, message, args) => {
 		// Response was yes
 		match = ["yes", "y"];
 		if(match.includes(msg)){
-			sql.run(`UPDATE settings SET assignChannel = "${message.channel.id}" WHERE guild = "${message.guild.id}"`);
+			sqlRun(`UPDATE settings SET assignChannel = ? WHERE guild = ?`, message.channel.id, message.guild.id);
 			await m.edit(`Auto-Assign channel has been set to \`${message.channel.name}\`.`);
 			return await delMsg(client, message, m);
 		}
@@ -123,7 +122,7 @@ exports.run = async (client, message, args) => {
 			return emojiRoles.push({ emojiID, roleID });
 		});
 
-		await sql.run(`UPDATE settings SET assignRoles = "${roleDataString}" WHERE guild = "${message.guild.id}"`);
+		await sqlRun(`UPDATE settings SET assignRoles = ? WHERE guild = ?`, roleDataString, message.guild.id);
 
 		// Grab the emoji object and role name, add them to the embed.
 		let i;
@@ -139,7 +138,7 @@ exports.run = async (client, message, args) => {
 			const msg = await channel.messages.fetch(messageID);
 			if(!msg){
 				const msg = await channel.send({ embed });
-				await sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
+				await sqlRun(`UPDATE settings SET assignMessage = ? WHERE guild = ?`, msg.id, message.guild.id);
 				await saReact(msg);
 				return await delMsg(client, message, m);
 			} else {
@@ -149,7 +148,7 @@ exports.run = async (client, message, args) => {
 			}
 		} else {
 			const msg = await channel.send({ embed });
-			sql.run(`UPDATE settings SET assignMessage = "${msg.id}" WHERE guild = "${message.guild.id}"`);
+			sqlRun(`UPDATE settings SET assignMessage = ? WHERE guild = ?`, msg.id, message.guild.id);
 			saReact(msg);
 			return await delMsg(client, message, m);
 		}
@@ -195,7 +194,7 @@ exports.run = async (client, message, args) => {
 			embed.addField(`${actualEmoji} - ${grabRole(updateRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
 		}
 
-		await sql.run(`UPDATE settings SET assignRoles = "${updateSQLString}" WHERE guild = "${message.guild.id}"`);
+		await sqlRun(`UPDATE settings SET assignRoles = ? WHERE guild = ?`, updateSQLString, message.guild.id);
 		const msg = await channel.messages.fetch(messageID).catch(() => { return undefined; });
 		if(!msg) return;
 		await msg.edit({ embed });
@@ -217,7 +216,7 @@ exports.run = async (client, message, args) => {
 		let reply = ["yes", "y"];
 		if(reply.includes(msg)){
 			// Wipe all roles from sql
-			await sql.run(`UPDATE settings SET assignRoles = null WHERE guild = "${message.guild.id}"`);
+			await sqlRun(`UPDATE settings SET assignRoles = null WHERE guild = ?`, message.guild.id);
 			const mID = await channel.messages.fetch(messageID).catch(() => { return undefined; });
 			if(!mID){
 				msg.delete({ timeout: 10000 });

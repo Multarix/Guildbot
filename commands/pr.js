@@ -1,4 +1,3 @@
-const sql = require("sqlite");
 exports.run = async (client, message, args) => {
 
 	await message.channel.send(`Are you sure you want to reset everybody in the server to \`0\` points?\n \`Y\`/\`N\``);

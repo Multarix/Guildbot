@@ -11,7 +11,7 @@ exports.edit = async (client, message, args, data) => {
 		If you put '<user>' anywhere in the message, it will be converted to that users username.`;
 		return message.channel.send(str.replace(/\n(\t+)/g, ""), { code: "markdown" });
 	}
-	await sql.get(`UPDATE settings SET joinMsg = '${sanity(joinMsg)}' WHERE guild = "${message.guild.id}"`);
+	sqlRun(`UPDATE settings SET joinMsg = ? WHERE guild = ?`, sanity(joinMsg), message.guild.id);
 	client.log(`"${message.guild.name}" set their welcome message`, `SQL`);
 	const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
 	message.channel.send(`The welcome message has been saved. An example of your message is below:\n${joinExample}`);
@@ -19,7 +19,7 @@ exports.edit = async (client, message, args, data) => {
 
 exports.delete = async (client, message, args, data) => {
 	if(!data.joinMsg) return message.channel.send("The welcome message is already disabled and therefore cannot be removed.");
-	await sql.get(`UPDATE settings SET joinMsg = null WHERE guild = "${message.guild.id}"`);
+	sqlRun(`UPDATE settings SET joinMsg = null WHERE guild = ?`, message.guild.id);
 	client.log(`"${message.guild.name}" removed their welcome message`, `SQL`);
 	const m = await message.channel.send("The welcome message has been removed.");
 	return await delMsg(client, message, m);

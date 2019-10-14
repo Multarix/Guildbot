@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const sql = require("sqlite");
 module.exports = async (client, messageReaction, user) => {
 
 	if(messageReaction.message.partial) await message.fetch().catch(e => { return; });
@@ -9,7 +8,7 @@ module.exports = async (client, messageReaction, user) => {
 	const reaction = messageReaction;
 	const message = reaction.message;
 
-	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, message.guild.id);
 
 	const emojiMessageID = data.assignMessage;
 	if(message.id === emojiMessageID){

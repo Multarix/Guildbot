@@ -1,9 +1,8 @@
-const sql = require("sqlite");
 const Discord = require("discord.js");
 const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
 
-	const data = await sql.get(`SELECT * FROM settings WHERE guild = "${message.guild.id}"`);
+	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, message.guild.id);
 	const adminRole = (!data.admin || !message.guild.roles.get(data.admin)) ? "Not Set" : message.guild.roles.get(data.admin);
 	const modRole = (!data.moderator || !message.guild.roles.get(data.moderator)) ? "Not Set" : message.guild.roles.get(data.moderator);
 	const memberRole = (!data.member || !message.guild.roles.get(data.member)) ? "Not Set" : message.guild.roles.get(data.member);
