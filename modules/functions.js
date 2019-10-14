@@ -1,6 +1,5 @@
 const colors = require('colors');
 const fs = require('fs');
-const sql = require("sqlite");
 module.exports = async (client) => {
 
 	//	Permission level for commands.
@@ -79,6 +78,19 @@ module.exports = async (client) => {
 	};
 
 	/* Non-Critical Misc Functions */
+	global.sql = require("better-sqlite3")("./objects/settings.sqlite");
+	global.sqlGet = (statement, ...arguments) => {
+		const prep = sql.prepare(statement);
+		return prep.get(arguments);
+	};
+	global.sqlRun = (statement, ...arguments) => {
+		const prep = sql.prepare(statement);
+		return prep.run(arguments);
+	};
+	global.sqlAll = (statement, ...arguments) => {
+		const prep = sql.prepare(statement);
+		return prep.all(arguments);
+	};
 
 	String.prototype.toProperCase = function() {
 		return this.replace(/([^\W_]+[^\s-]*) */g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
@@ -139,7 +151,7 @@ module.exports = async (client) => {
 		if(!msg) return null;
 		await msg.reactions.removeAll();
 		wait(1000);
-		const data = await sql.get(`SELECT * FROM settings WHERE guild = "${msg.guild.id}"`);
+		const data = sqlGet("SELECT * FROM settings WHERE guild = ?", msg.guild.id);
 		const saData = data.assignRoles;
 		const assignArray = saData.split("*");
 		assignArray.forEach(x => {

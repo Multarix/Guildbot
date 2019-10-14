@@ -61,6 +61,10 @@
     "ordinalIndicator" : true,
 		"sanity" : true,
 		"saReact" : true,
-		"talkedRecently" : true
+		"talkedRecently" : true,
+		"sql" : true,
+		"sqlGet" :true,
+		"sqlRun" :true,
+		"sqlAll" :true
 	}
 }
