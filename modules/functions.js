@@ -95,6 +95,9 @@ module.exports = async (client) => {
 	String.prototype.toProperCase = function() {
 		return this.replace(/([^\W_]+[^\s-]*) */g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
 	};
+	String.prototype.removeIndents = function() {	// Removes indents from a string.
+		return this.replace(/\n(\t+)/g, "\n");
+	};
 
 	global.wait = require("util").promisify(setTimeout);
 
@@ -165,7 +168,6 @@ module.exports = async (client) => {
 	global.talkedRecently = new Set();
 
 	// I see your unhandled things, and present to you, handled things!
-
 	process.on("uncaughtException", (err) => {
 		const time = require("../modules/time.js")();
 		const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
