@@ -57,21 +57,24 @@ exports.run = async (client, message, args) => {
 		info.fileName = "prefix";
 		break;
 	// Starboard
-	case "stars" || "starchannel" || "starboard":
+	case "starboard":
 		info.fileName = "starboard";
 		break;
+	case "emoji":
+		info.fileName = "emoji";
+		break;
 	// Admin
-	case "admin" || "admins":
+	case "admin":
 		info.fileName = "roles";
 		info.sqlName = "admin";
 		break;
 	// Moderator
-	case "moderator" || "moderators" || "mod" || "mods":
+	case "moderator" || "mod":
 		info.fileName = "roles";
 		info.sqlName = "moderator";
 		break;
 	// Member
-	case "member" || "members":
+	case "member":
 		info.fileName = "roles";
 		info.sqlName = "member";
 		break;
