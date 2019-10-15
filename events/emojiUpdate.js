@@ -5,6 +5,7 @@ module.exports = async (client, oldEmoji, emoji) => {
 	const data = sqlGet("SELECT * FROM settings WHERE guild = ?", guild.id);
 	const channel = guild.channels.get(data.emojiChannel);
 	if(!data.emojiChannel || !channel) return;
+	if(!channel.permissionsFor(guild.me).has("SEND_MESSAGES")) return;
 
 	const messages = await channel.messages.fetch({ limit: 100 });
 	const message = await messages.filter(msg => {
