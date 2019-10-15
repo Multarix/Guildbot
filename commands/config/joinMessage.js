@@ -1,4 +1,3 @@
-const sql = require("sqlite");
 const Discord = require("discord.js");
 const delMsg = require("./delMsg.js");
 exports.edit = async (client, message, args, data) => {
