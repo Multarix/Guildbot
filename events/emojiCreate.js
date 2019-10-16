@@ -20,7 +20,7 @@ module.exports = async (client, emoji) => {
 		.setFooter(emoji.id, client.user.displayAvatarURL())
 		.setTimestamp();
 
-	return channel.send("Looks like we gots a new emoji!", { embed });
+	return channel.send("A new emoji has been added. ", { embed });
 };
 
 module.exports.help = {
