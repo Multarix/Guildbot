@@ -30,7 +30,7 @@ module.exports = async (client, oldEmoji, emoji) => {
 		.setFooter(emoji.id, client.user.displayAvatarURL())
 		.setTimestamp();
 
-	return message.edit("Looks like we gots a new emoji!", { embed });
+	return message.edit("A new emoji has been added.", { embed });
 };
 
 module.exports.help = {
