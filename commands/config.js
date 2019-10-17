@@ -7,19 +7,22 @@ exports.run = async (client, message, args) => {
 	const modRole = (!data.moderator || !message.guild.roles.get(data.moderator)) ? "Not Set" : message.guild.roles.get(data.moderator);
 	const memberRole = (!data.member || !message.guild.roles.get(data.member)) ? "Not Set" : message.guild.roles.get(data.member);
 	const starboard = (!data.starboard || !message.guild.channels.get(data.starboard)) ? "Not Set" : message.guild.channels.get(data.starboard);
+	const emojiChannel = (!data.emojiChannel || !message.guild.channels.get(data.emojiChannel)) ? "Not Set" : message.guild.channels.get(data.emojiChannel);
+
+	let ecolor = 13238272;
+	if(message.guild.owner.roles.color) ecolor = message.guild.owner.roles.highest.color;
 
 	let roleName = args[0];
 	if(!roleName){
-		let ecolor = 13238272;
-		if(message.guild.owner.roles.color) ecolor = message.guild.owner.roles.highest.color;
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(`Guild Settings`)
 			.setColor(ecolor)
-			.addField("Prefix", `${data.prefix}`, false)
-			.addField("Admin Role", adminRole, false)
-			.addField("Member Role", modRole, false)
-			.addField("Moderator Role", memberRole, false)
-			.addField("Starboard", starboard, false)
+			.addField("Prefix", `${data.prefix}`, true)
+			.addField("Starboard", starboard, true)
+			.addField("Emoji Channel", emojiChannel, true)
+			.addField("Admin Role", adminRole, true)
+			.addField("Member Role", modRole, true)
+			.addField("Moderator Role", memberRole, true)
 			.setFooter(client.user.tag, client.user.displayAvatarURL())
 			.setTimestamp();
 		if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
@@ -29,6 +32,7 @@ exports.run = async (client, message, args) => {
 	const info = {
 		fileName : "",
 		sqlName : "",
+		color: ecolor,
 	};
 
 	let sqlItem = args[1];
@@ -60,7 +64,7 @@ exports.run = async (client, message, args) => {
 	case "starboard":
 		info.fileName = "starboard";
 		break;
-	case "emoji":
+	case "emoji" || "emojichannel":
 		info.fileName = "emoji";
 		break;
 	// Admin
@@ -83,32 +87,39 @@ exports.run = async (client, message, args) => {
 		info.fileName = "invalid";
 	}
 
+	const embed = new Discord.MessageEmbed()
+		.setTitle(`Configurable Settings`)
+		.setColor(info.color)
+		.addField("Role Settings", "`admin`, `moderator`, `member`", false)
+		.addField("Channel Settings", "`joinchannel`, `leavechannel`, `starboard`, `emoji`", false)
+		.addField("Message Settings", "`joinmessage`, `leavemessage`", false)
+		.setFooter(client.user.tag, client.user.displayAvatarURL())
+		.setTimestamp();
+
 	roleName = roleName.toLowerCase();
 	let aliases = ["set", "add"];
 	if(aliases.includes(roleName)){
+		embed.setDescription(`${data.prefix}config set <setting>`);
 		if(!args[1]){
-			const m = await message.channel.send("Usage: [roles](set)< Prefix/Admin/Mod/Member/Stars >", { code: "markdown" });
-			return await delMsg(client, message, m);
+			return await message.channel.send({ embed }).catch(() => undefined);
 		}
 
-		if(info.fileName === "invalid") return message.channel.send(`\`${sqlItem.toProperCase()}\` doesn't appear to be a valid argument`);
+		if(info.fileName === "invalid") return message.channel.send({ embed }).catch(() => undefined);
 		const settings = require(`./config/${info.fileName}.js`);
 		if(settings) return settings.edit(client, message, args, data, info);
 	}
 	// Delete/ Remove/ Reset things
 	aliases = ["delete", "reset", "disable"];
 	if(aliases.includes(roleName)){
-		if(!args[1]){
-			const m = await message.channel.send("Usage: [roles](delete)< Prefix/Admin/Mod/Member/Stars >", { code: "markdown" });
-			return await delMsg(client, message, m);
-		}
+		embed.setDescription(`${data.prefix}config delete <setting>`);
+		if(!args[1]) return await message.channel.send({ embed }).catch(() => undefined);
 
-		if(info.fileName === "invalid") return message.channel.send(`\`${sqlItem.toProperCase()}\` doesn't appear to be a valid argument`);
+		if(info.fileName === "invalid") return await message.channel.send({ embed }).catch(() => undefined);
 		const settings = require(`./config/${info.fileName}.js`);
 		if(settings) return settings.delete(client, message, args, data, info);
 	}
-	const m = await message.channel.send(`\`${args[0].toProperCase()}\` doesn't appear to be a valid argument. Usage:\n\`\`\`md\n[config](set/delete) < setting >\`\`\``);
-	return delMsg(client, message, m);
+	embed.setDescription(`${data.prefix}config set/delete <setting>`);
+	return await message.channel.send({ embed }).catch(() => undefined);
 };
 
 exports.conf = {

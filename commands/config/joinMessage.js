@@ -1,25 +1,46 @@
 const Discord = require("discord.js");
 const delMsg = require("./delMsg.js");
-exports.edit = async (client, message, args, data) => {
-	const joinMsg = args.slice(2).join(" ").replace(/\u200b/g, "\n");
+exports.edit = async (client, message, args, data, info) => {
+
+	const embed = new Discord.MessageEmbed()
+		.setColor(info.color)
+		.setTitle("Welcome Message")
+		.setFooter(client.user.tag, client.user.displayAvatarURL);
+
+	const joinMsg = args.slice(2).join(" ").replace(/\n/g, "\u200b");
 	if(!joinMsg){
-		const str = `Usage: [config](set) joinmessage < message you want >\n
-		Handy Tips:
-		-----------
-		If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
-		If you put '<user>' anywhere in the message, it will be converted to that users username.`;
-		return message.channel.send(str.replace(/\n(\t+)/g, ""), { code: "markdown" });
+		embed.addField("No Message",
+			`\`\`\`md
+			${data.prefix}config set joinmessage < message you want >
+			\`\`\``.removeIndents())
+			.addField("Handy Tips",
+				`If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
+				If you put '<user>' anywhere in the message, it will be converted to that users username.`.removeIndents());
+		return message.channel.send({ embed });
 	}
 	sqlRun(`UPDATE settings SET joinMsg = ? WHERE guild = ?`, sanity(joinMsg), message.guild.id);
 	client.log(`"${message.guild.name}" set their welcome message`, `SQL`);
-	const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username);
-	message.channel.send(`The welcome message has been saved. An example of your message is below:\n${joinExample}`);
+
+	const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username).replace(/\u200b/g, "\n");
+	embed.addField("Setting Saved", `The welcome message has been saved. An example has been provided below.`).addField("Example", joinExample);
+	message.channel.send({ embed });
 };
 
-exports.delete = async (client, message, args, data) => {
-	if(!data.joinMsg) return message.channel.send("The welcome message is already disabled and therefore cannot be removed.");
+exports.delete = async (client, message, args, data, info) => {
+
+	const embed = new Discord.MessageEmbed()
+		.setColor(info.color)
+		.setTitle("Welcome Message")
+		.setFooter(client.user.tag, client.user.displayAvatarURL);
+
+	if(!data.joinMsg){
+		embed.addField("Already Disabled", "The welcome message is already disabled and therefore cannot be removed.");
+		return message.channel.send({ embed });
+	}
 	sqlRun(`UPDATE settings SET joinMsg = null WHERE guild = ?`, message.guild.id);
 	client.log(`"${message.guild.name}" removed their welcome message`, `SQL`);
-	const m = await message.channel.send("The welcome message has been removed.");
+
+	embed.addField("Deleted Setting", "The welcome message has been removed.");
+	const m = await message.channel.send({ embed });
 	return await delMsg(client, message, m);
 };
