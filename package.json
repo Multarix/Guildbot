@@ -1,8 +1,12 @@
 {
+	"author": "Multarix",
 	"name": "Guildbot",
+	"version": "1.0.0",
 	"description": "Guildbot is a discord bot.",
 	"repository": "https://github.com/Multarix/Guildbot.git",
 	"license": "MIT",
+	"main": "bot.js",
+	"keywords": ["Discord", "Bot"],
 	"dependencies": {
 		"@vitalets/google-translate-api": "^3.0.0",
 		"apod-nasa": "^1.0.1",
@@ -10,13 +14,15 @@
 		"cats-js": "^1.0.2",
 		"colors": "^1.3.3",
 		"discord.js": "github:discordjs/discord.js",
-		"eslint": "^5.12.0",
 		"moment": "^2.23.0",
 		"moment-duration-format": "^2.2.2",
 		"node-cron": "^2.0.3",
 		"random.dog.js": "^1.0.2",
 		"urban-dictionary": "^2.2.1",
 		"word-definition": "^2.1.6"
+	},
+	"devDependencies": {
+		"eslint": "^6.3.0"
 	},
 	"private": true
 }
