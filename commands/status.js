@@ -21,7 +21,8 @@ exports.run = async (client, message, args) => {
 	case "idle":
 		newStatus = "idle";
 		break;
-	case ("offline" || "invisible"):
+	case "invisible":
+	case "offline":
 		newStatus = "invisible";
 		break;
 	}

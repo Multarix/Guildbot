@@ -41,19 +41,23 @@ exports.run = async (client, message, args) => {
 
 	switch (sqlItem){
 	// Welcome Messages
-	case "joinmessage" || "jm" || "welcomemessage" || "wm" || "jmsg" || "wmsg":
+	case "jm":
+	case "joinmessage":
 		info.fileName = "joinMessage";
 		break;
 	// Welcome Channel
-	case "welcomechannel" || "wchnl" || "wc" || "wmc":
+	case "jc":
+	case "joinchannel":
 		info.fileName = "joinChannel";
 		break;
 	// Leave Messages
-	case "byemessage" || "byeemsg" || "bmsg" || "bm" || "lm":
+	case "lm":
+	case "leavemessage":
 		info.fileName = "leaveMessage";
 		break;
 	// Leave Message Channel
-	case "goodbye" || "gchnl" || "gc" || "gmc" || "lmc":
+	case "lc":
+	case "leavechannel":
 		info.fileName = "leaveChannel";
 		break;
 	// Prefix
@@ -64,7 +68,8 @@ exports.run = async (client, message, args) => {
 	case "starboard":
 		info.fileName = "starboard";
 		break;
-	case "emoji" || "emojichannel":
+	case "emoji":
+	case "emojichannel":
 		info.fileName = "emoji";
 		break;
 	// Admin
@@ -73,7 +78,8 @@ exports.run = async (client, message, args) => {
 		info.sqlName = "admin";
 		break;
 	// Moderator
-	case "moderator" || "mod":
+	case "mod":
+	case "moderator":
 		info.fileName = "roles";
 		info.sqlName = "moderator";
 		break;
