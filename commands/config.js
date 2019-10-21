@@ -40,57 +40,57 @@ exports.run = async (client, message, args) => {
 	sqlItem = sqlItem.toLowerCase();
 
 	switch (sqlItem){
-	// Welcome Messages
-	case "jm":
-	case "joinmessage":
-		info.fileName = "joinMessage";
-		break;
-	// Welcome Channel
-	case "jc":
-	case "joinchannel":
-		info.fileName = "joinChannel";
-		break;
-	// Leave Messages
-	case "lm":
-	case "leavemessage":
-		info.fileName = "leaveMessage";
-		break;
-	// Leave Message Channel
-	case "lc":
-	case "leavechannel":
-		info.fileName = "leaveChannel";
-		break;
-	// Prefix
-	case "prefix":
-		info.fileName = "prefix";
-		break;
-	// Starboard
-	case "starboard":
-		info.fileName = "starboard";
-		break;
-	case "emoji":
-	case "emojichannel":
-		info.fileName = "emoji";
-		break;
-	// Admin
-	case "admin":
-		info.fileName = "roles";
-		info.sqlName = "admin";
-		break;
-	// Moderator
-	case "mod":
-	case "moderator":
-		info.fileName = "roles";
-		info.sqlName = "moderator";
-		break;
-	// Member
-	case "member":
-		info.fileName = "roles";
-		info.sqlName = "member";
-		break;
-	// Everything else
-	default:
-		info.fileName = "invalid";
+		// Welcome Messages
+		case "jm":
+		case "joinmessage":
+			info.fileName = "joinMessage";
+			break;
+		// Welcome Channel
+		case "jc":
+		case "joinchannel":
+			info.fileName = "joinChannel";
+			break;
+		// Leave Messages
+		case "lm":
+		case "leavemessage":
+			info.fileName = "leaveMessage";
+			break;
+		// Leave Message Channel
+		case "lc":
+		case "leavechannel":
+			info.fileName = "leaveChannel";
+			break;
+		// Prefix
+		case "prefix":
+			info.fileName = "prefix";
+			break;
+		// Starboard
+		case "starboard":
+			info.fileName = "starboard";
+			break;
+		case "emoji":
+		case "emojichannel":
+			info.fileName = "emoji";
+			break;
+		// Admin
+		case "admin":
+			info.fileName = "roles";
+			info.sqlName = "admin";
+			break;
+		// Moderator
+		case "mod":
+		case "moderator":
+			info.fileName = "roles";
+			info.sqlName = "moderator";
+			break;
+		// Member
+		case "member":
+			info.fileName = "roles";
+			info.sqlName = "member";
+			break;
+		// Everything else
+		default:
+			info.fileName = "invalid";
 	}
 
 	const embed = new Discord.MessageEmbed()

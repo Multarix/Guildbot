@@ -12,19 +12,19 @@ exports.run = async (client, message, args) => {
 
 	let newStatus = "invalid";
 	switch (status){
-	case "online":
-		newStatus = "Online";
-		break;
-	case "dnd":
-		newStatus = "dnd";
-		break;
-	case "idle":
-		newStatus = "idle";
-		break;
-	case "invisible":
-	case "offline":
-		newStatus = "invisible";
-		break;
+		case "online":
+			newStatus = "Online";
+			break;
+		case "dnd":
+			newStatus = "dnd";
+			break;
+		case "idle":
+			newStatus = "idle";
+			break;
+		case "invisible":
+		case "offline":
+			newStatus = "invisible";
+			break;
 	}
 
 	if(newStatus === "invalid"){
