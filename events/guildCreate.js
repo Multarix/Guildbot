@@ -1,6 +1,5 @@
 module.exports = (client, guild) => {
 
-	const prep = sql.prepare("INSERT INTO settings (guild, prefix) VALUES (?, ?)");
 	client.log(`Joined the "${guild.name}" (${guild.id}) server`, "Notify");
 	sqlRun("INSERT INTO settings (guild, prefix) VALUES (?, ?)", guild.id, client.config.prefix);
 	client.log(`Applied default settings to the "${guild.name}" server`, "SQL");
