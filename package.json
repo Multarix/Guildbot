@@ -14,7 +14,6 @@
 		"@vitalets/google-translate-api": "^3.0.0",
 		"apod-nasa": "^1.0.1",
 		"better-sqlite3": "^5.4.3",
-		"cats-js": "^1.0.2",
 		"colors": "^1.4.0",
 		"discord.js": "github:discordjs/discord.js",
 		"moment": "^2.24.0",
