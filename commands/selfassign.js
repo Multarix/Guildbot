@@ -242,12 +242,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["sa", "assign"],
-	permLevel: 4,
+	permLevel: 4
 };
 
 exports.help = {
 	name: "selfassign",
 	category: "Moderation",
 	description: "Self assign roles via reactions",
-	usage: "set/add/remove ..channel/role",
+	usage: "set/add/remove ..channel/role"
 };

@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 	const joinargs = args.slice(1).join(" ");
 	if(!joinargs) return message.channel.send("Usage: [activity](<play/watch/listen> <..new-activity>)", { code: "markdown" });
 
-	switch (activity){
+	switch(activity){
 		case "play":
 			await client.user.setActivity(`${joinargs}`);
 			client.log("Now playing " + colors.white("[") + joinargs + colors.white("]"), "Activity");
@@ -42,12 +42,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["active", "game"],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "activity",
 	category: "System",
 	description: "Sets the activity of the bot",
-	usage: "setting ..activity",
+	usage: "setting ..activity"
 };

@@ -15,6 +15,6 @@ module.exports = (client) => {
 		time : `${hours}:${minutes}`,
 		day : `${dayArray[t.getDay()]}`,
 		exactDate : `${t.getDate()}/${t.getMonth() + 1}/${t.getFullYear()}`,
-		date : `${daySuffix} of ${monthArray[t.getMonth()]}`,
+		date : `${daySuffix} of ${monthArray[t.getMonth()]}`
 	};
 };

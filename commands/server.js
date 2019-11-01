@@ -6,12 +6,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["discord"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "server",
 	category: "Misc",
 	description: "Posts the discord server link page",
-	usage: "..",
+	usage: ".."
 };

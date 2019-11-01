@@ -13,12 +13,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["reboot"],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "restart",
 	category: "System",
 	description: "Restarts the bot",
-	usage: "..",
+	usage: ".."
 };

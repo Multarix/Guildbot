@@ -9,12 +9,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["norris", "chucknorris", "cn"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "chuck",
 	category: "Misc",
 	description: "Posts a random chuck norris fact",
-	usage: "..",
+	usage: ".."
 };

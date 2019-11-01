@@ -21,5 +21,5 @@ module.exports = async (client, shardID) => {
 
 module.exports.help = {
 	name: "shardReady",
-	description: "Emitted when a shard is ready",
+	description: "Emitted when a shard is ready"
 };

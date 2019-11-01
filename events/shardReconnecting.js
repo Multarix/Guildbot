@@ -4,5 +4,5 @@ module.exports = (client, shardID) => {
 
 module.exports.help = {
 	name: "shardReconnecting",
-	description: "Emitted when the client tries to reconnect to the websocket",
+	description: "Emitted when the client tries to reconnect to the websocket"
 };

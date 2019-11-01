@@ -87,5 +87,5 @@ module.exports = async (client, message) => {
 
 module.exports.help = {
 	name: "message",
-	description: "Emitted when a user sends a message",
+	description: "Emitted when a user sends a message"
 };

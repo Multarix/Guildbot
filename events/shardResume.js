@@ -4,5 +4,5 @@ module.exports = (client, shardID, eventNum) => {
 
 module.exports.help = {
 	name: "shardResume",
-	description: "Emitted when the client reconnects to the websocket.",
+	description: "Emitted when the client reconnects to the websocket."
 };

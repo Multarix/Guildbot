@@ -37,12 +37,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["p", "point"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "points",
 	category: "Misc",
 	description: "See how many points you or another user has",
-	usage: "..user",
+	usage: "..user"
 };

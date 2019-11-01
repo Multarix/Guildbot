@@ -19,12 +19,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["purgeself", "prune", "pruneself"],
-	permLevel: 3,
+	permLevel: 3
 };
 
 exports.help = {
 	name: "purge",
 	category: "Moderation",
 	description: "Prunes a selected amount of messages from the bot itself.",
-	usage: "number",
+	usage: "number"
 };

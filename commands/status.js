@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
 	if(!bad) bad = "👎";
 
 	let newStatus = "invalid";
-	switch (status){
+	switch(status){
 		case "online":
 			newStatus = "Online";
 			break;
@@ -42,12 +42,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: [],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "status",
 	category: "System",
 	description: "Changes the bot's status",
-	usage: "status",
+	usage: "status"
 };

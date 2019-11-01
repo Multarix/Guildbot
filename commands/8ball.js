@@ -16,12 +16,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["8-ball", "predict", "ball"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "8ball",
 	category: "Misc",
 	description: "Consult the magic 8-ball for advice.",
-	usage: "question",
+	usage: "question"
 };

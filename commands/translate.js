@@ -16,12 +16,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["trans"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "translate",
 	category: "Misc",
 	description: "Translate stuff. For a list of the language iso's, check here:\nhttps://www.sitepoint.com/iso-2-letter-language-codes/",
-	usage: "language text",
+	usage: "language text"
 };

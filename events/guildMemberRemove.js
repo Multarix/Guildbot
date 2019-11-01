@@ -20,5 +20,5 @@ module.exports = async (client, member) => {
 
 module.exports.help = {
 	name: "guildMemberRemove",
-	description: "Emitted when a user leaves a guild",
+	description: "Emitted when a user leaves a guild"
 };

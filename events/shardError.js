@@ -4,5 +4,5 @@ module.exports = (client, error, shardID) => {
 
 module.exports.help = {
 	name: "shardError",
-	description: "Emitted whenever the client's WebSocket encounters a connection error.",
+	description: "Emitted whenever the client's WebSocket encounters a connection error."
 };

@@ -20,12 +20,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["inv"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "invite",
 	category: "Misc",
 	description: "Generates the bot's invite link",
-	usage: "..",
+	usage: ".."
 };

@@ -17,12 +17,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["massdelete"],
-	permLevel: 1,
+	permLevel: 1
 };
 
 exports.help = {
 	name: "md",
 	category: "Moderation",
 	description: "Mass deletes the specified amount of posts",
-	usage: "number",
+	usage: "number"
 };

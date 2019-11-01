@@ -83,12 +83,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: [],
-	permLevel: 4,
+	permLevel: 4
 };
 
 exports.help = {
 	name: "ban",
 	category: "Moderation",
 	description: "Bans a user from the server",
-	usage: "user ..reason",
+	usage: "user ..reason"
 };

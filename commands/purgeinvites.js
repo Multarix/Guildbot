@@ -22,12 +22,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["pinvites", "pinvs", "pinv", "deleteinvites", "deleteinvs", "deleteinv", "delinvs", "delinv"],
-	permLevel: 5,
+	permLevel: 5
 };
 
 exports.help = {
 	name: "purgeinvites",
 	category: "Moderation",
 	description: "Deletes all invite codes except the server owners.",
-	usage: "..",
+	usage: ".."
 };

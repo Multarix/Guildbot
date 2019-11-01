@@ -16,12 +16,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["dogs", "doggo"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "dog",
 	category: "Misc",
 	description: "Posts a random dog picture or gif.",
-	usage: "..",
+	usage: ".."
 };

@@ -22,12 +22,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["sys", "sysinfo"],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "system",
 	category: "System",
 	description: "Lists the system information upon which the bot is running",
-	usage: "..",
+	usage: ".."
 };

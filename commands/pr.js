@@ -23,12 +23,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["pointreset", "pointsreset", "resetpoints", "resetpoint", "rp"],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "pr",
 	category: "Moderation",
 	description: "Reset the amount of points all users on a server has",
-	usage: "..",
+	usage: ".."
 };

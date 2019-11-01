@@ -32,14 +32,14 @@ exports.run = async (client, message, args) => {
 	const info = {
 		fileName : "",
 		sqlName : "",
-		color: ecolor,
+		color: ecolor
 	};
 
 	let sqlItem = args[1];
 	if(!sqlItem) sqlItem = "null";
 	sqlItem = sqlItem.toLowerCase();
 
-	switch (sqlItem){
+	switch(sqlItem){
 		// Welcome Messages
 		case "jm":
 		case "joinmessage":
@@ -132,12 +132,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["bot"],
-	permLevel: 5,
+	permLevel: 5
 };
 
 exports.help = {
 	name: "config",
 	category: "System",
 	description: "View or change bot settings.",
-	usage: "..variable",
+	usage: "..variable"
 };

@@ -76,5 +76,5 @@ module.exports = async (client, messageReaction, user) => {
 
 module.exports.help = {
 	name: "messageReactionRemove",
-	description: "Emitted when a user removes a reaction",
+	description: "Emitted when a user removes a reaction"
 };

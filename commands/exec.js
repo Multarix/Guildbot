@@ -11,12 +11,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["cmd"],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "exec",
 	category: "System",
 	description: "Command Line Stuff",
-	usage: "code",
+	usage: "code"
 };

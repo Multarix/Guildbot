@@ -12,12 +12,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: [],
-	permLevel: 1,
+	permLevel: 1
 };
 
 exports.help = {
 	name: "echo",
 	category: "Misc",
 	description: "Repeats what you say",
-	usage: "text",
+	usage: "text"
 };

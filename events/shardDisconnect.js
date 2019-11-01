@@ -4,5 +4,5 @@ module.exports = async (client, event, shardID) => {
 
 module.exports.help = {
 	name: "shardDisconnect",
-	description: "Emitted when the client will no longer attempt to reconnect to the websocket",
+	description: "Emitted when the client will no longer attempt to reconnect to the websocket"
 };

@@ -82,12 +82,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: [],
-	permLevel: 3,
+	permLevel: 3
 };
 
 exports.help = {
 	name: "kick",
 	category: "Moderation",
 	description: "Kicks a user from the server",
-	usage: "user ..reason)",
+	usage: "user ..reason)"
 };

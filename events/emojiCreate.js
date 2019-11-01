@@ -25,5 +25,5 @@ module.exports = async (client, emoji) => {
 
 module.exports.help = {
 	name: "emojiCreate",
-	description: "Emitted whenever a custom emoji is created in a guild.",
+	description: "Emitted whenever a custom emoji is created in a guild."
 };

@@ -28,12 +28,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["ranking", "rankings", "ranks"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "rank",
 	category: "Misc",
 	description: "Lists the users with the top 5 amount of points",
-	usage: "..",
+	usage: ".."
 };

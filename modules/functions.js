@@ -29,7 +29,7 @@ module.exports = async (client) => {
 
 		let str = "";
 		const time = require("../modules/time.js")();
-		switch (title.toLowerCase()){
+		switch(title.toLowerCase()){
 		/* eslint-disable indent*/
 			case "error": str = `<${colors.red(time.time)}>[${colors.red(`Shard-${shardID}`)}](${colors.red(title)}) ${colors.red(msg)}`; break;
 			case "warn": str = `<${colors.yellow(time.time)}>[${colors.yellow(`Shard-${shardID}`)}](${colors.yellow(title)}) ${colors.yellow(msg)}`; break;
@@ -94,10 +94,10 @@ module.exports = async (client) => {
 		return prep.all(arguments);
 	};
 
-	String.prototype.toProperCase = function() {
-		return this.replace(/([^\W_]+[^\s-]*) */g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+	String.prototype.toProperCase = function(){
+		return this.replace(/([^\W_]+[^\s-]*) */g, function(txt){ return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
 	};
-	String.prototype.removeIndents = function() {	// Removes indents from a string.
+	String.prototype.removeIndents = function(){	// Removes indents from a string.
 		return this.replace(/\n(\t+)/g, "\n");
 	};
 

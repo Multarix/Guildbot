@@ -10,5 +10,5 @@ module.exports = async (client, guild) => {
 
 module.exports.help = {
 	name: "guildDelete",
-	description: "Emitted when the client leaves a guild",
+	description: "Emitted when the client leaves a guild"
 };

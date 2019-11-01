@@ -17,12 +17,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["1337", "l33t"],
-	permLevel: 1,
+	permLevel: 1
 };
 
 exports.help = {
 	name: "leet",
 	category: "Misc",
 	description: "1337 5pe4k 47 17'5 f1ne57",
-	usage: "text",
+	usage: "text"
 };

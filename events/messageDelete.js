@@ -6,5 +6,5 @@ module.exports = async (client, message) => {
 
 module.exports.help = {
 	name: "messageDelete",
-	description: "Emitted when a message is deleted",
+	description: "Emitted when a message is deleted"
 };

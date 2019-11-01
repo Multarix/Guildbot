@@ -36,12 +36,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: [],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "reload",
 	category: "System",
 	description: "Reloads a command that's been modified",
-	usage: "command-name",
+	usage: "command-name"
 };

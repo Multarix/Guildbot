@@ -30,12 +30,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["gey"],
-	permLevel: 1,
+	permLevel: 1
 };
 
 exports.help = {
 	name: "gay",
 	category: "Misc",
 	description: "See how gay you or someone else is",
-	usage: "..user",
+	usage: "..user"
 };

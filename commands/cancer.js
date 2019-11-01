@@ -16,12 +16,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: [],
-	permLevel: 1,
+	permLevel: 1
 };
 
 exports.help = {
 	name: "cancer",
 	category: "Misc",
 	description: "lIteRal CaNcEr",
-	usage: "text",
+	usage: "text"
 };

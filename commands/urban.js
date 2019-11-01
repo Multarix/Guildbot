@@ -46,12 +46,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["ud"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "urban",
 	category: "Misc",
 	description: "Defines a given word from UrbanDictionary.com",
-	usage: "word",
+	usage: "word"
 };

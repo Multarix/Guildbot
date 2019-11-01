@@ -53,12 +53,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["commands", "h"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "help",
 	category: "System",
 	description: "Displays all the commands",
-	usage: "..command-name",
+	usage: "..command-name"
 };

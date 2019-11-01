@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
 	if(!word) return message.channel.send("Usage: [define](<..words>)", { code: "markdown" });
 
 	const m = await message.channel.send(`Searching the dictionary, Gimme a sec..`);
-	wd.getDef(word, "en", null, function(definition) {
+	wd.getDef(word, "en", null, function(definition){
 		let embed;
 		if(!definition.definition){
 			embed = new Discord.MessageEmbed()
@@ -33,12 +33,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["word"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "define",
 	category: "Misc",
 	description: "Defines a given word from Wictionary.com",
-	usage: "word",
+	usage: "word"
 };

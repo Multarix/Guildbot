@@ -4,5 +4,5 @@ module.exports = (client, error) => {
 
 module.exports.help = {
 	name: "error",
-	description: "Emitted when the client encounters an error",
+	description: "Emitted when the client encounters an error"
 };

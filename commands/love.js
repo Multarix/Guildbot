@@ -13,12 +13,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["crush"],
-	permLevel: 1,
+	permLevel: 1
 };
 
 exports.help = {
 	name: "love",
 	category: "Misc",
 	description: "See who has a crush on who",
-	usage: "..user",
+	usage: "..user"
 };

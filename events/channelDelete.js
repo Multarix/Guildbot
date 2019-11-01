@@ -6,5 +6,5 @@ module.exports = async (client, channel) => {
 
 module.exports.help = {
 	name: "channelDelete",
-	description: "Emitted when a channel is deleted",
+	description: "Emitted when a channel is deleted"
 };

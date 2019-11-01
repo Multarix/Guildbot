@@ -18,12 +18,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["apod", "nasa", "astronomy"],
-	permLevel: 0,
+	permLevel: 0
 };
 
 exports.help = {
 	name: "space",
 	category: "Misc",
 	description: "Posts the Astronomy picture of the day.",
-	usage: "..",
+	usage: ".."
 };

@@ -46,12 +46,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: true,
 	aliases: ["e", "js"],
-	permLevel: 10,
+	permLevel: 10
 };
 
 exports.help = {
 	name: "eval",
 	category: "System",
 	description: "Evaluates javascript",
-	usage: "code",
+	usage: "code"
 };
