@@ -1,7 +1,7 @@
 const colors = require('colors');
 exports.run = async (client, message, args) => {
 
-	let good = client.emojis.get("340357918996299778");
+	let good = client.emojis.cache.get("340357918996299778");
 	if(!good) good = "👍";
 
 	const activity = args[0];

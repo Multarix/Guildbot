@@ -96,7 +96,7 @@ exports.run = async (client, message, args) => {
 		const emoji = collected.first().emoji;
 		let emojiInfo;
 		if(emoji.id){
-			if(!client.emojis.get(emoji.id)){
+			if(!client.emojis.cache.get(emoji.id)){
 				await m.edit("Woah hang on there bud, I don't have access to your fancy emoji. Try that command again.");
 				return await delMsg(client, message, m);
 			}
@@ -129,7 +129,7 @@ exports.run = async (client, message, args) => {
 		let actualEmoji;
 		for(i = 0; i < emojiRoles.length; i++){
 			actualEmoji = emojiRoles[i].emojiID;
-			if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
+			if(client.emojis.cache.get(actualEmoji)) actualEmoji = client.emojis.cache.get(actualEmoji);
 			embed.addField(`${actualEmoji} - ${grabRole(emojiRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
 		}
 
@@ -190,7 +190,7 @@ exports.run = async (client, message, args) => {
 		let actualEmoji;
 		for(i = 0; i < updateRoles.length; i++){
 			actualEmoji = updateRoles[i].emojiID;
-			if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
+			if(client.emojis.cache.get(actualEmoji)) actualEmoji = client.emojis.cache.get(actualEmoji);
 			embed.addField(`${actualEmoji} - ${grabRole(updateRoles[i].roleID, message.guild.id).name}`, `\u200b`, false);
 		}
 

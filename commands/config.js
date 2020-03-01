@@ -3,11 +3,11 @@ const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
 
 	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, message.guild.id);
-	const adminRole = (!data.admin || !message.guild.roles.get(data.admin)) ? "Not Set" : message.guild.roles.get(data.admin);
-	const modRole = (!data.moderator || !message.guild.roles.get(data.moderator)) ? "Not Set" : message.guild.roles.get(data.moderator);
-	const memberRole = (!data.member || !message.guild.roles.get(data.member)) ? "Not Set" : message.guild.roles.get(data.member);
-	const starboard = (!data.starboard || !message.guild.channels.get(data.starboard)) ? "Not Set" : message.guild.channels.get(data.starboard);
-	const emojiChannel = (!data.emojiChannel || !message.guild.channels.get(data.emojiChannel)) ? "Not Set" : message.guild.channels.get(data.emojiChannel);
+	const adminRole = (!data.admin || !message.guild.roles.cache.get(data.admin)) ? "Not Set" : message.guild.roles.cache.get(data.admin);
+	const modRole = (!data.moderator || !message.guild.roles.cache.get(data.moderator)) ? "Not Set" : message.guild.roles.cache.get(data.moderator);
+	const memberRole = (!data.member || !message.guild.roles.cache.get(data.member)) ? "Not Set" : message.guild.roles.cache.get(data.member);
+	const starboard = (!data.starboard || !message.guild.channels.cache.get(data.starboard)) ? "Not Set" : message.guild.channels.cache.get(data.starboard);
+	const emojiChannel = (!data.emojiChannel || !message.guild.channels.cache.get(data.emojiChannel)) ? "Not Set" : message.guild.channels.cache.get(data.emojiChannel);
 
 	let ecolor = 13238272;
 	if(message.guild.owner.roles.color) ecolor = message.guild.owner.roles.highest.color;

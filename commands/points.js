@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
 	let member = message.member;
 	if(tagged){
 		user = tagged;
-		member = message.guild.members.get(tagged.id);
+		member = message.guild.members.cache.get(tagged.id);
 	}
 
 	let ecolor = 16777215;

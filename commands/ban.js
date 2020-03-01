@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 	if(banUser.id === message.guild.owner.id) return message.reply("The server owner is a god and cannot be banned.");
 	if(banUser.discriminator === "0000") return message.reply("You cannot ban a webhook (What did it ever do to you?!).");
 
-	const banMember = message.guild.members.get(banUser.id);
+	const banMember = message.guild.members.cache.get(banUser.id);
 	if(banMember){
 		if(banMember.roles.highest.calculatedPosition >= message.guild.me.roles.highest.calculatedPosition) return message.reply("That users powerlevel is higher than mine, I am unable to ban them.");
 		if(!banMember.bannable) return message.reply("With all the powers bestowed in me, I am unable to ban that user.");

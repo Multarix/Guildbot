@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 	let lover = message.author;
 	if(tagged) lover = tagged;
 
-	const theCrush = message.guild.members.filter(m => m.user.id !== lover.id).random().user.tag;
+	const theCrush = message.guild.members.cache.filter(m => m.user.id !== lover.id).random().user.tag;
 	return message.channel.send(`\`${lover.tag}\` has a crush on \`${theCrush}\` ❤😍`);
 };
 

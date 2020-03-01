@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const wd = require("word-definition");
 exports.run = async (client, message, args) => {
 
-	let bad = client.emojis.get("340357882606256137");
+	let bad = client.emojis.cache.get("340357882606256137");
 	if(!bad) bad = "👎";
 
 	const word = args.join(" ");

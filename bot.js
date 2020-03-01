@@ -4,7 +4,7 @@ const cron = require("node-cron");
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 
-const client = new Discord.Client({ disableEveryone: true, shardCount: "auto", partials: Object.values(Discord.Constants.PartialTypes) });
+const client = new Discord.Client({ disableEveryone: true, shardCount: 1, partials: Object.values(Discord.Constants.PartialTypes) });
 
 client.config = require("./config.json");
 require("./modules/functions.js")(client);

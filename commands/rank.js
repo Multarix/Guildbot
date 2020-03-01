@@ -1,9 +1,8 @@
 const Discord = require('discord.js');
 exports.run = async (client, message, args) => {
 
-	const players = client.users;
+	const players = client.users.cache;
 	const res = sqlAll("SELECT * FROM points WHERE guild = ? ORDER BY amount DESC", message.guild.id);
-	console.log(res);
 	let ecolor = 13238272;
 	if(message.guild.me.roles.highest.color) ecolor = message.guild.me.roles.highest.color;
 	const embed = new Discord.MessageEmbed()

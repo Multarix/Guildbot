@@ -37,7 +37,7 @@ module.exports = async (client, messageReaction, usr) => {
 				if(!role) return;
 				if(role.comparePositionTo(message.guild.me.roles.highest) >= 0) return;
 				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_ROLES")){
-					message.guild.members.get(user.id).roles.add(role, "Reacted on self assign message.").catch(e => { client.log(e.message, "error"); });
+					message.guild.members.cache.get(user.id).roles.add(role, "Reacted on self assign message.").catch(e => { client.log(e.message, "error"); });
 				}
 				checkEmoji = true;
 			}
@@ -47,7 +47,7 @@ module.exports = async (client, messageReaction, usr) => {
 
 	if(reaction.emoji.name !== '⭐') return;
 
-	const starboard = message.channel.guild.channels.get(data.starboard);
+	const starboard = message.channel.guild.channels.cache.get(data.starboard);
 
 	if(!starboard) return client.log("Guild does not have a starboard channel, skipping starboard message", "Stars");
 

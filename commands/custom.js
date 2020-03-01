@@ -66,12 +66,12 @@ exports.conf = {
 	enabled: true,
 	allowDM: false,
 	aliases: ["cc", "tag"],
-	permLevel: 2,
+	permLevel: 2
 };
 
 exports.help = {
 	name: "custom",
 	category: "System",
 	description: "Creates a custom command",
-	usage: "key text",
+	usage: "key text"
 };

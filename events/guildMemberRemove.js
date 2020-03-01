@@ -10,7 +10,7 @@ module.exports = async (client, member) => {
 
 	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, member.guild.id);
 	if(!data.leaveChannel || !data.leaveMsg) return;
-	const leaveChannel = member.guild.channels.get(data.leaveChannel);
+	const leaveChannel = member.guild.channels.cache.get(data.leaveChannel);
 	if(!leaveChannel) return;
 	if(leaveChannel.permissionsFor(member.guild.me).has("SEND_MESSAGES")){
 		const leaveMessage = data.leaveMsg.replace("<@user>", `${member.user}`).replace("<user>", member.user.username);

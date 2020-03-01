@@ -12,7 +12,7 @@ module.exports = async (client, message) => {
 	if(message.channel.type === "dm") return;
 	if(!message.channel.permissionsFor(message.guild.me).has("SEND_MESSAGES")) return;
 
-	if(message.mentions.everyone) message.react(client.emojis.get("519919364485677066")).catch(e => { return; });
+	if(message.mentions.everyone) message.react(client.emojis.cache.get("519919364485677066")).catch(e => { return; });
 
 	if(!talkedRecently.has(`${message.author.id}|${message.guild.id}`)){
 		talkedRecently.add(`${message.author.id}|${message.guild.id}`);

@@ -2,7 +2,7 @@ const colors = require("colors");
 module.exports = async (client, shardID) => {
 
 	await wait(1000);
-	client.guilds.forEach(g => {
+	client.guilds.cache.forEach(g => {
 		const data = sqlGet("SELECT * FROM settings WHERE guild = ?", g.id);
 		if(!data){
 			sqlRun("INSERT INTO settings (guild, prefix) VALUES (?, ?)", g.id, client.config.prefix);
@@ -11,7 +11,7 @@ module.exports = async (client, shardID) => {
 		}
 	});
 
-	client.log(`Accessing a total of '${client.guilds.size}' server(s) With a total of '${client.users.size}' users`, "Ready", shardID);
+	client.log(`Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`, "Ready", shardID);
 
 	let game = "with Auto-D&D";
 	if(client.user.id === "260372003310010368") game = "hide the sausage";

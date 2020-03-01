@@ -10,7 +10,7 @@ exports.run = async (client, message, args) => {
 	if(kickUser.id === message.guild.owner.id) return message.reply("The server owner is a god and cannot be kicked.");
 	if(kickUser.discriminator === "0000") return message.reply("You cannot kick a webhook (What did it ever do to you?!).");
 
-	const kickMember = message.guild.members.get(kickUser.id);
+	const kickMember = message.guild.members.cache.get(kickUser.id);
 	if(!kickMember) return message.channel.send("That user does not appear to be in the guild.", { code: "markdown" });
 	if(kickMember.roles.highest.calculatedPosition >= message.guild.me.roles.highest.calculatedPosition) return message.reply("That users powerlevel is higher than mine, I am unable to kick them.");
 	if(!kickMember.kickable) return message.reply("With all the powers bestowed in me, I am unable to kick that user.");

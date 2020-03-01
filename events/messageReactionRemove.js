@@ -32,7 +32,7 @@ module.exports = async (client, messageReaction, user) => {
 				if(!role) return;
 				if(role.comparePositionTo(message.guild.me.roles.highest) >= 0) return;
 				if(message.channel.permissionsFor(message.guild.me).has("MANAGE_ROLES")){
-					message.guild.members.get(user.id).roles.remove(role, "Unreacted on self assign message.").catch(e => { client.log(e.message, "error"); });
+					message.guild.members.cache.get(user.id).roles.remove(role, "Unreacted on self assign message.").catch(e => { client.log(e.message, "error"); });
 				}
 				checkEmoji = true;
 			}
@@ -41,7 +41,7 @@ module.exports = async (client, messageReaction, user) => {
 	}
 
 	if(reaction.emoji.name !== '⭐') return;
-	const starboard = message.channel.guild.channels.find(x => x.name === "starboard");
+	const starboard = message.channel.guild.channels.cache.find(x => x.name === "starboard");
 
 	if(!starboard) return;
 

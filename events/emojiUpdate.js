@@ -3,7 +3,7 @@ module.exports = async (client, oldEmoji, emoji) => {
 
 	const guild = emoji.guild;
 	const data = sqlGet("SELECT * FROM settings WHERE guild = ?", guild.id);
-	const channel = guild.channels.get(data.emojiChannel);
+	const channel = guild.channels.cache.get(data.emojiChannel);
 	if(!data.emojiChannel || !channel) return;
 	if(!channel.permissionsFor(guild.me).has("SEND_MESSAGES")) return;
 

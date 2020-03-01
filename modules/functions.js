@@ -10,13 +10,13 @@ module.exports = async (client) => {
 		if(message.author.id === client.config.ownerID) return permlvl = 10;
 		if(message.author.id === message.guild.owner.id) return permlvl = 5;
 
-		const adminRole = message.guild.roles.get(data.admin);
+		const adminRole = message.guild.roles.cache.get(data.admin);
 		if(adminRole && message.member.roles.has(adminRole.id)) return permlvl = 4;
 
-		const modRole = message.guild.roles.get(data.moderator);
+		const modRole = message.guild.roles.cache.get(data.moderator);
 		if(modRole && message.member.roles.has(modRole.id)) return permlvl = 3;
 
-		const memRole = message.guild.roles.get(data.member);
+		const memRole = message.guild.roles.cache.get(data.member);
 		if(memRole && message.member.roles.has(memRole.id)) return permlvl = 1;
 
 		return permlvl;
@@ -81,17 +81,17 @@ module.exports = async (client) => {
 
 	/* Non-Critical Misc Functions */
 	global.sql = require("better-sqlite3")("./objects/settings.sqlite");
-	global.sqlGet = (statement, ...arguments) => {
+	global.sqlGet = (statement, ...argume) => {
 		const prep = sql.prepare(statement);
-		return prep.get(arguments);
+		return prep.get(argume);
 	};
-	global.sqlRun = (statement, ...arguments) => {
+	global.sqlRun = (statement, ...argume) => {
 		const prep = sql.prepare(statement);
-		return prep.run(arguments);
+		return prep.run(argume);
 	};
-	global.sqlAll = (statement, ...arguments) => {
+	global.sqlAll = (statement, ...argume) => {
 		const prep = sql.prepare(statement);
-		return prep.all(arguments);
+		return prep.all(argume);
 	};
 
 	String.prototype.toProperCase = function(){
@@ -128,16 +128,19 @@ module.exports = async (client) => {
 		if(!userID) return;
 		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
 		if(userID.startsWith("!")) userID = userID.slice(1);
+		if(client.users.cache.get(userID)) return client.users.cache.get(userID);
 		await client.users.fetch(userID).catch(e => { return undefined; });
-		return client.users.get(userID);
+		return client.users.cache.get(userID);
 	};
 
 	// Checks for and fetches a channel if it exists.
-	global.grabChannel = (channelID) => {
+	global.grabChannel = async (channelID) => {
 		if(!channelID) return;
 		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
-		if(!client.channels.get(channelID)) return null;
-		return client.channels.get(channelID);
+		if(client.channels.cache.get(channelID)) return client.channels.cache.get(channelID);
+		await client.channels.fetch(channelID).catch(e => { return undefined; });
+		const channel = (client.channels.cache.get(channelID)) ? client.channels.cache.get(channelID) : undefined;
+		return channel;
 	};
 
 	// Checks for a role and returns it if it exists.
@@ -145,8 +148,8 @@ module.exports = async (client) => {
 		if(!roleID) return undefined;
 		if(!guild) return undefined;
 		if(guild.id) guild = guild.id;
-		guild = client.guilds.get(guild);
-		if(!guild) return null;
+		guild = client.guilds.cache.get(guild);
+		if(!guild) return undefined;
 		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
 		if(!guild.roles.get(roleID)) return null;
 		return guild.roles.get(roleID);
@@ -162,7 +165,7 @@ module.exports = async (client) => {
 		assignArray.forEach(x => {
 			const emojiID = x.match(/\[(.*?)\]/)[0].replace(/[\][]/g, "");
 			let actualEmoji = emojiID;
-			if(client.emojis.get(actualEmoji)) actualEmoji = client.emojis.get(actualEmoji);
+			if(client.emojis.cache.get(actualEmoji)) actualEmoji = client.emojis.cache.get(actualEmoji);
 			msg.react(actualEmoji);
 		});
 	};
