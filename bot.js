@@ -49,8 +49,8 @@ const init = async () => {
 
 	client.login(client.config.clientToken);
 
-	cron.schedule("0 0 12 * * *", async () => {
-		client.asshole(client);
+	cron.schedule("0 35 14 * * *", async () => {
+		client.asshole(client, client.config.homeServer);
 	});
 };
 
