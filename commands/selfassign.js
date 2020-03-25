@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
 
 	// Check if the channel exists, if it doesnt return the channel as null and update the database
 	let channel = undefined;
-	if(channelID) channel = grabChannel(channelID);
+	if(channelID) channel = await grabChannel(channelID);
 	if(channelID && !channel){
 		sqlRun(`UPDATE settings SET assignChannel = null, assignMessage = null WHERE guild = ?`, message.guild.id);
 	}
@@ -224,7 +224,7 @@ exports.run = async (client, message, args) => {
 			}
 			// Clear and remove all reactions from the message
 			mID.edit({ embed });
-			mID.clearReactions();
+			mID.reactions.removeAll();
 
 			msg.delete({ timeout: 10000 });
 			return await delMsg(client, message, m);
