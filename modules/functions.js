@@ -151,8 +151,8 @@ module.exports = async (client) => {
 		guild = client.guilds.cache.get(guild);
 		if(!guild) return undefined;
 		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
-		if(!guild.roles.get(roleID)) return null;
-		return guild.roles.get(roleID);
+		if(!guild.roles.cache.get(roleID)) return null;
+		return guild.roles.cache.get(roleID);
 	};
 
 	global.saReact = async (msg) => {
