@@ -12,7 +12,7 @@ You'll need to do the following:
 If you don't know how to find any of the above information, or simply don't know how to run this bot, there are plenty of guides on the internet that explain how to do so. It is not my job to babysit you, so I expect you to at least know how to find this information yourself.
 
 ### Packages required for the bot
-- Discord.js (v12 or higher)
+- Discord.js (v12.2 or higher)
 - Better-Sqlite3 (v5.4.3 or higher)
 - Colors (v1.3.3 or higher)
 - Node-Cron (v2.0.3 or higher)

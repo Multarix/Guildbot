@@ -11,13 +11,13 @@ module.exports = async (client) => {
 		if(message.author.id === message.guild.owner.id) return permlvl = 5;
 
 		const adminRole = message.guild.roles.cache.get(data.admin);
-		if(adminRole && message.member.roles.has(adminRole.id)) return permlvl = 4;
+		if(adminRole && message.member.roles.cache.has(adminRole.id)) return permlvl = 4;
 
 		const modRole = message.guild.roles.cache.get(data.moderator);
-		if(modRole && message.member.roles.has(modRole.id)) return permlvl = 3;
+		if(modRole && message.member.roles.cache.has(modRole.id)) return permlvl = 3;
 
 		const memRole = message.guild.roles.cache.get(data.member);
-		if(memRole && message.member.roles.has(memRole.id)) return permlvl = 1;
+		if(memRole && message.member.roles.cache.has(memRole.id)) return permlvl = 1;
 
 		return permlvl;
 	};
