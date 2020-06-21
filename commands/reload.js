@@ -24,7 +24,7 @@ exports.run = async (client, message, args) => {
 		client.aliases.set(alias, cmd.help.name);
 	});
 	client.log(`The command '${command}' was reloaded`, "Log");
-	message.reply(`The command '${command}' has been reloaded`).then(msg =>{
+	message.channel.send(`The command '${command}' has been reloaded`).then(msg =>{
 		if(message.channel.memberPermissions(message.guild.me).has("MANAGE_MESSAGES")){
 			msg.delete({ timeout: 5000 });
 			message.delete({ timeout: 5000 });
