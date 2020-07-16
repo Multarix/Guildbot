@@ -30,15 +30,27 @@ exports.run = async (client, message, args) => {
 	const example = results[0].example.replace(filter, "").replace(filter2, "\n");
 	const link = results[0].permalink;
 
-	const defArray = definition.split("\n");
-	const exaArray = example.split("\n");
-	// Temporary solution to max character limit issue
+	let defArray = definition.split("\n");
+	let exaArray = example.split("\n");
+
+	defArray = defArray[0];
+	exaArray = exaArray[0];
+
+	if(defArray.length >= 1024){
+		defArray = defArray.substring(0, 924);
+		defArray = `${defArray}... ${link}`
+	}
+	if(exaArray.length >= 1024){
+		exaArray = exaArray.substring(0, 924);
+		exaArray = `${exaArray}...`
+	};
+
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(word, "https://i.imgur.com/mpeuwPm.png", link)
 		.setFooter(message.author.tag, message.author.displayAvatarURL())
 		.setTimestamp()
-		.addField("Definition:", defArray[0], false)
-		.addField("Usage:", exaArray[0], false);
+		.addField("Definition:", defArray, false)
+		.addField("Usage:", exaArray, false);
 	return message.channel.send({ embed });
 };
 
