@@ -21,8 +21,8 @@ exports.run = async (client, message, args) => {
 			.addField("Starboard", starboard, true)
 			.addField("Emoji Channel", emojiChannel, true)
 			.addField("Admin Role", adminRole, true)
-			.addField("Member Role", modRole, true)
-			.addField("Moderator Role", memberRole, true)
+			.addField("Member Role", memberRole, true)
+			.addField("Moderator Role", modRole, true)
 			.setFooter(client.user.tag, client.user.displayAvatarURL())
 			.setTimestamp();
 		if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
