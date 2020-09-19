@@ -21,7 +21,7 @@ exports.conf = {
 
 exports.help = {
 	name: "dog",
-	category: "Misc",
+	category: "Fun",
 	description: "Posts a random dog picture or gif.",
 	usage: ".."
 };

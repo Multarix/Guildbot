@@ -38,12 +38,12 @@ exports.run = async (client, message, args) => {
 
 	if(defArray.length >= 1024){
 		defArray = defArray.substring(0, 924);
-		defArray = `${defArray}... ${link}`
+		defArray = `${defArray}... ${link}`;
 	}
 	if(exaArray.length >= 1024){
 		exaArray = exaArray.substring(0, 924);
-		exaArray = `${exaArray}...`
-	};
+		exaArray = `${exaArray}...`;
+	}
 
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(word, "https://i.imgur.com/mpeuwPm.png", link)

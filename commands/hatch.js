@@ -51,7 +51,7 @@ exports.conf = {
 
 exports.help = {
 	name: "hatch",
-	category: "Misc",
+	category: "Fun",
 	description: "Hatches pokemon eggs using Masuda Method + Shiny Charm calculations",
 	usage: "Amount-Of-Eggs Attempts"
 };

@@ -16,7 +16,7 @@ exports.conf = {
 
 exports.help = {
 	name: "egg",
-	category: "Misc",
+	category: "Fun",
 	description: "Calculates the chance that a shiny pokemon should have hatched",
 	usage: "egg-number"
 };

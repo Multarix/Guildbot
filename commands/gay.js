@@ -35,7 +35,7 @@ exports.conf = {
 
 exports.help = {
 	name: "gay",
-	category: "Misc",
+	category: "Fun",
 	description: "See how gay you or someone else is",
 	usage: "..user"
 };

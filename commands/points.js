@@ -42,7 +42,7 @@ exports.conf = {
 
 exports.help = {
 	name: "points",
-	category: "Misc",
+	category: "Fun",
 	description: "Check the points of you or another user",
 	usage: "..user"
 };

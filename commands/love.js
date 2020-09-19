@@ -18,7 +18,7 @@ exports.conf = {
 
 exports.help = {
 	name: "love",
-	category: "Misc",
+	category: "Fun",
 	description: "See who has a crush on who",
 	usage: "..user"
 };
