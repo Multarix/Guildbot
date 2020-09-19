@@ -22,6 +22,6 @@ exports.conf = {
 exports.help = {
 	name: "translate",
 	category: "Misc",
-	description: "Translate stuff. For a list of the language iso's, check here:\nhttps://www.sitepoint.com/iso-2-letter-language-codes/",
+	description: "Translate stuff. For a list of the language iso's, check [here](https://www.sitepoint.com/iso-2-letter-language-codes/)",
 	usage: "language text"
 };
