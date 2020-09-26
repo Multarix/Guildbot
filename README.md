@@ -20,6 +20,5 @@ If you don't know how to find any of the above information, or simply don't know
 - Moment-Duration-Format (v2.2.2 or higher)
 - Urban-Dictionary (v2.2.1 or higher)
 - Word-Definition (v2.1.6 or higher)
-- Cats-js (v1.0.2 or higher)
 - Random.Dog.js (v1.0.2 or higher)
 - Apod-Nasa (v1.0.1 or higher)
