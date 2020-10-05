@@ -3,5 +3,5 @@
 	"homeServer": "home server ID",
 	"ownerID": "owner ID",
 	"prefix": "!",
-	"logging" : true
+	"logging": false
 }
