@@ -15,7 +15,14 @@ exports.run = async (client, message, args) => {
 
 	if(client.allowed.has(uniqueIdent)) return;
 	client.allowed.add(uniqueIdent);
-	message.channel.send(`\`${user.tag}\` is allowed to post invite links for the next 10 minutes`);
+	message.channel.send(`\`${user.tag}\` is allowed to post invite links for the next 10 minutes`).then(msg => {
+		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+			try {
+				message.delete({ timeout: 10000 });
+				msg.delete({ timeout: 600000 });
+			} catch (e){ client.log(e.message, "Error"); }
+		}
+	});
 
 	setTimeout(() => {
 		client.allowed.delete(uniqueIdent);
