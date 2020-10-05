@@ -12,6 +12,8 @@ require("./modules/functions.js")(client);
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.events = new Discord.Collection();
+client.allowed = new Set();
+client.talkedRecently = new Set();
 
 const init = async () => {
 	const cmdFiles = await readdir("./commands/");

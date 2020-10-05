@@ -170,8 +170,6 @@ module.exports = async (client) => {
 		});
 	};
 
-	global.talkedRecently = new Set();
-
 	// I see your unhandled things, and present to you, handled things!
 	process.on("uncaughtException", (err) => {
 		const time = require("../modules/time.js")();

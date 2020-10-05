@@ -14,8 +14,8 @@ module.exports = async (client, message) => {
 
 	if(message.mentions.everyone) message.react(client.emojis.cache.get("519919364485677066")).catch(e => { return; });
 
-	if(!talkedRecently.has(`${message.author.id}|${message.guild.id}`)){
-		talkedRecently.add(`${message.author.id}|${message.guild.id}`);
+	if(!client.talkedRecently.has(`${message.author.id}|${message.guild.id}`)){
+		client.talkedRecently.add(`${message.author.id}|${message.guild.id}`);
 		const points = sqlGet(`SELECT * FROM points WHERE user = ? AND guild = ?`, message.author.id, message.guild.id);
 		if(!points){
 			sqlRun(`INSERT INTO points (guild, user, amount) VALUES (?, ?, "1")`, message.guild.id, message.author.id);
@@ -23,7 +23,7 @@ module.exports = async (client, message) => {
 		} else {
 			sqlRun(`UPDATE points SET amount = ? WHERE user = ? AND guild = ?`, points.amount + 1, message.author.id, message.guild.id);
 		}
-		setTimeout(() => { talkedRecently.delete(`${message.author.id}|${message.guild.id}`); }, 10000);
+		setTimeout(() => { client.talkedRecently.delete(`${message.author.id}|${message.guild.id}`); }, 10000);
 	}
 
 	const str = message.content.toLowerCase();
@@ -39,9 +39,11 @@ module.exports = async (client, message) => {
 	const regicide = /(https?:\/\/)?(discord\.gg\/)([^\s]*)/gi;
 	const serverAd = message.content.match(regicide);
 	if(serverAd && level < 3){
-		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
-			message.delete();
-			message.reply("Advertising for random discord servers is not allowed.\nIf you think this was a mistake, contact an admin. ");
+		if(!client.allowed.has(`${message.author.id}|${message.guild.id}`)){
+			if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
+				message.delete();
+				message.reply("Advertising for random discord servers is not allowed.\nIf you think this was a mistake, contact an admin.");
+			}
 		}
 	}
 
