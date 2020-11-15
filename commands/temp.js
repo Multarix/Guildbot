@@ -7,23 +7,28 @@ exports.run = async (client, message, args) => {
 
 	let temp1Type;
 	let temp2Type;
+	let tempConversion;
 
 	switch(args[0]){
 		case "f":
 		case "fahrenheit":
 			temp1Type = "°F";
 			temp2Type = "°C";
+			tempConversion = "f";
 			break;
 		case "c":
 		case "celsius":
 			temp1Type = "°C";
 			temp2Type = "°F";
+			tempConversion = "c";
 			break;
 		default:
 			temp1Type = false;
 			temp2Type = false;
+			tempConversion = false;
 	}
-	if(!temp1Type || !temp2Type) return message.channel.send("invalid");
+
+	if(!tempConversion) return message.channel.send("Invalid temperature type\nUsage: [temp](<..type> <..temperature)", { code: "markdown" });
 
 	const temp = parseInt(args[1]);
 	if(isNaN(temp)) return message.channel.send("The 2nd argument is not a number, please try again");
@@ -36,8 +41,7 @@ exports.run = async (client, message, args) => {
 	const convertFromCelsius = (num) => round(((num / 5) * 9) + 32);
 	const convertToCelsius = (num) => round(((num - 32) * 5) / 9);
 
-
-	const convertedTemp = (temp1Type === "°C") ? convertToCelsius(temp) : convertFromCelsius(temp);
+	const convertedTemp = (tempConversion === "c") ? convertToCelsius(temp) : convertFromCelsius(temp);
 	return message.channel.send(`${temp}${temp1Type} is ${convertedTemp}${temp2Type}`);
 };
 
