@@ -41,7 +41,7 @@ exports.run = async (client, message, args) => {
 	const convertFromCelsius = (num) => round(((num / 5) * 9) + 32);
 	const convertToCelsius = (num) => round(((num - 32) * 5) / 9);
 
-	const convertedTemp = (tempConversion === "c") ? convertToCelsius(temp) : convertFromCelsius(temp);
+	const convertedTemp = (tempConversion === "f") ? convertToCelsius(temp) : convertFromCelsius(temp);
 	return message.channel.send(`${temp}${temp1Type} is ${convertedTemp}${temp2Type}`);
 };
 
