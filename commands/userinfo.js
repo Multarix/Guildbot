@@ -1,3 +1,4 @@
+// Currently Broken
 const Discord = require('discord.js');
 const moment = require("moment");
 require("moment-duration-format");
@@ -16,8 +17,13 @@ exports.run = async (client, message, args) => {
 
 	const joinDate = moment.duration(Date.now() - user.createdTimestamp).format("Y [years], M [months], D [days]");
 
-	let game = "nothing";
-	if(user.presence.activity) game = user.presence.activity.name;
+	let game = "Nothing";
+	if(member.presence.activities.length >= 1){
+		member.presence.activities.forEach(a => {
+			if(a.type !== "PLAYING") return;
+			game = a.name;
+		});
+	}
 
 	let displayName = user.username;
 	if(member) displayName = member.displayName;
@@ -29,7 +35,7 @@ exports.run = async (client, message, args) => {
 		.addField("Discrim:", user.discriminator, true)
 		.addField("Discord ID:", user.id, true)
 		.addField("Is bot?", user.bot.toString().toProperCase(), true)
-		.addField("Status:", user.presence.status.toProperCase(), true)
+		.addField("Status:", member.presence.status.toProperCase(), true)
 		.addField("Playing:", game, true)
 		.addField("Joined Discord:", `${joinDate} ago`, false)
 		.setTimestamp()
@@ -40,12 +46,12 @@ exports.run = async (client, message, args) => {
 		if(member.roles.highest.color) ecolor1 = member.roles.highest.color;
 		if(member.roles){
 			const s = function(a, b){ return a.position - b.position; };
-			const r = member.roles.cache.array().sort(s).slice(1).reverse().join(", ");
+			const r = [...member.roles.cache.values()].sort(s).slice(1).reverse().join(", ");
 			embed.addField("Roles:", `\u200b${r}`);
 		}
 	}
 	embed.setColor(ecolor1);
-	return message.channel.send({ embed });
+	return message.channel.send({ embeds: [embed] });
 };
 
 exports.conf = {

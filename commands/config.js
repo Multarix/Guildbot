@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
+	const owner = await message.guild.fetchOwner();
 
 	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, message.guild.id);
 	const adminRole = (!data.admin || !message.guild.roles.cache.get(data.admin)) ? "Not Set" : message.guild.roles.cache.get(data.admin);
@@ -10,7 +11,7 @@ exports.run = async (client, message, args) => {
 	const emojiChannel = (!data.emojiChannel || !message.guild.channels.cache.get(data.emojiChannel)) ? "Not Set" : message.guild.channels.cache.get(data.emojiChannel);
 
 	let ecolor = 13238272;
-	if(message.guild.owner.roles.color) ecolor = message.guild.owner.roles.highest.color;
+	if(owner.roles.color) ecolor = owner.roles.highest.color;
 
 	let roleName = args[0];
 	if(!roleName){
@@ -18,15 +19,15 @@ exports.run = async (client, message, args) => {
 			.setAuthor(`Guild Settings`)
 			.setColor(ecolor)
 			.addField("Prefix", `${data.prefix}`, true)
-			.addField("Starboard", starboard, true)
-			.addField("Emoji Channel", emojiChannel, true)
-			.addField("Admin Role", adminRole, true)
-			.addField("Member Role", memberRole, true)
-			.addField("Moderator Role", modRole, true)
-			.setFooter(client.user.tag, client.user.displayAvatarURL())
+			.addField("Starboard", `${starboard}`, true)
+			.addField("Emoji Channel", `${emojiChannel}`, true)
+			.addField("Admin Role", `${adminRole}`, true)
+			.addField("Member Role", `${memberRole}`, true)
+			.addField("Moderator Role", `${modRole}`, true)
+			.setFooter(`${client.user.tag}`, `${client.user.displayAvatarURL()}`)
 			.setTimestamp();
 		if(message.guild.iconURL) embed.setThumbnail(message.guild.iconURL);
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 
 	const info = {
@@ -107,10 +108,10 @@ exports.run = async (client, message, args) => {
 	if(aliases.includes(roleName)){
 		embed.setDescription(`${data.prefix}config set <setting>`);
 		if(!args[1]){
-			return await message.channel.send({ embed }).catch(() => undefined);
+			return await message.channel.send({ embeds: [embed] }).catch(() => undefined);
 		}
 
-		if(info.fileName === "invalid") return message.channel.send({ embed }).catch(() => undefined);
+		if(info.fileName === "invalid") return message.channel.send({ embeds: [embed] }).catch(() => undefined);
 		const settings = require(`./config/${info.fileName}.js`);
 		if(settings) return settings.edit(client, message, args, data, info);
 	}
@@ -118,14 +119,14 @@ exports.run = async (client, message, args) => {
 	aliases = ["delete", "reset", "disable"];
 	if(aliases.includes(roleName)){
 		embed.setDescription(`${data.prefix}config delete <setting>`);
-		if(!args[1]) return await message.channel.send({ embed }).catch(() => undefined);
+		if(!args[1]) return await message.channel.send({ embeds: [embed] }).catch(() => undefined);
 
-		if(info.fileName === "invalid") return await message.channel.send({ embed }).catch(() => undefined);
+		if(info.fileName === "invalid") return await message.channel.send({ embeds: [embed] }).catch(() => undefined);
 		const settings = require(`./config/${info.fileName}.js`);
 		if(settings) return settings.delete(client, message, args, data, info);
 	}
 	embed.setDescription(`${data.prefix}config set/delete <setting>`);
-	return await message.channel.send({ embed }).catch(() => undefined);
+	return await message.channel.send({ embeds: [embed] }).catch(() => undefined);
 };
 
 exports.conf = {

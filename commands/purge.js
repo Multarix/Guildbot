@@ -8,7 +8,9 @@ exports.run = (client, message, args) => {
 	if(toDelete >= 101) toDelete = 100;
 
 	message.channel.messages.fetch({ limit: toDelete }).then(messages => {
-		let msg_array = messages.array();
+		// messages = collection
+		let msg_array = [...messages.values()];
+		console.log(msg_array);
 		msg_array = msg_array.filter(m => m.author.id === client.user.id);
 		msg_array.length = messagecount;
 		msg_array.map(m => m.delete().catch(console.error));

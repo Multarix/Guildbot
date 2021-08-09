@@ -9,12 +9,12 @@ exports.edit = async (client, message, args, data, info) => {
 
 	if(!args[2]){
 		embed.addField("No Prefix Defined", `${data.prefix}config set prefix <prefix>`);
-		return await message.channel.send({ embed });
+		return await message.channel.send({ embeds: [embed] });
 	}
 
 	if(args[2] === data.prefix){
 		embed.addField("Prefix Already Set", `The prefix is already set to \`${data.prefix}\``);
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 
 	sqlRun(`UPDATE settings SET prefix = ? WHERE guild = ?`, sanity(args[2]), message.guild.id);
@@ -39,12 +39,12 @@ exports.delete = async (client, message, args, data, info) => {
 
 	if(data.prefix === client.config.prefix){
 		embed.addField("Already Default", "Your prefix is already set to default, therefore cannot be reset.");
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 	sqlRun(`UPDATE settings SET prefix = ? WHERE guild = ?`, client.config.prefix, message.guild.id);
 	client.log(`"${message.guild.name}" changed their prefix to "${client.config.prefix}"`, `SQL`);
 
 	embed.addField("Reset Setting", `Your prefix has been reset to \`${client.config.prefix}\``);
-	const m = await message.channel.send({ embed });
+	const m = await message.channel.send({ embeds: [embed] });
 	return await delMsg(client, message, m);
 };

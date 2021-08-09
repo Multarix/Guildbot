@@ -11,7 +11,7 @@ module.exports = async (client, messageReaction, usr) => {
 	if(user.bot) return;
 	const reaction = messageReaction;
 	const regPrefix = /[!\/]reboot/g;	// eslint-disable-line no-useless-escape
-	if(message.content.toLowerCase().match(regPrefix) && user.id === client.config.ownerID && reaction.emoji.id === "340357918996299778") return message.delete().catch(e => { return; });
+	if(message.content.toLowerCase().match(regPrefix) && user.id === client.config.ownerId && reaction.emoji.id === "340357918996299778") return message.delete().catch(e => { return; });
 
 	const data = sqlGet(`SELECT * FROM settings WHERE guild = ?`, message.guild.id);
 
@@ -89,7 +89,7 @@ module.exports = async (client, messageReaction, usr) => {
 			if(image) embed.setImage(image.url);
 
 			const starMsg = starboard.fetchMessage(starredMessage.id);
-			starredMessage.edit({ embed });
+			starredMessage.edit({ embeds: [embed] });
 		}
 		if(!starredMessage){
 			const embed = new Discord.MessageEmbed()
@@ -106,7 +106,7 @@ module.exports = async (client, messageReaction, usr) => {
 				embed.setImage(message.attachments.first().url);
 			}
 			client.log(`"${message.content}" was starred in the "${message.guild.name}" discord.`, "Stars");
-			starboard.send({ embed });
+			starboard.send({ embeds: [embed] });
 		}
 	}
 };

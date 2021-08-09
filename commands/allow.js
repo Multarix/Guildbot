@@ -4,8 +4,8 @@ exports.run = async (client, message, args) => {
 		return message.channel.send("No user was specified, please tag a user").then(msg => {
 			if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
 				try {
-					message.delete({ timeout: 10000 });
-					msg.delete({ timeout: 10000 });
+					setTimeout(() => message.delete(), 10000);
+					setTimeout(() => msg.delete(), 10000);
 				} catch (e){ client.log(e.message, "Error"); }
 			}
 		});
@@ -18,8 +18,8 @@ exports.run = async (client, message, args) => {
 	message.channel.send(`\`${user.tag}\` is allowed to post invite links for the next 10 minutes`).then(msg => {
 		if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")){
 			try {
-				message.delete({ timeout: 10000 });
-				msg.delete({ timeout: 600000 });
+				setTimeout(() => message.delete(), 10000);
+				setTimeout(() => msg.delete(), 600000);
 			} catch (e){ client.log(e.message, "Error"); }
 		}
 	});

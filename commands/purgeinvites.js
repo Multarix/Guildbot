@@ -2,10 +2,11 @@ const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
 
 	if(!message.channel.memberPermissions(message.guild.me).has("MANAGE_GUILD")) return;
-	const invites = await message.guild.fetchInvites();
+	const invites = await message.guild.invites.fetch();
 	const deleted = [];
 	invites.forEach(i => {
-		if(i.inviter && i.inviter.id !== i.guild.ownerID){
+		if(!i.invter) return;
+		if(i.inviter && i.inviter.id !== i.channel.guild.ownerId){
 			deleted.push(`[${i.code}](${i.inviter.tag})`);
 			return i.delete();
 		}

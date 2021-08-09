@@ -4,10 +4,16 @@ const cron = require("node-cron");
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 
-const client = new Discord.Client({ disableEveryone: true, shardCount: 1, partials: Object.values(Discord.Constants.PartialTypes) });
+const Intents = Discord.Intents.FLAGS;
+const client = new Discord.Client({ disableEveryone: true,
+	shardCount: 1,
+	// partials: Object.values(Client.Constants.PartialTypes),
+	intents: [Intents.GUILDS, Intents.GUILD_MEMBERS, Intents.GUILD_BANS, Intents.GUILD_EMOJIS_AND_STICKERS, Intents.GUILD_INVITES, Intents.GUILD_PRESENCES, Intents.GUILD_MESSAGES, Intents.GUILD_MESSAGE_REACTIONS]
+});
 
 client.config = require("./config.json");
 require("./modules/functions.js")(client);
+
 
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();

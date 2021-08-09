@@ -24,7 +24,7 @@ exports.run = async (client, message, args, level) => {
 			.setFooter(client.user.tag, client.user.displayAvatarURL())
 			.setTimestamp();
 
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 
 	} catch (err){
 		const errMsg = await client.clean(client, err);
@@ -38,7 +38,7 @@ exports.run = async (client, message, args, level) => {
 			.addField(`Javascript Evaluated`, errString, false)
 			.setFooter(client.user.tag, client.user.displayAvatarURL())
 			.setTimestamp();
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 };
 

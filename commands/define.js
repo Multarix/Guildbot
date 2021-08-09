@@ -25,7 +25,7 @@ exports.run = async (client, message, args) => {
 				.setFooter(message.author.tag, message.author.displayAvatarURL())
 				.setTimestamp();
 		}
-		return m.edit("Results:", { embed });
+		return m.edit({ content: "\u200b", embeds: [embed] });
 	});
 };
 

@@ -17,7 +17,7 @@ exports.edit = async (client, message, args, data, info) => {
 		\`\`\`md
 		${data.prefix}config delete emoji
 		\`\`\``.removeIndents());
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 
 	sqlRun(`UPDATE settings SET emojiChannel = ? WHERE guild = ?`, channel.id, message.guild.id);
@@ -29,7 +29,7 @@ exports.edit = async (client, message, args, data, info) => {
 	${data.prefix}config delete emoji
 	\`\`\``.removeIndents());
 
-	const m = await	message.channel.send({ embed });
+	const m = await	message.channel.send({ embeds: [embed] });
 	return await delMsg(client, message, m);
 };
 
@@ -42,12 +42,12 @@ exports.delete = async (client, message, args, data, info) => {
 
 	if(!data.emojiChannel){
 		embed.addField("Already Disabled", "The emoji channel is already disabled and therefore cannot be removed.");
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 	sqlRun(`UPDATE settings SET emojiChannel = null WHERE guild = ?`, message.guild.id);
 	client.log(`"${message.guild.name}" removed their emoji channel`, `SQL`);
 
 	embed.addField("Deleted Setting", "The emoji announcement channel has been disabled.");
-	const m = await message.channel.send({ embed });
+	const m = await message.channel.send({ embeds: [embed] });
 	return await delMsg(client, message, m);
 };

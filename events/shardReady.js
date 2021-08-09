@@ -16,7 +16,8 @@ module.exports = async (client, shardID) => {
 	let game = "with Auto-D&D";
 	if(client.user.id === "260372003310010368") game = "hide the sausage";
 	if(client.user.id === "628082697553575941") game = "guildbot debugger";
-	client.user.setActivity(game, { type: 'PLAYING' }).then(client.log("Now playing " + colors.white("[") + game + colors.white("]"), "Activity", shardID));
+	client.user.setActivity(game, { type: 'PLAYING' });
+	client.log("Now playing " + colors.white("[") + game + colors.white("]"), "Activity", shardID);
 };
 
 module.exports.help = {

@@ -1,5 +1,4 @@
 module.exports = async (client, member) => {
-
 	client.log(`"${member.user.tag}" (${member.user.id}) left the "${member.guild.name}" server.`, "Log");
 
 	const mem = sqlGet(`SELECT * From points WHERE user = ? AND guild = ?`, member.user.id, member.guild.id);

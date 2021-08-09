@@ -1,3 +1,4 @@
+// Dangerous to test/ Annoying to set up
 const Discord = require("discord.js");
 const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
@@ -20,7 +21,7 @@ exports.run = async (client, message, args) => {
 	}
 	// Check if the message exists, if it doesnt, return the message as null and update the database
 	let assignMessage = undefined;
-	if(channel && messageID) assignMessage = channel.messages.fetch(messageID).catch(e => { return null; });
+	if(channel && messageID) assignMessage = await channel.messages.fetch(messageID).catch(e => { return null; });
 	if(messageID && !assignMessage) sqlRun(`UPDATE settings SET assignMessage = null WHERE guild = ?`, message.guild.id);
 
 	// Embed variable
@@ -42,25 +43,26 @@ exports.run = async (client, message, args) => {
 		const m = await message.channel.send(`Set \`${message.channel.name}\` to be the self assign channel?\n\`Yes\` / \`No\``);
 		const response = ["y", "yes", "n", "no"];
 		const messageFilter = x => x.author.id === message.author.id && response.includes(x.content.toLowerCase());
-		const collected = await	message.channel.awaitMessages(messageFilter, { max: 1, time: 15000, errors: ['time'] }).catch(() => {
+		const collected = await	message.channel.awaitMessages({ filter: messageFilter, max: 1, time: 15000, errors: ['time'] }).catch(() => {
 			m.edit("Command Canceled").then(m => {
 				delMsg(client, message, m);
 				return undefined;
 			});
 		});
 		if(!collected) return;
-		const msg = collected.first().content.toLowerCase();
+		const msg = collected.first();
 		// Response was no
 		match = ["no", "n"];
-		if(match.includes(msg)){
+		if(match.includes(msg.content.toLowerCase())){
 			await m.edit("Command Canceled.");
 			return await delMsg(client, message, m);
 		}
 		// Response was yes
 		match = ["yes", "y"];
-		if(match.includes(msg)){
+		if(match.includes(msg.content.toLowerCase())){
 			sqlRun(`UPDATE settings SET assignChannel = ? WHERE guild = ?`, message.channel.id, message.guild.id);
 			await m.edit(`Auto-Assign channel has been set to \`${message.channel.name}\`.`);
+			setTimeout(() => msg.delete(), 10000);
 			return await delMsg(client, message, m);
 		}
 	}
@@ -88,7 +90,7 @@ exports.run = async (client, message, args) => {
 		// Send a message and await a message reaction.
 		const reactionFilter = (reaction, user) => reaction.emoji.name !== "⭐" && user.id === message.author.id;
 		const m = await message.channel.send(`Please react to this message with the emoji you'd like to use for the \`${role.name}\` role.\nPlease note, it cannot be the :star: emoji.`);
-		const collected = await m.awaitReactions(reactionFilter, { max: 1, time: 30000, errors: ['time'] }).catch(() => {
+		const collected = await m.awaitReactions({ filter: reactionFilter, max: 1, time: 30000, errors: ['time'] }).catch(() => {
 			delMsg(client, message, m);
 			return undefined;
 		});
@@ -135,19 +137,19 @@ exports.run = async (client, message, args) => {
 
 		// Check if there is a reaction message already, if so edit it, otherwise send one.
 		if(messageID){
-			const msg = await channel.messages.fetch(messageID);
+			let msg = await channel.messages.fetch(messageID);
 			if(!msg){
-				const msg = await channel.send({ embed });
+				msg = await channel.send({ embeds: [embed] });
 				await sqlRun(`UPDATE settings SET assignMessage = ? WHERE guild = ?`, msg.id, message.guild.id);
 				await saReact(msg);
 				return await delMsg(client, message, m);
 			} else {
-				await msg.edit({ embed });
+				await msg.edit({ embeds: [embed] });
 				await saReact(msg);
 				return await delMsg(client, message, m);
 			}
 		} else {
-			const msg = await channel.send({ embed });
+			const msg = await channel.send({ embeds: [embed] });
 			sqlRun(`UPDATE settings SET assignMessage = ? WHERE guild = ?`, msg.id, message.guild.id);
 			saReact(msg);
 			return await delMsg(client, message, m);
@@ -197,42 +199,42 @@ exports.run = async (client, message, args) => {
 		await sqlRun(`UPDATE settings SET assignRoles = ? WHERE guild = ?`, updateSQLString, message.guild.id);
 		const msg = await channel.messages.fetch(messageID).catch(() => { return undefined; });
 		if(!msg) return;
-		await msg.edit({ embed });
+		await msg.edit({ embeds: [embed] });
 		saReact(msg);
 		return await message.delete();
 	}
 
-	// Completely remove all roles from the list. (Useful for if you delete a role without first updating the bot.)
+	// Completely remove all self assign data from the sql related to the guild. (Useful for if you delete a role without first updating the bot.)
 	match = ["reset", "reload", "retry"];
 	if(match.includes(secondary)){
 		const m = await message.channel.send("This will remove **__ALL__** roles from the self assign message.\nAre you sure you wish to proceed?\n`Yes` / `No`");
-		const response = ["y", "yes", "n", "no"];
+		const response = ["y", "yes", "n", "no"]; // array
 		const filter = x => x.author.id === message.author.id && response.includes(x.content.toLowerCase());
 
-		const c = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).catch(() => { message.channel.send("Command Canceled."); return undefined; });
+		const c = await message.channel.awaitMessages({ filter, max: 1, time: 15000, errors: ['time'] }).catch(() => { message.channel.send("Command Canceled."); return undefined; });
 		if(!c) return;
-		const msg = c.first().content.toLowerCase();
+		const msg = c.first();
 		// Yes response
 		let reply = ["yes", "y"];
-		if(reply.includes(msg)){
-			// Wipe all roles from sql
-			await sqlRun(`UPDATE settings SET assignRoles = null WHERE guild = ?`, message.guild.id);
-			const mID = await channel.messages.fetch(messageID).catch(() => { return undefined; });
-			if(!mID){
-				msg.delete({ timeout: 10000 });
-				return await delMsg(client, message, m);
-			}
-			// Clear and remove all reactions from the message
-			mID.edit({ embed });
-			mID.reactions.removeAll();
+		if(reply.includes(msg.content.toLowerCase())){
+			const mssg = await message.channel.send(`Working...`);
 
-			msg.delete({ timeout: 10000 });
-			return await delMsg(client, message, m);
+			if(assignMessage) await assignMessage.delete().catch(e => { return undefined; }); // Remove the self assign message
+			sqlRun(`UPDATE settings SET assignChannel = null, assignMessage = null, assignRoles = null WHERE guild = ?`, message.guild.id); // Remove the self assign data from the SQL
+
+			mssg.edit("Done!");
+			await delMsg(client, message, m);
+			return await delMsg(client, msg, mssg);
 		}
 		// No response
 		reply = ["no", "n"];
-		if(reply.includes(msg)) return message.channel.send("Command Canceled.");
+		if(reply.includes(msg.content.toLowerCase())){
+			const mssg = await message.channel.send("Command Canceled.");
+			await delMsg(client, message, m);
+			return await delMsg(client, msg, mssg);
+		}
 	}
+
 
 	const m = await message.channel.send("That doesn't appear to be a valid argument. Try again.");
 	return await delMsg(client, message, m);

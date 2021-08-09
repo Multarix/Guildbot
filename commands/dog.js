@@ -1,3 +1,4 @@
+// Deprecation Warning, Should be fine
 const randomDogJs = require("random.dog.js");
 const Discord = require("discord.js");
 exports.run = async (client, message, args) => {
@@ -9,7 +10,7 @@ exports.run = async (client, message, args) => {
 	const embed = new Discord.MessageEmbed()
 		.setImage(dog.url);
 
-	return message.channel.send({ embed });
+	return message.channel.send({ embeds: [embed] });
 };
 
 exports.conf = {

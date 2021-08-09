@@ -7,8 +7,8 @@ module.exports = async (client) => {
 		let permlvl = 0;
 
 		if(!message.guild || !message.member) permlvl = 0;
-		if(message.author.id === client.config.ownerID) return permlvl = 10;
-		if(message.author.id === message.guild.owner.id) return permlvl = 5;
+		if(message.author.id === client.config.ownerId) return permlvl = 10;
+		if(message.author.id === message.guild.ownerId) return permlvl = 5;
 
 		const adminRole = message.guild.roles.cache.get(data.admin);
 		if(adminRole && message.member.roles.cache.has(adminRole.id)) return permlvl = 4;
@@ -158,7 +158,7 @@ module.exports = async (client) => {
 	global.saReact = async (msg) => {
 		if(!msg) return null;
 		await msg.reactions.removeAll();
-		wait(1000);
+		await wait(1000);
 		const data = sqlGet("SELECT * FROM settings WHERE guild = ?", msg.guild.id);
 		const saData = data.assignRoles;
 		const assignArray = saData.split("*");

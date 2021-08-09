@@ -88,6 +88,6 @@ module.exports = async (client, message) => {
 };
 
 module.exports.help = {
-	name: "message",
+	name: "messageCreate",
 	description: "Emitted when a user sends a message"
 };

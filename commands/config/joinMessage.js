@@ -16,14 +16,14 @@ exports.edit = async (client, message, args, data, info) => {
 			.addField("Handy Tips",
 				`If you put '<@user>' anywhere in the message, it will be converted to a mention of that user.
 				If you put '<user>' anywhere in the message, it will be converted to that users username.`.removeIndents());
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 	sqlRun(`UPDATE settings SET joinMsg = ? WHERE guild = ?`, sanity(joinMsg), message.guild.id);
 	client.log(`"${message.guild.name}" set their welcome message`, `SQL`);
 
 	const joinExample = joinMsg.replace(/<@user>/g, client.user).replace(/<user>/g, client.user.username).replace(/\u200b/g, "\n");
 	embed.addField("Setting Saved", `The welcome message has been saved. An example has been provided below.`).addField("Example", joinExample);
-	message.channel.send({ embed });
+	message.channel.send({ embeds: [embed] });
 };
 
 exports.delete = async (client, message, args, data, info) => {
@@ -35,12 +35,12 @@ exports.delete = async (client, message, args, data, info) => {
 
 	if(!data.joinMsg){
 		embed.addField("Already Disabled", "The welcome message is already disabled and therefore cannot be removed.");
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 	sqlRun(`UPDATE settings SET joinMsg = null WHERE guild = ?`, message.guild.id);
 	client.log(`"${message.guild.name}" removed their welcome message`, `SQL`);
 
 	embed.addField("Deleted Setting", "The welcome message has been removed.");
-	const m = await message.channel.send({ embed });
+	const m = await message.channel.send({ embeds: [embed] });
 	return await delMsg(client, message, m);
 };

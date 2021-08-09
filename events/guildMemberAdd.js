@@ -1,5 +1,4 @@
 module.exports = async (client, member) => {
-
 	client.log(`"${member.user.tag}" (${member.user.id}) joined the "${member.guild.name}" server.`, "Log");
 
 	sqlRun(`INSERT INTO points (guild, user, amount) VALUES (?, ?, "0")`, member.guild.id, member.user.id);

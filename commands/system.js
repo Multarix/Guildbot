@@ -14,7 +14,7 @@ exports.run = (client, message, args) => {
 		.setFooter(client.user.tag, client.user.displayAvatarURL())
 		.setTimestamp();
 
-	return message.channel.send({ embed });
+	return message.channel.send({ embeds: [embed] });
 
 };
 

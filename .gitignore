@@ -8,3 +8,5 @@ objects/test.js
 objects/settings.sqlite
 objects/settings.sqlite-journal
 logs.txt
+commands/slashCommands
+events\interactionCreate.js

@@ -69,7 +69,7 @@ module.exports = async (client, messageReaction, user) => {
 		const image = starredMessage.embeds[0].image;
 		if(image) embed.setImage(image.url);
 
-		await starredMessage.edit({ embed });
+		await starredMessage.edit({ embeds: [embed] });
 	}
 };
 

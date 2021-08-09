@@ -1,3 +1,4 @@
+// Currently Broken
 const Discord = require("discord.js");
 const delMsg = require("./config/delMsg.js");
 exports.run = async (client, message, args) => {
@@ -24,7 +25,7 @@ exports.run = async (client, message, args) => {
 		} else {
 			embed.setAuthor(message.guild.name);
 		}
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 
 	if(tag === "set" || tag === "add"){

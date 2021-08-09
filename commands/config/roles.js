@@ -14,7 +14,7 @@ exports.edit = async (client, message, args, data, info) => {
 		\`\`\`md
 		${data.prefix}config set ${info.sqlName}
 		\`\`\``.removeIndents());
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 	if(roleMention.id === data[info.sqlName]){
 		embed.addField("Role Already Set",
@@ -23,7 +23,7 @@ exports.edit = async (client, message, args, data, info) => {
 			\`\`\`md
 			${data.prefix}config set ${info.sqlName}
 			\`\`\``.removeIndents());
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 	sqlRun(`UPDATE settings SET ${info.sqlName} = ? WHERE guild = ?`, roleMention.id, message.guild.id);
 	client.log(`"${message.guild.name}" changed their ${info.sqlName.toProperCase()} role to "@${roleMention.name}" (${roleMention.id})`, "SQL");
@@ -35,7 +35,7 @@ exports.edit = async (client, message, args, data, info) => {
 		${data.prefix}config delete ${info.sqlName}
 		\`\`\``.removeIndents());
 
-	const m = await message.channel.send({ embed });
+	const m = await message.channel.send({ embeds: [embed] });
 	return await delMsg(client, message, m);
 };
 
@@ -48,7 +48,7 @@ exports.delete = async (client, message, args, data, info) => {
 
 	if(!data[info.sqlName]){
 		embed.addField("Already Disabled", `The \`${info.sqlName.toProperCase()}\` role is already disabled and therefore cannot be removed.`);
-		return message.channel.send({ embed });
+		return message.channel.send({ embeds: [embed] });
 	}
 	sqlRun(`UPDATE settings SET ${info.sqlName} = null WHERE guild = ?`, message.guild.id);
 	client.log(`"${message.guild.name}" removed their ${info.sqlName.toProperCase()} role`, "SQL");
@@ -56,6 +56,6 @@ exports.delete = async (client, message, args, data, info) => {
 	embed.addField("Deleted Setting",
 		`Your permission settings have been updated.
 		The \`${info.sqlName.toProperCase()}\` role has been removed`.removeIndents());
-	const m = await message.channel.send({ embed });
+	const m = await message.channel.send({ embeds: [embed] });
 	return await delMsg(client, message, m);
 };

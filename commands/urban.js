@@ -7,28 +7,27 @@ exports.run = async (client, message, args) => {
 	let good = client.emojis.cache.get("340357918996299778");
 	if(!good) good = "👍";
 
-	const define = args.join(" ");
-	if(!define) return message.channel.send("Usage: [urban](<..words>)", { code: "markdown" });
-	const defined = await ud.term(define).catch(e => {
+	const word = args.join(" ");
+	if(!word) return message.channel.send("Usage: [urban](<..words>)", { code: "markdown" });
+	const defined = await ud.define(word).catch(e => {
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(define.toProperCase(), "https://i.imgur.com/mpeuwPm.png")
+			.setAuthor(defined.toProperCase(), "https://i.imgur.com/mpeuwPm.png")
 			.addField(`Error ${bad}`, `Couldn't find a definition \:(`)	//	eslint-disable-line no-useless-escape
 			.setFooter(message.author.tag, message.author.displayAvatarURL())
 			.setTimestamp();
-		message.channel.send({ embed });
+		message.channel.send({ embeds: [embed] });
 		return undefined;
 	});
 	if(!defined) return;
-
-	const results = defined.entries;
+	const result = defined[0];
 
 	const filter = /[[\]]/g;
 	const filter2 = /[\r\n\r\n]+/g;
 
-	const word = results[0].word.toProperCase();
-	const definition = results[0].definition.replace(filter, "").replace(filter2, "\n");
-	const example = results[0].example.replace(filter, "").replace(filter2, "\n");
-	const link = results[0].permalink;
+	const properWord = result.word.toProperCase();
+	const definition = result.definition.replace(filter, "").replace(filter2, "\n");
+	const example = result.example.replace(filter, "").replace(filter2, "\n");
+	const link = result.permalink;
 
 	let defArray = definition.split("\n");
 	let exaArray = example.split("\n");
@@ -46,12 +45,12 @@ exports.run = async (client, message, args) => {
 	}
 
 	const embed = new Discord.MessageEmbed()
-		.setAuthor(word, "https://i.imgur.com/mpeuwPm.png", link)
-		.setFooter(message.author.tag, message.author.displayAvatarURL())
+		.setAuthor(`${properWord}`, "https://i.imgur.com/mpeuwPm.png", link)
+		.setFooter(`${message.author.tag}`, message.author.displayAvatarURL())
 		.setTimestamp()
-		.addField("Definition:", defArray, false)
-		.addField("Usage:", exaArray, false);
-	return message.channel.send({ embed });
+		.addField("Definition:", `${defArray}`, false)
+		.addField("Usage:", `${exaArray}`, false);
+	return message.channel.send({ embeds: [embed] });
 };
 
 exports.conf = {

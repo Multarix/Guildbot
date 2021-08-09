@@ -34,7 +34,7 @@ exports.run = async (client, message, args) => {
 	}
 	client.user.setStatus(newStatus);
 	message.react(good);
-	if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) return message.delete({ timeout: 5000 });
+	if(message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES")) return setTimeout(() => message.delete(), 5000);
 };
 
 

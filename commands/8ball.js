@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
 		.setDescription(`**Question:** ${joinargs}`)
 		.setColor(1)
 		.addField("Magic 8-Ball Reponse \:8ball:", predict[reply], false);	//	eslint-disable-line no-useless-escape
-	return message.channel.send({ embed });
+	return message.channel.send({ embeds: [embed] });
 };
 
 exports.conf = {

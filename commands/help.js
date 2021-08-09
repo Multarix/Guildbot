@@ -17,7 +17,7 @@ exports.run = async (client, message, args, level) => {
 	if(!args[0]){
 
 		const myCommands = client.commands.filter(c=>c.conf.permLevel <= level);
-		const commandNames = myCommands.keyArray();
+		const commandNames = [...myCommands.keys()];
 		const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 		let currentCategory = "";
 		let output = "";
@@ -37,7 +37,7 @@ exports.run = async (client, message, args, level) => {
 			embed.addField(catName, deeta.replace(`|${catName}|`, ""));
 		});
 
-		message.author.send({ embed }).catch(e => {
+		message.author.send({ embeds: [embed] }).catch(e => {
 			if(e.code === 50007) return;
 			return client.log(e.message, "Error");
 		});

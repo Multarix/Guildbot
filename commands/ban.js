@@ -5,16 +5,9 @@ exports.run = async (client, message, args) => {
 	const banUser = await grabUser(args.shift());
 
 	if(!banUser) return message.reply("No User/ Invalid User.\nUsage: [ban](<..user> <..reason)", { code: "markdown" });
-	if(banUser.id === message.author.id) return message.reply("You cannot ban yourself.");
-	if(banUser.id === client.user.id) return message.reply("How about I ban you instead?");
-	if(banUser.id === message.guild.owner.id) return message.reply("The server owner is a god and cannot be banned.");
-	if(banUser.discriminator === "0000") return message.reply("You cannot ban a webhook (What did it ever do to you?!).");
 
 	const banMember = message.guild.members.cache.get(banUser.id);
-	if(banMember){
-		if(banMember.roles.highest.calculatedPosition >= message.guild.me.roles.highest.calculatedPosition) return message.reply("That users powerlevel is higher than mine, I am unable to ban them.");
-		if(!banMember.bannable) return message.reply("With all the powers bestowed in me, I am unable to ban that user.");
-	}
+	if(banMember && !banMember.bannable) return message.reply("I am unable to ban that user.");
 
 	let reason = args.join(" ");
 	if(!reason) reason = "Not Specified";
@@ -28,10 +21,10 @@ exports.run = async (client, message, args) => {
 		.setFooter(message.author.tag, message.author.displayAvatarURL())
 		.setTimestamp();
 
-	const msg = await message.channel.send({ embed });
+	const msg = await message.channel.send({ embeds: [embed] });
 	const response = ["y", "yes", "n", "no"];
 	const filter = x => x.author.id === message.author.id && response.includes(x.content.toLowerCase());
-	const collected = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] }).catch(() => {
+	const collected = await message.channel.awaitMessages({ filter, max: 1, time: 15000, errors: ['time'] }).catch(() => {
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL())
 			.setColor(16711680)
@@ -39,7 +32,7 @@ exports.run = async (client, message, args) => {
 			.setFooter(message.author.tag, message.author.displayAvatarURL())
 			.setTimestamp();
 
-		msg.edit({ embed });
+		msg.edit({ embeds: [embed] });
 		return undefined;
 	});
 	if(!collected) return;
@@ -52,7 +45,7 @@ exports.run = async (client, message, args) => {
 			.setFooter(message.author.tag, message.author.displayAvatarURL())
 			.setTimestamp();
 
-		await msg.edit({ embed });
+		await msg.edit({ embeds: [embed] });
 		const embedDetail = new Discord.MessageEmbed()
 			.setAuthor(`${banUser.tag} (${banUser.id})`, banUser.displayAvatarURL())
 			.setColor(16711680)
@@ -75,7 +68,7 @@ exports.run = async (client, message, args) => {
 			.setTitle(`Command Canceled.`)
 			.setFooter(message.author.tag, message.author.displayAvatarURL())
 			.setTimestamp();
-		return msg.edit({ embed });
+		return msg.edit({ embeds: [embed] });
 	}
 };
 

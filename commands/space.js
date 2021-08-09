@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
 		.setTimestamp()
 		.setFooter(`Astronomy Picture of the Day`, "https://i.imgur.com/CO4a8X6.png");
 
-	return message.channel.send({ embed });
+	return message.channel.send({ embeds: [embed] });
 };
 
 exports.conf = {

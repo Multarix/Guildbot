@@ -38,7 +38,7 @@ exports.run = (client, message, args) => {
 	average = Math.round((average * 100) / rounds) / 100;
 	embed.addField("Stats", `Average: ${average}\:star:\n Total: ${totalShinyCount}\:star:`, false); /* eslint-disable-line no-useless-escape */
 
-	message.channel.send({ embed });
+	message.channel.send({ embeds: [embed] });
 };
 
 

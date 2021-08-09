@@ -1,5 +1,4 @@
 module.exports = async (client, guild) => {
-
 	client.log(`Left the "${guild.name}" (${guild.id}) server`, "Notify");
 
 	sqlRun(`DELETE FROM settings WHERE guild = ?`, guild.id);

@@ -20,7 +20,7 @@ exports.run = async (client, message, args) => {
 		embed.addField(`**Rank #${i + 1}**`, `**${res[i].amount}** Points - **${players.get(`${res[i].user}`).tag}**`, false);
 	}
 
-	return message.channel.send({ embed });
+	return message.channel.send({ embeds: [embed] });
 };
 
 exports.conf = {
