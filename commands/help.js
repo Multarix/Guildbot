@@ -1,5 +1,8 @@
 const Discord = require("discord.js");
 exports.run = async (client, message, args, level) => {
+	let good = client.emojis.cache.get("340357918996299778");
+	if(!good) good = "👍";
+
 	const settings = sqlGet("SELECT * FROM settings WHERE guild = ?", message.guild.id);
 
 	let ecolor = false;
@@ -41,6 +44,7 @@ exports.run = async (client, message, args, level) => {
 			if(e.code === 50007) return;
 			return client.log(e.message, "Error");
 		});
+		message.react(good);
 	} else {
 		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
 		if(command){
