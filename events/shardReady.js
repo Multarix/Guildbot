@@ -1,7 +1,6 @@
 const colors = require("colors");
 module.exports = async (client, shardID) => {
 
-	await wait(1000);
 	client.guilds.cache.forEach(g => {
 		const data = sqlGet("SELECT * FROM settings WHERE guild = ?", g.id);
 		if(!data){
