@@ -1,7 +1,7 @@
 {
 	"clientToken" : "client token here",
 	"homeServer": "home server ID",
-	"ownerID": "owner ID",
+	"ownerId": "owner ID",
 	"prefix": "!",
 	"logging": false
 }
