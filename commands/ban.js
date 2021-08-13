@@ -52,13 +52,15 @@ exports.run = async (client, message, args) => {
 			.setFooter(message.author.tag, message.author.displayAvatarURL())
 			.setTimestamp();
 
-		const user = await message.guild.members.ban(banUser, { reason: reason }).catch(e => {
+		let user;
+		try {
+			user = await message.guild.members.ban(banUser, { reason: reason });
+			if(user) embedDetail.setTitle(`\`${user.tag}\` was succesfully banned`);
+		} catch (e){
 			embedDetail.setTitle(`Ruh roh, I was unable to ban \`${banUser.tag}\``);
 			embedDetail.addField(`Reason:`, e.message, false);
-			return null;
-		});
-		if(user) embedDetail.setTitle(`\`${user.tag}\` was succesfully banned`);
-		return await msg.edit(embedDetail);
+		}
+		await msg.edit({ embeds: [embedDetail] });
 	}
 
 	if(m.toLowerCase() === "no" || m.toLowerCase() === "n"){

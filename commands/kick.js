@@ -53,13 +53,15 @@ exports.run = async (client, message, args) => {
 			.setFooter(message.author.tag, message.author.displayAvatarURL())
 			.setTimestamp();
 
-		const member = await kickMember.kick().catch(e => {
+		let member;
+		try {
+			member = await message.guild.members.kick(kickUser, { reason: reason });
+			if(member) embed.setTitle(`\`${member.user.tag}\` was succesfully kicked.`);
+		} catch (e){
 			embed.setTitle(`Ruh roh, I was unable to kick \`${kickUser.tag}\``);
-			embedDetail.addField(`Reason:`, e.message, false);
-			return null;
-		});
-		if(member) embed.setTitle(`\`${member.user.tag}\` was succesfully kicked.`);
-		return await msg.edit(embedDetail);
+			embed.addField(`Reason:`, e.message, false);
+		}
+		await msg.edit({ embeds: [embed] });
 	}
 
 	if(m.toLowerCase() === "no" || m.toLowerCase() === "n"){
