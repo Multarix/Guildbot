@@ -1,5 +1,5 @@
 exports.run = (client, message, args) => {
-	message.channel.send("https://status.discordapp.com/");
+	message.channel.send("https://discordstatus.com/");
 };
 
 exports.conf = {
