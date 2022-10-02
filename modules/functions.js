@@ -2,8 +2,13 @@ const colors = require('colors');
 const fs = require('fs');
 module.exports = async (client) => {
 
-	//	Permission level for commands.
-	client.permlevel = (message, data) => {
+
+	/**	Returns the permission level of a user
+	*	@param {MESSAGE} message A message object
+	*	@param {OBJECT} data Data object
+	*	@returns {NUMBER} Permission level
+	**/
+	client.permlevel = (message, data) => { //	Permission level for commands.
 		let permlvl = 0;
 
 		if(!message.guild || !message.member) permlvl = 0;
@@ -22,8 +27,8 @@ module.exports = async (client) => {
 		return permlvl;
 	};
 
-	//	Client log, semi-useful for keeping track of what is what in the console
-	client.log = (msg, title, shardID) => {
+
+	client.log = (msg, title, shardID) => { //	Client log, semi-useful for keeping track of what is what in the console
 		if(!title) title = "Log";
 		if(isNaN(shardID)) shardID = "null";
 
@@ -70,8 +75,8 @@ module.exports = async (client) => {
 		return text;
 	};
 
-	// Factorial functions.
-	client.factorial = (num) => {
+
+	client.factorial = (num) => { // Factorial functions.
 		if(isNaN(num)) return NaN;
 		num = parseInt(num);
 		let mNum = 1;
@@ -114,8 +119,8 @@ module.exports = async (client) => {
 
 	/* Custom Globals */
 
-	// Calls process exit, if using something like pm2, the bot should automatically restart.
-	global.restartBot = async (restartInfo) => {
+
+	global.restartBot = async (restartInfo) => { // Calls process exit, if using something like pm2, the bot should automatically restart.
 		if(!restartInfo) restartInfo = "Automatic Restart";
 		client.log(`Perfmorming reboot.. Reason: ${restartInfo}`, "Log");
 		await wait(1000).then(w => {
@@ -123,8 +128,8 @@ module.exports = async (client) => {
 		});
 	};
 
-	// Checks for and fetches a user if it exists.
-	global.grabUser = async (userID) => {
+
+	global.grabUser = async (userID) => { // Checks for and fetches a user if it exists.
 		if(!userID) return;
 		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
 		if(userID.startsWith("!")) userID = userID.slice(1);
@@ -133,8 +138,8 @@ module.exports = async (client) => {
 		return client.users.cache.get(userID);
 	};
 
-	// Checks for and fetches a channel if it exists.
-	global.grabChannel = async (channelID) => {
+
+	global.grabChannel = async (channelID) => { // Checks for and fetches a channel if it exists.
 		if(!channelID) return;
 		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
 		if(client.channels.cache.get(channelID)) return client.channels.cache.get(channelID);
@@ -143,8 +148,8 @@ module.exports = async (client) => {
 		return channel;
 	};
 
-	// Checks for a role and returns it if it exists.
-	global.grabRole = (roleID, guild) => {
+
+	global.grabRole = (roleID, guild) => { // Checks for a role and returns it if it exists.
 		if(!roleID) return undefined;
 		if(!guild) return undefined;
 		if(guild.id) guild = guild.id;
@@ -170,8 +175,8 @@ module.exports = async (client) => {
 		});
 	};
 
-	// I see your unhandled things, and present to you, handled things!
-	process.on("uncaughtException", (err) => {
+
+	process.on("uncaughtException", (err) => { // I see your unhandled things, and present to you, handled things!
 		const time = require("../modules/time.js")();
 		const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
 		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${"Uncaught Exception:" + errorMsg.toString().replace(/\[3[7&9]m/g, "")}`);	// eslint-disable-line no-control-regex

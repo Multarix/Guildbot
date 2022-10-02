@@ -3,5 +3,6 @@
 	"homeServer": "home server ID",
 	"ownerId": "owner ID",
 	"prefix": "!",
-	"logging": false
+	"logging": false,
+	"dailyMessage": false
 }

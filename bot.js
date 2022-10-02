@@ -5,9 +5,9 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 
 const Intents = Discord.Intents.FLAGS;
-const client = new Discord.Client({ disableEveryone: true,
+const client = new Discord.Client({
+	disableEveryone: true,
 	shardCount: 1,
-	// partials: Object.values(Client.Constants.PartialTypes),
 	intents: [Intents.GUILDS, Intents.GUILD_MEMBERS, Intents.GUILD_BANS, Intents.GUILD_EMOJIS_AND_STICKERS, Intents.GUILD_INVITES, Intents.GUILD_PRESENCES, Intents.GUILD_MESSAGES, Intents.GUILD_MESSAGE_REACTIONS]
 });
 
@@ -58,7 +58,7 @@ const init = async () => {
 	client.login(client.config.clientToken);
 
 	cron.schedule("0 0 12 * * *", async () => {
-		client.asshole(client, client.config.homeServer);
+		if(client.config.dailyMessage) client.asshole(client, client.config.homeServer);
 	});
 };
 
