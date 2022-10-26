@@ -6,6 +6,29 @@ const cron = require("node-cron");
 const { promisify } = require("util");
 const readdir = promisify(fs.readdir);
 
+
+
+const defJs = {
+	version: "https://jsonfeed.org/version/1",
+	title: "Series follows",
+	home_page_url: "https://j-novel.club/user",
+	description: "You can add series to your followed list on our website or app",
+	author: {
+		name: "J-Novel Club"
+	},
+	items: [
+		{
+			id: "id",
+			url: "url",
+			title: "title",
+			summary: "summary",
+			date_published: "date"
+		}
+	]
+};
+
+
+
 const Intents = Discord.Intents.FLAGS;
 const client = new Discord.Client({
 	disableEveryone: true,
@@ -67,8 +90,12 @@ const init = async () => {
 	// Every hour, check for book updates
 	cron.schedule("0 10 * * * *", async () => {
 		if(!client.config.bookUpdateURL) return;
-		const old = fs.readFileSync("./objects/last.json", "utf8");
-		const oldObj = JSON.parse(old);
+
+		let oldObj = defJs;
+		if(fs.existsSync("./objects/last.json")){
+			const old = fs.readFileSync("./objects/last.json", "utf8");
+			oldObj = JSON.parse(old);
+		}
 
 		const url = client.config.bookUpdateURL;
 		const settings = { method: "Get" };
@@ -104,7 +131,7 @@ const init = async () => {
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(bookPart.title)
 					.setDescription(`A new book part has been released!\n[Read it here](${bookPart.url})`)
-					.setColor(16777215)
+					.setColor(22440)
 					.setTimestamp()
 					.setFooter("via J-Novel Club)");
 
