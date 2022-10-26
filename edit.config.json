@@ -4,5 +4,7 @@
 	"ownerId": "owner ID",
 	"prefix": "!",
 	"logging": false,
-	"dailyMessage": false
+	"dailyMessage": false,
+	"bookUpdatesChannel": "Book Update Channel ID here",
+	"bookUpdateURL": "book url here"
 }
