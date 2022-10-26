@@ -1,0 +1,18 @@
+{
+	"version": "https://jsonfeed.org/version/1",
+	"title": "Series follows",
+	"home_page_url": "https://j-novel.club/user",
+	"description": "You can add series to your followed list on our website or app",
+	"author": {
+	  "name": "J-Novel Club"
+	},
+	"items": [
+	  {
+		"id": "id",
+		"url": "url",
+		"title": "title",
+		"summary": "summary",
+		"date_published": "date"
+	  }
+	]
+}
