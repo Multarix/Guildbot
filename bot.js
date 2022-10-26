@@ -65,11 +65,7 @@ const init = async () => {
 
 	// Every hour, check for book updates
 	cron.schedule("0 * * * *", async () => {
-		let last = fs.readFileSync("./objects/last.json", "utf8");
-
-		if(!last) last = '{ "items": [{ "title": "No items found" }] }';
-
-
+		const last = fs.readFileSync("./objects/last.json", "utf8");
 		const lastObj = JSON.parse(last);
 
 		const url = "https://labs.j-novel.club/feed/user/629784d74efdb04c77f8ea67.json";
