@@ -64,14 +64,15 @@ const init = async () => {
 	});
 
 	// Every hour, check for book updates
-	cron.schedule("0 * * * *", async () => {
+	cron.schedule("30 * * * * *", async () => {
 		const last = fs.readFileSync("./objects/last.json", "utf8");
 		const lastObj = JSON.parse(last);
 
 		const url = "https://labs.j-novel.club/feed/user/629784d74efdb04c77f8ea67.json";
 		let newData = "";
 		request(url, function(error, response, body){
-			if(!error && response.statusCode == 200){
+			console.log(body);
+			if(!error && response.statusCode === 200){
 				newData = JSON.parse(body);
 			}
 		});
