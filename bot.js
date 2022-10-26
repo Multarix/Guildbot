@@ -65,7 +65,7 @@ const init = async () => {
 	});
 
 	// Every hour, check for book updates
-	cron.schedule("0 5 * * * *", async () => {
+	cron.schedule("0 10 * * * *", async () => {
 		if(!client.config.bookUpdateURL) return;
 		const old = fs.readFileSync("./objects/last.json", "utf8");
 		const oldObj = JSON.parse(old);
