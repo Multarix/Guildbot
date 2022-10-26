@@ -65,7 +65,7 @@ const init = async () => {
 	});
 
 	// Every hour, check for book updates
-	cron.schedule("0 57 * * * *", async () => {
+	cron.schedule("0 10 * * * *", async () => {
 		if(!client.config.bookUpdateURL) return;
 		const old = fs.readFileSync("./objects/last.json", "utf8");
 		const oldObj = JSON.parse(old);
@@ -94,6 +94,7 @@ const init = async () => {
 		}
 
 		if(newBookParts.length >= 1){
+			newBookParts.reverse();
 			if(!client.config.bookUpdatesChannel) return;
 
 			const channel = await grabChannel(client.config.bookUpdatesChannel);
@@ -105,7 +106,7 @@ const init = async () => {
 					.setDescription(`A new book part has been released!\n[Read it here](${bookPart.url})`)
 					.setColor(16777215)
 					.setTimestamp()
-					.setFooter("via [J-Novel Club](https://j-novel.club/)");
+					.setFooter("via J-Novel Club)");
 
 				if(bookPart.image) embed.setImage(bookPart.image);
 
