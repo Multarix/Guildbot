@@ -133,7 +133,7 @@ const init = async () => {
 					.setDescription(`A new book part has been released!\n[Read it here](${bookPart.url})`)
 					.setColor(22440)
 					.setTimestamp()
-					.setFooter("via J-Novel Club)");
+					.setFooter("via J-Novel Club");
 
 				if(bookPart.image) embed.setImage(bookPart.image);
 
