@@ -1,6 +1,6 @@
 {
 	"author": "Multarix",
-	"name": "Guildbot",
+	"name": "guildbot",
 	"version": "1.0.0",
 	"description": "Guildbot is a discord bot.",
 	"repository": "https://github.com/Multarix/Guildbot.git",
@@ -22,7 +22,7 @@
 		"moment": "^2.29.4",
 		"moment-duration-format": "^2.3.2",
 		"node-cron": "^3.0.0",
-		"node-fetch": "^3.2.10",
+		"node-fetch": "^2.6.7",
 		"random.dog.js": "^1.0.2",
 		"urban-dictionary": "^3.0.1",
 		"word-definition": "^2.1.6"

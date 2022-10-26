@@ -65,7 +65,7 @@ const init = async () => {
 	});
 
 	// Every hour, check for book updates
-	cron.schedule("0 10 * * * *", async () => {
+	cron.schedule("0 57 * * * *", async () => {
 		if(!client.config.bookUpdateURL) return;
 		const old = fs.readFileSync("./objects/last.json", "utf8");
 		const oldObj = JSON.parse(old);
@@ -78,21 +78,25 @@ const init = async () => {
 
 		const newBookParts = [];
 
-		for(const newItem in newObj.items){
-
-			let included = false;
-			for(const oldItem in oldObj.items){
-				if(newItem.title !== oldItem.title) continue;
-				included = true;
+		for(const newItem of newObj.items){
+			let newPart = true;
+			for(const oldItem of oldObj.items){
+				if(newItem.title === oldItem.title){
+					newPart = false;
+					break;
+				}
 			}
 
-			if(included) newBookParts.push(newItem);
+			if(newPart){
+				newBookParts.push(newItem);
+				client.log(`New book part found: ${newItem.title}`);
+			}
 		}
 
-		if(newBookParts.length > 0){
+		if(newBookParts.length >= 1){
 			if(!client.config.bookUpdatesChannel) return;
 
-			const channel = client.channels.cache.get(client.config.bookUpdatesChannel);
+			const channel = await grabChannel(client.config.bookUpdatesChannel);
 			if(!channel) return;
 
 			for(const bookPart of newBookParts){
@@ -104,10 +108,6 @@ const init = async () => {
 					.setFooter("via [J-Novel Club](https://j-novel.club/)");
 
 				if(bookPart.image) embed.setImage(bookPart.image);
-
-				for(const part in newBookParts){
-					embed.addField(part.title, part.link);
-				}
 
 				channel.send({ embeds: [embed] });
 			}
