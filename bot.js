@@ -133,7 +133,7 @@ const init = async () => {
 					.setAuthor(bookPart.title)
 					.setDescription(`A new book part has been released!\n[Read it here](${bookPart.url})`)
 					.setColor(22440)
-					.setFooter("via J-Novel Club", "https://j-novel.club/favicon.ico");
+					.setFooter("via J-Novel Club", "https://j-novel.club/apple-touch-icon.png");
 
 				const date = new Date(bookPart.date_published);
 				embed.setTimestamp(date);
