@@ -87,8 +87,9 @@ const init = async () => {
 		if(client.config.dailyMessage) client.asshole(client, client.config.homeServer);
 	});
 
+
 	// Every hour, check for book updates
-	cron.schedule("0 10 * * * *", async () => {
+	cron.schedule("13 2 * * * *", async () => {
 		if(!client.config.bookUpdateURL) return;
 
 		let oldObj = defJs;
@@ -132,8 +133,10 @@ const init = async () => {
 					.setAuthor(bookPart.title)
 					.setDescription(`A new book part has been released!\n[Read it here](${bookPart.url})`)
 					.setColor(22440)
-					.setTimestamp()
 					.setFooter("via J-Novel Club");
+
+				const date = new Date(bookPart.date_published);
+				embed.setTimestamp(date);
 
 				if(bookPart.image) embed.setImage(bookPart.image);
 
