@@ -56,6 +56,6 @@ module.exports = async (client) => {
 
 		const partList = { ids: postedParts };
 		fs.writeFileSync("./objects/posted.json", JSON.stringify(partList, null, "\t"));
-		fs.writeFileSync("./objects/test.json", JSON.stringify(parts, null, "\t"));
+		// fs.writeFileSync("./objects/test.json", JSON.stringify(parts, null, "\t"));
 	}
 };
