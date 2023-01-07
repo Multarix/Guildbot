@@ -66,7 +66,7 @@ const init = async () => {
 	// });
 
 	// Every hour, check for book updates
-	cron.schedule("0 1 * * * *", async () => {
+	cron.schedule("0 2 * * * *", async () => {
 		bookAlerts(client);
 	});
 };

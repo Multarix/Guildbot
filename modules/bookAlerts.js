@@ -28,11 +28,11 @@ module.exports = async (client) => {
 
 	for(const part of parts){
 
-		if(postedParts.includes(part.title)) break;
+		if(postedParts.includes(part.title)) continue;
 
 		newBookParts.push(part);
-		postedParts.add(part.title);
-		client.log(`New book part found: ${part.title}`);
+		postedParts.push(part.title);
+		client.log(`New book part found: ${part.title}`, "Book Updates");
 	}
 
 	if(newBookParts.length >= 1){
@@ -56,5 +56,6 @@ module.exports = async (client) => {
 
 		const partList = { ids: postedParts };
 		fs.writeFileSync("./objects/posted.json", JSON.stringify(partList, null, "\t"));
+		fs.writeFileSync("./objects/test.json", JSON.stringify(parts, null, "\t"));
 	}
 };
