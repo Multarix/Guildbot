@@ -1,33 +1,11 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-const fetch = require("node-fetch");
 const cron = require("node-cron");
 
 const { promisify } = require("util");
 const readdir = promisify(fs.readdir);
 
-
-
-const defJs = {
-	version: "https://jsonfeed.org/version/1",
-	title: "Series follows",
-	home_page_url: "https://j-novel.club/user",
-	description: "You can add series to your followed list on our website or app",
-	author: {
-		name: "J-Novel Club"
-	},
-	items: [
-		{
-			id: "id",
-			url: "url",
-			title: "title",
-			summary: "summary",
-			date_published: "date"
-		}
-	]
-};
-
-
+const bookAlerts = require("./modules/bookAlerts.js");
 
 const Intents = Discord.Intents.FLAGS;
 const client = new Discord.Client({
@@ -83,70 +61,14 @@ const init = async () => {
 	client.login(client.config.clientToken);
 
 	// Repeatable events
-	cron.schedule("0 0 12 * * *", async () => {
-		if(client.config.dailyMessage) client.asshole(client, client.config.homeServer);
-	});
-
+	// cron.schedule("0 0 12 * * *", async () => {
+	// 	if(client.config.dailyMessage) client.asshole(client, client.config.homeServer);
+	// });
 
 	// Every hour, check for book updates
-	cron.schedule("13 2 * * * *", async () => {
-		if(!client.config.bookUpdateURL) return;
-
-		let oldObj = defJs;
-		if(fs.existsSync("./objects/last.json")){
-			const old = fs.readFileSync("./objects/last.json", "utf8");
-			oldObj = JSON.parse(old);
-		}
-
-		const url = client.config.bookUpdateURL;
-		const settings = { method: "Get" };
-
-		const result = await fetch(url, settings);
-		const newObj = await result.json();
-
-		const newBookParts = [];
-
-		for(const newItem of newObj.items){
-			let newPart = true;
-			for(const oldItem of oldObj.items){
-				if(newItem.title === oldItem.title){
-					newPart = false;
-					break;
-				}
-			}
-
-			if(newPart){
-				newBookParts.push(newItem);
-				client.log(`New book part found: ${newItem.title}`);
-			}
-		}
-
-		if(newBookParts.length >= 1){
-			newBookParts.reverse();
-			if(!client.config.bookUpdatesChannel) return;
-
-			const channel = await grabChannel(client.config.bookUpdatesChannel);
-			if(!channel) return;
-
-			for(const bookPart of newBookParts){
-				const embed = new Discord.MessageEmbed()
-					.setAuthor(bookPart.title)
-					.setDescription(`A new book part has been released!\n[Read it here](${bookPart.url})`)
-					.setColor(22440)
-					.setFooter("via J-Novel Club", "https://j-novel.club/apple-touch-icon.png");
-
-				const date = new Date(bookPart.date_published);
-				embed.setTimestamp(date);
-
-				if(bookPart.image) embed.setImage(bookPart.image);
-
-				channel.send({ embeds: [embed] });
-			}
-
-			fs.writeFileSync("./objects/last.json", JSON.stringify(newObj, null, "\t"));
-		}
+	cron.schedule("0 1 * * * *", async () => {
+		bookAlerts(client);
 	});
-
 };
 
 init();

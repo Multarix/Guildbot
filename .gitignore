@@ -4,10 +4,10 @@ Bot.bat - Shortcut.lnk
 node_modules
 shards.js
 commands/test.js
-objects/last.json
+objects/posted.json
 objects/test.js
 objects/settings.sqlite
 objects/settings.sqlite-journal
 logs.txt
 commands/slashCommands
-events\interactionCreate.js
+events/interactionCreate.js
