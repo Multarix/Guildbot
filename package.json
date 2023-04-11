@@ -14,7 +14,7 @@
 		"Bot"
 	],
 	"dependencies": {
-		"@vitalets/google-translate-api": "^7.0.0",
+		"@vitalets/google-translate-api": "^9.1.0",
 		"apod-nasa": "^1.0.1",
 		"better-sqlite3": "^7.4.3",
 		"colors": "^1.4.0",
