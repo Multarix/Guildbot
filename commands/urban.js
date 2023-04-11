@@ -56,7 +56,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-	enabled: true,
+	enabled: false,
 	allowDM: true,
 	aliases: ["ud"],
 	permLevel: 0
