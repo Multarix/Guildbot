@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const random = require("../objects/random.json");
 const random2 = require("../objects/random2.json");
 module.exports = async (client, message) => {
+	return;
+	/*
 	try {
 		if(message.partial) await message.fetch().catch(e => { return; });
 		if(message.author.partial) await message.author.fetch().catch(e => { return; });
@@ -85,6 +87,7 @@ module.exports = async (client, message) => {
 		cc.forEach(data => cmdList[data.name] = data.output);
 		if(cmdList[command]) return message.channel.send(cmdList[command]);
 	}
+	*/
 };
 
 module.exports.help = {
