@@ -9,7 +9,9 @@ exports.run = async (client, message, args) => {
 
 	const word = args.join(" ");
 	if(!word) return message.channel.send("Usage: [urban](<..words>)", { code: "markdown" });
-	const defined = await ud.define(word).catch(e => {
+	const defined = await ud.define(word);
+
+	if(!defined){
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(defined.toProperCase(), "https://i.imgur.com/mpeuwPm.png")
 			.addField(`Error ${bad}`, `Couldn't find a definition \:(`)	//	eslint-disable-line no-useless-escape
@@ -17,8 +19,8 @@ exports.run = async (client, message, args) => {
 			.setTimestamp();
 		message.channel.send({ embeds: [embed] });
 		return undefined;
-	});
-	if(!defined) return;
+	}
+
 	const result = defined[0];
 
 	const filter = /[[\]]/g;
