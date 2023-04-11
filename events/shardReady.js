@@ -13,7 +13,7 @@ module.exports = async (client, shardID) => {
 	client.log(`Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`, "Ready", shardID);
 
 	let game = "with Auto-D&D";
-	if(client.user.id === "260372003310010368") game = "hide the sausage";
+	if(client.user.id === "260372003310010368") game = "maintenance mode";
 	if(client.user.id === "628082697553575941") game = "guildbot debugger";
 	client.user.setActivity(game, { type: 'PLAYING' });
 	client.log("Now playing " + colors.white("[") + game + colors.white("]"), "Activity", shardID);
