@@ -47,7 +47,7 @@ const info = {
  * @returns {Object} The slash command data or functions
 **/
 function slash(client, funcs = false){
-	if(!funcs){ // We don't want to get the functions
+	if(!funcs){ // We want to get the slash command data
 		return {
 			data: new SlashCommandBuilder()
 				.setName(info.name)
