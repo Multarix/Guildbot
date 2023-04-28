@@ -2,6 +2,9 @@
  * @name ordinal
  * @param {number} num The number to be converted to an ordinal format
  * @returns {string} The number in ordinal format
+ * @description Convert a number to an ordinal format (1st, 2nd, 3rd, 4th.. etc.)
+ * @example const ord = ordinal(53);
+ * console.log(ord); // 53rd
 **/
 function ordinal(num){
 	// Ordinal indicators (1st, 2nd, 3rd, 4th.. etc.)
