@@ -56,14 +56,23 @@ module.exports = (client) => {
 	 * @example const permLevel = client.permLevel(client, message);
 	**/
 	client.permLevel = function permLevel(user, channel){
-		let permlevel = 0;
-		if(channel.type === "DM") return permlevel;
+		let perm = 0;
+		if(channel.type === "DM") return perm;
 
-		if(channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.ManageMessages)) permlevel = 5;
-		if(user.id === channel.guild.ownerId) permlevel = 10;
-		if(user.id === client.config.ownerID) permlevel = 100;
+		const personCanDelete = channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.ManageMessages);
+		const personCanKick = channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.KickMembers);
+		const personCanBan = channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.BanMembers);
+		const personIsAdmin = channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.Administrator);
 
-		return permlevel;
+		if(personCanDelete) perm = 2;
+		if(personCanKick) perm = 4;
+		if(personCanBan) perm = 6;
+		if(personIsAdmin) perm = 8;
+
+		if(user.id === channel.guild.ownerId) perm = 10;
+		if(user.id === client.config.ownerID) perm = 100;
+
+		return perm;
 	};
 
 
@@ -153,5 +162,4 @@ module.exports = (client) => {
 	process.on("unhandledRejection", (err) => {
 		client.output("error", `Unhandled rejection: ${err}`);
 	});
-
 };
