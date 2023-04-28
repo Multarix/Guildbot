@@ -26,7 +26,7 @@ async function run(client, interaction){
 	if(command.info.permLevel > userPermLevel) return interaction.reply({ content: "Oops! You don't have permission to use that command!", ephemeral: true }).catch(e => { return; });
 
 	try {
-		await command.slash.execute(client, interaction);
+		await command.slash(client, true).execute(interaction);
 	} catch (e){
 		client.output("error", e);
 		let followUp = false;
