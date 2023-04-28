@@ -81,7 +81,7 @@ const main = async () => {
 			client.on(event.info.name, event.run.bind(null, client));
 
 			const paddedName = event.info.name.padEnd(longestName, " ");
-			client.output("good", `Loaded event: ${paddedName} :: ${event.info.description}`);
+			client.output("good", `Loaded event: ${paddedName}   > ${event.info.description}`);
 
 			delete require.cache[require.resolve(`./events/${file}`)];
 
@@ -90,7 +90,6 @@ const main = async () => {
 			client.output("warn", `Failed to load event: ${file}!`);
 		}
 	}
-
 
 	// Load the commands
 	client.output("misc", "Loading commands...");
@@ -109,10 +108,10 @@ const main = async () => {
 			command.info.altNames.forEach(alias => client.altNames.set(alias, command.info.name));
 
 			// If the command is a slash command
-			if(command.slash) client.slashCommands.push(command);
+			if(command.slash && command.info.enabled) client.slashCommands.push(command);
 
 			const paddedName = command.info.name.padEnd(longestName, " ");
-			client.output("good", `Loaded command: ${paddedName} :: ${command.info.description}`);
+			client.output("good", `Loaded command: ${paddedName}   > ${command.info.description}`);
 
 		} catch (err){
 			// Warn if the command failed to load

@@ -15,8 +15,8 @@ async function run(client){
 	const presence = {
 		status: "online",
 		activities: [{
-			// type: "WATCHING",
-			name: `${client.guilds.cache.size} server${(client.guilds.cache.size > 1) ? "s" : ""} || ${client.config.prefix}help`
+			name: `${client.guilds.cache.size} server${(client.guilds.cache.size > 1) ? "s" : ""} | ${client.config.prefix}help`,
+			type: 5
 		}]
 	};
 
