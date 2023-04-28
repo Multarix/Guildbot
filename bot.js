@@ -115,7 +115,7 @@ const main = async () => {
 
 		} catch (err){
 			// Warn if the command failed to load
-			client.output("warn", `Failed to load command: ${file}!\n${err.message}`);
+			client.output("warn", `Failed to load command: ${file}!\n${err}`);
 		}
 	}
 
