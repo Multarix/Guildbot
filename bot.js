@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits, Partials } = require("discord.js");
 
 console.log("Starting Bot...");
 
@@ -20,7 +20,7 @@ const intentFlags = [
 const client = new Client({
 	disableEveryone: true,
 	intents: intentFlags,
-	partials: ["MESSAGE", "CHANNEL", "REACTION"]
+	partials: [Partials.Message, Partials.Reaction]
 });
 
 const defaultConfig = {
@@ -31,7 +31,7 @@ const defaultConfig = {
 };
 
 // Load the config
-require("./modules/functions.js")(client);
+require("./src/functions.js")(client);
 
 
 try {
@@ -81,7 +81,7 @@ const main = async () => {
 			client.on(event.info.name, event.run.bind(null, client));
 
 			const paddedName = event.info.name.padEnd(longestName, " ");
-			client.output("good", `Loaded event: ${paddedName}   > ${event.info.description}`);
+			client.output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
 
 			delete require.cache[require.resolve(`./events/${file}`)];
 
@@ -108,10 +108,10 @@ const main = async () => {
 			command.info.altNames.forEach(alias => client.altNames.set(alias, command.info.name));
 
 			// If the command is a slash command
-			if(command.slash && command.info.enabled) client.slashCommands.push(command);
+			if(command.slash?.(client)?.data && command.info.enabled) client.slashCommands.push(command);
 
 			const paddedName = command.info.name.padEnd(longestName, " ");
-			client.output("good", `Loaded command: ${paddedName}   > ${command.info.description}`);
+			client.output("good", `Loaded command: ${paddedName}  > ${command.info.description}`);
 
 		} catch (err){
 			// Warn if the command failed to load
