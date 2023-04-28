@@ -61,7 +61,6 @@ async function bookAlerts(client){
 
 		const partList = { ids: postedParts };
 		fs.writeFileSync("./data/posted.json", JSON.stringify(partList, null, "\t"));
-		// fs.writeFileSync("./objects/test.json", JSON.stringify(parts, null, "\t"));
 	}
 }
 

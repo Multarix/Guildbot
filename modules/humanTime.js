@@ -1,11 +1,19 @@
 /**
  * @name humanTime
  * @param {Number} ms The number of milliseconds to convert
- * @param {String} [format] The format to convert the time to, defaults to {@link humanTime
+ * @param {String} [format] The format to convert the time to, defaults to "\\h hours \\m minutes \\s seconds"
  * @returns {String} The converted time
  * @description Convert milliseconds to human readable formats
+ * - `\\S` = Miliseconds
+ * - `\\s` = Seconds
+ * - `\\m` = Minutes
+ * - `\\h` or `\\H` = Hours
+ * - `\\d` or `\\D` = Days
+ * - `\\w` = Weeks
+ * @example const format = humanTime(951000, "\\m minutes \\s seconds");
+ * console.log(format); // 15 minutes 51 seconds
 **/
-function humanTime(ms, format){
+function humanTime(ms, format = "\\h hours \\m minutes \\s seconds"){
 
 	if(!format) return `${ms}ms`;
 

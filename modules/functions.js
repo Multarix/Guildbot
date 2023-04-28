@@ -7,15 +7,17 @@ const { User, Channel, Client, Emoji, PermissionsBitField } = require("discord.j
  * @param {Client} client The discord client object
  * @description A collection of functions used throughout the bot
 **/
-
 module.exports = (client) => {
+
 
 	/**
 	 * @name output
 	 * @param {string} type Possible Values: good, warn, info, misc, error, normal
 	 * @param {any} message The item to be logged
-	 * @description Logs a message to the console
 	 * @returns {void}
+	 * @description Logs a message to the console
+	 * @example client.output("normal", "This is a message");
+	 * // [2020-12-31 | 11:59:59] This is a message
 	**/
 	client.output = function output(type, message){
 		const curTime = time();
@@ -90,7 +92,7 @@ module.exports = (client) => {
 	 * @param {string} channelID The ID of the channel to be grabbed
 	 * @returns {Promise<Channel | undefined>} The channel object or undefined if the channel is not found
 	 * @description Grabs a channel object from the cache or fetches it from the API
-	 * @example const channel = grabChannel("1234567890");
+	 * @example const channel = client.grabChannel("1234567890");
 	**/
 	client.grabChannel = async function grabChannel(channelID){
 		if(!channelID) return undefined;
@@ -108,7 +110,7 @@ module.exports = (client) => {
 	 * @param {string} userID The ID of the user to be grabbed
 	 * @returns {Promise<User | undefined>} The user object or undefined if the user is not found
 	 * @description Grabs a user object from the cache or fetches it from the API
-	 * @example const user = grabUser("1234567890");
+	 * @example const user = client.grabUser("1234567890");
 	 */
 	client.grabUser = async function grabUser(userID){
 		if(!userID) return undefined;
@@ -128,7 +130,7 @@ module.exports = (client) => {
 	 * @param {string} emojiID The ID of the emoji to be grabbed
 	 * @returns {Promise<Emoji | undefined>} The emoji object or undefined if the emoji is not found
 	 * @description Grabs a emoji object from the cache via it's ID
-	 * @example const emoji = grabEmoji("1234567890");
+	 * @example const emoji = client.grabEmoji("1234567890");
 	 */
 	client.grabEmoji = async function grabEmoji(emojiID){
 		if(!emojiID) return undefined;
@@ -142,6 +144,7 @@ module.exports = (client) => {
 	};
 
 
+	// Handle the unhandled things
 	process.on("uncaughtException", (err) => {
 		const errorMsg = err?.stack?.replace(new RegExp(`${__dirname}/`, "g"), "./");
 		client.output("error", `Uncaught Exception: ${errorMsg}`);
