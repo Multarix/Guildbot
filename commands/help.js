@@ -10,8 +10,9 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, Embed
 async function run(client, element, args = []){
 
 	// Set the user who created the interaction/ message
-	let user = element.author;
-	if(!element.author) user = element.user;
+	let slashCommand = false;
+	if(!element.author) slashCommand = true;
+	const user = (slashCommand) ? element.user : element.author;
 
 	// Set up the Embed
 	const embed = new EmbedBuilder()
@@ -80,12 +81,15 @@ async function run(client, element, args = []){
 	}
 
 	embed.setAuthor({ name: `Commands for:  ${user.tag}`, iconURL: user.displayAvatarURL() })
-		.setDescription(`${element.channel}\nUse \`${client.config.prefix}help <command-name>\` for details on a specific command.`)
+		.setDescription(`**Commands available in** ${element.channel}\nUse \`${client.config.prefix}help <command-name>\` for details on a specific command.`)
 		.addFields(embedFields);
+
+	// If the command is a slash command
+	if(slashCommand) return await element.reply({ embeds: [embed], ephemeral: true }).catch(e => { return; });
 
 	// Send a DM to the user, and inform them in the channel that they have been DMed
 	await user.send({ embeds: [embed] }).catch(e => { return; });
-	await element.reply({ content: "I've sent you a DM with all of your available commands.\nIf you didn't receive one, please check your DM settings.", ephemeral: true }).catch(e => { return; });
+	await element.reply({ content: "I've sent you a DM with all of your available commands.\nIf you didn't receive one, please check your DM settings." }).catch(e => { return; });
 }
 
 
@@ -118,8 +122,7 @@ function slash(client, funcs = false){
 						.setName("command")
 						.setDescription("The command to get help for")
 						.addChoices({ name: "help", value: "help" }, { name: "h", value: "help" }, { name: "commands", value: "help" })
-				),
-			enabled: true
+				)
 		};
 	}
 
@@ -130,7 +133,8 @@ function slash(client, funcs = false){
 		 * @description The function that is called when the slash command is used
 		**/
 		execute: async function execute(interaction){
-			const command = interaction.options.getString("command");
+			let command = interaction.options.getString("command");
+			command = command?.toString();
 
 			const args = [];
 			if(command){
