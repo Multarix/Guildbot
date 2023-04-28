@@ -1,72 +1,81 @@
-const colors = require('colors');
-const fs = require('fs');
-module.exports = async (client) => {
+const colors = require("colors");
+const time = require("./timeFormat.js");
+const { User, Channel, Client, Emoji, PermissionsBitField } = require("discord.js");
 
+/**
+ * @name functions
+ * @param {Client} client The discord client object
+ * @description A collection of functions used throughout the bot
+**/
 
-	/**	Returns the permission level of a user
-	*	@param {MESSAGE} message A message object
-	*	@param {OBJECT} data Data object
-	*	@returns {NUMBER} Permission level
+module.exports = (client) => {
+
+	/**
+	 * @name output
+	 * @param {string} type Possible Values: good, warn, info, misc, error, normal
+	 * @param {any} message The item to be logged
+	 * @description Logs a message to the console
+	 * @returns {void}
 	**/
-	client.permlevel = (message, data) => { //	Permission level for commands.
-		let permlvl = 0;
+	client.output = function output(type, message){
+		const curTime = time();
+		switch(type.toLowerCase()){
+			case "good":
+				console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.green(message)}`);
+				break;
 
-		if(!message.guild || !message.member) permlvl = 0;
-		if(message.author.id === client.config.ownerId) return permlvl = 10;
-		if(message.author.id === message.guild.ownerId) return permlvl = 5;
+			case "warn":
+				console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.yellow(message)}`);
+				break;
 
-		const adminRole = message.guild.roles.cache.get(data.admin);
-		if(adminRole && message.member.roles.cache.has(adminRole.id)) return permlvl = 4;
+			case "error":
+				console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.red(message)}`);
+				break;
 
-		const modRole = message.guild.roles.cache.get(data.moderator);
-		if(modRole && message.member.roles.cache.has(modRole.id)) return permlvl = 3;
+			case "info":
+			case "misc":
+				console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.cyan(message)}`);
+				break;
 
-		const memRole = message.guild.roles.cache.get(data.member);
-		if(memRole && message.member.roles.cache.has(memRole.id)) return permlvl = 1;
-
-		return permlvl;
+			case "normal":
+			default:
+				console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.white(message)}`);
+				break;
+		}
 	};
 
 
-	client.log = (msg, title, shardID) => { //	Client log, semi-useful for keeping track of what is what in the console
-		if(!title) title = "Log";
-		if(isNaN(shardID)) shardID = "null";
+	/**
+	 * @name permLevel
+	 * @param {User} user A discord user object
+	 * @param {Channel} channel A discord channel object
+	 * @returns {number}
+	 * @description Returns the permission level of the user
+	 * @example const permLevel = client.permLevel(client, message);
+	**/
+	client.permLevel = function permLevel(user, channel){
+		let permlevel = 0;
+		if(channel.type === "DM") return permlevel;
 
-		let str = "";
-		const time = require("../modules/time.js")();
-		switch(title.toLowerCase()){
-		/* eslint-disable indent*/
-			case "error": str = `<${colors.red(time.time)}>[${colors.red(`Shard-${shardID}`)}](${colors.red(title)}) ${colors.red(msg)}`; break;
-			case "warn": str = `<${colors.yellow(time.time)}>[${colors.yellow(`Shard-${shardID}`)}](${colors.yellow(title)}) ${colors.yellow(msg)}`; break;
-			case "notify": str = `<${colors.cyan(time.time)}>[${colors.cyan(`Shard-${shardID}`)}](${colors.cyan(title)}) ${colors.cyan(msg)}`; break;
-			case "sql":	str = `<${colors.magenta(time.time)}>[${colors.magenta(`Shard-${shardID}`)}](${colors.magenta(title)}) ${colors.magenta(msg)}`; break;
-			default: str = `<${colors.gray(time.time)}>[${colors.gray(`Shard-${shardID}`)}](${colors.gray(title)}) ${colors.gray(msg)}`;	break;
-		/* eslint-enable indent */
-		}
-		if(client.logging){
-			fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${msg.replace(/\[\d+m/g, "")}`);		// eslint-disable-line no-control-regex
-		}
-		const reggie = /\[\[\d+mShard-null\[\d+m\]/;	// eslint-disable-line no-control-regex
-		str = str.replace(reggie, "");
-		console.log(str);
+		if(channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.ManageMessages)) permlevel = 5;
+		if(user.id === channel.guild.ownerId) permlevel = 10;
+		if(user.id === client.config.ownerID) permlevel = 100;
+
+		return permlevel;
 	};
 
-	client.asshole = require("../modules/asshole.js");
 
-	/*
-	MESSAGE CLEAN FUNCTION
-	"Clean" removes @everyone pings, as well as tokens, and makes code blocks
-	escaped so they're shown more easily. As a bonus it resolves promises
-	and stringifies objects!
-	This is mostly only used by Eval and Exec commands.
-	*/
-	client.clean = async (client, text) => {
-		if(text && text.constructor.name == "Promise"){
-			text = await text;
-		}
-		if(typeof evaled !== "string"){
-			text = require("util").inspect(text, { depth: 0 });
-		}
+	/**
+	 * @name clean
+	 * @param {string} text The text to be cleaned
+	 * @returns {Promise<string>}
+	 * @description Cleans the text of any sensitive information
+	 * @example const cleanText = client.clean(client, text);
+	**/
+	client.clean = async function clean(text){
+		if(text && text.constructor.name == "Promise") text = await text;
+		if(typeof evaled !== "string") text = require("util").inspect(text, { depth: 0 });
+
 		text = text
 			.replace(/`/g, "`" + String.fromCharCode(8203))
 			.replace(/@/g, "@" + String.fromCharCode(8203))
@@ -76,118 +85,70 @@ module.exports = async (client) => {
 	};
 
 
-	client.factorial = (num) => { // Factorial functions.
-		if(isNaN(num)) return NaN;
-		num = parseInt(num);
-		let mNum = 1;
-		for(let i = 2; i <= num; i++) mNum = mNum * i;
-		return mNum;
-	};
-
-	/* Non-Critical Misc Functions */
-	global.sql = require("better-sqlite3")("./objects/settings.sqlite");
-	global.sqlGet = (statement, ...argume) => {
-		const prep = sql.prepare(statement);
-		return prep.get(argume);
-	};
-	global.sqlRun = (statement, ...argume) => {
-		const prep = sql.prepare(statement);
-		return prep.run(argume);
-	};
-	global.sqlAll = (statement, ...argume) => {
-		const prep = sql.prepare(statement);
-		return prep.all(argume);
-	};
-
-	String.prototype.toProperCase = function(){
-		return this.replace(/([^\W_]+[^\s-]*) */g, function(txt){ return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
-	};
-	String.prototype.removeIndents = function(){	// Removes indents from a string.
-		return this.replace(/\n(\t+)/g, "\n");
-	};
-
-	global.wait = require("util").promisify(setTimeout);
-
-	global.sanity = (text) => {
-		text = text
-			.replace(/`/g, "\\`")
-			.replace(/"/g, '\\"')
-			.replace(/'/g, "\\'")
-			.replace(/\\/g, "\\\\");	// test
-		return text;
-	};
-
-	/* Custom Globals */
-
-
-	global.restartBot = async (restartInfo) => { // Calls process exit, if using something like pm2, the bot should automatically restart.
-		if(!restartInfo) restartInfo = "Automatic Restart";
-		client.log(`Perfmorming reboot.. Reason: ${restartInfo}`, "Log");
-		await wait(1000).then(w => {
-			process.exit();
-		});
-	};
-
-
-	global.grabUser = async (userID) => { // Checks for and fetches a user if it exists.
-		if(!userID) return;
-		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
-		if(userID.startsWith("!")) userID = userID.slice(1);
-		if(client.users.cache.get(userID)) return client.users.cache.get(userID);
-		await client.users.fetch(userID).catch(e => { return undefined; });
-		return client.users.cache.get(userID);
-	};
-
-
-	global.grabChannel = async (channelID) => { // Checks for and fetches a channel if it exists.
-		if(!channelID) return;
+	/**
+	 * @name grabChannel
+	 * @param {string} channelID The ID of the channel to be grabbed
+	 * @returns {Promise<Channel | undefined>} The channel object or undefined if the channel is not found
+	 * @description Grabs a channel object from the cache or fetches it from the API
+	 * @example const channel = grabChannel("1234567890");
+	**/
+	client.grabChannel = async function grabChannel(channelID){
+		if(!channelID) return undefined;
 		if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
 		if(client.channels.cache.get(channelID)) return client.channels.cache.get(channelID);
+
 		await client.channels.fetch(channelID).catch(e => { return undefined; });
-		const channel = (client.channels.cache.get(channelID)) ? client.channels.cache.get(channelID) : undefined;
-		return channel;
+
+		return (client.channels.cache.get(channelID)) ? client.channels.cache.get(channelID) : undefined;
 	};
 
 
-	global.grabRole = (roleID, guild) => { // Checks for a role and returns it if it exists.
-		if(!roleID) return undefined;
-		if(!guild) return undefined;
-		if(guild.id) guild = guild.id;
-		guild = client.guilds.cache.get(guild);
-		if(!guild) return undefined;
-		if(roleID.startsWith("<@&") && roleID.endsWith(">")) roleID = roleID.slice(3, -1);
-		if(!guild.roles.cache.get(roleID)) return null;
-		return guild.roles.cache.get(roleID);
-	};
+	/**
+	 * @name grabUser
+	 * @param {string} userID The ID of the user to be grabbed
+	 * @returns {Promise<User | undefined>} The user object or undefined if the user is not found
+	 * @description Grabs a user object from the cache or fetches it from the API
+	 * @example const user = grabUser("1234567890");
+	 */
+	client.grabUser = async function grabUser(userID){
+		if(!userID) return undefined;
+		if(userID.startsWith("<@") && userID.endsWith(">")) userID = userID.slice(2, -1);
+		if(userID.startsWith("!")) userID = userID.slice(1);
 
-	global.saReact = async (msg) => {
-		if(!msg) return null;
-		await msg.reactions.removeAll();
-		await wait(1000);
-		const data = sqlGet("SELECT * FROM settings WHERE guild = ?", msg.guild.id);
-		const saData = data.assignRoles;
-		const assignArray = saData.split("*");
-		assignArray.forEach(x => {
-			const emojiID = x.match(/\[(.*?)\]/)[0].replace(/[\][]/g, "");
-			let actualEmoji = emojiID;
-			if(client.emojis.cache.get(actualEmoji)) actualEmoji = client.emojis.cache.get(actualEmoji);
-			msg.react(actualEmoji);
-		});
+		if(client.users.cache.get(userID)) return client.users.cache.get(userID);
+
+		await client.users.fetch(userID).catch(e => { return undefined; });
+
+		return (client.users.cache.get(userID)) ? client.users.cache.get(userID) : undefined;
 	};
 
 
-	process.on("uncaughtException", (err) => { // I see your unhandled things, and present to you, handled things!
-		const time = require("../modules/time.js")();
-		const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
-		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${"Uncaught Exception:" + errorMsg.toString().replace(/\[3[7&9]m/g, "")}`);	// eslint-disable-line no-control-regex
-		client.log(errorMsg, "Error");
-		if(err.code !== 10008) restartBot("Uncaught Exception");
+	/**
+	 * @name grabEmoji
+	 * @param {string} emojiID The ID of the emoji to be grabbed
+	 * @returns {Promise<Emoji | undefined>} The emoji object or undefined if the emoji is not found
+	 * @description Grabs a emoji object from the cache via it's ID
+	 * @example const emoji = grabEmoji("1234567890");
+	 */
+	client.grabEmoji = async function grabEmoji(emojiID){
+		if(!emojiID) return undefined;
+		if(emojiID.startsWith("<a:") && emojiID.endsWith(">")) emojiID = emojiID.slice(3, -1);	// Animated
+		if(emojiID.startsWith("<:") && emojiID.endsWith(">")) emojiID = emojiID.slice(2, -1);	// Static
+
+		const emojiSplit = emojiID.split(":");
+		emojiID = emojiSplit[emojiSplit.length - 1];
+
+		return (client.emojis.cache.get(emojiID)) ? client.emojis.cache.get(emojiID) : undefined;
+	};
+
+
+	process.on("uncaughtException", (err) => {
+		const errorMsg = err?.stack?.replace(new RegExp(`${__dirname}/`, "g"), "./");
+		client.output("error", `Uncaught Exception: ${errorMsg}`);
 	});
 
-	process.on("unhandledRejection", err => {
-		const time = require("../modules/time.js")();
-		fs.appendFileSync("./logs.txt", `\n[${time.exactDate}] (${time.time}) ${err.toString().replace(/\[3[7&9]m/g, "")}`);	// eslint-disable-line no-control-regex
-		client.log(err.message, "Error");
-		if(err.code !== 10008) restartBot("Unhandled Rejection");
+	process.on("unhandledRejection", (err) => {
+		client.output("error", `Unhandled rejection: ${err}`);
 	});
+
 };

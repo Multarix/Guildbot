@@ -5,7 +5,7 @@
 		"es6": true
 	},
 	"parserOptions": {
-		"ecmaVersion": 2017
+		"ecmaVersion": 2020
 	},
 	"rules": {
 		"brace-style": ["error", "1tbs", { "allowSingleLine": true }],
@@ -51,21 +51,7 @@
 		"yoda": "error"
 	},
 	"globals": {
-		"wait": true,
-		"pause": true,
-		"range": true,
-		"restartBot": true,
-		"grabUser" : true,
-		"grabChannel" : true,
-		"grabRole" : true,
-		"time" : true,
-		"ordinalIndicator" : true,
-		"sanity" : true,
-		"saReact" : true,
-		"talkedRecently" : true,
-		"sql" : true,
-		"sqlGet" :true,
-		"sqlRun" :true,
-		"sqlAll" :true
+		"grabChannel": true,
+		"grabUser": true
 	}
 }

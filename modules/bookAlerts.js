@@ -2,7 +2,13 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 const Discord = require("discord.js");
 
-module.exports = async (client) => {
+/**
+ * @name bookAlerts
+ * @param {Discord.Client} client The discord client
+ * @returns {Promise<Void>}
+ * @description Checks for new book parts from J-Novel Club
+ */
+async function bookAlerts(client){
 
 	if(!client.config.bookUpdateURL) return;
 	if(!client.config.bookUpdatesChannel) return;
@@ -11,8 +17,8 @@ module.exports = async (client) => {
 	if(!channel) return;
 
 	let postedParts = [];
-	if(fs.existsSync("./objects/posted.json")){
-		const posted = fs.readFileSync("./objects/posted.json", "utf8");
+	if(fs.existsSync("./data/posted.json")){
+		const posted = fs.readFileSync("./data/posted.json", "utf8");
 		postedParts = JSON.parse(posted);
 		postedParts = postedParts.ids;
 	}
@@ -32,7 +38,7 @@ module.exports = async (client) => {
 
 		newBookParts.push(part);
 		postedParts.push(part.title);
-		client.log(`New book part found: ${part.title}`, "Book Updates");
+		client.output(`New book part found: ${part.title}`, "Book Updates");
 	}
 
 	if(newBookParts.length >= 1){
@@ -53,9 +59,10 @@ module.exports = async (client) => {
 			channel.send({ embeds: [embed] });
 		}
 
-
 		const partList = { ids: postedParts };
-		fs.writeFileSync("./objects/posted.json", JSON.stringify(partList, null, "\t"));
+		fs.writeFileSync("./data/posted.json", JSON.stringify(partList, null, "\t"));
 		// fs.writeFileSync("./objects/test.json", JSON.stringify(parts, null, "\t"));
 	}
-};
+}
+
+module.exports = bookAlerts;

@@ -1,8 +1,11 @@
-module.exports = (client, error) => {
-	client.log(error.message, "Error");
+async function run(client, error){
+	client.output("error", error);
+}
+
+const info = {
+	name: "error",
+	description: "Emitted when the client encounters an error",
+	enabled: true
 };
 
-module.exports.help = {
-	name: "error",
-	description: "Emitted when the client encounters an error"
-};
+module.exports = { run, info };
