@@ -1,5 +1,5 @@
 const { Client } = require("discord.js");
-const deploySlash = require("../modules/deploySlash.js");
+const deploySlash = require("../src/deploySlash.js");
 /**
  * @name ready
  * @param {Client} client The discord client

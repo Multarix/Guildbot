@@ -5,7 +5,7 @@ async function run(client, error){
 const info = {
 	name: "error",
 	description: "Emitted when the client encounters an error",
-	enabled: false
+	enabled: true
 };
 
 module.exports = { run, info };
