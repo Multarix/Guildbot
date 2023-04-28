@@ -1,68 +1,47 @@
-const Discord = require("discord.js");
-exports.run = async (client, message, args, level) => {
-	let good = client.emojis.cache.get("340357918996299778");
-	if(!good) good = "👍";
+const { SlashCommandBuilder, Client, Message, Interaction } = require("discord.js");
 
-	const settings = sqlGet("SELECT * FROM settings WHERE guild = ?", message.guild.id);
+/**
+ * @name help
+ * @param {Client} client The discord client
+ * @param {Message|Interaction} element The message or interaction that was created
+ * @param {String[]} args The arguments passed to the command
+ * @returns {Promise<void>}
+**/
+async function run(client, element, args = []){
 
-	let ecolor = false;
-	if(message.member.roles.highest.color) ecolor = message.member.roles.highest.color;
+	let user = element.author;
+	if(!element.author) user = element.user;
 
-	const embed = new Discord.MessageEmbed()
-		.setAuthor(`Commands for:  ${message.author.tag}`, message.author.displayAvatarURL())
-		.setDescription(`Use ${settings.prefix}help <commandname> for more details`)
-		.setThumbnail(message.guild.iconURL)
-		.setFooter(client.user.tag, client.user.displayAvatarURL())
-		.setTimestamp();
+	const commandDesc = [];
+	const commandNames = [...client.commands.keys()];
+	for(const name in commandNames){
+		const command = client.commands.get(commandNames[name]);
+		commandDesc.push(`${client.config.prefix}${command.info.name} - ${command.info.description}`);
+	}
 
-	if(ecolor) embed.setColor(ecolor);
+	const joinCommannds = commandDesc.join("\n");
+	const userCommands = "Commands:\n```\n" + joinCommannds + "\n```";
+	await user.send({ content: userCommands }).catch(e => { return; });
+	await element.reply({ content: "I've sent you a DM with all of your available commands.\nIf you didn't receive one, please check your DM settings.", ephemeral: true });
+}
 
-	if(!args[0]){
 
-		const myCommands = client.commands.filter(c=>c.conf.permLevel <= level);
-		const commandNames = [...myCommands.keys()];
-		const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-		let currentCategory = "";
-		let output = "";
-		const sorted = myCommands.sort((p, c) => p.help.category > c.help.category ? 1 : -1);
-		sorted.forEach(c => {
-			const cat = c.help.category.toProperCase();
-			if(currentCategory !== cat && currentCategory === "") output += `|${cat}|`;
-			if(currentCategory !== cat && currentCategory !== "") output += `◙|${cat}|`;
+const info = {
+	name: "help",
+	description: "Displays a list of commands",
+	enabled: true,
+	altNames: ["h", "commands"],
+	dmCompatible: true,
+	permLevel: 0,
+	category: "Misc"
+};
 
-			output += `${c.help.name}  -:-  ${c.help.description}\n`;
-			currentCategory = cat;
-		});
 
-		const catCommands = output.split("◙");
-		catCommands.forEach(deeta => {
-			const catName = deeta.match(/(?!\|)(.*?)(?=\|)/)[0];
-			embed.addField(catName, deeta.replace(`|${catName}|`, ""));
-		});
-
-		message.author.send({ embeds: [embed] }).catch(e => {
-			if(e.code === 50007) return;
-			return client.log(e.message, "Error");
-		});
-		message.react(good);
-	} else {
-		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
-		if(command){
-			message.channel.send(`< ${command.help.name.toProperCase()} > \n${command.help.description}\nUsage: [${settings.prefix}${command.help.name}](<${command.help.usage.split(" ").join("> <")}>)`, { code:"markdown" });
-		}
+const slash = {
+	data:  new SlashCommandBuilder().setName(info.name).setDescription(info.description),
+	async execute(client, interaction){
+		run(client, interaction);
 	}
 };
 
-exports.conf = {
-	enabled: true,
-	allowDM: true,
-	aliases: ["commands", "h"],
-	permLevel: 0
-};
-
-exports.help = {
-	name: "help",
-	category: "System",
-	description: "Displays all the commands",
-	usage: "..command-name"
-};
+module.exports = { run, slash, info };
