@@ -12,7 +12,7 @@ async function deploySlash(client){
 	client.output("misc", "Deploying slash commands...");
 
 	const slashCommands = [];
-	for(const command of client.slashCommands) slashCommands.push(command.slash.data.toJSON());
+	for(const command of client.slashCommands) slashCommands.push(command.slash(client).data.toJSON());
 
 	for(let guild of client.guilds.cache){
 		guild = guild[1];

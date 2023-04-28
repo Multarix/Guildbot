@@ -1,5 +1,5 @@
 const colors = require("colors");
-const time = require("./timeFormat.js");
+const time = require("../modules/timeFormat.js");
 const { User, Channel, Client, Emoji, PermissionsBitField } = require("discord.js");
 
 /**
