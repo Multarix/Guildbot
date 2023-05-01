@@ -53,7 +53,7 @@ const info = {
 /**
  * @name slash
  * @param {Client} client The discord client
- * @param {Boolean} [funcs=false] Whether to return the functions or the data
+ * @param {Boolean} [funcs] Whether to return the functions or the data
  * @returns {Object} The slash command data or functions
 **/
 function slash(client, funcs = false){

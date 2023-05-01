@@ -8,35 +8,35 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, Permi
  * @returns {Promise<void>}
 **/
 async function run(_client, element, args = []){
-
 	const botCanDelete = element.channel.permissionsFor(element.guild.members.me).has(PermissionsBitField.Flags.ManageMessages);
-	if(!botCanDelete) return await element.reply({ content: "I do not have permission to delete messages in this channel", ephemeral: true });
+	if(!botCanDelete) return element.reply({ content: "I do not have permission to delete messages in this channel", ephemeral: true });
 
-	let slashCommand = false;
-	if(!element.author) slashCommand = true;
+	const isSlashCommand = (element.user) ? true : false;
+	if(isSlashCommand) await element.deferReply({ ephemeral: true });
 
 	if(!args[0]) return;
-	if(!parseInt(args[0])) return element.reply({ content: `Oops! \`${args[0]}\` Doesn't seem to be a number!` });
+	if(!parseInt(args[0])) return await element.reply({ content: `Oops! \`${args[0]}\` Doesn't seem to be a number!` });
 
 	const messagecount = parseInt(args[0]);
 	let toDelete = messagecount;
-	if(!slashCommand) toDelete += 1;
+	if(!isSlashCommand) toDelete += 1;
 	if(toDelete >= 101) toDelete = 100;
 
 	let success = true;
-	element.channel.messages.fetch({ limit: toDelete }).then(messages => element.channel.bulkDelete(messages, true)).catch(e => {
+	const messages = await element.channel.messages.fetch({ limit: toDelete });
+	await element.channel.bulkDelete(messages, true).catch(e => {
 		success = false;
 		return element.reply({ content: `\`Error:\` ${e.message}`, ephemeral: true });
 	});
 
-	if(slashCommand) element.reply({ content: `Successfully deleted ${toDelete} messages`, ephemeral: true });
+	if(isSlashCommand) await element.editReply({ content: `Successfully deleted ${toDelete} messages`, ephemeral: true });
 }
 
 
 const info = {
 	name: "purge",
 	description: "Mass deletes a specified amount of messages",
-	usage: "purge [number]",
+	usage: "purge <number>",
 	enabled: true,
 	altNames: ["md", "massdelete"],
 	dmCompatible: false,
@@ -44,10 +44,11 @@ const info = {
 	category: "Moderation"
 };
 
+
 /**
  * @name slash
  * @param {Client} client The discord client
- * @param {Boolean} [funcs=false] Whether to return the functions or the data
+ * @param {Boolean} [funcs] Whether to return the functions or the data
  * @returns {Object} The slash command data or functions
 **/
 function slash(client, funcs = false){
