@@ -50,8 +50,5 @@
 		}],
 		"yoda": "error"
 	},
-	"globals": {
-		"grabChannel": true,
-		"grabUser": true
-	}
+	"globals": {}
 }
