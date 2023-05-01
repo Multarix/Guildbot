@@ -46,9 +46,6 @@ const defaultConfig = {
 };
 
 // Load the config
-require("./src/functions.js")(client);
-
-
 try {
 	client.config = require("./config.json");
 
