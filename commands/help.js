@@ -38,16 +38,23 @@ async function run(client, element, args = []){
 			const prefix = client.config.prefix;
 
 			const title = caseFix(command.info.name);
+			const category = caseFix(command.info.category);
 
-			let aliases = "";
-			if(command.info.altNames.length) aliases = command.info.altNames.join(" ");
-			const commandInfo = `${command.info.description}\nAliases: \`${aliases}\``;
+			let aliasNames = "";
+			if(command.info.altNames.length) aliasNames = command.info.altNames.join("`, `");
+			const aliases = `\`${aliasNames}\``;
 			const usage = `${prefix}${command.info.usage}`;
-			const usageField = "\nExample Usage:\n```md\n" + usage + "```";
+			const usageField = "\nExample Usage:\n```fix\n" + usage + "```";
 
-			const fullDesc = `${commandInfo}\n${usageField}`;
+			const fields = [
+				{ name: "Category", value: category, inline: true },
+				{ name: "Aliases", value: aliases, inline: true },
+				{ name: "Description", value: command.info.description, inline: false },
+				{ name: "Usage", value: usageField, inline: false }
+			];
 
-			embed.addFields([{ name: title, value: fullDesc, inline: false }]);
+
+			embed.setAuthor({ name: title }).addFields(fields);
 			return await handleElement(element, isSlashCommand, { embeds: [embed], ephemeral: true });
 		}
 	}
@@ -68,7 +75,7 @@ async function run(client, element, args = []){
 		const paddedName = command.info.name.padEnd(longest, " ");
 
 		// Split the commands into categories, creating the category if it doesn't exist
-		const category = command.info.category;
+		const category = caseFix(command.info.category);
 		if(!categories[category]) categories[category] = [];
 
 		categories[category].push(`\`${paddedName}  ➜\` ${command.info.description}`);
@@ -82,7 +89,7 @@ async function run(client, element, args = []){
 	}
 
 	embed.setAuthor({ name: `Commands for:  ${user.tag}`, iconURL: user.displayAvatarURL() })
-		.setDescription(`**Commands available in** ${element.channel}\nUse \`${client.config.prefix}help {command}\` for details on a specific command.`)
+		.setDescription(`**Commands available in:** ${element.channel}\nUse \`${client.config.prefix}help {command}\` for details on a specific command.`)
 		.addFields(embedFields);
 
 	// If the command is a slash command
@@ -102,7 +109,7 @@ const info = {
 	altNames: ["h", "commands"],
 	dmCompatible: true,
 	permLevel: 0,
-	category: "System"
+	category: "system"
 };
 
 
@@ -114,16 +121,40 @@ const info = {
 **/
 function slash(client, funcs = false){
 	if(!funcs){ // We want to get the slashCommand data
-		return {
+
+		/**
+		 * @name commandChoices
+		 * @returns {object[]} The slash command data
+		 * @description Returns an array of choices for the slash command
+		**/
+		const commandChoices = () => {
+			const commands = [...client.commands.values()];
+			const choices = [];
+			for(const command of commands){
+				if(!command.info.enabled) continue;
+				if(command.info.permLevel > 10) continue;
+				choices.push({ name: command.info.name, value: command.info.name });
+			}
+
+			if(choices.length > 25) choices.slice(0, 25);
+			return choices;
+		};
+
+		const inf = {
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
 				.setDMPermission(false)
-				.addStringOption(option => option.setRequired(false).setName("command").setDescription("The command to get help for"))
+				.addStringOption(option =>
+					option.setRequired(false)
+						.setName("command")
+						.setDescription("The command to get help for")
+						.addChoices(...commandChoices()))
 		};
+		return inf;
 	}
 
-	return {
+	const info2 = {
 		/**
 		 * @name execute
 		 * @param {ChatInputCommandInteraction} interaction The interaction that was created
@@ -142,6 +173,7 @@ function slash(client, funcs = false){
 			await run(client, interaction, args);
 		}
 	};
+	return info2;
 }
 
 module.exports = { run, slash, info };
