@@ -22,13 +22,13 @@ async function run(client, element, _args = []){
 
 const info = {
 	name: "reboot",
-	description: "(Owner Only) Restarts the bot",
+	description: "Restarts the bot",
 	usage: "reboot",
 	enabled: true,
 	altNames: ["restart"],
 	dmCompatible: true,
 	permLevel: 100,
-	category: "System"
+	category: "debug"
 };
 
 

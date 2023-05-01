@@ -40,7 +40,7 @@ const info = {
 	altNames: ["md", "massdelete"],
 	dmCompatible: false,
 	permLevel: 2,
-	category: "Moderation"
+	category: "moderation"
 };
 
 

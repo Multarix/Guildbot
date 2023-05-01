@@ -56,13 +56,13 @@ async function run(client, element, args = []){
 
 const info = {
 	name: "reload",
-	description: "(Owner Only) Reloads commands",
+	description: "Reloads commands",
 	usage: "reload <command>",
 	enabled: true,
 	altNames: [],
 	dmCompatible: true,
 	permLevel: 100,
-	category: "System"
+	category: "debug"
 };
 
 

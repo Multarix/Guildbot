@@ -121,7 +121,7 @@ const info = {
 	altNames: [],
 	dmCompatible: false,
 	permLevel: 0,
-	category: "Moderation"
+	category: "moderation"
 };
 
 

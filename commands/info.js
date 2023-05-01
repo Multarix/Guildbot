@@ -93,7 +93,7 @@ const info = {
 	altNames: ["info"],
 	dmCompatible: true,
 	permLevel: 0,
-	category: "Misc"
+	category: "misc"
 };
 
 
