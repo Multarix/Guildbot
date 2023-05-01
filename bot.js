@@ -115,10 +115,12 @@ const main = async () => {
 			// Try loading the command file
 			const command = require(`./commands/${file}`);
 
+			// Set the command file name for reloading later
+			command.info.fileName = file;
+
 			// Set the command name and aliases
 			client.commands.set(command.info.name, command);
 			command.info.altNames.forEach(alias => client.altNames.set(alias, command.info.name));
-
 			// If the command is a slash command
 			if(command.slash?.(client)?.data && command.info.enabled) client.slashCommands.push(command);
 
