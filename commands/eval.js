@@ -74,13 +74,13 @@ async function run(client, element, args = []){
 
 const info = {
 	name: "eval",
-	description: "(Owner Only) Evaluates Javascript code",
+	description: "Evaluates Javascript code",
 	usage: "eval {code}",
 	enabled: true,
 	altNames: ["e", "js"],
 	dmCompatible: true,
 	permLevel: 100,
-	category: "System"
+	category: "debug"
 };
 
 

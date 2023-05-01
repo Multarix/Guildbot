@@ -21,7 +21,7 @@ const info = {
 	altNames: ["discord"],
 	dmCompatible: true,
 	permLevel: 0,
-	category: "Misc"
+	category: "misc"
 };
 
 

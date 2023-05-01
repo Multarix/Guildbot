@@ -40,13 +40,13 @@ async function run(client, element, _args = []){
 
 const info = {
 	name: "system",
-	description: "(Owner Only) Lists information about the system the bot is running on",
+	description: "Lists information about the system the bot is running on",
 	usage: "system",
 	enabled: true,
 	altNames: ["sys", "sysinfo"],
 	dmCompatible: true,
 	permLevel: 100,
-	category: "System"
+	category: "debug"
 };
 
 
