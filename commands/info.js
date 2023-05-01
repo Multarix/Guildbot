@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
-const { handleElement } = require("../src/functions.js");
-const humanTime = require("../modules/humanTime.js");
-const caseFix = require("../modules/caseFix.js");
+const { handleElement, humanTime, caseFix, grabUser } = require("../src/functions.js");
+
 
 /**
  * @name info
@@ -20,10 +19,10 @@ async function run(client, element, args = []){
 
 	if(args[0]){
 		if(isSlashCommand){
-			user = await grabUser(args[0].id);
+			user = await grabUser(client, args[0].id);
 			member = element.guild.members.cache.get(user.id);
 		} else {
-			user = await grabUser(args[0]);
+			user = await grabUser(client, args[0]);
 			member = element.guild.members.cache.get(user.id);
 		}
 	}

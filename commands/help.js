@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
-const { permLevel, handleElement } = require("../modules/functions.js");
-const caseFix = require("../modules/caseFix.js");
+const { permLevel, handleElement, caseFix } = require("../src/functions.js");
 
 
 /**
@@ -29,10 +28,11 @@ async function run(client, element, args = []){
 	if(element.member.roles.highest.color) embedColor = element.member.roles.highest.color;
 	if(embedColor) embed.setColor(embedColor);
 
+	const userPermLevel = permLevel(client, user, element.channel);
 
 	if(args[0]){
 		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
-		const permissionToRun = (command.info.permLevel <= permLevel(user, element.channel));
+		const permissionToRun = (command.info.permLevel <= userPermLevel);
 
 		if(command && command.info.enabled && permissionToRun){
 			const prefix = client.config.prefix;
@@ -63,7 +63,7 @@ async function run(client, element, args = []){
 	for(const command of commands){
 		// If the user can't even run the command, don't show it
 		if(!command.info.enabled) continue;
-		if(command.info.permLevel > permLevel(user, element.channel)) continue;
+		if(command.info.permLevel > userPermLevel) continue;
 		// Pad the name with spaces so all the names line up at the same spot
 		const paddedName = command.info.name.padEnd(longest, " ");
 

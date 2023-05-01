@@ -1,6 +1,8 @@
-const fs = require("fs");
-const fetch = require("node-fetch");
 const Discord = require("discord.js");
+const fetch = require("node-fetch");
+const fs = require("fs");
+const { output, grabChannel } = require("../src/functions.js");
+
 
 /**
  * @name bookAlerts
@@ -13,7 +15,7 @@ async function bookAlerts(client){
 	if(!client.config.bookUpdateURL) return;
 	if(!client.config.bookUpdatesChannel) return;
 
-	const channel = await grabChannel(client.config.bookUpdatesChannel);
+	const channel = await grabChannel(client, client.config.bookUpdatesChannel);
 	if(!channel) return;
 
 	let postedParts = [];
@@ -38,7 +40,7 @@ async function bookAlerts(client){
 
 		newBookParts.push(part);
 		postedParts.push(part.title);
-		client.output(`New book part found: ${part.title}`, "Book Updates");
+		output(`New book part found: ${part.title}`, "Book Updates");
 	}
 
 	if(newBookParts.length >= 1){
@@ -63,5 +65,6 @@ async function bookAlerts(client){
 		fs.writeFileSync("./data/posted.json", JSON.stringify(partList, null, "\t"));
 	}
 }
+
 
 module.exports = bookAlerts;

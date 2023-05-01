@@ -11,7 +11,7 @@ const {
 	PermissionsBitField,
 	PermissionFlagsBits
 } = require("discord.js");
-const { handleElement } = require("../handlers/elementHandler");
+const { handleElement, grabUser } = require("../src/functions.js");
 
 // Buttons for interactions
 const confirm = new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel("Ban User").setCustomId("ban_confirm");
@@ -78,7 +78,7 @@ async function run(client, element, args = []){
 
 	// Grab the user to kick
 	let banUser = args.shift();
-	if(!isSlashCommand) banUser = await grabUser(banUser);
+	if(!isSlashCommand) banUser = await grabUser(client, banUser);
 	if(!banUser) return await handleElement(element, isSlashCommand, { content: "No User/ Invalid User.\nPlease Specify a user to ban", ephemeral: true });
 
 	// Check if the user is in the server

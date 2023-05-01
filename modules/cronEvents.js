@@ -1,5 +1,6 @@
 const cron = require("node-cron");
 
+
 async function cronEvents(client){
 	// Book Alerts
 	const bookAlerts = require("./bookAlerts.js");
@@ -15,5 +16,6 @@ async function cronEvents(client){
 		});
 	}
 }
+
 
 module.exports = cronEvents;

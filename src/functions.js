@@ -179,7 +179,7 @@ function permLevel(client, user, channel){
  * @param {string} text The text to be cleaned
  * @returns {Promise<string>}
  * @description Cleans the text of any sensitive information
- * @example const cleanText = client.clean(client, text);
+ * @example const cleanText = clean(client, "some text");
 **/
 async function clean(client, text){
 	if(text && text.constructor.name == "Promise") text = await text;
@@ -199,7 +199,7 @@ async function clean(client, text){
  * @param {string} channelID The ID of the channel to be grabbed
  * @returns {Promise<Channel | undefined>} The channel object or undefined if the channel is not found
  * @description Grabs a channel object from the cache or fetches it from the API
- * @example const channel = grabChannel("1234567890");
+ * @example const channel = grabChannel(client, "1234567890");
 **/
 async function grabChannel(client, channelID){
 	if(!channelID) return undefined;
@@ -218,7 +218,7 @@ async function grabChannel(client, channelID){
  * @param {string} userID The ID of the user to be grabbed
  * @returns {Promise<User | undefined>} The user object or undefined if the user is not found
  * @description Grabs a user object from the cache or fetches it from the API
- * @example const user = grabUser("1234567890");
+ * @example const user = grabUser(client, "1234567890");
 **/
 async function grabUser(client, userID){
 	if(!userID) return undefined;

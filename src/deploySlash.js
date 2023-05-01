@@ -1,4 +1,6 @@
 const { Client, REST, Routes } = require("discord.js");
+const { output } = require("./functions");
+
 
 /**
  * @name deploySlash
@@ -9,7 +11,7 @@ async function deploySlash(client){
 
 	// Set up slash commands
 	const rest = new REST().setToken(client.config.token);
-	client.output("misc", "Deploying slash commands...");
+	output("misc", "Deploying slash commands...");
 
 	const slashCommands = [];
 	for(const command of client.slashCommands) slashCommands.push(command.slash(client).data.toJSON());
@@ -20,9 +22,10 @@ async function deploySlash(client){
 		try {
 			await rest.put(Routes.applicationGuildCommands(client.user.id, guild.id), { body: slashCommands });
 		} catch {
-			client.output("error", `Failed to deploy slash commands to guild '${guild.id}'`);
+			output("error", `Failed to deploy slash commands to guild '${guild.id}'`);
 		}
 	}
 }
+
 
 module.exports = deploySlash;

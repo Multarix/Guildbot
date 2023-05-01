@@ -1,5 +1,5 @@
 const { Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
-
+const { clean } = require("../src/functions.js");
 
 /**
  * @name eval
@@ -22,10 +22,10 @@ async function run(client, element, args){
 	const code = args.join(" ").replace(/\u200b/g, "\n");
 	try {
 		const evaled = eval(code);
-		const clean = await client.clean(client, evaled);
-		const evalString = `**OUTPUT** ${good}\n\`\`\`javascript\n${clean}\n\`\`\``;
+		const cleaned = await clean(client, evaled);
+		const evalString = `**OUTPUT** ${good}\n\`\`\`javascript\n${cleaned}\n\`\`\``;
 		if(evalString.length >= 1024){
-			console.log(clean);
+			console.log(cleaned);
 			return await element.channel.send(`**OUTPUT** ${good}\nThe output was too long, check the console.`);
 		}
 
@@ -35,7 +35,7 @@ async function run(client, element, args){
 		return await element.channel.send({ embeds: [embed] });
 
 	} catch (err){
-		const errMsg = await client.clean(client, err);
+		const errMsg = await clean(client, err);
 		const errString = `**ERROR** ${bad}\n\`\`\`javascript\n${errMsg}\n\`\`\``;
 		if(errString.length >= 1024){
 			console.log(errString);
