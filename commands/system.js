@@ -1,4 +1,4 @@
-const { Client, Message, ChatInputCommandInteraction, EmbedBuilder, version } = require("discord.js");
+const { Client, Message, EmbedBuilder, version } = require("discord.js");
 const os = require("os");
 const { humanTime } = require("../src/functions.js");
 
@@ -6,7 +6,7 @@ const { humanTime } = require("../src/functions.js");
 /**
  * @name system
  * @param {Client} client The discord client
- * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
+ * @param {Message} element The message or interaction that was created
  * @param {String[]} _args The arguments passed to the command
  * @returns {Promise<void>}
 **/
@@ -40,7 +40,7 @@ async function run(client, element, _args = []){
 
 const info = {
 	name: "system",
-	description: "Lists the system information upon which the bot is running",
+	description: "(Owner Only) Lists information about the system the bot is running on",
 	usage: "system",
 	enabled: true,
 	altNames: ["sys", "sysinfo"],

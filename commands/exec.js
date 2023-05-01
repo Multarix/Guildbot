@@ -1,4 +1,4 @@
-const { Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 
 
 /**
@@ -8,7 +8,7 @@ const { Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("
  * @param {String[]} args The arguments passed to the command
  * @returns {Promise<void>}
 **/
-async function run(client, element, args){
+async function run(client, element, args = []){
 
 	let good = client.emojis.cache.get("340357918996299778");
 	if(!good) good = "👍";
@@ -61,7 +61,7 @@ async function run(client, element, args){
 
 const info = {
 	name: "exec",
-	description: "Command line interaction (Owner Only)",
+	description: "(Owner Only) Command line interaction",
 	usage: "exec {code}",
 	enabled: true,
 	altNames: ["cmd"],

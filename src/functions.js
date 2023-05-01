@@ -1,4 +1,4 @@
-const { User, Channel, Client, Emoji, PermissionsBitField, Embed } = require("discord.js");
+const { User, Channel, Client, Emoji, PermissionsBitField, ActionRowBuilder, Embed } = require("discord.js");
 const colors = require("colors");
 
 
@@ -106,8 +106,11 @@ function timeFormat(dateTime = new Date()){
 
 
 /**
+ * @typedef {("good" | "warn" | "error" | "info" | "misc" | "normal")} outputType
+**/
+/**
  * @name output
- * @param {string} type Possible Values: good, warn, info, misc, error, normal
+ * @param {outputType} type The type of message
  * @param {any} message The item to be logged
  * @returns {void}
  * @description Logs a message to the console
@@ -255,12 +258,11 @@ async function grabEmoji(client, emojiID){
 
 /**
  * @typedef {object} messageData
- * @property {string} content A string of the message
- * @property {Embed[]} embeds
- * @property {array} components
+ * @property {string} content The content of the message
+ * @property {Embed[]} embeds An array of message embeds
+ * @property {ActionRowBuilder[]} components An array of ActionRowBuilders
+ * @property {bool} ephemeral Whether or not the message should be ephemeral
  **/
-
-
 /**
  * @name handleElement
  * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
