@@ -10,6 +10,8 @@ const { clean } = require("../src/functions.js");
 **/
 async function run(client, element, args){
 
+	if(!args) return await element.reply({ content: "You need to provide some code to evaluate!" });
+
 	let good = client.emojis.cache.get("340357918996299778");
 	if(!good) good = "👍";
 	let bad = client.emojis.cache.get("340357882606256137");
@@ -20,31 +22,51 @@ async function run(client, element, args){
 		.setTimestamp();
 
 	const code = args.join(" ").replace(/\u200b/g, "\n");
+	const inString = `\`\`\`javascript\n${code}\n\`\`\``;
 	try {
 		const evaled = eval(code);
 		const cleaned = await clean(client, evaled);
-		const evalString = `**OUTPUT** ${good}\n\`\`\`javascript\n${cleaned}\n\`\`\``;
-		if(evalString.length >= 1024){
+		const outString = `\`\`\`javascript\n${cleaned}\n\`\`\``;
+
+		embed.setColor(2734377);
+
+		if(outString.length >= 1024 || inString.length >= 1024){
 			console.log(cleaned);
-			return await element.channel.send(`**OUTPUT** ${good}\nThe output was too long, check the console.`);
+			const field = [{ name: `Success ${good}`, value: "The input or output was too long, check the console for details" }];
+
+			embed.addFields(field);
+
+			return await element.channel.send({ embeds: [embed] });
 		}
 
-		embed.setColor(2734377)
-			.addFields({ title: 'Javascript Evaluated', value: evalString, inline: false });
+		const fields = [
+			{ name: 'Eval Input', value: inString, inline: false },
+			{ name: `Eval Output ${good}`, value: outString, inline: false }
+		];
 
-		return await element.channel.send({ embeds: [embed] });
-
+		embed.addFields(fields);
+		return await element.channel.send({ embeds: [embed] }).catch(e => console.log(e));
 	} catch (err){
 		const errMsg = await clean(client, err);
-		const errString = `**ERROR** ${bad}\n\`\`\`javascript\n${errMsg}\n\`\`\``;
-		if(errString.length >= 1024){
-			console.log(errString);
-			return await element.channel.send(`**ERROR** ${bad}\nThe error message was too long, check the console.`);
+		const errString = `\`\`\`javascript\n${errMsg}\n\`\`\``;
+
+		embed.setColor(14487568);
+
+		if(errString.length >= 1024 || inString.length >= 1024){
+			console.log(errMsg);
+			const field = [{ name: `ERROR ${bad}`, value: "The input or output was too long, check the console for details" }];
+
+			embed.addFields(field);
+
+			return await element.channel.send({ embeds: [embed] });
 		}
 
-		embed.setColor(14487568)
-			.addFields({ title: `Javascript Evaluated`, value: errString, inline: false });
+		const fields = [
+			{ name: 'Eval Input', value: inString, inline: false },
+			{ name: `Eval Output ${bad}`, value: errString, inline: false }
+		];
 
+		embed.addFields(fields);
 		return await element.channel.send({ embeds: [embed] });
 	}
 }

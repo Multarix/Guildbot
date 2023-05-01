@@ -24,16 +24,14 @@ async function run(client, element, args){
 	require("child_process").exec(joinArgs, async (error, result) => {
 		// Error
 		if(error){
-			const errorMessage = "```yaml" + error.message + "```";
+			const errorMessage = "```yaml\n" + error.message + "```";
 
 			const fields = [
-				{ title: 'Exec Input', value: "```yaml" + joinArgs + "```", inline: false },
-				{ title: 'Exec Output', value: errorMessage, inline: false }
+				{ name: 'Exec Input', value: "```yaml\n" + joinArgs + "```", inline: false },
+				{ name: 'Exec Output', value: errorMessage, inline: false }
 			];
 
-			embed.setColor(14487568)
-				.addFields(fields);
-
+			embed.setColor(14487568).addFields(fields);
 
 			if(errorMessage.length >= 1024){
 				console.log(`Exec Error:\n${error.message}`);
@@ -45,15 +43,14 @@ async function run(client, element, args){
 
 		// Success
 		if(result){
-			const resultMessage = "```yaml" + result + "```";
+			const resultMessage = "```yaml\n" + result + "```";
 
 			const fields = [
-				{ title: 'Exec Input', value: "```yaml" + joinArgs + "```", inline: false },
-				{ title: 'Exec Output', value: resultMessage, inline: false }
+				{ name: 'Exec Input', value: "```yaml\n" + joinArgs + "```", inline: false },
+				{ name: 'Exec Output', value: resultMessage, inline: false }
 			];
 
-			embed.setColor(2734377)
-				.addFields(fields);
+			embed.setColor(2734377).addFields(fields);
 
 			if(resultMessage.length >= 1024) return element.channel.send("```yaml\nThe command executed successfully but The output was too long - Check the console for details.\n```");
 			return await element.channel.send({ embeds: [embed] });
