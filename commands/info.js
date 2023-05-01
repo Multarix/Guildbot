@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
-
+const { handleElement } = require("../src/functions.js");
+const humanTime = require("../modules/humanTime.js");
+const caseFix = require("../modules/caseFix.js");
 
 /**
  * @name info
@@ -8,42 +10,98 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, Embed
  * @param {String[]} _args The arguments passed to the command
  * @returns {Promise<void>}
 **/
-async function run(client, element, _args = []){
+async function run(client, element, args = []){
+
+	const isSlashCommand = (element.user) ? true : false;
+	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Don't need deferred here
+
+	let user = (isSlashCommand) ? element.user : element.author;
+	let member = (element.guild) ? element.guild.members.cache.get(user.id) : undefined;
+
+	if(args[0]){
+		if(isSlashCommand){
+			user = await grabUser(args[0].id);
+			member = element.guild.members.cache.get(user.id);
+		} else {
+			user = await grabUser(args[0]);
+			member = element.guild.members.cache.get(user.id);
+		}
+	}
+
+	const joinDate = humanTime(Date.now() - user.createdTimestamp, "\\Y years, \\M months, \\D days");
+
+	let embedColor = 14487568;
+	let displayName = user.username;
+
+	let statusEmbed = { name: "Status:", value: "Unknown", inline: true };
+	let playingEmbed = { name: "Playing:", value: "Nothing", inline: true };
+	let roleEmbed = { name: "Roles:", value: "N/A", inline: false };
+
+	if(member){
+		displayName = member.displayName;
+		if(member.presence){
+
+			const title = caseFix(member.presence.status);
+			statusEmbed = { name: "Status:", value: title, inline: true };
+
+			if(member.presence.activities.length >= 1){
+				for(const activity of member.presence.activities){
+					if(activity.type !== 0) continue;
+
+					playingEmbed = { name: "Playing:", value: activity.name, inline: true };
+					break;
+				}
+			}
+
+		}
+
+		if(member.roles){
+			const s = function(a, b){ return a.position - b.position; };
+			const r = [...member.roles.cache.values()].sort(s).slice(1).reverse().join(", ");
+			roleEmbed = { name: "Roles:", value: `\u200b${r}`, inline: false };
+		}
+
+		if(member.roles?.highest?.color) embedColor = member.roles.highest.color;
+	}
 
 	const embed = new EmbedBuilder()
-		.setAuthor({ name: `Bot Stats` })
-		.setColor(13238272)
-		.setThumbnail(client.user.displayAvatarURL())
-		.setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
-		.setTimestamp();
+		.setAuthor({ name: displayName })
+		.setThumbnail(user.displayAvatarURL())
+		.setTimestamp()
+		.setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() });
 
 	const embedFields = [
-		{ name: "Users",		value: client.users.cache.size.toLocaleString(), 		inline: true },
-		{ name: "Channels",		value: client.channels.cache.size.toLocaleString(), 	inline: true },
-		{ name: "Servers",		value: client.guilds.cache.size.toLocaleString(), 		inline: true }
+		{ name: "Username:", value: user.username, inline: true },
+		{ name: "Discrim:", value: user.discriminator, inline: true },
+		{ name: "Discord ID:", value: user.id, inline: true },
+		{ name: "Is bot?", value: caseFix(user.bot), inline: true },
+		statusEmbed,
+		playingEmbed,
+		{ name: "Joined Discord:", value: `${joinDate} ago`, inline: false },
+		roleEmbed
 	];
 
+	embed.setColor(embedColor);
 	embed.addFields(embedFields);
-
-	return element.reply({ embeds: [embed] });
+	return await handleElement(element, isSlashCommand, { embeds: [embed], ephemeral: false });
 }
 
 const info = {
 	name: "info",
-	description: "Gives some useful bot statistics",
-	usage: "info",
-	enabled: false,
-	altNames: ["stats"],
-	dmCompatible: false,
-	permLevel: 1,
-	category: "System"
+	description: "Gives information about a user",
+	usage: "info {user}",
+	enabled: true,
+	altNames: ["info"],
+	dmCompatible: true,
+	permLevel: 0,
+	category: "Misc"
 };
 
 
 /**
  * @name slash
  * @param {Client} client The discord client
- * @param {Boolean} [funcs=false] Whether to return the functions or the data
+ * @param {Boolean} [funcs] Whether to return the functions or the data
  * @returns {Object} The slash command data or functions
 **/
 function slash(client, funcs = false){
@@ -53,6 +111,7 @@ function slash(client, funcs = false){
 				.setName(info.name)
 				.setDescription(info.description)
 				.setDMPermission(false)
+				.addUserOption(option => option.setRequired(false).setName("user").setDescription("The user to get information about"))
 		};
 	}
 
@@ -63,7 +122,12 @@ function slash(client, funcs = false){
 		 * @description The function that is called when the slash command is used
 		**/
 		execute: async function execute(interaction){
-			await run(client, interaction);
+			const args = [];
+
+			const user = interaction.options.getUser("user");
+			if(user) args.push(user);
+
+			await run(client, interaction, args);
 		}
 	};
 }

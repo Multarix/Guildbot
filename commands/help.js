@@ -1,4 +1,7 @@
 const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
+const { permLevel, handleElement } = require("../modules/functions.js");
+const caseFix = require("../modules/caseFix.js");
+
 
 /**
  * @name help
@@ -9,10 +12,10 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, Embed
 **/
 async function run(client, element, args = []){
 
-	// Set the user who created the interaction/ message
-	let slashCommand = false;
-	if(!element.author) slashCommand = true;
-	const user = (slashCommand) ? element.user : element.author;
+	const isSlashCommand = (element.user) ? true : false;
+	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Don't need deferred here
+
+	const user = (isSlashCommand) ? element.user : element.author;
 
 	// Set up the Embed
 	const embed = new EmbedBuilder()
@@ -29,14 +32,12 @@ async function run(client, element, args = []){
 
 	if(args[0]){
 		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
-		const permissionToRun = (command.info.permLevel <= client.permLevel(user, element.channel));
+		const permissionToRun = (command.info.permLevel <= permLevel(user, element.channel));
 
 		if(command && command.info.enabled && permissionToRun){
 			const prefix = client.config.prefix;
 
-			const name = command.info.name.split("");
-			name[0] = name[0].toUpperCase();
-			const title = `${name.join("")}`;
+			const title = caseFix(command.info.name);
 
 			let aliases = "";
 			if(command.info.altNames.length) aliases = command.info.altNames.join(" ");
@@ -47,7 +48,7 @@ async function run(client, element, args = []){
 			const fullDesc = `${commandInfo}\n${usageField}`;
 
 			embed.addFields([{ name: title, value: fullDesc, inline: false }]);
-			return await element.reply({ embeds: [embed], ephemeral: true }).catch(e => { return; });
+			return await handleElement(element, isSlashCommand, { embeds: [embed], ephemeral: true });
 		}
 	}
 
@@ -62,7 +63,7 @@ async function run(client, element, args = []){
 	for(const command of commands){
 		// If the user can't even run the command, don't show it
 		if(!command.info.enabled) continue;
-		if(command.info.permLevel > client.permLevel(user, element.channel)) continue;
+		if(command.info.permLevel > permLevel(user, element.channel)) continue;
 		// Pad the name with spaces so all the names line up at the same spot
 		const paddedName = command.info.name.padEnd(longest, " ");
 
@@ -81,22 +82,22 @@ async function run(client, element, args = []){
 	}
 
 	embed.setAuthor({ name: `Commands for:  ${user.tag}`, iconURL: user.displayAvatarURL() })
-		.setDescription(`**Commands available in** ${element.channel}\nUse \`${client.config.prefix}help <command-name>\` for details on a specific command.`)
+		.setDescription(`**Commands available in** ${element.channel}\nUse \`${client.config.prefix}help {command}\` for details on a specific command.`)
 		.addFields(embedFields);
 
 	// If the command is a slash command
-	if(slashCommand) return await element.reply({ embeds: [embed], ephemeral: true }).catch(e => { return; });
+	if(isSlashCommand) return await element.editReply({ embeds: [embed], ephemeral: true });
 
-	// Send a DM to the user, and inform them in the channel that they have been DMed
+	// Otherwise send a DM to the user, and inform them in the channel that they have been DMed
 	await user.send({ embeds: [embed] }).catch(e => { return; });
-	await element.reply({ content: "I've sent you a DM with all of your available commands.\nIf you didn't receive one, please check your DM settings." }).catch(e => { return; });
+	await element.reply({ content: "I've sent you a DM with all of your available commands.\nIf you didn't receive one, please check your DM settings." });
 }
 
 
 const info = {
 	name: "help",
 	description: "Displays a list of commands",
-	usage: "help [command]",
+	usage: "help {command}",
 	enabled: true,
 	altNames: ["h", "commands"],
 	dmCompatible: true,
@@ -104,10 +105,11 @@ const info = {
 	category: "System"
 };
 
+
 /**
  * @name slash
  * @param {Client} client The discord client
- * @param {Boolean} [funcs=false] Whether to return the functions or the data
+ * @param {Boolean} [funcs] Whether to return the functions or the data
  * @returns {Object} The slash command data or functions
 **/
 function slash(client, funcs = false){
@@ -117,12 +119,7 @@ function slash(client, funcs = false){
 				.setName(info.name)
 				.setDescription(info.description)
 				.setDMPermission(false)
-				.addStringOption(option =>
-					option.setRequired(false)
-						.setName("command")
-						.setDescription("The command to get help for")
-						.addChoices({ name: "help", value: "help" }, { name: "h", value: "help" }, { name: "commands", value: "help" })
-				)
+				.addStringOption(option => option.setRequired(false).setName("command").setDescription("The command to get help for"))
 		};
 	}
 
