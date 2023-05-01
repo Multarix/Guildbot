@@ -23,10 +23,8 @@ async function run(_client, element, args = []){
 	if(!isSlashCommand) toDelete += 1;
 	if(toDelete >= 101) toDelete = 100;
 
-	let success = true;
 	const messages = await element.channel.messages.fetch({ limit: toDelete });
 	await element.channel.bulkDelete(messages, true).catch(e => {
-		success = false;
 		return element.reply({ content: `\`Error:\` ${e.message}`, ephemeral: true });
 	});
 
