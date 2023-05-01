@@ -1,4 +1,4 @@
-const { Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const { clean } = require("../src/functions.js");
 
 /**
@@ -8,7 +8,7 @@ const { clean } = require("../src/functions.js");
  * @param {String[]} args The arguments passed to the command
  * @returns {Promise<void>}
 **/
-async function run(client, element, args){
+async function run(client, element, args = []){
 
 	if(!args) return await element.reply({ content: "You need to provide some code to evaluate!" });
 
@@ -74,7 +74,7 @@ async function run(client, element, args){
 
 const info = {
 	name: "eval",
-	description: "Evaluates Javascript (Owner Only)",
+	description: "(Owner Only) Evaluates Javascript code",
 	usage: "eval {code}",
 	enabled: true,
 	altNames: ["e", "js"],
