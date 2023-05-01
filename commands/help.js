@@ -76,7 +76,7 @@ async function run(client, element, args = []){
 
 	// Each category gets its own embedField
 	const embedFields = [];
-	for(const category in categories){
+	for(const category of Object.keys(categories).sort()){
 		const embedData = { name: category, value: categories[category].join("\n"), inline: false };
 		embedFields.push(embedData);
 	}
@@ -86,7 +86,7 @@ async function run(client, element, args = []){
 		.addFields(embedFields);
 
 	// If the command is a slash command
-	if(isSlashCommand) return await element.editReply({ embeds: [embed], ephemeral: true });
+	if(isSlashCommand) return await element.reply({ embeds: [embed], ephemeral: true });
 
 	// Otherwise send a DM to the user, and inform them in the channel that they have been DMed
 	await user.send({ embeds: [embed] }).catch(e => { return; });
