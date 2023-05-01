@@ -11,7 +11,7 @@ const {
 	PermissionsBitField,
 	PermissionFlagsBits
 } = require("discord.js");
-const { handleElement } = require("../src/functions.js");
+const { handleElement, grabUser } = require("../src/functions.js");
 
 
 // Buttons for interactions
@@ -79,7 +79,7 @@ async function run(client, element, args = []){
 
 	// Grab the user to kick
 	let kickUser = args.shift();
-	if(!isSlashCommand) kickUser = await grabUser(kickUser);
+	if(!isSlashCommand) kickUser = await grabUser(client, kickUser);
 	if(!kickUser) return await handleElement(element, isSlashCommand, { content: "No User/ Invalid User.\nPlease Specify a user to kick", ephemeral: true });
 
 	// Check if the user is even in the server

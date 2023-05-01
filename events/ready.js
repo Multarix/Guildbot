@@ -1,5 +1,8 @@
 const { Client } = require("discord.js");
+const { output } = require("../src/functions.js");
 const deploySlash = require("../src/deploySlash.js");
+
+
 /**
  * @name ready
  * @param {Client} client The discord client
@@ -10,7 +13,7 @@ async function run(client){
 
 	await deploySlash(client);
 
-	client.output("misc", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
+	output("misc", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
 
 	const presence = {
 		status: "online",
@@ -23,10 +26,12 @@ async function run(client){
 	client.user.setPresence(presence);
 }
 
+
 const info = {
 	name: "ready",
 	description: "Emitted when the client becomes ready to start working.",
 	enabled: true
 };
+
 
 module.exports = { run, info };

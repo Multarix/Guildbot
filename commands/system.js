@@ -1,7 +1,7 @@
 const { Client, Message, ChatInputCommandInteraction, EmbedBuilder, version } = require("discord.js");
 const os = require("os");
+const { humanTime } = require("../src/functions.js");
 
-const humanTime = require("../modules/humanTime.js");
 
 /**
  * @name system

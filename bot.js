@@ -1,9 +1,24 @@
-const fs = require("fs");
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
+const fs = require("fs");
+const { output } = require("./src/functions.js");
+
+
+// Handle the unhandled things
+process.on("uncaughtException", (err) => {
+	const errorMsg = err?.stack?.replace(new RegExp(`${__dirname}/`, "g"), "./");
+	output("error", `Uncaught Exception: ${errorMsg}`);
+});
+
+process.on("unhandledRejection", (err) => {
+	output("error", `Unhandled rejection: ${err}`);
+});
+
 
 console.log("Starting Bot...");
 
+
 // const Partials = Discord.Partials;
+
 
 const intentFlags = [
 	GatewayIntentBits.Guilds,
@@ -38,19 +53,19 @@ try {
 	client.config = require("./config.json");
 
 	if(!client.config.prefix){
-		client.output("warn", "No prefix found in config! Using default prefix.");
+		output("warn", "No prefix found in config! Using default prefix.");
 		client.config.prefix = defaultConfig.prefix;
 	}
 
 } catch (err){
-	client.output("error", "No config file found!");
+	output("error", "No config file found!");
 
 	try { fs.writeFileSync("./config.json", JSON.stringify(defaultConfig, null, 4)); } catch (err){
-		client.output("error", `Failed to create config file! Process exiting...`);
+		output("error", `Failed to create config file! Process exiting...`);
 		process.exit(1);
 	}
 
-	client.output("warn", `A new config file has been created! Please edit the config to continue!`);
+	output("warn", `A new config file has been created! Please edit the config to continue!`);
 	process.exit(1);
 }
 
@@ -64,7 +79,7 @@ client.slashCommands = [];
 **/
 const main = async () => {
 	// Load the events
-	client.output("misc", "Loading events...");
+	output("misc", "Loading events...");
 
 	// Find the event with the longest name
 	const eventList = fs.readdirSync("./events").filter(file => file.endsWith(".js")).sort((a, b) => a.length - b.length);
@@ -81,18 +96,18 @@ const main = async () => {
 			client.on(event.info.name, event.run.bind(null, client));
 
 			const paddedName = event.info.name.padEnd(longestName, " ");
-			client.output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
+			output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
 
 			delete require.cache[require.resolve(`./events/${file}`)];
 
 		} catch (err){
 			// Warn if the event failed to load
-			client.output("warn", `Failed to load event: ${file}!`);
+			output("warn", `Failed to load event: ${file}!`);
 		}
 	}
 
 	// Load the commands
-	client.output("misc", "Loading commands...");
+	output("misc", "Loading commands...");
 
 	// Find the command with the longest name
 	const commandList = fs.readdirSync("./commands").filter(file => file.endsWith(".js")).sort((a, b) => a.length - b.length);
@@ -111,11 +126,11 @@ const main = async () => {
 			if(command.slash?.(client)?.data && command.info.enabled) client.slashCommands.push(command);
 
 			const paddedName = command.info.name.padEnd(longestName, " ");
-			client.output("good", `Loaded command: ${paddedName}  > ${command.info.description}`);
+			output("good", `Loaded command: ${paddedName}  > ${command.info.description}`);
 
 		} catch (err){
 			// Warn if the command failed to load
-			client.output("warn", `Failed to load command: ${file}!\n${err}`);
+			output("warn", `Failed to load command: ${file}!\n${err}`);
 		}
 	}
 

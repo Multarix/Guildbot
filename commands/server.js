@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction } = require("discord.js");
 
+
 /**
  * @name info
  * @param {Client} _client The discord client

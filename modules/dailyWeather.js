@@ -2,6 +2,7 @@ const fs = require("fs");
 const timeData = require("./modules/currentTime.js");
 const Discord = require("discord.js");
 
+
 /**
  * @name weatherData
  * @param {Discord.Client} client The discord client
@@ -60,6 +61,7 @@ function weatherData(client){
 		}
 	});
 }
+
 
 module.exports = weatherData;
 
