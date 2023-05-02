@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
 const { handleElement, randomNumber } = require("../src/functions.js");
+
+
 /**
  * @name roll
  * @param {Client} _client The discord client
@@ -13,8 +15,9 @@ async function run(client, element, args = []){
 	const isSlashCommand = (element.user) ? true : false;
 	const user = isSlashCommand ? element.user : element.author;
 
-	let isValidInput = false;
 	let func;
+	let isValidInput = false;
+	// Each case sets up the die and binds a function with the min and max values
 	switch(args[0]){
 		case "d4":
 			func = randomNumber.bind(null, 1, 4);
@@ -50,6 +53,7 @@ async function run(client, element, args = []){
 		case "percentile":
 		case "percent":
 		case "p":
+			// Percentile is slightly different as we want to generate 10, 20, 30, etc, so we multiply the number by 10
 			args[0] = "percentile";
 			func = () => {
 				let num = randomNumber(1, 10);
@@ -65,6 +69,7 @@ async function run(client, element, args = []){
 
 	if(!isValidInput) return await element.reply({ content: "That is not a valid type of die. Valid Types: `d4`, `d6`, `d8`, `d10`, `d12`, `d20`, `percentile`", ephemeral: true });
 
+	// Set the amount of rolls
 	let rolls = 1;
 	if(args[1]){
 		const arg = parseInt(args[1]);
@@ -97,6 +102,7 @@ async function run(client, element, args = []){
 		total += num;
 	}
 
+	// This is to make the embed spacing look nice, adding empty fields if not a multiple of 3
 	if(fields.length > 3 && (fields.length % 3) !== 0){
 		for(let i = 0; (fields.length % 3) !== 0; i++){
 			fields.push({ name: "\u200b", value: "\u200b", inline: true });
@@ -107,8 +113,11 @@ async function run(client, element, args = []){
 
 	embed.setFields(fields);
 
+	// If the user is a DM (has dungeon master role) and they want to hide the roll, we set the ephemeral to true
 	const hasDMRole = (element.member?.roles.cache.find(role => role.name.toLowerCase() === "dungeon master"));
 	const hidden = (isSlashCommand && hasDMRole && args[2]);
+
+	// Of course ephemeral only works for slash commands, so using the actual prefix, the reply will still be visible to all
 	await handleElement(element, isSlashCommand, { embeds: [embed], ephemeral: hidden });
 }
 
