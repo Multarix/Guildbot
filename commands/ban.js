@@ -71,7 +71,7 @@ async function run(client, element, args = []){
 	const isSlashCommand = (element.type === 2) ? true : false;
 	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Defering breaks things
 
-	const user = (isSlashCommand) ? element.user : element.author;
+	const user = isSlashCommand ? element.user : element.author;
 
 	// Check if the bot can even kick
 	if(!element.channel.permissionsFor(element.guild.members.me).has(PermissionsBitField.Flags.BanMembers)) return await handleElement(element, isSlashCommand, { content: "I do not have permission to kick members.", ephemeral: true });
