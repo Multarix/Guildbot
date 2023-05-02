@@ -15,7 +15,7 @@ async function run(_client, element, args = []){
 	const isSlashCommand = (element.user) ? true : false;
 	if(isSlashCommand) await element.deferReply({ ephemeral: true });
 
-	if(!args[0]) return;
+	if(!args[0]) return await element.reply({ content: "You need to specify a number of messages to delete" });
 	if(!parseInt(args[0])) return await element.reply({ content: `Oops! \`${args[0]}\` Doesn't seem to be a number!` });
 
 	const messagecount = parseInt(args[0]);

@@ -14,7 +14,7 @@ async function run(client, element, args = []){
 	const isSlashCommand = (element.user) ? true : false;
 	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Don't need deferred here
 
-	const user = (isSlashCommand) ? element.user : element.author;
+	const user = isSlashCommand ? element.user : element.author;
 
 	// Set up the Embed
 	const embed = new EmbedBuilder()

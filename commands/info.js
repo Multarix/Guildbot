@@ -14,7 +14,7 @@ async function run(client, element, args = []){
 	const isSlashCommand = (element.user) ? true : false;
 	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Don't need deferred here
 
-	let user = (isSlashCommand) ? element.user : element.author;
+	let user = isSlashCommand ? element.user : element.author;
 	let member = (element.guild) ? element.guild.members.cache.get(user.id) : undefined;
 
 	if(args[0]){

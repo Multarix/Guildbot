@@ -37,7 +37,7 @@ function slash(client, funcs = false){
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
-				.setDMPermission(true)
+				.setDMPermission(info.dmCompatible)
 		};
 	}
 
