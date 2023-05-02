@@ -15,10 +15,10 @@ async function run(_client, element, _args = []){
 
 const info = {
 	name: "server",
+	altNames: ["discord"],
 	description: "Posts the discord server link page",
 	usage: "server",
 	enabled: true,
-	altNames: ["discord"],
 	dmCompatible: true,
 	permLevel: 0,
 	category: "misc"

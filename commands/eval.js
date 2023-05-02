@@ -74,10 +74,10 @@ async function run(client, element, args = []){
 
 const info = {
 	name: "eval",
+	altNames: ["e", "js"],
 	description: "Evaluates Javascript code",
 	usage: "eval {code}",
 	enabled: true,
-	altNames: ["e", "js"],
 	dmCompatible: true,
 	permLevel: 100,
 	category: "debug"
