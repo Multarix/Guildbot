@@ -25,11 +25,12 @@ async function run(client, element, args = []){
 	// if(iconURL) embed.setThumbnail(iconURL);
 
 	let embedColor = false;
-	if(element.member.roles.highest.color) embedColor = element.member.roles.highest.color;
+	if(element.member?.roles?.highest?.color) embedColor = element.member.roles.highest.color;
 	if(embedColor) embed.setColor(embedColor);
 
 	const userPermLevel = permLevel(client, user, element.channel);
 
+	// if args[0] is a command, show the command's info (assuming the user has permission to do so)
 	if(args[0]){
 		const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
 		const permissionToRun = (command.info.permLevel <= userPermLevel);
@@ -144,7 +145,7 @@ function slash(client, funcs = false){
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
-				.setDMPermission(false)
+				.setDMPermission(info.dmCompatible)
 				.addStringOption(option =>
 					option.setRequired(false)
 						.setName("command")

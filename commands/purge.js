@@ -56,7 +56,7 @@ function slash(client, funcs = false){
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
-				.setDMPermission(false)
+				.setDMPermission(info.dmCompatible)
 				.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
 				.addIntegerOption(option =>
 					option.setRequired(true)

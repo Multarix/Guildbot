@@ -2,16 +2,16 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction } = re
 
 
 /**
- * @name info
+ * @name server
  * @param {Client} _client The discord client
  * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
  * @param {String[]} _args The arguments passed to the command
  * @returns {Promise<void>}
 **/
-
 async function run(_client, element, _args = []){
 	await element.reply({ content: "https://discordstatus.com/", ephemeral: true }).catch(e => { return; });
 }
+
 
 const info = {
 	name: "server",
@@ -37,7 +37,7 @@ function slash(client, funcs = false){
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
-				.setDMPermission(false)
+				.setDMPermission(true)
 		};
 	}
 

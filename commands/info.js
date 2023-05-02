@@ -109,7 +109,7 @@ function slash(client, funcs = false){
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
-				.setDMPermission(false)
+				.setDMPermission(info.dmCompatible)
 				.addUserOption(option => option.setRequired(false).setName("user").setDescription("The user to get information about"))
 		};
 	}

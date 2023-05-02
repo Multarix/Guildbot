@@ -133,7 +133,7 @@ function slash(client, funcs = false){
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
-				.setDMPermission(false)
+				.setDMPermission(info.dmCompatible)
 				.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
 				.addUserOption(option => option.setRequired(true).setName("user").setDescription("The user to ban"))
 				.addStringOption(option => option.setRequired(false).setName("reason").setDescription("The reason for banning the user"))

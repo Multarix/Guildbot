@@ -34,7 +34,6 @@ function ordinal(num){
  * @property {string} time The time in the format `HH:MM:SS`
  * @property {string} ISO The time in the format `YYYY-MM-DDTHH:MM:SS.MSSZ`
 **/
-
 /**
  * @name timeFormat
  * @param {Date} [dateTime] The date object to be used, defaults to the current time
@@ -137,7 +136,7 @@ function output(type, message){
 			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.cyan(message)}`);
 			break;
 
-		case "normal":
+		case "normal":	// fallsthrough
 		default:
 			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.white(message)}`);
 			break;
@@ -155,9 +154,11 @@ function output(type, message){
  * @example const permLevel = client.permLevel(client, message);
 **/
 function permLevel(client, user, channel){
-
 	let perm = 0;
-	if(channel.type === "DM") return perm;
+
+	const DM = 1;
+	const GroupDM = 3;
+	if(channel.type === DM || channel.type === GroupDM) return perm;
 
 	const personCanDelete = channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.ManageMessages);
 	const personCanKick = channel.permissionsFor(channel.guild.members.cache.get(user.id)).has(PermissionsBitField.Flags.KickMembers);

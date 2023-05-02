@@ -137,7 +137,7 @@ function slash(client, funcs = false){
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
-				.setDMPermission(false)
+				.setDMPermission(info.dmCompatible)
 				.setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
 				.addUserOption(option => option.setRequired(true).setName("user").setDescription("The user to kick"))
 				.addStringOption(option => option.setRequired(false).setName("reason").setDescription("The reason for kicking the user"))
