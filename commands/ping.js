@@ -18,10 +18,10 @@ async function run(client, element, _args = []){
 
 const info = {
 	name: "ping",
+	altNames: ["discord"],
 	description: "Gets the bot ping of the bot",
 	usage: "ping",
 	enabled: true,
-	altNames: ["discord"],
 	dmCompatible: true,
 	permLevel: 0,
 	category: "system"

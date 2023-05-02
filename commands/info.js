@@ -87,10 +87,10 @@ async function run(client, element, args = []){
 
 const info = {
 	name: "info",
+	altNames: ["info"],
 	description: "Gives information about a user",
 	usage: "info {user}",
 	enabled: true,
-	altNames: ["info"],
 	dmCompatible: true,
 	permLevel: 0,
 	category: "misc"

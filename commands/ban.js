@@ -111,10 +111,10 @@ async function run(client, element, args = []){
 
 const info = {
 	name: "ban",
+	altNames: [],
 	description: "Kicks a user from the server",
 	usage: "ban <user> {reason}",
 	enabled: true,
-	altNames: [],
 	dmCompatible: false,
 	permLevel: 0,
 	category: "moderation"

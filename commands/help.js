@@ -104,10 +104,10 @@ async function run(client, element, args = []){
 
 const info = {
 	name: "help",
+	altNames: ["h", "commands"],
 	description: "Displays a list of commands",
 	usage: "help {command}",
 	enabled: true,
-	altNames: ["h", "commands"],
 	dmCompatible: true,
 	permLevel: 0,
 	category: "system"
