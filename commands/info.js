@@ -6,7 +6,7 @@ const { handleElement, humanTime, caseFix, grabUser } = require("../src/function
  * @name info
  * @param {Client} client The discord client
  * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
- * @param {String[]} _args The arguments passed to the command
+ * @param {String[]} [args] The arguments passed to the command
  * @returns {Promise<void>}
 **/
 async function run(client, element, args = []){

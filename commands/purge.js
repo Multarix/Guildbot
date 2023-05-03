@@ -58,13 +58,7 @@ function slash(client, funcs = false){
 				.setDescription(info.description)
 				.setDMPermission(info.dmCompatible)
 				.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-				.addIntegerOption(option =>
-					option.setRequired(true)
-						.setName("number")
-						.setDescription("The ammount of messages to delete")
-						.setMinValue(1)
-						.setMaxValue(100)
-				)
+				.addIntegerOption(option => option.setRequired(true).setName("number").setDescription("The ammount of messages to delete").setMinValue(1).setMaxValue(100))
 		};
 	}
 

@@ -5,7 +5,7 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction } = re
  * @name server
  * @param {Client} _client The discord client
  * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
- * @param {String[]} _args The arguments passed to the command
+ * @param {String[]} [_args] The arguments passed to the command
  * @returns {Promise<void>}
 **/
 async function run(_client, element, _args = []){

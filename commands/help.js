@@ -146,11 +146,7 @@ function slash(client, funcs = false){
 				.setName(info.name)
 				.setDescription(info.description)
 				.setDMPermission(info.dmCompatible)
-				.addStringOption(option =>
-					option.setRequired(false)
-						.setName("command")
-						.setDescription("The command to get help for")
-						.addChoices(...commandChoices()))
+				.addStringOption(option => option.setRequired(false).setName("command").setDescription("The command to get help for").addChoices(...commandChoices()))
 		};
 		return inf;
 	}
