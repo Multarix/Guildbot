@@ -64,7 +64,7 @@ async function handleComponent(interactionReply, inputCommand, embed, kickUser, 
  * @name kick
  * @param {Client} client The discord client
  * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
- * @param {String[]} args The arguments passed to the command
+ * @param {String[]} [args] The arguments passed to the command
  * @returns {Promise<void>}
 **/
 async function run(client, element, args = []){

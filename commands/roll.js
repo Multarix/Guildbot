@@ -4,9 +4,9 @@ const { handleElement, randomNumber } = require("../src/functions.js");
 
 /**
  * @name roll
- * @param {Client} _client The discord client
+ * @param {Client} client The discord client
  * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
- * @param {String[]} _args The arguments passed to the command
+ * @param {String[]} [args] The arguments passed to the command
  * @returns {Promise<void>}
 **/
 async function run(client, element, args = []){
@@ -56,7 +56,7 @@ async function run(client, element, args = []){
 			// Percentile is slightly different as we want to generate 10, 20, 30, etc, so we multiply the number by 10
 			args[0] = "percentile";
 			func = () => {
-				let num = randomNumber(1, 10);
+				func = randomNumber.bind(null, 0, 9);
 				num *= 10;
 				return num;
 			};
@@ -80,8 +80,8 @@ async function run(client, element, args = []){
 	if(rolls > 21) rolls = 21;
 
 
-	const embed = new EmbedBuilder()
-		.setAuthor({ name: `${user.username} - Rolled ${rolls}x ${args[0]}`, iconURL: user.displayAvatarURL() })
+	const embed = new EmbedBuilder()						// \u00d7 = ×
+		.setAuthor({ name: `${user.username} - Rolling ${rolls}\u00d7 ${args[0]}`, iconURL: user.displayAvatarURL() })
 		.setDescription(`The die have been cast... Good luck!`)
 		.setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
 		.setTimestamp();
@@ -156,9 +156,9 @@ function slash(client, funcs = false){
 				.setName(info.name)
 				.setDescription(info.description)
 				.setDMPermission(info.dmCompatible)
-				.addStringOption(option => option.setName("dice").setDescription("The type of die to roll").setRequired(true).setChoices(...choices))
-				.addIntegerOption(option => option.setName("amount").setDescription("The amount of die to roll").setRequired(false).setMinValue(1).setMaxValue(21))
-				.addBooleanOption(option => option.setName("hidden").setDescription("Whether to make the reply visible only to you").setRequired(false))
+				.addStringOption(option => option.setRequired(true).setName("dice").setDescription("The type of die to roll").setChoices(...choices))
+				.addIntegerOption(option => option.setRequired(false).setName("amount").setDescription("The amount of die to roll").setMinValue(1).setMaxValue(21))
+				.addBooleanOption(option => option.setRequired(false).setName("hidden").setDescription("Whether to make the reply visible only to you"))
 		};
 	}
 
