@@ -1,4 +1,6 @@
+.vscode
 node_modules
-/data/*
+data/*
 config.json
+test
 test.js
