@@ -19,7 +19,7 @@ async function run(client, element, _args = []){
 const info = {
 	name: "ping",
 	altNames: ["discord"],
-	description: "Gets the bot ping of the bot",
+	description: "📡 Gets the bot ping of the bot",
 	usage: "ping",
 	enabled: true,
 	dmCompatible: true,

@@ -35,7 +35,7 @@ async function run(_client, element, args = []){
 const info = {
 	name: "purge",
 	altNames: ["md", "massdelete"],
-	description: "Mass deletes a specified amount of messages",
+	description: "🗑️ Mass deletes a specified amount of messages",
 	usage: "purge <number>",
 	enabled: true,
 	dmCompatible: false,

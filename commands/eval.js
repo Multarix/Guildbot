@@ -75,7 +75,7 @@ async function run(client, element, args = []){
 const info = {
 	name: "eval",
 	altNames: ["e", "js"],
-	description: "Evaluates Javascript code",
+	description: "⌨️ Evaluates Javascript code",
 	usage: "eval {code}",
 	enabled: true,
 	dmCompatible: true,

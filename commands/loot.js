@@ -9,15 +9,15 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, Embed
  * @returns {Promise<void>}
 **/
 async function run(client, element, args = []){
-	return;
+	return await element.reply("This command is not yet functional.");
 }
 
 
 const info = {
-	name: "roll",
+	name: "loot",
 	altNames: [],
-	description: "Rolls dice 🎲",
-	usage: "roll <dice> {amount} {hidden}",
+	description: "👑 Rolls for loot",
+	usage: "loot <type> <challenge-level>",
 	enabled: true,
 	dmCompatible: true,
 	permLevel: 0,
@@ -43,8 +43,8 @@ function slash(client, funcs = false){
 				.setName(info.name)
 				.setDescription(info.description)
 				.setDMPermission(info.dmCompatible)
-				.addStringOption(option => option.setRequired(true).setName("dice").setDescription("The type of die to roll").setChoices(...choices))
-				.addIntegerOption(option => option.setRequired(true).setName("amount").setDescription("The amount of die to roll").setMinValue(0))
+				.addStringOption(option => option.setRequired(true).setName("type").setDescription("The type of encounter").setChoices(...choices))
+				.addIntegerOption(option => option.setRequired(true).setName("challenge-level").setDescription("The challenge level of the encounter").setMinValue(0))
 
 		};
 	}
@@ -58,16 +58,12 @@ function slash(client, funcs = false){
 		execute: async function execute(interaction){
 			const args = [];
 
-			const diceType = interaction.options.getString("dice");
-			args.push(diceType);
+			const encounterType = interaction.options.getString("type");
+			args.push(encounterType);
 
-			let amount = interaction.options.getInteger("amount");
-			if(!amount) amount = 1;
-			args.push(amount);
+			const challengeLevel = interaction.options.getInteger("challenge-level");
+			args.push(challengeLevel);
 
-			let hidden = interaction.options.getBoolean("hidden");
-			if(!hidden) hidden = false;
-			args.push(hidden);
 
 			await run(client, interaction, args);
 		}
