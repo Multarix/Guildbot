@@ -41,7 +41,7 @@ async function run(client, element, _args = []){
 const info = {
 	name: "system",
 	altNames: ["sys", "sysinfo"],
-	description: "⚙️ Lists information about the system the bot is running on",
+	description: "Lists information about the system the bot is running on",
 	usage: "system",
 	enabled: true,
 	dmCompatible: true,
