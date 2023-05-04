@@ -120,7 +120,7 @@ const info = {
 	usage: "kick <user> {reason}",
 	enabled: true,
 	dmCompatible: false,
-	permLevel: 0,
+	permLevel: 4,
 	category: "moderation"
 };
 

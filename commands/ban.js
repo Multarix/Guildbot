@@ -116,7 +116,7 @@ const info = {
 	usage: "ban <user> {reason}",
 	enabled: true,
 	dmCompatible: false,
-	permLevel: 0,
+	permLevel: 6,
 	category: "moderation"
 };
 
