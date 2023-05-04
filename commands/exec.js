@@ -62,7 +62,7 @@ async function run(client, element, args = []){
 const info = {
 	name: "exec",
 	altNames: ["cmd"],
-	description: "Command line interaction",
+	description: "🖥️ Command line interaction",
 	usage: "exec {code}",
 	enabled: true,
 	dmCompatible: true,

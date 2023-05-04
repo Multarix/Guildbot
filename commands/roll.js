@@ -125,7 +125,7 @@ async function run(client, element, args = []){
 const info = {
 	name: "roll",
 	altNames: [],
-	description: "Rolls dice 🎲",
+	description: "🎲 Rolls dice",
 	usage: "roll <dice> {amount} {hidden}",
 	enabled: true,
 	dmCompatible: true,
