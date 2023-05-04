@@ -37,10 +37,10 @@ async function handleComponent(interactionReply, inputCommand, embed, kickUser, 
 	};
 
 	// Functions for editing the embed
-	const successKick = e => e.spliceFields(0, 1).setTitle(`Successfully kicked \`${kickUser.tag}\``);
+	const successKick = e => e.spliceFields(0, 1).setTitle(`Successfully kicked \`${kickUser.username}\``);
 	const cancelKick = e => e.spliceFields(0, 2).setTitle("Command canceled");
 	const timeOut = e => e.spliceFields(0, 2).setTitle("Command timed out");
-	const failKick = e => e.spliceFields(0, 2).setTitle(`Failed to kick \`${kickUser.tag}\``);
+	const failKick = e => e.spliceFields(0, 2).setTitle(`Failed to kick \`${kickUser.username}\``);
 
 	try {
 		const res = await interactionReply.awaitMessageComponent({ filter: f, time: 30000 });
@@ -96,9 +96,9 @@ async function run(client, element, args = []){
 
 	// Create the embed
 	const embed = new EmbedBuilder()
-		.setAuthor({ name: `${kickUser.tag} (${kickUser.id})`, iconURL: kickUser.displayAvatarURL() })
+		.setAuthor({ name: `${kickUser.username} (${kickUser.id})`, iconURL: kickUser.displayAvatarURL() })
 		.setColor(16750080)
-		.setFooter({ text: user.tag, iconURL: user.displayAvatarURL() })
+		.setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
 		.setTimestamp();
 
 	const fields = [

@@ -56,7 +56,7 @@ async function run(client, element, args = []){
 			// Percentile is slightly different as we want to generate 10, 20, 30, etc, so we multiply the number by 10
 			args[0] = "percentile";
 			func = () => {
-				func = randomNumber.bind(null, 0, 9);
+				let num = randomNumber(0, 9);
 				num *= 10;
 				return num;
 			};

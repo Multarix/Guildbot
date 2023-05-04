@@ -19,7 +19,7 @@ async function run(client, element, _args = []){
 		.setAuthor({ name: "System Information" })
 		.setColor(13238272)
 		.setThumbnail(client.user.displayAvatarURL())
-		.setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
+		.setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
 		.setTimestamp();
 
 	const embedFields = [

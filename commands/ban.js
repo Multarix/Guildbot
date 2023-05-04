@@ -36,10 +36,10 @@ async function handleComponent(interactionReply, inputCommand, embed, banUser, r
 	};
 
 	// Functions for editing the embed
-	const successKick = e => e.spliceFields(0, 1).setTitle(`Successfully banned \`${banUser.tag}\``);
+	const successKick = e => e.spliceFields(0, 1).setTitle(`Successfully banned \`${banUser.username}\``);
 	const cancelKick = e => e.spliceFields(0, 2).setTitle("Command canceled");
 	const timeOut = e => e.spliceFields(0, 2).setTitle("Command timed out");
-	const failBan = e => e.spliceFields(0, 2).setTitle(`Failed to ban \`${banUser.tag}\``);
+	const failBan = e => e.spliceFields(0, 2).setTitle(`Failed to ban \`${banUser.username}\``);
 
 	try {
 		const res = await interactionReply.awaitMessageComponent({ filter: f, time: 30000 });
@@ -92,9 +92,9 @@ async function run(client, element, args = []){
 
 	// Create the embed
 	const embed = new EmbedBuilder()
-		.setAuthor({ name: `${banUser.tag} (${banUser.id})`, iconURL: banUser.displayAvatarURL() })
+		.setAuthor({ name: `${banUser.username} (${banUser.id})`, iconURL: banUser.displayAvatarURL() })
 		.setColor(16750080)
-		.setFooter({ text: user.tag, iconURL: user.displayAvatarURL() })
+		.setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
 		.setTimestamp();
 
 	const fields = [
