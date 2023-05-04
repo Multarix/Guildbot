@@ -16,7 +16,7 @@ async function run(client, element, args = []){
 const info = {
 	name: "loot",
 	altNames: [],
-	description: "👑 Rolls for loot",
+	description: "Rolls for loot",
 	usage: "loot <type> <challenge-level>",
 	enabled: true,
 	dmCompatible: true,
@@ -45,7 +45,6 @@ function slash(client, funcs = false){
 				.setDMPermission(info.dmCompatible)
 				.addStringOption(option => option.setRequired(true).setName("type").setDescription("The type of encounter").setChoices(...choices))
 				.addIntegerOption(option => option.setRequired(true).setName("challenge-level").setDescription("The challenge level of the encounter").setMinValue(0))
-
 		};
 	}
 
