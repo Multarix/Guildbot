@@ -67,11 +67,14 @@ async function run(client, element, args = []){
 		.setAuthor({ name: displayName })
 		.setThumbnail(user.displayAvatarURL())
 		.setTimestamp()
-		.setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() });
+		.setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() });
 
+
+	let discrim = user.discriminator;
+	if(!user.discriminator || user.discriminator === "#0") discrim = "N/A";
 	const embedFields = [
 		{ name: "Username:", value: user.username, inline: true },
-		{ name: "Discrim:", value: user.discriminator, inline: true },
+		{ name: "Discrim:", value: discrim, inline: true },
 		{ name: "Discord ID:", value: user.id, inline: true },
 		{ name: "Is bot?", value: caseFix(user.bot), inline: true },
 		statusEmbed,

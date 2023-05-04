@@ -18,7 +18,7 @@ async function run(client, element, args = []){
 
 	// Set up the Embed
 	const embed = new EmbedBuilder()
-		.setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
+		.setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
 		.setTimestamp();
 
 	// const iconURL = element?.guild?.iconURL();
@@ -89,7 +89,7 @@ async function run(client, element, args = []){
 		embedFields.push(embedData);
 	}
 
-	embed.setAuthor({ name: `Commands for:  ${user.tag}`, iconURL: user.displayAvatarURL() })
+	embed.setAuthor({ name: `Commands for:  ${user.username}`, iconURL: user.displayAvatarURL() })
 		.setDescription(`**Commands available in:** ${element.channel}\nUse \`${client.config.prefix}help {command}\` for details on a specific command.`)
 		.addFields(embedFields);
 

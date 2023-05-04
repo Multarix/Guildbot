@@ -16,7 +16,7 @@ async function run(client, element, args = []){
 	if(!bad) bad = "👎";
 
 	const embed = new EmbedBuilder()
-		.setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL() })
+		.setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
 		.setTimestamp();
 
 	const joinArgs = args.join(" ");
