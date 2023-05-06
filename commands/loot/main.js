@@ -43,6 +43,9 @@ const { randomNumber } = require('../../src/functions.js');
 
 
 /**
+ * @typedef {item[]} tableArray
+**/
+/**
  * @typedef {object} item
  * @property {string} name The name of the item
  * @property {string} link A link to the item on D&D Beyond
@@ -61,7 +64,7 @@ const { randomNumber } = require('../../src/functions.js');
  * @typedef {object} allLoot
  * @property {gemArtData} gems The gems obtained if any
  * @property {gemArtData} art The art obtained if any
- * @property {item[]} items An array of items obtained, if any
+ * @property {tableArray[]} items An array of items obtained, if any
  * @description An object containing all the loot obtained.
 **/
 
