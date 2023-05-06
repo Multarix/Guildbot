@@ -23,11 +23,23 @@ async function run(client, element, args = []){
 			member = element.guild.members.cache.get(user.id);
 		} else {
 			user = await grabUser(client, args[0]);
+			if(!user) return element.reply("I couldn't find that user.");
+
 			member = element.guild.members.cache.get(user.id);
 		}
 	}
+	// Date the account was created
+	const joinTime = new Date(user.createdTimestamp).toDateString().slice(4);
 
-	const joinDate = humanTime(Date.now() - user.createdTimestamp, "\\Y years, \\M months, \\D days");
+	// Time since the user account was created
+	let joinTimeAgo = humanTime(Date.now() - user.createdTimestamp, "\\Y years, \\M months, \\D days");
+	if(joinTimeAgo.startsWith("0 years, ")) joinTimeAgo = joinTimeAgo.replace("0 years, ", "");
+	if(joinTimeAgo.startsWith("0 months, ")) joinTimeAgo = joinTimeAgo.replace("0 months, ", "");
+
+	// Time after discord launched (13th May, 2015)
+	let daysAfterLaunch = humanTime(user.createdTimestamp - 1431475200000, "\\Y years, \\M months, \\D days");
+	if(daysAfterLaunch.startsWith("0 years, ")) daysAfterLaunch = daysAfterLaunch.replace("0 years, ", "");
+	if(daysAfterLaunch.startsWith("0 months, ")) daysAfterLaunch = daysAfterLaunch.replace("0 months, ", "");
 
 	let embedColor = 14487568;
 	let displayName = user.username;
@@ -51,7 +63,6 @@ async function run(client, element, args = []){
 					break;
 				}
 			}
-
 		}
 
 		if(member.roles){
@@ -79,7 +90,7 @@ async function run(client, element, args = []){
 		{ name: "Is bot?", value: caseFix(user.bot), inline: true },
 		statusEmbed,
 		playingEmbed,
-		{ name: "Joined Discord:", value: `${joinDate} ago`, inline: false },
+		{ name: "Joined Discord:", value: `${joinTime}, *OR*\n${joinTimeAgo} ago, *OR*\n${daysAfterLaunch} after launch`, inline: false },
 		roleEmbed
 	];
 
