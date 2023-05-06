@@ -14,9 +14,10 @@ const lootRoller = require('../../helperFunctions/lootRoller.js');
 /**
  * @typedef {object} item
  * @property {string} name The name of the item
- * @property {string} link A link to the item on D&D Beyond
+ * @property {string} link The link to the item on D&D Beyond
  * @property {"a"|"b"|"c"|"d"|"e"|"f"|"i"} fromTable The table the item came from
- * @property {diceObject} diceInfo The die roll used to obtain the item
+ * @property {string} tableDie How many and what type of die the the table rolled on
+ * @property {diceObject} diceInfo The die used to obtain the item
  * @description An object representing an item, which table it came from and the roll used to obtain it.
 **/
 /**
