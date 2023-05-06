@@ -3,6 +3,9 @@ const lootRoller = require('../../helperFunctions/lootRoller.js');
 
 
 /**
+ * @typedef {item[]} tableArray
+**/
+/**
  * @typedef {object} diceObject
  * @property {number} roll The roll
  * @property {string} dice The dice used
@@ -10,43 +13,25 @@ const lootRoller = require('../../helperFunctions/lootRoller.js');
 /**
  * @typedef {object} item
  * @property {string} name The name of the item
- * @property {string} link The link to the item on D&D Beyond
-**/
-/**
- * @typedef {object} itemData
- * @property {item[]} items The items obtained
- * @property {diceObject[]} rolls The rolls used to obtain the items
+ * @property {string} link A link to the item on D&D Beyond
+ * @property {"a"|"b"|"c"|"d"|"e"|"f"|"i"} fromTable The table the item came from
+ * @property {diceObject} diceInfo The die roll used to obtain the item
+ * @description An object representing an item, which table it came from and the roll used to obtain it.
 **/
 /**
  * @typedef {object} gemArtData
- * @property {number} gpCostPer The cost of the item
- * @property {number} amount The amount of the item
- * @property {diceObject[]} rolls The rolls
+ * @property {number} gpCostPer The cost of a singular gem/ art object in gold
+ * @property {number} amount The amount of items obtained
+ * @property {diceObject[]} rolls The rolls used to obtain the gems/ art objects
+ * @description An object containing the data for the gems/ art objects obtained.
 **/
 /**
  * @typedef {object} allLoot
- * @property {gemArtData} gems The gems obtained
- * @property {gemArtData} art The art obtained
- * @property {itemData} items The items obtained
+ * @property {gemArtData} gems The gems obtained if any
+ * @property {gemArtData} art The art obtained if any
+ * @property {tableArray[]} items An array of items obtained, if any
+ * @description An object containing all the loot obtained.
 **/
-
-
-const results = {
-	gems: {
-		gpCostPer: 0,
-		amount: 0,
-		rolls: []
-	},
-	art: {
-		gpCostPer: 0,
-		amount: 0,
-		rolls: []
-	},
-	items: {
-		items: [],
-		rolls: []
-	}
-};
 
 
 /**
@@ -55,6 +40,20 @@ const results = {
  * @returns {allLoot};
 **/
 function getLoot(lootRoll){
+
+	const results = {
+		gems: {
+			gpCostPer: 0,
+			amount: 0,
+			rolls: []
+		},
+		art: {
+			gpCostPer: 0,
+			amount: 0,
+			rolls: []
+		},
+		items: []
+	};
 
 	if(lootRoll <= 3){
 		// Nothing
@@ -66,7 +65,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(3, 6, 1000);
 
 		// Roll 1d8 times on Magic Item Table C.
-		results.items = lootRoller(1, 8, "c");
+		results.items.push(lootRoller(1, 8, "c"));
 		return results;
 	}
 
@@ -75,7 +74,7 @@ function getLoot(lootRoll){
 		results.art = gemsArtRoll(1, 4, 7500);
 
 		// Roll 1d8 times on Magic Item Table C.
-		results.items = lootRoller(1, 8, "c");
+		results.items.push(lootRoller(1, 8, "c"));
 		return results;
 	}
 
@@ -84,7 +83,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(1, 8, 5000);
 
 		// Roll 1d8 times on Magic Item Table C.
-		results.items = lootRoller(1, 8, "c");
+		results.items.push(lootRoller(1, 8, "c"));
 		return results;
 	}
 
@@ -93,7 +92,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(3, 6, 1000);
 
 		// Roll 1d6 times on Magic Item Table D.
-		results.items = lootRoller(1, 6, "d");
+		results.items.push(lootRoller(1, 6, "d"));
 		return results;
 	}
 
@@ -102,7 +101,7 @@ function getLoot(lootRoll){
 		results.art = gemsArtRoll(1, 4, 7500);
 
 		// Roll 1d6 times on Magic Item Table D.
-		results.items = lootRoller(1, 6, "d");
+		results.items.push(lootRoller(1, 6, "d"));
 		return results;
 	}
 
@@ -111,7 +110,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(1, 8, 5000);
 
 		// Roll 1d6 times on Magic Item Table D.
-		results.items = lootRoller(1, 6, "d");
+		results.items.push(lootRoller(1, 6, "d"));
 		return results;
 	}
 
@@ -120,7 +119,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(3, 6, 1000);
 
 		// Roll 1d6 times on Magic Item Table E.
-		results.items = lootRoller(1, 6, "e");
+		results.items.push(lootRoller(1, 6, "e"));
 		return results;
 	}
 
@@ -129,7 +128,7 @@ function getLoot(lootRoll){
 		results.art = gemsArtRoll(1, 4, 7500);
 
 		// Roll 1d6 times on Magic Item Table E.
-		results.items = lootRoller(1, 6, "e");
+		results.items.push(lootRoller(1, 6, "e"));
 		return results;
 	}
 
@@ -138,7 +137,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(1, 8, 5000);
 
 		// Roll 1d6 times on Magic Item Table E.
-		results.items = lootRoller(1, 6, "e");
+		results.items.push(lootRoller(1, 6, "e"));
 		return results;
 	}
 
@@ -147,7 +146,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(3, 6, 1000);
 
 		// Roll 1d4 times on Magic Item Table G.
-		results.items = lootRoller(1, 4, "g");
+		results.items.push(lootRoller(1, 4, "g"));
 		return results;
 	}
 
@@ -156,7 +155,7 @@ function getLoot(lootRoll){
 		results.art = gemsArtRoll(1, 4, 7500);
 
 		// Roll 1d4 times on Magic Item Table G.
-		results.items = lootRoller(1, 4, "g");
+		results.items.push(lootRoller(1, 4, "g"));
 		return results;
 	}
 
@@ -165,7 +164,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(1, 8, 5000);
 
 		// Roll 1d4 times on Magic Item Table G.
-		results.items = lootRoller(1, 4, "g");
+		results.items.push(lootRoller(1, 4, "g"));
 		return results;
 	}
 
@@ -174,7 +173,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(3, 6, 1000);
 
 		// Roll 1d4 times on Magic Item Table H.
-		results.items = lootRoller(1, 4, "h");
+		results.items.push(lootRoller(1, 4, "h"));
 		return results;
 	}
 
@@ -183,7 +182,7 @@ function getLoot(lootRoll){
 		results.art = gemsArtRoll(1, 4, 7500);
 
 		// Roll 1d4 times on Magic Item Table H.
-		results.items = lootRoller(1, 4, "h");
+		results.items.push(lootRoller(1, 4, "h"));
 		return results;
 	}
 
@@ -192,7 +191,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(1, 8, 5000);
 
 		// Roll 1d4 times on Magic Item Table H.
-		results.items = lootRoller(1, 4, "h");
+		results.items.push(lootRoller(1, 4, "h"));
 		return results;
 	}
 
@@ -201,7 +200,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(3, 6, 1000);
 
 		// Roll 1d4 times on Magic Item Table I.
-		results.items = lootRoller(1, 4, "i");
+		results.items.push(lootRoller(1, 4, "i"));
 		return results;
 	}
 
@@ -210,7 +209,7 @@ function getLoot(lootRoll){
 		results.art = gemsArtRoll(1, 4, 7500);
 
 		// Roll 1d4 times on Magic Item Table I.
-		results.items = lootRoller(1, 4, "i");
+		results.items.push(lootRoller(1, 4, "i"));
 		return results;
 	}
 
@@ -219,7 +218,7 @@ function getLoot(lootRoll){
 		results.gems = gemsArtRoll(1, 8, 5000);
 
 		// Roll 1d4 times on Magic Item Table I.
-		results.items = lootRoller(1, 4, "i");
+		results.items.push(lootRoller(1, 4, "i"));
 		return results;
 	}
 }
