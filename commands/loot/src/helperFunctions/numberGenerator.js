@@ -7,7 +7,7 @@
  * @param {numberLike} max The maximum number that should be returned
  * @returns {number} A random number between the min and max
 */
-function randomNumber(min, max){
+function numberGenerator(min, max){
 
 	if(isNaN(parseInt(min))) throw new Error("'min' must be a number or a number-like string");
 	if(isNaN(parseInt(max))) throw new Error("'max' must be a number or a number-like string");
@@ -17,4 +17,4 @@ function randomNumber(min, max){
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-module.exports = randomNumber;
+module.exports = numberGenerator;
