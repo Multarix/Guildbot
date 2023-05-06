@@ -93,7 +93,7 @@ async function run(client, element, args = []){
 		const coinRollString = rollArray.join(", ");
 		allRollsArray.push(coinRollString);
 
-		finalTotalArray.push(`${loot.money.coins[coinType]} \u00d7 ${caseFix(coinType)}`);
+		finalTotalArray.push(`${loot.money.coins[coinType]} \u00d7 **${caseFix(coinType)}**`);
 	}
 
 	// Finally join the coin 'class' and the rolls into strings
@@ -128,9 +128,9 @@ async function run(client, element, args = []){
 		const gemRollString = gemRollArray.join(", ");
 
 		// Add them to the arrays...
-		allClassArray.push(`**${gemArtObject.gpCostPer}GP ${(gemArt === "gems") ? "Gems" : "Art Objects"}** - ${gemArtObject.rolls.length} ${gemDie}`);
+		allClassArray.push(`**${gemArtObject.gpCostPer} GP ${(gemArt === "gems") ? "Gems" : "Art Objects"}** - ${gemArtObject.rolls.length} ${gemDie}`);
 		allRollsArray.push(gemRollString);
-		finalTotalArray.push(`${gemArtObject.amount} \u00d7 ${gemArtObject.gpCostPer} GP ${(gemArt === "gems") ? "Gem(s)" : "Art Object(s)"}`);
+		finalTotalArray.push(`${gemArtObject.amount} \u00d7 **${gemArtObject.gpCostPer} GP ${(gemArt === "gems") ? "Gem(s)" : "Art Object(s)"}**`);
 	}
 
 	if(loot.items.items.length > 0){
@@ -142,11 +142,11 @@ async function run(client, element, args = []){
 
 		// Data from the first table
 		for(const item of loot.items.items[0]){
-			const nameString = `1 \u00d7 [${item.name}](${item.link})`;
+			const nameString = `1 \u00d7 **[${item.name}](${item.link})**`;
 			itemRollArray.push(item.diceInfo.roll);
 			itemNameArray.push(nameString);
 		}
-		allClassArray.push(`**Item Table ${caseFix(table1)}** - ${table1Die} rolls`);
+		allClassArray.push(`**Item Table ${caseFix(table1)}** - ${table1Die}`);
 		const itemRollString = itemRollArray.join(", ");
 		allRollsArray.push(itemRollString);
 
@@ -159,14 +159,14 @@ async function run(client, element, args = []){
 			const table2Die = loot.items.items[1][0].tableDie;
 
 			for(const item of loot.items.items[1]){
-				const nameString = `1 \u00d7 [${item.name}](${item.link})`;
+				const nameString = `1 \u00d7 **[${item.name}](${item.link})**`;
 				itemRollArray2.push(item.diceInfo.roll);
 				itemNameArray.push(nameString);
 			}
 
 			const itemRollString2 = itemRollArray2.join(", ");
 			allRollsArray.push(itemRollString2);
-			allClassArray.push(`**Item Table ${caseFix(table2)}** - ${table2Die} rolls`);
+			allClassArray.push(`**Item Table ${caseFix(table2)}** - ${table2Die}`);
 		}
 
 		finalTotalArray.push(itemNameArray.join("\n"));

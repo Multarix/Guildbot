@@ -41,13 +41,16 @@ const tables = {
 
 /**
  * @name lootRoller
- * @param {number} rolls The number of rolls to do
- * @param {number} diceMax The max of the die to roll
+ * @param {number} rolls The number of dice rolls to do
+ * @param {number} diceMax What type of die to use
  * @param {string} table The table to roll on
  * @returns {item[]}
 **/
 function lootRoller(rolls, dieMax, table){
 	const rollArray = [];
+
+	let tableDieRolls = `${rolls} d${dieMax} rolls`;
+	if(dieMax === 1) tableDieRolls = "once";
 
 	// Check if the table exists
 	table = table.toLowerCase();
@@ -56,8 +59,8 @@ function lootRoller(rolls, dieMax, table){
 	// Get how many rolls on the table we do
 	let tableRolls = 0;
 	for(let i = 0; i < rolls; i++){
-		const r = numberGenerator(1, dieMax);
-		tableRolls += r;
+		const roll = numberGenerator(1, dieMax);
+		tableRolls += roll;
 	}
 
 	// Roll on the table
@@ -66,7 +69,7 @@ function lootRoller(rolls, dieMax, table){
 		const roll = numberGenerator(1, 100);
 		const item = tables[table](roll);
 
-		rollArray.push({ name: item.name, link: item.link, fromTable: table, tableDie: `${rolls} d${dieMax}`, diceInfo: { roll, die: "d100" } });
+		rollArray.push({ name: item.name, link: item.link, fromTable: table, tableDie: tableDieRolls, diceInfo: { roll, die: "d100" } });
 	}
 
 	return rollArray;
