@@ -1,19 +1,21 @@
-const { Client } = require("discord.js");
+const { Client, Guild } = require("discord.js");
 const { output } = require("../src/functions.js");
 const deploySlash = require("../src/deploySlash.js");
 
 
 /**
- * @name ready
+ * @name guildCreate
  * @param {Client} client The discord client
- * @description Emitted when the client becomes ready to start working.
+ * @param {Guild} guild The guild that was joined
+ * @description Emitted whenever the client joins a guild.
  * @returns {Promise<void>}
 **/
-async function run(client){
+async function run(client, guild){
+	if(guild.partial) await guild.fetch().catch(e => { return; });
 
-	await deploySlash(client, "all");
+	await deploySlash(client, guild);
 
-	output("misc", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
+	output("misc", `Joined a new server: '${guild.name}' (${guild.id})`);
 
 	const presence = {
 		status: "online",
@@ -26,10 +28,9 @@ async function run(client){
 	client.user.setPresence(presence);
 }
 
-
 const info = {
-	name: "ready",
-	description: "Emitted when the client becomes ready to start working.",
+	name: "guildCreate",
+	description: "Emitted whenever the client joins a guild.",
 	enabled: true
 };
 
