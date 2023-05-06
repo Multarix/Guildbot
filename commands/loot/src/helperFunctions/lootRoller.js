@@ -50,7 +50,7 @@ function lootRoller(rolls, dieMax, table){
 	const rollArray = [];
 
 	let tableDieRolls = `${rolls} d${dieMax} rolls`;
-	if(dieMax === 1) tableDieRolls = "once";
+	if(dieMax === 1) tableDieRolls = "Roll once";
 
 	// Check if the table exists
 	table = table.toLowerCase();
