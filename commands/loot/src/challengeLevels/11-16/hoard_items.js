@@ -91,6 +91,7 @@ function getLoot(lootRoll){
 
 		// Roll 1d4 times on Magic Item Table A and 1d6 times on Magic Item Table B.
 		results.items.push(lootRoller(1, 4, "a"));
+		results.items.push(lootRoller(1, 6, "b"));
 		return results;
 	}
 
@@ -100,6 +101,7 @@ function getLoot(lootRoll){
 
 		// Roll 1d4 times on Magic Item Table A and 1d6 times on Magic Item Table B.
 		results.items.push(lootRoller(1, 4, "a"));
+		results.items.push(lootRoller(1, 6, "b"));
 		return results;
 	}
 
@@ -109,6 +111,7 @@ function getLoot(lootRoll){
 
 		// Roll 1d4 times on Magic Item Table A and 1d6 times on Magic Item Table B.
 		results.items.push(lootRoller(1, 4, "a"));
+		results.items.push(lootRoller(1, 6, "b"));
 		return results;
 	}
 
@@ -118,6 +121,7 @@ function getLoot(lootRoll){
 
 		// Roll 1d4 times on Magic Item Table A and 1d6 times on Magic Item Table B.
 		results.items.push(lootRoller(1, 4, "a"));
+		results.items.push(lootRoller(1, 6, "b"));
 		return results;
 	}
 
@@ -235,6 +239,7 @@ function getLoot(lootRoll){
 
 		// Roll once on Magic Item Table F and 1d4 times on Magic Item Table G.
 		results.items.push(lootRoller(1, 1, "f"));
+		results.items.push(lootRoller(1, 4, "g"));
 		return results;
 	}
 
@@ -244,6 +249,7 @@ function getLoot(lootRoll){
 
 		// Roll once on Magic Item Table F and 1d4 times on Magic Item Table G.
 		results.items.push(lootRoller(1, 1, "f"));
+		results.items.push(lootRoller(1, 4, "g"));
 		return results;
 	}
 
@@ -253,6 +259,7 @@ function getLoot(lootRoll){
 
 		// Roll once on Magic Item Table F and 1d4 times on Magic Item Table G.
 		results.items.push(lootRoller(1, 1, "f"));
+		results.items.push(lootRoller(1, 4, "g"));
 		return results;
 	}
 
@@ -262,6 +269,7 @@ function getLoot(lootRoll){
 
 		// Roll once on Magic Item Table F and 1d4 times on Magic Item Table G.
 		results.items.push(lootRoller(1, 1, "f"));
+		results.items.push(lootRoller(1, 4, "g"));
 		return results;
 	}
 
