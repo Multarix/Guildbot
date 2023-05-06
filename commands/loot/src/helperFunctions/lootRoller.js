@@ -1,4 +1,4 @@
-const randomNumber = require('./randomNumber.js');
+const numberGenerator = require('./numberGenerator.js');
 const tableA = require('../magicItemTables/MagicItemTableA.js');
 const tableB = require('../magicItemTables/MagicItemTableB.js');
 const tableC = require('../magicItemTables/MagicItemTableC.js');
@@ -20,7 +20,9 @@ const tableI = require('../magicItemTables/MagicItemTableI.js');
  * @property {string} name The name of the item
  * @property {string} link The link to the item on D&D Beyond
  * @property {"a"|"b"|"c"|"d"|"e"|"f"|"i"} fromTable The table the item came from
+ * @property {string} tableDie How many and what type of die the the table rolled on
  * @property {diceObject} diceInfo The die used to obtain the item
+ * @description An object representing an item, which table it came from and the roll used to obtain it.
 **/
 
 
@@ -54,17 +56,17 @@ function lootRoller(rolls, dieMax, table){
 	// Get how many rolls on the table we do
 	let tableRolls = 0;
 	for(let i = 0; i < rolls; i++){
-		const r = randomNumber(1, dieMax);
+		const r = numberGenerator(1, dieMax);
 		tableRolls += r;
 	}
 
 	// Roll on the table
 	for(let i = 0; i < tableRolls; i++){
 		// Roll 1 to 100 and get the item from the table
-		const roll = randomNumber(1, 100);
+		const roll = numberGenerator(1, 100);
 		const item = tables[table](roll);
 
-		rollArray.push({ name: item.name, link: item.link, fromTable: table, diceInfo: { roll, die: "d100" } });
+		rollArray.push({ name: item.name, link: item.link, fromTable: table, tableDie: `${rolls} d${dieMax}`, diceInfo: { roll, die: "d100" } });
 	}
 
 	return rollArray;
