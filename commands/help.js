@@ -54,7 +54,6 @@ async function run(client, element, args = []){
 				{ name: "Usage", value: usageField, inline: false }
 			];
 
-
 			embed.setAuthor({ name: title }).addFields(fields);
 			return await handleElement(element, isSlashCommand, { embeds: [embed], ephemeral: true });
 		}
