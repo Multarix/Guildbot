@@ -1,4 +1,4 @@
-const randomNumber = require('./randomNumber.js');
+const numberGenerator = require('./numberGenerator.js');
 
 
 /**
@@ -26,7 +26,7 @@ function gemsArtRoll(numRolls, dieMax, costOfItem){
 	let total = 0;
 	const diceRolls = [];
 	for(let i = 0; i < numRolls; i++){
-		const num = randomNumber(1, dieMax);
+		const num = numberGenerator(1, dieMax);
 		diceRolls.push({ roll: num, die: `d${dieMax}` });
 		total += num;
 	}
