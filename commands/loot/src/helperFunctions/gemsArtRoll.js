@@ -19,20 +19,20 @@ const randomNumber = require('./randomNumber.js');
  * @param {number} costOfItem The cost of an individual item
  * @param {number} numRolls The number of rolls to do
  * @param {number} dieMax The max of the die to roll
- * @returns {itemData} The gems or art object
+ * @returns {gemArtData} The gems or art object
 **/
 function gemsArtRoll(numRolls, dieMax, costOfItem){
 
 	let total = 0;
-	const rolls = [];
+	const diceRolls = [];
 	for(let i = 0; i < numRolls; i++){
-		const roll = randomNumber(1, dieMax);
-		rolls.push({ roll, die: `d${dieMax}` });
-		total += roll;
+		const num = randomNumber(1, dieMax);
+		diceRolls.push({ roll: num, die: `d${dieMax}` });
+		total += num;
 	}
 
 
-	return { gpCostPer: costOfItem, amount: total, rolls };
+	return { gpCostPer: costOfItem, amount: total, rolls: diceRolls };
 }
 
 
