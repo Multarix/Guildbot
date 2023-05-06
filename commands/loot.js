@@ -121,22 +121,24 @@ async function run(client, element, args = []){
 
 		// Get an array of the gem/ art rolls
 		const gemRollArray = [];
-		for(const dieRoll in gemArtObject.rolls){
-			gemRollArray.push(dieRoll);
+		for(const diceObject of loot.items[gemArt].rolls){
+			gemRollArray.push(diceObject.roll);
 		}
+
+		const gemRollString = gemRollArray.join(", ");
 
 		// Add them to the arrays...
 		allClassArray.push(`**${gemArtObject.gpCostPer}GP ${(gemArt === "gems") ? "Gems" : "Art Objects"}** - ${gemArtObject.rolls.length} ${gemDie}`);
-		allRollsArray.push(gemRollArray.join(", "));
+		allRollsArray.push(gemRollString);
 		finalTotalArray.push(`${gemArtObject.amount} \u00d7 ${gemArtObject.gpCostPer} GP ${(gemArt === "gems") ? "Gem(s)" : "Art Object(s)"}`);
 	}
 
 	if(loot.items.items.length > 0){
 	// Now we check the items, we're getting there slowly >.<
 		const itemRollArray = [];
-		const itemRollArray2 = [];
 		const itemNameArray = [];
-		const secondTable = (loot.items.items.length > 1);
+		const table1 = loot.items.items[0][0].fromTable;
+		const table1Die = loot.items.items[0][0].tableDie;
 
 		// Data from the first table
 		for(const item of loot.items.items[0]){
@@ -144,12 +146,18 @@ async function run(client, element, args = []){
 			itemRollArray.push(item.diceInfo.roll);
 			itemNameArray.push(nameString);
 		}
-
+		allClassArray.push(`**Item Table ${caseFix(table1)}** - ${table1Die} rolls`);
 		const itemRollString = itemRollArray.join(", ");
 		allRollsArray.push(itemRollString);
 
+
 		// Data from the second table
+		const secondTable = (loot.items.items.length === 2);
 		if(secondTable){
+			const itemRollArray2 = [];
+			const table2 = loot.items.items[1][0].fromTable;
+			const table2Die = loot.items.items[1][0].tableDie;
+
 			for(const item of loot.items.items[1]){
 				const nameString = `1 \u00d7 [${item.name}](${item.link})`;
 				itemRollArray2.push(item.diceInfo.roll);
@@ -158,10 +166,10 @@ async function run(client, element, args = []){
 
 			const itemRollString2 = itemRollArray2.join(", ");
 			allRollsArray.push(itemRollString2);
+			allClassArray.push(`**Item Table ${caseFix(table2)}** - ${table2Die} rolls`);
 		}
 
-		const itemNameString = itemNameArray.join("\n");
-		finalTotalArray.push(itemNameString);
+		finalTotalArray.push(itemNameArray.join("\n"));
 	}
 
 	const classString = allClassArray.join("\n");
