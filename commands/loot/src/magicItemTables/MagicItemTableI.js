@@ -1,5 +1,5 @@
-const randomNumber = require("../helperFunctions/randomNumber.js");
-const d12 = randomNumber.bind(null, 1, 12);
+const numberGenerator = require("../helperFunctions/numberGenerator.js");
+const d12 = numberGenerator.bind(null, 1, 12);
 
 
 function roll(num){

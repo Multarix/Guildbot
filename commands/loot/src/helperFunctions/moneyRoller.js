@@ -1,4 +1,4 @@
-const randomNumber = require('./randomNumber.js');
+const numberGenerator = require('./numberGenerator.js');
 
 
 /**
@@ -17,7 +17,7 @@ const randomNumber = require('./randomNumber.js');
 **/
 function moneyRoller(rolls, dieMax, modifier, denomination, rollArray){
 	for(let i = 0; i < rolls; i++){
-		const roll = randomNumber(1, dieMax);
+		const roll = numberGenerator(1, dieMax);
 		denomination += (roll * modifier);
 		rollArray.push({ roll, die: `d${dieMax}` });
 	}

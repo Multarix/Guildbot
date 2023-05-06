@@ -1,5 +1,5 @@
-const randomNumber = require("../helperFunctions/randomNumber.js");
-const d8 = randomNumber.bind(null, 1, 8);
+const numberGenerator = require("../helperFunctions/numberGenerator.js");
+const d8 = numberGenerator.bind(null, 1, 8);
 
 function roll(num){
 	if(num <= 11) return [{ "roll": 11, "name": "+2 Weapon", "link":"https://www.dndbeyond.com/magic-items/weapon-2" }];
