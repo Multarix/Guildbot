@@ -1,8 +1,11 @@
-const Discord = require("discord.js");
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 const fs = require("fs");
 const { output, grabChannel } = require("../src/functions.js");
-
+const { EmbedBuilder } = require("discord.js");
 
 /**
  * @name bookAlerts
@@ -47,7 +50,7 @@ async function bookAlerts(client){
 		newBookParts.reverse();
 
 		for(const bookPart of newBookParts){
-			const embed = new Discord.MessageEmbed()
+			const embed = new EmbedBuilder()
 				.setAuthor("New book part released!")
 				.setDescription(`${bookPart.title}\n[Read it Here](${bookPart.url})`)
 				.setColor(22440)
