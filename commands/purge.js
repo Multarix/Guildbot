@@ -74,7 +74,7 @@ function slash(client, funcs = false){
 
 			const args = [];
 			if(command){
-				arguments = command.replace(/(?:\r\n|\r|\n)/g, "\u200b").split(/\s+/g);
+				command = command.replace(/(?:\r\n|\r|\n)/g, "\u200b").split(/\s+/g);
 				args.push(command);
 			}
 
