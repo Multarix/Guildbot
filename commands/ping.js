@@ -9,10 +9,12 @@ const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction } = re
  * @returns {Promise<void>}
 **/
 async function run(client, element, _args = []){
-	const sent = await element.reply({ content: 'Pinging...', ephemeral: true }).catch(e => { return; });
-	if(!sent || sent.editable) return;
+	const sent = await element.reply({ content: 'Pinging...', fetchReply: true, ephemeral: true });
 
-	sent.edit(`Pong! Took ${sent.createdTimestamp - element.createdTimestamp}ms\nHeartbeat ping is: ${Math.round(client.ws.ping)}ms`);
+	const pingMessage = `Pong!: ${sent.createdTimestamp - element.createdTimestamp}ms\nHeartbeat ping is: ${Math.round(client.ws.ping)}ms`;
+	if(element instanceof ChatInputCommandInteraction) return element.editReply({ content: pingMessage });
+
+	return await sent.edit({ content: pingMessage });
 }
 
 
