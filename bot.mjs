@@ -48,7 +48,9 @@ const defaultConfig = {
 	prefix: "!",
 	ownerID: "your discord id",
 	token: "your discord token",
-	weatherLoc: "Paris"
+	weatherLoc: "Paris",
+	bookUpdatesChannel: "channel id",
+	bookUpdateURL: "jnovel json feed url"
 };
 
 // Load the config
