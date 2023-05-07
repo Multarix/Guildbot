@@ -14,9 +14,12 @@ const { output, timeFormat } = require("../src/functions.js");
  * @property {request} request
  * @property {weather} weather
 **/
-async function getWeather(){
+async function getWeather(client){
+	const weatherLoc = client.config.weatherLoc;
+	if(!weatherLoc) return output("error", "No weather location has been set! Please set one in the config file.");
+
 	try {
-		const response = await fetch(`https://wttr.in/Toowoomba?format=j2`);
+		const response = await fetch(`https://wttr.in/${weatherLoc}?format=j2`);
 		const text = await response.text();
 
 		/**
