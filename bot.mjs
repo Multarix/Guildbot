@@ -1,3 +1,9 @@
+import cronEvents from "./modules/cronEvents.mjs";
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const fs = require("fs");
 const { output } = require("./src/functions.js");
@@ -134,9 +140,7 @@ const main = async () => {
 	}
 
 	client.login(client.config.token);
-
-	// const repeatingEvents = require("./modules/cronEvents.js");
-	// repeatingEvents(client);
+	cronEvents(client);
 };
 
 main();
