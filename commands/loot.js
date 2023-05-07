@@ -1,24 +1,16 @@
-const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, Client, User, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
 const { HoardLoot, IndividualLoot } = require("./loot/main.js");
-const { caseFix } = require("../src/functions.js");
+const { handleElement, caseFix } = require("../src/functions.js");
+
 
 /**
- * @name loot
- * @param {Client} client The discord client
- * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
- * @param {String[]} args The arguments passed to the command
- * @returns {Promise<void>}
+ * @name getChallengeType
+ * @param {string} argument
+ * @returns {string}
 **/
-async function run(client, element, args = []){
-	// This command is still going to be a clusterfuck even when using a class, so lets go
-
-	// Check if it's a slash command, and set "user"
-	const isSlashCommand = (element.user) ? true : false;
-	const user = isSlashCommand ? element.user : element.author;
-
-	// Check the challenge type and output an error if it's invalid
+function _getChallengeType(argument){
 	let challengeType = "";
-	switch(args[0].toLowerCase()){
+	switch(argument.toLowerCase()){
 		case "h":
 		case "hoard":
 			challengeType = "hoard";
@@ -33,22 +25,19 @@ async function run(client, element, args = []){
 			challengeType = "invalid";
 			break;
 	}
+	return challengeType;
+}
 
-	if(challengeType === "invalid") return await element.reply("You must specify a loot type. (`hoard` or `individual`)");
 
-	// Check the challenge level, if it's invalid we just set it to 0
-	if(!args[1] || isNaN(parseInt(args[1])) || parseInt(args[1]) < 0) args[1] = "0";
-
-	const challengeLevel = parseInt(args[1]);
-
-	// Set our loot class, it will automatically generate what we need
-	let loot;
-	if(challengeType === "hoard"){
-		loot = new HoardLoot(challengeLevel);
-	} else {
-		loot = new IndividualLoot(challengeLevel);
-	}
-
+/**
+ * @name setupEmbed
+ * @param {Client} client
+ * @param {User} user
+ * @param {string} challengeLevel
+ * @param {string} challengeType
+ * @returns {EmbedBuilder}
+**/
+function _setupEmbed(client, user, challengeLevel, challengeType){
 	// May as well get our embed out of the way now
 	const embed = new EmbedBuilder()
 		.setTitle(`Challenge level ${challengeLevel}, ${caseFix(challengeType)} encounter loot`)
@@ -57,25 +46,24 @@ async function run(client, element, args = []){
 		.setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
 		.setTimestamp();
 
+	return embed;
+}
 
-	// Set up our embed fields
-	const fields = [
-		{ name: "Percentile:", 		value: `${loot.lootClassRolls.percentile}`,		inline: true },
-		{ name: "D10:", 			value: `${loot.lootClassRolls.d10}`, 			inline: true },
-		{ name: "Total:", 			value: `${loot.lootClassRolls.total}`, 			inline: true }
-	];
 
+/**
+ * @name handleCoins
+ * @param {string[]} allClassArray
+ * @param {string[]} allRollsArray
+ * @param {string[]} finalTotalArray
+ * @param {allLoot} loot
+**/
+function _handleCoins(allClassArray, allRollsArray, finalTotalArray, loot){
 	// Check which coins are not 0, so we know which ones were rolled on
 	const coinsNotZero = [];
 	for(const [key, value] of Object.entries(loot.money.coins)){
 		if(value === 0) continue;
 		coinsNotZero.push(key);
 	}
-
-	// Arrays for converting into strings
-	const allClassArray = [];
-	const allRollsArray = [];
-	const finalTotalArray = [];
 
 	// Loop through the coins that were rolled on
 	for(const coinType of coinsNotZero){
@@ -95,22 +83,17 @@ async function run(client, element, args = []){
 
 		finalTotalArray.push(`${loot.money.coins[coinType]} \u00d7 **${caseFix(coinType)}**`);
 	}
+}
 
-	// Finally join the coin 'class' and the rolls into strings
 
-
-	// This is a fancy way of checking if the loot type... and also makes type checking understand that `loot` can only be a HoardLoot after this point
-	if(loot instanceof IndividualLoot){
-		fields.push({ name: "Loot Class:", value: allClassArray.join("\n"), inline: true }, { name: "\u200b", value: "\u200b", inline: true }, { name: "Rolls:", value: allRollsArray.join("\n"), inline: true });
-
-		const finalTotalString = finalTotalArray.join("\n");
-
-		fields.push({ name: "Final Total:", value: finalTotalString, inline: true });
-		embed.setFields(fields);
-
-		return await element.reply({ embeds: [embed] });
-	}
-
+/**
+ * @name handleGemArt
+ * @param {string[]} allClassArray
+ * @param {string[]} allRollsArray
+ * @param {string[]} finalTotalArray
+ * @param {allLoot} loot
+**/
+function _handleGemArt(allClassArray, allRollsArray, finalTotalArray, loot){
 	// Now we check the gems/ art objects...
 	if(loot.items.gems.amount > 0 || loot.items.art.amount > 0){
 		const gemArt = (loot.items.gems.amount > 0) ? "gems" : "art";
@@ -132,9 +115,19 @@ async function run(client, element, args = []){
 		allRollsArray.push(gemRollString);
 		finalTotalArray.push(`${gemArtObject.amount} \u00d7 **${gemArtObject.gpCostPer} GP ${(gemArt === "gems") ? "Gem(s)" : "Art Object(s)"}**`);
 	}
+}
 
+
+/**
+ * @name handleItems
+ * @param {string[]} allClassArray
+ * @param {string[]} allRollsArray
+ * @param {string[]} finalTotalArray
+ * @param {allLoot} loot
+**/
+function _handleItems(allClassArray, allRollsArray, finalTotalArray, loot){
 	if(loot.items.items.length > 0){
-	// Now we check the items, we're getting there slowly >.<
+		// Now we check the items, we're getting there slowly >.<
 		const itemRollArray = [];
 		const itemNameArray = [];
 		const table1 = loot.items.items[0][0].fromTable;
@@ -171,6 +164,44 @@ async function run(client, element, args = []){
 
 		finalTotalArray.push(itemNameArray.join("\n"));
 	}
+}
+
+
+/**
+ * @name finishEmbed()
+ * @param {EmbedBuilder} embed
+ * @param {HoardLoot|IndividualLoot} loot
+ * @returns {EmbedBuilder}
+**/
+function _finishEmbed(embed, loot){
+	const fields = [
+		{ name: "Percentile:", 		value: `${loot.lootClassRolls.percentile}`,		inline: true },
+		{ name: "D10:", 			value: `${loot.lootClassRolls.d10}`, 			inline: true },
+		{ name: "Total:", 			value: `${loot.lootClassRolls.total}`, 			inline: true }
+	];
+
+	// Arrays for converting into strings
+	const allClassArray = [];
+	const allRollsArray = [];
+	const finalTotalArray = [];
+
+	_handleCoins(allClassArray, allRollsArray, finalTotalArray, loot);
+
+	// This is a fancy way of checking the loot type...
+	// Also makes type checking understand that `loot` can only be a HoardLoot after this point
+	if(loot instanceof IndividualLoot){
+		fields.push({ name: "Loot Class:", value: allClassArray.join("\n"), inline: true }, { name: "\u200b", value: "\u200b", inline: true }, { name: "Rolls:", value: allRollsArray.join("\n"), inline: true });
+
+		const finalTotalString = finalTotalArray.join("\n");
+
+		fields.push({ name: "Final Total:", value: finalTotalString, inline: true });
+		embed.setFields(fields);
+
+		return embed;
+	}
+
+	_handleGemArt(allClassArray, allRollsArray, finalTotalArray, loot);
+	_handleItems(allClassArray, allRollsArray, finalTotalArray, loot);
 
 	const classString = allClassArray.join("\n");
 	const rollString = allRollsArray.join("\n");
@@ -179,7 +210,46 @@ async function run(client, element, args = []){
 	fields.push({ name: "Loot Class:", value: classString, inline: true }, { name: "\u200b", value: "\u200b", inline: true }, { name: "Rolls:", value: rollString, inline: true }, { name: "Final Total:", value: totalString, inline: true });
 	embed.setFields(fields);
 
-	return await element.reply({ embeds: [embed] });
+	return embed;
+}
+
+
+/**
+ * @name loot
+ * @param {Client} client The discord client
+ * @param {Message|ChatInputCommandInteraction} element The message or interaction that was created
+ * @param {String[]} args The arguments passed to the command
+ * @returns {Promise<void>}
+**/
+async function run(client, element, args = []){
+	// This command is still going to be a clusterfuck even when using a class, so lets go
+
+	// Check if it's a slash command, and set "user"
+	const isSlashCommand = element instanceof ChatInputCommandInteraction ? true : false;
+	const user = isSlashCommand ? element.user : element.author;
+
+	// Check the challenge type and output an error if it's invalid
+	const challengeType = _getChallengeType(args[0]);
+	if(challengeType === "invalid") return await element.reply("You must specify a loot type. (`hoard` or `individual`)");
+
+	// Check the challenge level, if it's invalid we just set it to 0
+	if(!args[1] || isNaN(parseInt(args[1])) || parseInt(args[1]) < 0) args[1] = "0";
+
+	const challengeLevel = parseInt(args[1]);
+
+	// Set our loot class, it will automatically generate what we need
+	let loot;
+	if(challengeType === "hoard"){
+		loot = new HoardLoot(challengeLevel);
+	} else {
+		loot = new IndividualLoot(challengeLevel);
+	}
+
+	// May as well get our embed and fields out of the way now
+	const embed = _setupEmbed(client, user, challengeLevel, challengeType);
+	_finishEmbed(embed, loot);
+
+	handleElement(element, isSlashCommand, { embeds: [embed] });
 }
 
 const info = {
@@ -239,3 +309,30 @@ function slash(client, funcs = false){
 }
 
 module.exports = { run, slash, info };
+
+/**
+ * @typedef {item[]} tableArray
+**/
+/**
+ * @typedef {object} item
+ * @property {string} name The name of the item
+ * @property {string} link The link to the item on D&D Beyond
+ * @property {"a"|"b"|"c"|"d"|"e"|"f"|"i"} fromTable The table the item came from
+ * @property {string} tableDie How many and what type of die the the table rolled on
+ * @property {diceObject} diceInfo The die used to obtain the item
+ * @description An object representing an item, which table it came from and the roll used to obtain it.
+**/
+/**
+ * @typedef {object} gemArtData
+ * @property {number} gpCostPer The cost of a singular gem/ art object in gold
+ * @property {number} amount The amount of items obtained
+ * @property {diceObject[]} rolls The rolls used to obtain the gems/ art objects
+ * @description An object containing the data for the gems/ art objects obtained.
+**/
+/**
+ * @typedef {object} allLoot
+ * @property {gemArtData} gems The gems obtained if any
+ * @property {gemArtData} art The art obtained if any
+ * @property {tableArray[]} items An array of items obtained, if any
+ * @description An object containing all the loot obtained.
+**/
