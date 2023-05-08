@@ -8,17 +8,15 @@ const { output, timeFormat } = require("../src/functions.js");
 
 
 /**
- * @typedef {object} weatherData
- * @property {current_condition[]} current_condition
- * @property {nearest_area[]} nearest_area
- * @property {request} request
- * @property {weather} weather
+ * @name getWeather
+ * @param {*} client
+ * @returns {void}
 **/
 async function getWeather(client){
 	const weatherLoc = client.config.weatherLoc;
 	if(!weatherLoc) return output("error", "No weather location has been set! Please set one in the config file.");
-
 	try {
+		fs.readFileSync("./data/weather.csv", { encoding: "utf8" });
 		const response = await fetch(`https://wttr.in/${weatherLoc}?format=j2`);
 		const text = await response.text();
 
@@ -60,13 +58,13 @@ async function getWeather(client){
 		const weatherData = `\n${iso},${town},${region},${country},${currentTemp},${currentFeelsLike},${minTemp},${maxTemp},${avgtemp},${currentHumidity},${precipitation},${weatherDesc},${currentWindSpeed},${currentWindDirection},${sunrise},${sunset}, ${moonPhase}`;
 
 		// Append the CSV string to the file
-		fs.appendFileSync("./data/weather.csv", weatherData);
+		fs.appendFileSync("./data/weather.csv", weatherData, { encoding: "utf8" });
 
 		output("info", "Daily weather data has been recorded.");
 
 	} catch (err){
 		output("error", `Failed to get weather data!`);
-		console.out(err);
+		console.log(err);
 	}
 }
 
