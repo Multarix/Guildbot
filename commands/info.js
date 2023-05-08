@@ -11,7 +11,7 @@ const { handleElement, humanTime, caseFix, grabUser } = require("../src/function
 **/
 async function run(client, element, args = []){
 
-	const isSlashCommand = (element.user) ? true : false;
+	const isSlashCommand = (element instanceof ChatInputCommandInteraction) ? true : false;
 	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Don't need deferred here
 
 	let user = isSlashCommand ? element.user : element.author;
@@ -37,7 +37,8 @@ async function run(client, element, args = []){
 	if(joinTimeAgo.startsWith("0 months, ")) joinTimeAgo = joinTimeAgo.replace("0 months, ", "");
 
 	// Time after discord launched (13th May, 2015)
-	let daysAfterLaunch = humanTime(user.createdTimestamp - 1431475200000, "\\Y years, \\M months, \\D days");
+	const DISCORD_LAUNCH_UNIX = 1431475200000;
+	let daysAfterLaunch = humanTime(user.createdTimestamp - DISCORD_LAUNCH_UNIX, "\\Y years, \\M months, \\D days");
 	if(daysAfterLaunch.startsWith("0 years, ")) daysAfterLaunch = daysAfterLaunch.replace("0 years, ", "");
 	if(daysAfterLaunch.startsWith("0 months, ")) daysAfterLaunch = daysAfterLaunch.replace("0 months, ", "");
 
@@ -55,13 +56,11 @@ async function run(client, element, args = []){
 			const title = caseFix(member.presence.status);
 			statusEmbed = { name: "Status:", value: title, inline: true };
 
-			if(member.presence.activities.length >= 1){
-				for(const activity of member.presence.activities){
-					if(activity.type !== 0) continue;
+			for(const activity of member.presence.activities){
+				if(activity.type !== 0) continue;
 
-					playingEmbed = { name: "Playing:", value: activity.name, inline: true };
-					break;
-				}
+				playingEmbed = { name: "Playing:", value: activity.name, inline: true };
+				break;
 			}
 		}
 

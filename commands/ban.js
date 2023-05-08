@@ -68,7 +68,7 @@ async function handleComponent(interactionReply, inputCommand, embed, banUser, r
 **/
 async function run(client, element, args = []){
 
-	const isSlashCommand = (element.type === 2) ? true : false;
+	const isSlashCommand = (element instanceof ChatInputCommandInteraction) ? true : false;
 	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Defering breaks things
 
 	const user = isSlashCommand ? element.user : element.author;

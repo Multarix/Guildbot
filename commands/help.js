@@ -11,7 +11,7 @@ const { permLevel, handleElement, caseFix } = require("../src/functions.js");
 **/
 async function run(client, element, args = []){
 
-	const isSlashCommand = (element.user) ? true : false;
+	const isSlashCommand = (element instanceof ChatInputCommandInteraction) ? true : false;
 	// if(isSlashCommand) await element.deferReply({ ephemeral: true }); // Don't need deferred here
 
 	const user = isSlashCommand ? element.user : element.author;
