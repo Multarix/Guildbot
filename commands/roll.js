@@ -12,7 +12,7 @@ const { handleElement, randomNumber } = require("../src/functions.js");
 async function run(client, element, args = []){
 	if(!args[0]) return await element.reply({ content: "You need to specify the type of die to roll" });
 
-	const isSlashCommand = (element.user) ? true : false;
+	const isSlashCommand = (element instanceof ChatInputCommandInteraction) ? true : false;
 	const user = isSlashCommand ? element.user : element.author;
 
 	let func;

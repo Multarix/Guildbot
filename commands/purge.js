@@ -12,7 +12,7 @@ async function run(_client, element, args = []){
 	const botCanDelete = element.channel.permissionsFor(element.guild.members.me).has(PermissionsBitField.Flags.ManageMessages);
 	if(!botCanDelete) return element.reply({ content: "I do not have permission to delete messages in this channel", ephemeral: true });
 
-	const isSlashCommand = (element.user) ? true : false;
+	const isSlashCommand = (element instanceof ChatInputCommandInteraction) ? true : false;
 	if(isSlashCommand) await element.deferReply({ ephemeral: true });
 
 	if(!args[0]) return await element.reply({ content: "You need to specify a number of messages to delete" });

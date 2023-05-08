@@ -225,7 +225,7 @@ async function run(client, element, args = []){
 	// This command is still going to be a clusterfuck even when using a class, so lets go
 
 	// Check if it's a slash command, and set "user"
-	const isSlashCommand = element instanceof ChatInputCommandInteraction ? true : false;
+	const isSlashCommand = (element instanceof ChatInputCommandInteraction) ? true : false;
 	const user = isSlashCommand ? element.user : element.author;
 
 	// Check the challenge type and output an error if it's invalid
