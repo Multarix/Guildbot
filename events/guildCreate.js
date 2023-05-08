@@ -1,6 +1,7 @@
 const { Client, Guild } = require("discord.js");
 const { output } = require("../src/functions.js");
 const deploySlash = require("../src/deploySlash.js");
+const getActivity = require("./activity/getActivity.js");
 
 
 /**
@@ -17,14 +18,7 @@ async function run(client, guild){
 
 	output("misc", `Joined a new server: '${guild.name}' (${guild.id})`);
 
-	const presence = {
-		status: "online",
-		activities: [{
-			name: `${client.guilds.cache.size} server${(client.guilds.cache.size > 1) ? "s" : ""} | ${client.config.prefix}help`,
-			type: 5
-		}]
-	};
-
+	const presence = getActivity(client);
 	client.user.setPresence(presence);
 }
 
