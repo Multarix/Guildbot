@@ -1,10 +1,8 @@
+import cron from "node-cron";
+
 import dailyWeather from "./dailyWeather.mjs";
 // import bookAlerts from "./bookAlerts.mjs";
 
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-
-const cron = require("node-cron");
 
 async function cronEvents(client){
 	// Book Alerts

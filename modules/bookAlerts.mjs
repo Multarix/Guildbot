@@ -1,11 +1,10 @@
 import fetch from "node-fetch";
+import { EmbedBuilder } from "discord.js";
 
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import fs from "fs";
 
-const fs = require("fs");
-const { output, grabChannel } = require("../src/functions.js");
-const { EmbedBuilder } = require("discord.js");
+import { output, grabChannel } from "../src/functions.js";
+
 
 
 /**

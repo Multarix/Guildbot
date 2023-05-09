@@ -12,6 +12,7 @@ const getActivity = require("./activity/getActivity.js");
 **/
 async function run(client){
 
+	output("misc", "Deploying slash commands...");
 	await deploySlash(client, "all");
 
 	output("misc", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);

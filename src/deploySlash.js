@@ -12,7 +12,6 @@ async function deploySlash(client, guild){
 
 	// Set up slash commands
 	const rest = new REST().setToken(client.config.token);
-	output("misc", "Deploying slash commands...");
 
 	const slashCommands = [];
 	for(const command of client.slashCommands) slashCommands.push(command.slash(client).data.toJSON());

@@ -1,10 +1,8 @@
 import fetch from "node-fetch";
 
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import fs from "fs";
 
-const fs = require("fs");
-const { output, timeFormat } = require("../src/functions.js");
+import { output, timeFormat } from "../src/functions.js";
 
 
 /**
