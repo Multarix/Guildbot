@@ -1,12 +1,12 @@
+import fs from "fs";
+
 import cronEvents from "./modules/cronEvents.mjs";
+import { Client, GatewayIntentBits, Partials } from "discord.js";
+
+import { output } from "./src/functions.js";
 
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-
-
-const { Client, GatewayIntentBits, Partials } = require("discord.js");
-const fs = require("fs");
-const { output } = require("./src/functions.js");
 
 
 // Handle the unhandled things
@@ -21,9 +21,6 @@ process.on("unhandledRejection", (err) => {
 
 
 console.log("Starting Bot...");
-
-
-// const Partials = Discord.Partials;
 
 
 const intentFlags = [
