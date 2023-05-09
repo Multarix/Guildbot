@@ -14,7 +14,7 @@ async function cronEvents(client){
 
 	// Weather Data
 	try {
-		cron.schedule("21 0 10 * * *", async () => {
+		cron.schedule("0 5 10 * * *", async () => {
 			dailyWeather(client);
 		});
 	} catch (err){
