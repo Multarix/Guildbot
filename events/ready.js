@@ -1,7 +1,7 @@
-const { Client } = require("discord.js");
-const { output } = require("../src/functions.js");
-const deploySlash = require("../src/deploySlash.js");
-const getActivity = require("./activity/getActivity.js");
+import { Client } from "discord.js";
+import { output } from "../src/functions.js";
+import deploySlash from "../src/deploySlash.js";
+import getActivity from "./activity/getActivity.js";
 
 
 /**
@@ -14,13 +14,13 @@ async function run(client){
 
 	output("misc", "Deploying slash commands...");
 	await deploySlash(client, "all");
-
 	output("misc", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
 
 	const presence = getActivity(client);
 	client.user.setPresence(presence);
-
-	output("normal", `Setting Activity to '${presence.activities[0].name}'`);
+	
+	output("misc", `Logged in as '${client.user.tag}'`);
+	output("normal", `Setting activity to '${presence.activities[0].name}'`);
 }
 
 
@@ -31,4 +31,4 @@ const info = {
 };
 
 
-module.exports = { run, info };
+export { run, info };

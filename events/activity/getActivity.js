@@ -63,4 +63,5 @@ function getActivity(client){
 	return presence;
 }
 
-module.exports = getActivity;
+
+export default getActivity;

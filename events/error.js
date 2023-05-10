@@ -1,4 +1,4 @@
-const { output } = require("../src/functions.js");
+import { output } from "../src/functions.js";
 
 
 async function run(_client, error){
@@ -13,4 +13,4 @@ const info = {
 };
 
 
-module.exports = { run, info };
+export { run, info };

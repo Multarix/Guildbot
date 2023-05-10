@@ -1,5 +1,5 @@
-const { Client, Interaction } = require("discord.js");
-const { output, permLevel } = require("../src/functions.js");
+import { Client } from "discord.js";
+import { output, permLevel } from "../src/functions.js";
 
 
 /**
@@ -49,4 +49,4 @@ const info = {
 };
 
 
-module.exports = { run, info };
+export { run, info };
