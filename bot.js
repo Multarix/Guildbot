@@ -1,12 +1,9 @@
 import fs from "fs";
 
-import cronEvents from "./modules/cronEvents.mjs";
+import cronEvents from "./modules/cronEvents.js";
 import { Client, GatewayIntentBits, Partials } from "discord.js";
 
 import { output } from "./src/functions.js";
-
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
 
 
 // Handle the unhandled things
@@ -44,7 +41,7 @@ const client = new Client({
 const defaultConfig = {
 	prefix: "!",
 	ownerID: "your discord id",
-	token: "your discord token",
+	token: "your bots token",
 	weatherLoc: "Paris",
 	bookUpdatesChannel: "channel id",
 	bookUpdateURL: "jnovel json feed url"
@@ -52,7 +49,8 @@ const defaultConfig = {
 
 // Load the config
 try {
-	client.config = require("./config.json");
+	const conf = await import("./config.json", { assert: { type: "json" } });
+	client.config = conf.default;
 
 	if(!client.config.prefix){
 		output("warn", "No prefix found in config! Using default prefix.");
@@ -87,26 +85,27 @@ const main = async () => {
 	const eventList = fs.readdirSync("./events").filter(file => file.endsWith(".js")).sort((a, b) => a.length - b.length);
 	let longestName = eventList[eventList.length - 1].length - 3;
 
-	for(const file of eventList){
-		try {
-			// Try loading the event file
-			const event = require(`./events/${file}`);
+	// for(const file of eventList){
+	// 	try {
+	// 		// Try loading the event file
+	// 		const event = await import(`./events/${file}`);
+			
+	// 		if(!event.info.enabled) continue;
 
-			if(!event.info.enabled) continue;
+	// 		// Add the event to the event listener
+	// 		client.on(event.info.name, event.run.bind(null, client));
 
-			// Add the event to the event listener
-			client.on(event.info.name, event.run.bind(null, client));
+	// 		const paddedName = event.info.name.padEnd(longestName, " ");
+	// 		output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
 
-			const paddedName = event.info.name.padEnd(longestName, " ");
-			output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
+	// 		// delete require.cache[require.resolve(`./events/${file}`)];
 
-			delete require.cache[require.resolve(`./events/${file}`)];
-
-		} catch (err){
-			// Warn if the event failed to load
-			output("warn", `Failed to load event: ${file}!`);
-		}
-	}
+	// 	} catch (err){
+	// 		// Warn if the event failed to load
+	// 		output("warn", `Failed to load event: ${file}!`);
+	// 		output("error", err);
+	// 	}
+	// }
 
 	// Load the commands
 	output("misc", "Loading commands...");
@@ -118,7 +117,7 @@ const main = async () => {
 	for(const file of commandList){
 		try {
 			// Try loading the command file
-			const command = require(`./commands/${file}`);
+			const command = import(`./commands/${file}`);
 
 			// Set the command file name for reloading later
 			command.info.fileName = file;
@@ -138,7 +137,7 @@ const main = async () => {
 		}
 	}
 
-	client.login(client.config.token);
+	// client.login(client.config.token);
 	cronEvents(client);
 };
 

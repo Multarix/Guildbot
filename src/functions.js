@@ -1,5 +1,6 @@
-const { User, Channel, Client, Emoji, PermissionsBitField, ActionRowBuilder, Embed } = require("discord.js");
-const colors = require("colors");
+import { User, Client, Emoji, PermissionsBitField, ActionRowBuilder, Embed } from "discord.js";
+
+import colors from "colors";
 
 
 /**
@@ -396,8 +397,7 @@ function randomNumber(min, max){
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
-module.exports = {
+export {
 	ordinal,
 	timeFormat,
 	output,

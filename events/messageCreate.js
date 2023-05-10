@@ -1,5 +1,5 @@
-const { Client, Message, PermissionsBitField } = require('discord.js');
-const { permLevel, grabEmoji } = require('../src/functions.js');
+import { Client, Message, PermissionsBitField } from 'discord.js';
+import { permLevel, grabEmoji } from '../src/functions.js';
 
 
 /**
@@ -65,4 +65,4 @@ const info = {
 };
 
 
-module.exports = { run, info };
+export { run, info };

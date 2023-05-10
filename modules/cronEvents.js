@@ -1,6 +1,6 @@
 import cron from "node-cron";
 
-import dailyWeather from "./dailyWeather.mjs";
+import dailyWeather from "./dailyWeather.js";
 // import bookAlerts from "./bookAlerts.mjs";
 
 

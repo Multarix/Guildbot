@@ -1,5 +1,5 @@
-const { Client, Guild, REST, Routes } = require("discord.js");
-const { output } = require("./functions");
+import { Client, Guild, REST, Routes } from "discord.js";
+import { output } from "./functions.js";
 
 
 /**
@@ -38,4 +38,5 @@ async function deploySlash(client, guild){
 }
 
 
-module.exports = deploySlash;
+export default deploySlash;
+export { deploySlash };

@@ -1,7 +1,7 @@
-const { Client, Guild } = require("discord.js");
-const { output } = require("../src/functions.js");
-const deploySlash = require("../src/deploySlash.js");
-const getActivity = require("./activity/getActivity.js");
+import { Client, Guild } from "discord.js";
+import { output } from "../src/functions.js";
+import deploySlash from "../src/deploySlash.js";
+import getActivity from "./activity/getActivity.js";
 
 
 /**
@@ -29,4 +29,4 @@ const info = {
 };
 
 
-module.exports = { run, info };
+export { run, info };
