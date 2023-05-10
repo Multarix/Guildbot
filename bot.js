@@ -1,11 +1,10 @@
 import fs from "fs";
 
-import cronEvents from "./modules/cronEvents.js";
 import { Client, GatewayIntentBits, Partials } from "discord.js";
 import colors from "colors";
 
 import { output } from "./src/functions.js";
-
+import cronEvents from "./modules/cronEvents.js";
 
 
 // Yes Node, I know I'm using an experimental feature, stop telling me about it
