@@ -103,7 +103,9 @@ class Loot {
 		this.items = {};
 	}
 
-	getChallengeLevel(){ return this.#challengeLevel; }
+	getChallengeLevel(){
+		return this.#challengeLevel;
+	}
 }
 
 

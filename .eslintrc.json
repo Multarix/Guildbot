@@ -1,14 +1,16 @@
 {
-	"extends": "eslint:recommended",
-	"env": {
-		"esnext": true,
-		"node": true
-	},
-	"parserOptions": {
-		"ecmaVersion": 14,
-		"sourceType": "module"
-	},
-	"rules": {
+    "env": {
+        "es2022": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": 14,
+        "sourceType": "module"
+    },
+    "rules": {
 		"brace-style": ["error", "1tbs", { "allowSingleLine": false }],
 		"use-isnan": "error",
 		"comma-dangle": ["error", "never"],
@@ -49,7 +51,17 @@
 				"switch": { "after": false }
 			}
 		}],
-		"yoda": "error"
-	},
-	"globals": {}
+		"arrow-spacing": ["error", { "before": true, "after": true }],
+		"constructor-super": "error",
+		"for-direction": "error",
+		"no-cond-assign": "error",
+		"no-constructor-return": "error",
+		"no-duplicate-imports": "error",
+		"no-fallthrough": "error",
+		
+        "linebreak-style": [
+            "error",
+            "windows"
+        ]
+    }
 }
