@@ -10,12 +10,56 @@ import { output } from "./src/functions.js";
 
 // Yes Node, I know I'm using an experimental feature, stop telling me about it
 const originalEmit = process.emit;
-process.emit = function (name, data, ...args){
-  if(name === `warning` && typeof data === `object` && data.name === `ExperimentalWarning`){
-    return false;
-  }
-  return originalEmit.apply(process, arguments);
+process.emit = function(name, data, ...args){
+	if(name === `warning` && typeof data === `object` && data.name === `ExperimentalWarning`){
+		return false;
+	}
+	return originalEmit.apply(process, arguments);
 };
+
+
+
+const defaultConfig = {
+	prefix: "!",
+	ownerID: "your discord id",
+	token: "your bots token",
+	weatherLoc: "Paris",
+	bookUpdatesChannel: "channel id",
+	bookUpdateURL: "jnovel json feed url"
+};
+
+// Check if the config file exists
+if(!fs.existsSync("./config.json")){
+	output("error", "No config file found!");
+
+	try {
+		fs.writeFileSync("./config.json", JSON.stringify(defaultConfig, null, 4));
+	} catch (err){
+		throw new Error(`Failed to create config file! ${err.message}`);
+	}
+
+	output("warn", `A new config file has been created! Please edit the config to continue!`);
+	process.exit(1);
+}
+
+// Load the config
+const configFile = fs.readFileSync("./config.json", "utf8");
+const config = JSON.parse(configFile);
+
+if(!config.token || config.token === "your bots token"){
+	output("error", "No token found in config! Please add your bots token to the config file!");
+	process.exit(1);
+}
+
+if(!config.prefix){
+	output("warn", "No prefix found in config! Using default prefix.");
+	config.prefix = defaultConfig.prefix;
+}
+
+if(!config.ownerID || config.ownerID === "your discord id"){
+	output("warn", "No owner ID found in config! Setting 'Clyde' as the owner");
+	config.ownerID = 1;
+}
 
 
 
@@ -30,8 +74,8 @@ process.on("unhandledRejection", (err) => {
 });
 
 
-console.log("Starting Bot...");
 
+console.log("Starting Bot...");
 
 const intentFlags = [
 	GatewayIntentBits.Guilds,
@@ -51,36 +95,7 @@ const client = new Client({
 	partials: [Partials.Message, Partials.Reaction]
 });
 
-const defaultConfig = {
-	prefix: "!",
-	ownerID: "your discord id",
-	token: "your bots token",
-	weatherLoc: "Paris",
-	bookUpdatesChannel: "channel id",
-	bookUpdateURL: "jnovel json feed url"
-};
-
-// Load the config
-try {
-	const conf = await import("./config.json", { assert: { type: "json" } });
-	client.config = conf.default;
-
-	if(!client.config.prefix){
-		output("warn", "No prefix found in config! Using default prefix.");
-		client.config.prefix = defaultConfig.prefix;
-	}
-
-} catch (err){
-	output("error", "No config file found!");
-
-	try { fs.writeFileSync("./config.json", JSON.stringify(defaultConfig, null, 4)); } catch (err){
-		output("error", `Failed to create config file! Process exiting...`);
-		process.exit(1);
-	}
-
-	output("warn", `A new config file has been created! Please edit the config to continue!`);
-	process.exit(1);
-}
+client.config = config;
 
 client.commands = new Map();
 client.altNames = new Map();
@@ -102,7 +117,7 @@ const main = async () => {
 		try {
 			// Try loading the event file
 			const event = await import(`./events/${file}`);
-			
+
 			if(!event.info.enabled) continue;
 
 			// Add the event to the event listener

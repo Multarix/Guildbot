@@ -148,11 +148,11 @@ function _saveMapToFile(alreadyPosted){
 async function bookAlerts(client){
 	const settings = client.config;
 
-	try {
-		// Check if the config is set up
-		if(!settings.bookUpdateURL) return;
-		if(!settings.bookUpdatesChannel) return;
+	// Check if the config is set up
+	if(!settings.bookUpdateURL || settings.bookUpdateURL === "jnovel json feed url") return;
+	if(!settings.bookUpdatesChannel || settings.bookUpdatesChannel === "channel id") return;
 
+	try {
 		const channel = await grabChannel(client, settings.bookUpdatesChannel);
 		if(!channel) return;
 
