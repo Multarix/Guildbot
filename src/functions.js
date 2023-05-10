@@ -133,8 +133,11 @@ function output(type, message){
 			break;
 
 		case "info":
+			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.magenta(message)}`);
+			break;
+
 		case "misc":
-			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.cyan(message)}`);
+			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.blue(message)}`);
 			break;
 
 		case "normal":	// fallsthrough
@@ -211,7 +214,9 @@ async function grabChannel(client, channelID){
 	if(channelID.startsWith("<#") && channelID.endsWith(">")) channelID = channelID.slice(2, -1);
 	if(client.channels.cache.get(channelID)) return client.channels.cache.get(channelID);
 
-	await client.channels.fetch(channelID).catch(e => { return undefined; });
+	await client.channels.fetch(channelID).catch(e => {
+		return undefined;
+	});
 
 	return (client.channels.cache.get(channelID)) ? client.channels.cache.get(channelID) : undefined;
 }
@@ -232,7 +237,9 @@ async function grabUser(client, userID){
 
 	if(client.users.cache.get(userID)) return client.users.cache.get(userID);
 
-	await client.users.fetch(userID).catch(e => { return undefined; });
+	await client.users.fetch(userID).catch(e => {
+		return undefined;
+	});
 
 	return (client.users.cache.get(userID)) ? client.users.cache.get(userID) : undefined;
 }
