@@ -1,4 +1,4 @@
-const numberGenerator = require('./src/helperFunctions/numberGenerator.js');
+import numberGenerator from './src/helperFunctions/numberGenerator.js';
 
 
 /**
@@ -123,8 +123,8 @@ class HoardLoot extends Loot {
 	constructor(level){
 		super(level);
 		this.#type = "hoard";
-		this.money = this.#getMoney();
-		this.items = this.#getItems();
+		this.money = this.#getMoney().then(m => m);
+		this.items = this.#getItems().then(i => i);
 	}
 
 
@@ -133,7 +133,7 @@ class HoardLoot extends Loot {
 	 * @description Returns the money obtained
 	 * @returns {MoneyObject}
 	**/
-	#getMoney(){
+	async #getMoney(){
 		let folder = "";
 		switch(this.getChallengeLevel()){
 			case 0:
@@ -168,7 +168,7 @@ class HoardLoot extends Loot {
 		}
 
 		const pathToFile = `./src/challengeLevels/${folder}/hoard_money.js`;
-		const moneyRoll = require(pathToFile);
+		const moneyRoll = await import(pathToFile);
 
 		return moneyRoll();
 	}
@@ -178,7 +178,7 @@ class HoardLoot extends Loot {
 	 * @description Returns the items obtained, if any
 	 * @returns {allLoot}
 	 */
-	#getItems(){
+	async #getItems(){
 		let folder = "";
 		switch(this.getChallengeLevel()){
 			case 0:
@@ -213,7 +213,7 @@ class HoardLoot extends Loot {
 		}
 
 		const pathToFile = `./src/challengeLevels/${folder}/hoard_items.js`;
-		const getLoot = require(pathToFile);
+		const getLoot = await import(pathToFile);
 
 		return getLoot(this.lootClassRolls.total);
 	}
@@ -245,7 +245,7 @@ class IndividualLoot extends Loot {
 	 * @description Returns the money obtained
 	 * @returns {MoneyObject}
 	**/
-	#getMoney(){
+	async #getMoney(){
 
 		let folder = "";
 		switch(this.getChallengeLevel()){
@@ -280,11 +280,11 @@ class IndividualLoot extends Loot {
 		}
 
 		const pathToFile = `./src/challengeLevels/${folder}/individual_money.js`;
-		const moneyRoll = require(pathToFile);
+		const moneyRoll = await import(pathToFile);
 
 		return moneyRoll(this.lootClassRolls.total);
 	}
 }
 
 
-module.exports = { HoardLoot, IndividualLoot };
+export { HoardLoot, IndividualLoot };

@@ -1,4 +1,4 @@
-const { Client, Message, EmbedBuilder } = require("discord.js");
+import { Client, Message, EmbedBuilder } from "discord.js";
 
 
 /**
@@ -64,7 +64,7 @@ const info = {
 	altNames: ["cmd"],
 	description: "Command line interaction",
 	usage: "exec {code}",
-	enabled: true,
+	enabled: false,
 	dmCompatible: true,
 	permLevel: 100,
 	category: "debug"
@@ -104,4 +104,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

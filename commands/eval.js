@@ -1,5 +1,5 @@
-const { Client, Message, EmbedBuilder } = require("discord.js");
-const { clean } = require("../src/functions.js");
+import { Client, Message, EmbedBuilder } from "discord.js";
+import { clean } from "../src/functions.js";
 
 /**
  * @name eval
@@ -117,4 +117,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

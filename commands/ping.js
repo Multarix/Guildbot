@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction } = require("discord.js");
+import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction } from "discord.js";
 
 
 /**
@@ -58,4 +58,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
-const { handleElement, randomNumber } = require("../src/functions.js");
+import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { handleElement, randomNumber } from "../src/functions.js";
 
 
 /**
@@ -187,4 +187,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

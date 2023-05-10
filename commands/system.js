@@ -1,7 +1,8 @@
-const { Client, Message, EmbedBuilder, version } = require("discord.js");
-const os = require("os");
-const { humanTime } = require("../src/functions.js");
+import Discord, { Client, Message, EmbedBuilder } from "discord.js";
+import os from "os";
+import { humanTime } from "../src/functions.js";
 
+const { version } = Discord;
 
 /**
  * @name system
@@ -78,4 +79,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

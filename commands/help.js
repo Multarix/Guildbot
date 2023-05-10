@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
-const { permLevel, handleElement, caseFix } = require("../src/functions.js");
+import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { permLevel, handleElement, caseFix } from "../src/functions.js";
 
 
 /**
@@ -172,4 +172,4 @@ function slash(client, funcs = false){
 	return info2;
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

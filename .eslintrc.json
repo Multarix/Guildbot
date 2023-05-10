@@ -5,11 +5,11 @@
 		"node": true
 	},
 	"parserOptions": {
-		"ecmaVersion": "latest",
+		"ecmaVersion": 14,
 		"sourceType": "module"
 	},
 	"rules": {
-		"brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+		"brace-style": ["error", "1tbs", { "allowSingleLine": false }],
 		"use-isnan": "error",
 		"comma-dangle": ["error", "never"],
 		"comma-spacing": "error",

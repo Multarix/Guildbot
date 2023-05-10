@@ -3,6 +3,15 @@ import { output } from "../src/functions.js";
 import deploySlash from "../src/deploySlash.js";
 import getActivity from "./activity/getActivity.js";
 
+const presenceDecode = {
+	0: "Playing",
+	1: "Streaming",
+	2: "Listening to",
+	3: "Watching",
+	4: "Custom Status:",
+	5: "Competing in"
+}
+
 
 /**
  * @name ready
@@ -14,13 +23,13 @@ async function run(client){
 
 	output("misc", "Deploying slash commands...");
 	await deploySlash(client, "all");
-	output("misc", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
-
+	
 	const presence = getActivity(client);
 	client.user.setPresence(presence);
 	
-	output("misc", `Logged in as '${client.user.tag}'`);
-	output("normal", `Setting activity to '${presence.activities[0].name}'`);
+	output("normal", `Logged in as '${client.user.tag}'`);
+	output("normal", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
+	output("normal", `Set activity to '${presenceDecode[presence.activities[0].type]} ${presence.activities[0].name}'`);
 }
 
 

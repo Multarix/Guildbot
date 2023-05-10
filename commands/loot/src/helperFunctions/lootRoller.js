@@ -1,13 +1,13 @@
-const numberGenerator = require('./numberGenerator.js');
-const tableA = require('../magicItemTables/MagicItemTableA.js');
-const tableB = require('../magicItemTables/MagicItemTableB.js');
-const tableC = require('../magicItemTables/MagicItemTableC.js');
-const tableD = require('../magicItemTables/MagicItemTableD.js');
-const tableE = require('../magicItemTables/MagicItemTableE.js');
-const tableF = require('../magicItemTables/MagicItemTableF.js');
-const tableG = require('../magicItemTables/MagicItemTableG.js');
-const tableH = require('../magicItemTables/MagicItemTableH.js');
-const tableI = require('../magicItemTables/MagicItemTableI.js');
+import numberGenerator from './numberGenerator.js';
+import tableA from '../magicItemTables/MagicItemTableA.js';
+import tableB from '../magicItemTables/MagicItemTableB.js';
+import tableC from '../magicItemTables/MagicItemTableC.js';
+import tableD from '../magicItemTables/MagicItemTableD.js';
+import tableE from '../magicItemTables/MagicItemTableE.js';
+import tableF from '../magicItemTables/MagicItemTableF.js';
+import tableG from '../magicItemTables/MagicItemTableG.js';
+import tableH from '../magicItemTables/MagicItemTableH.js';
+import tableI from '../magicItemTables/MagicItemTableI.js';
 
 
 /**
@@ -76,4 +76,4 @@ function lootRoller(rolls, dieMax, table){
 }
 
 
-module.exports = lootRoller;
+export default { lootRoller };
