@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, Client, User, Message, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js");
-const { HoardLoot, IndividualLoot } = require("./loot/main.js");
-const { handleElement, caseFix } = require("../src/functions.js");
+import { SlashCommandBuilder, Client, User, Message, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import { HoardLoot, IndividualLoot } from "./loot/main.js";
+import { handleElement, caseFix } from "../src/functions.js";
 
 
 /**
@@ -308,7 +308,7 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };
 
 /**
  * @typedef {item[]} tableArray

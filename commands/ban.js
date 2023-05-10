@@ -1,4 +1,4 @@
-const {
+import Discord, {
 	GuildMember,
 	ActionRowBuilder,
 	ButtonBuilder,
@@ -7,11 +7,11 @@ const {
 	Client,
 	Message,
 	ChatInputCommandInteraction,
-	EmbedBuilder,
-	PermissionsBitField,
-	PermissionFlagsBits
-} = require("discord.js");
-const { handleElement, grabUser } = require("../src/functions.js");
+	EmbedBuilder
+} from "discord.js";
+
+import { handleElement, grabUser } from "../src/functions.js";
+const { PermissionFlagsBits } = Discord;
 
 // Buttons for interactions
 const confirm = new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel("Ban User").setCustomId("ban_confirm");
@@ -160,4 +160,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

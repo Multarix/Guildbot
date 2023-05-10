@@ -2,8 +2,21 @@ import fs from "fs";
 
 import cronEvents from "./modules/cronEvents.js";
 import { Client, GatewayIntentBits, Partials } from "discord.js";
+import colors from "colors";
 
 import { output } from "./src/functions.js";
+
+
+
+// Yes Node, I know I'm using an experimental feature, stop telling me about it
+const originalEmit = process.emit;
+process.emit = function (name, data, ...args){
+  if(name === `warning` && typeof data === `object` && data.name === `ExperimentalWarning`){
+    return false;
+  }
+  return originalEmit.apply(process, arguments);
+};
+
 
 
 // Handle the unhandled things
@@ -85,39 +98,39 @@ const main = async () => {
 	const eventList = fs.readdirSync("./events").filter(file => file.endsWith(".js")).sort((a, b) => a.length - b.length);
 	let longestName = eventList[eventList.length - 1].length - 3;
 
-	// for(const file of eventList){
-	// 	try {
-	// 		// Try loading the event file
-	// 		const event = await import(`./events/${file}`);
+	for(const file of eventList){
+		try {
+			// Try loading the event file
+			const event = await import(`./events/${file}`);
 			
-	// 		if(!event.info.enabled) continue;
+			if(!event.info.enabled) continue;
 
-	// 		// Add the event to the event listener
-	// 		client.on(event.info.name, event.run.bind(null, client));
+			// Add the event to the event listener
+			client.on(event.info.name, event.run.bind(null, client));
 
-	// 		const paddedName = event.info.name.padEnd(longestName, " ");
-	// 		output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
+			const paddedName = event.info.name.padEnd(longestName, " ");
+			output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
 
-	// 		// delete require.cache[require.resolve(`./events/${file}`)];
+			// delete require.cache[require.resolve(`./events/${file}`)];
 
-	// 	} catch (err){
-	// 		// Warn if the event failed to load
-	// 		output("warn", `Failed to load event: ${file}!`);
-	// 		output("error", err);
-	// 	}
-	// }
+		} catch (err){
+			// Warn if the event failed to load
+			output("warn", `Failed to load event: ${file}!`);
+			output("error", err);
+		}
+	}
 
 	// Load the commands
 	output("misc", "Loading commands...");
 
 	// Find the command with the longest name
-	const commandList = fs.readdirSync("./commands").filter(file => file.endsWith(".js")).sort((a, b) => a.length - b.length);
+	const commandList = fs.readdirSync("./commands").filter(file => file.endsWith(".js") || file.endsWith(".cjs")).sort((a, b) => a.length - b.length);
 	longestName = commandList[commandList.length - 1].length - 3;
 
 	for(const file of commandList){
 		try {
 			// Try loading the command file
-			const command = import(`./commands/${file}`);
+			const command = await import(`./commands/${file}`);
 
 			// Set the command file name for reloading later
 			command.info.fileName = file;
@@ -129,7 +142,8 @@ const main = async () => {
 			if(command.slash?.(client)?.data && command.info.enabled) client.slashCommands.push(command);
 
 			const paddedName = command.info.name.padEnd(longestName, " ");
-			output("good", `Loaded command: ${paddedName}  > ${command.info.description}`);
+			const disableString = command.info.enabled ? "" : ` ${colors.red("(disabled)")}`;
+			output("good", `Loaded command: ${paddedName}  > ${command.info.description}${disableString}`);
 
 		} catch (err){
 			// Warn if the command failed to load
@@ -137,7 +151,7 @@ const main = async () => {
 		}
 	}
 
-	// client.login(client.config.token);
+	client.login(client.config.token);
 	cronEvents(client);
 };
 

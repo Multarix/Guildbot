@@ -1,4 +1,4 @@
-const numberGenerator = require("../helperFunctions/numberGenerator.js");
+import numberGenerator from "../helperFunctions/numberGenerator.js";
 const d8 = numberGenerator.bind(null, 1, 8);
 
 function roll(num){
@@ -102,4 +102,4 @@ function roll(num){
 }
 
 
-module.exports = roll;
+export default { roll };

@@ -1,4 +1,4 @@
-const numberGenerator = require('./numberGenerator.js');
+import numberGenerator from './numberGenerator.js';
 
 
 /**
@@ -36,4 +36,4 @@ function gemsArtRoll(numRolls, dieMax, costOfItem){
 }
 
 
-module.exports = gemsArtRoll;
+export default { gemsArtRoll };

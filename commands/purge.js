@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, PermissionsBitField, PermissionFlagsBits } = require("discord.js");
-
+import Discord, { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, PermissionsBitField } from "discord.js";
+const { PermissionFlagsBits } = Discord;
 
 /**
  * @name help
@@ -83,4 +83,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

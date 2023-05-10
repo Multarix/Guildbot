@@ -71,4 +71,4 @@ function roll(num){
 }
 
 
-module.exports = roll;
+export default { roll };

@@ -1,5 +1,5 @@
-const { Client, Message } = require("discord.js");
-const { output } = require("../src/functions.js");
+import { Client, Message } from "discord.js";
+import { output } from "../src/functions.js";
 
 
 /**
@@ -60,4 +60,4 @@ function slash(client, funcs = false){
 	};
 }
 
-module.exports = { run, slash, info };
+export { run, slash, info };

@@ -1,5 +1,5 @@
-const gemsArtRoll = require('../../helperFunctions/gemsArtRoll.js');
-const lootRoller = require('../../helperFunctions/lootRoller.js');
+import gemsArtRoll from '../../helperFunctions/gemsArtRoll.js';
+import lootRoller from '../../helperFunctions/lootRoller.js';
 
 
 /**
@@ -347,4 +347,4 @@ function getLoot(lootRoll){
 }
 
 
-module.exports = getLoot;
+export default { getLoot };

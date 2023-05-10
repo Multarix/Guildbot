@@ -1,4 +1,4 @@
-const numberGenerator = require('./numberGenerator.js');
+import numberGenerator from './numberGenerator.js';
 
 
 /**
@@ -25,5 +25,5 @@ function moneyRoller(rolls, dieMax, modifier, denomination, rollArray){
 }
 
 
-module.exports = moneyRoller;
+export default { moneyRoller };
 // rollArray = [{roll: 2, dice: "d6"}, {roll: 5, dice: "d6"}, {4, roll: dice: "d6"}, {roll: 2, dice: "d6"}, {roll: 1, dice: "d6"}, {roll: 6, dice: "d6"}]

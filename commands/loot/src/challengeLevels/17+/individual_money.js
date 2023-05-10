@@ -1,4 +1,4 @@
-const moneyRoller = require("../../helperFunctions/moneyRoller.js");
+import moneyRoller from "../../helperFunctions/moneyRoller.js";
 
 
 /**
@@ -120,4 +120,4 @@ function run(lootRoll){
 	};
 }
 
-module.exports = run;
+export default { run };
