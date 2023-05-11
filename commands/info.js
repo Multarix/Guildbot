@@ -65,7 +65,9 @@ async function run(client, element, args = []){
 		}
 
 		if(member.roles){
-			const s = function(a, b){ return a.position - b.position; };
+			const s = function(a, b){
+				return a.position - b.position;
+			};
 			const r = [...member.roles.cache.values()].sort(s).slice(1).reverse().join(", ");
 			roleEmbed = { name: "Roles:", value: `\u200b${r}`, inline: false };
 		}
