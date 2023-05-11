@@ -191,7 +191,10 @@ function permLevel(client, user, channel){
 **/
 async function clean(client, text){
 	if(text && text.constructor.name == "Promise") text = await text;
-	if(typeof evaled !== "string") text = await import("util").inspect(text, { depth: 0 });
+	if(typeof evaled !== "string"){
+		const imp = await import("util");
+		imp.default.inspect(text, { depth: 0 });
+	}
 
 	text = text
 		.replace(/`/g, "`" + String.fromCharCode(8203))
@@ -394,7 +397,7 @@ function humanTime(ms, format = "\\h hours \\m minutes \\s seconds"){
  * @param {numberLike} min The minimum number that should be returned
  * @param {numberLike} max The maximum number that should be returned
  * @returns {number} A random number between the min and max
-*/
+**/
 function randomNumber(min, max){
 
 	if(isNaN(parseInt(min))) throw new Error("'min' must be a number or a number-like string");
@@ -403,6 +406,73 @@ function randomNumber(min, max){
 
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+
+/**
+ * @name compareStrings
+ * @param {string} str1 The first string to compare against
+ * @param {string} str2 The second string to compare against
+ * @returns {number} The percentage of similarity between the two strings
+ * @description Compares two strings and returns the Levenshtein distance between them
+ * Code reference: https://www.tutorialspoint.com/levenshtein-distance-in-javascript
+**/
+function compareStrings(str1, str2){
+	// Basic typechecking
+	if(typeof str1 !== "string") throw new TypeError("'str1' must be a string!");
+	if(typeof str2 !== "string") throw new TypeError("'str2' must be a string!");
+
+	// First off, if they're the same, there are no changes to make, so we can just return a 0.
+	if(str1 === str2) return 0;
+
+	const str1Length = str1.length;
+	const str2Length = str2.length;
+
+	// If a string is zero, return the length of the other string
+	if(str1Length === 0) return str2Length;
+	if(str2Length === 0) return str1Length;
+
+	const track = Array(str2Length + 1).fill(null).map(() => Array(str1Length + 1).fill(null));
+	for(let i = 0; i <= str1Length; i += 1) track[0][i] = i;
+	for(let j = 0; j <= str2Length; j += 1) track[j][0] = j;
+
+	for(let j = 1; j <= str2Length; j += 1){
+		for(let i = 1; i <= str1Length; i += 1){
+			const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+			// 						deletion 				insertion 				substitution
+			track[j][i] = Math.min(track[j][i - 1] + 1,		track[j - 1][i] + 1,	track[j - 1][i - 1] + indicator);
+		}
+	}
+
+	return track[str2Length][str1Length];
+}
+
+
+/**
+ * @name findSmallestDistance
+ * @param {string} a
+ * @param {string[]} strings
+ * @returns {object} The best match
+ * @description Finds the best match for a string in an array of strings
+**/
+function findSmallestDistance(a, strings){
+	const bestMatch = { score: Infinity, item: null };
+	for(const b of strings){
+		const score = compareStrings(a, b) / Math.max(a.length, b.length);
+		if(score === 0){
+			bestMatch.score = score;
+			bestMatch.item = b;
+			break;
+		}
+
+		if(score < bestMatch.score){
+			bestMatch.score = score;
+			bestMatch.item = b;
+		}
+	}
+
+	return bestMatch;
+}
+
 
 export {
 	ordinal,
@@ -416,5 +486,7 @@ export {
 	handleElement,
 	caseFix,
 	humanTime,
-	randomNumber
+	randomNumber,
+	compareStrings,
+	findSmallestDistance
 };
