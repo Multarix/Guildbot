@@ -17,7 +17,6 @@ process.emit = function(name, data, ...args){
 };
 
 
-
 const defaultConfig = {
 	prefix: "!",
 	ownerID: "your discord id",
@@ -95,7 +94,6 @@ const client = new Client({
 });
 
 client.config = config;
-
 client.commands = new Map();
 client.altNames = new Map();
 client.slashCommands = [];
@@ -165,6 +163,7 @@ const main = async () => {
 		}
 	}
 
+	// console.log(client.commands.get("help"));
 	client.login(client.config.token);
 	cronEvents(client);
 };

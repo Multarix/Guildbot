@@ -101,4 +101,4 @@ function run(){
 	};
 }
 
-export default { run };
+export default run;

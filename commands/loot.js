@@ -55,7 +55,7 @@ function _setupEmbed(client, user, challengeLevel, challengeType){
  * @param {string[]} allClassArray
  * @param {string[]} allRollsArray
  * @param {string[]} finalTotalArray
- * @param {allLoot} loot
+ * @param {HoardLoot.money|IndividualLoot} loot
 **/
 function _handleCoins(allClassArray, allRollsArray, finalTotalArray, loot){
 	// Check which coins are not 0, so we know which ones were rolled on
@@ -91,7 +91,7 @@ function _handleCoins(allClassArray, allRollsArray, finalTotalArray, loot){
  * @param {string[]} allClassArray
  * @param {string[]} allRollsArray
  * @param {string[]} finalTotalArray
- * @param {allLoot} loot
+ * @param {HoardLoot} loot
 **/
 function _handleGemArt(allClassArray, allRollsArray, finalTotalArray, loot){
 	// Now we check the gems/ art objects...
@@ -123,7 +123,7 @@ function _handleGemArt(allClassArray, allRollsArray, finalTotalArray, loot){
  * @param {string[]} allClassArray
  * @param {string[]} allRollsArray
  * @param {string[]} finalTotalArray
- * @param {allLoot} loot
+ * @param {HoardLoot} loot
 **/
 function _handleItems(allClassArray, allRollsArray, finalTotalArray, loot){
 	if(loot.items.items.length > 0){
@@ -171,13 +171,25 @@ function _handleItems(allClassArray, allRollsArray, finalTotalArray, loot){
  * @name finishEmbed()
  * @param {EmbedBuilder} embed
  * @param {HoardLoot|IndividualLoot} loot
- * @returns {EmbedBuilder}
+ * @returns {EmbedField[]}
 **/
-function _finishEmbed(embed, loot){
+async function _getEmbedFields(loot){
 	const fields = [
-		{ name: "Percentile:", 		value: `${loot.lootClassRolls.percentile}`,		inline: true },
-		{ name: "D10:", 			value: `${loot.lootClassRolls.d10}`, 			inline: true },
-		{ name: "Total:", 			value: `${loot.lootClassRolls.total}`, 			inline: true }
+		{
+			name: "Percentile:",
+			value: `${loot.getLootClassRolls().percentile}`,
+			inline: true
+		},
+		{
+			name: "D10:",
+			value: `${loot.getLootClassRolls().d10}`,
+			inline: true
+		},
+		{
+			name: "Total:",
+			value: `${loot.getLootClassRolls().total}`,
+			inline: true
+		}
 	];
 
 	// Arrays for converting into strings
@@ -185,21 +197,21 @@ function _finishEmbed(embed, loot){
 	const allRollsArray = [];
 	const finalTotalArray = [];
 
+	await loot.getMoney(); // This await is nessecary despite what my linter says
 	_handleCoins(allClassArray, allRollsArray, finalTotalArray, loot);
 
 	// This is a fancy way of checking the loot type...
 	// Also makes type checking understand that `loot` can only be a HoardLoot after this point
 	if(loot instanceof IndividualLoot){
-		fields.push({ name: "Loot Class:", value: allClassArray.join("\n"), inline: true }, { name: "\u200b", value: "\u200b", inline: true }, { name: "Rolls:", value: allRollsArray.join("\n"), inline: true });
+		fields.push({ name: "Loot Class:", value: `\u200b${allClassArray.join("\n")}`, inline: true }, { name: "\u200b", value: "\u200b", inline: true }, { name: "Rolls:", value: allRollsArray.join("\n"), inline: true });
 
 		const finalTotalString = finalTotalArray.join("\n");
 
-		fields.push({ name: "Final Total:", value: finalTotalString, inline: true });
-		embed.setFields(fields);
-
-		return embed;
+		fields.push({ name: "Final Total:", value: `\u200b${finalTotalString}`, inline: true });
+		return fields;
 	}
 
+	await loot.getItems(); // This await is nessecary despite what my linter says
 	_handleGemArt(allClassArray, allRollsArray, finalTotalArray, loot);
 	_handleItems(allClassArray, allRollsArray, finalTotalArray, loot);
 
@@ -207,10 +219,8 @@ function _finishEmbed(embed, loot){
 	const rollString = allRollsArray.join("\n");
 	const totalString = finalTotalArray.join("\n");
 
-	fields.push({ name: "Loot Class:", value: classString, inline: true }, { name: "\u200b", value: "\u200b", inline: true }, { name: "Rolls:", value: rollString, inline: true }, { name: "Final Total:", value: totalString, inline: true });
-	embed.setFields(fields);
-
-	return embed;
+	fields.push({ name: "Loot Class:", value: `\u200b${classString}`, inline: true }, { name: "\u200b", value: "\u200b", inline: true }, { name: "Rolls:", value: `\u200b${rollString}`, inline: true }, { name: "Final Total:", value: `\u200b${totalString}`, inline: true });
+	return fields;
 }
 
 
@@ -247,7 +257,9 @@ async function run(client, element, args = []){
 
 	// May as well get our embed and fields out of the way now
 	const embed = _setupEmbed(client, user, challengeLevel, challengeType);
-	_finishEmbed(embed, loot);
+	const fields = await _getEmbedFields(loot); // This await is nessecary despite what my linter says
+
+	embed.addFields(fields);
 
 	handleElement(element, isSlashCommand, { embeds: [embed] });
 }
@@ -302,7 +314,6 @@ function slash(client, funcs = false){
 			const challengeLevel = interaction.options.getInteger("challenge-level");
 			args.push(challengeLevel);
 
-
 			await run(client, interaction, args);
 		}
 	};
@@ -335,4 +346,10 @@ export { run, slash, info };
  * @property {gemArtData} art The art obtained if any
  * @property {tableArray[]} items An array of items obtained, if any
  * @description An object containing all the loot obtained.
+**/
+/**
+ * @typedef {object} EmbedField
+ * @property {string} name The name of the field
+ * @property {string} value The value of the field
+ * @property {boolean} [inline] Whether the field is inline or not
 **/

@@ -7,7 +7,8 @@ import Discord, {
 	Client,
 	Message,
 	ChatInputCommandInteraction,
-	EmbedBuilder
+	EmbedBuilder,
+	PermissionsBitField
 } from "discord.js";
 import { handleElement, grabUser } from "../src/functions.js";
 
@@ -47,7 +48,9 @@ async function handleComponent(interactionReply, inputCommand, embed, kickUser, 
 		if(res.customId === "kick_cancel") return await res.update({ content: "", embeds: [cancelKick(embed)], components: [] });
 		if(res.customId === "kick_confirm"){
 			let failed = false;
-			inputCommand.guild.members.kick(kickUser, reason).catch(() => { failed = true; });
+			inputCommand.guild.members.kick(kickUser, reason).catch(() => {
+				failed = true;
+			});
 
 			if(failed) return await res.update({ content: "", embeds: [failKick(embed)], components: [] });
 			return await res.update({ content: "", embeds: [successKick(embed)], components: [] });
