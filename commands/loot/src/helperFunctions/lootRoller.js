@@ -76,4 +76,4 @@ function lootRoller(rolls, dieMax, table){
 }
 
 
-export default { lootRoller };
+export default lootRoller;

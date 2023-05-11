@@ -36,4 +36,4 @@ function gemsArtRoll(numRolls, dieMax, costOfItem){
 }
 
 
-export default { gemsArtRoll };
+export default gemsArtRoll;

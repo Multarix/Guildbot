@@ -140,4 +140,4 @@ function run(lootRoll){
 	};
 }
 
-export default { run };
+export default run;

@@ -9,4 +9,4 @@ function run(roll){
 }
 
 
-export default { run };
+export default run;

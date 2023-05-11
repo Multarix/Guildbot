@@ -68,6 +68,13 @@ import numberGenerator from './src/helperFunctions/numberGenerator.js';
  * @property {tableArray[]} items An array of items obtained, if any
  * @description An object containing all the loot obtained.
 **/
+/**
+ * @typedef LootClassRolls
+ * @property {number} percentile The percentile roll
+ * @property {number} d10 The d10 roll
+ * @property {number} total The total of the percentile and d10 rolls
+**/
+
 
 
 /**
@@ -77,6 +84,7 @@ import numberGenerator from './src/helperFunctions/numberGenerator.js';
 class Loot {
 
 	#challengeLevel;
+	#lootClassRolls;
 
 	/**
 	 * @name constructor
@@ -87,11 +95,16 @@ class Loot {
 		if(level && level <= 0) throw new RangeError("`level` must be 0 or greater");
 
 		this.#challengeLevel = level || 0;
-		this.lootClassRolls = {
-			percentile: numberGenerator(0, 9) * 10,
-			d10: numberGenerator(1, 10)
+
+		const d10 = numberGenerator(1, 10);
+		const percentile = numberGenerator(0, 9) * 10;
+		const total = d10 + percentile;
+
+		this.#lootClassRolls = {
+			percentile,
+			d10,
+			total
 		};
-		this.lootClassRolls.total = this.lootClassRolls.percentile + this.lootClassRolls.d10;
 
 
 		this.money = {
@@ -100,12 +113,36 @@ class Loot {
 			modifier: { platinum: 0, gold: 0, electrum: 0, silver: 0, copper: 0 }
 		};
 
-		this.items = {};
+		this.items = {
+			gems: {
+				gpCostPer: 0,
+				amount: 0,
+				rolls: []
+			},
+			art: {
+				gpCostPer: 0,
+				amount: 0,
+				rolls: []
+			},
+			items: []
+		};
 	}
 
+	/**
+	 * @returns {LootClassRolls}
+	**/
+	getLootClassRolls(){
+		return this.#lootClassRolls;
+	}
+
+
+	/**
+	 * @returns {number}
+	**/
 	getChallengeLevel(){
 		return this.#challengeLevel;
 	}
+
 }
 
 
@@ -125,8 +162,6 @@ class HoardLoot extends Loot {
 	constructor(level){
 		super(level);
 		this.#type = "hoard";
-		this.money = this.#getMoney().then(m => m);
-		this.items = this.#getItems().then(i => i);
 	}
 
 
@@ -134,8 +169,9 @@ class HoardLoot extends Loot {
 	 * @name getMoney
 	 * @description Returns the money obtained
 	 * @returns {MoneyObject}
+	 * @async
 	**/
-	async #getMoney(){
+	async getMoney(){
 		let folder = "";
 		switch(this.getChallengeLevel()){
 			case 0:
@@ -169,18 +205,18 @@ class HoardLoot extends Loot {
 				break;
 		}
 
-		const pathToFile = `./src/challengeLevels/${folder}/hoard_money.js`;
-		const moneyRoll = await import(pathToFile);
-
-		return moneyRoll();
+		const moneyRoll = await import(`./src/challengeLevels/${folder}/hoard_money.js`);
+		this.money = moneyRoll.default(this.getLootClassRolls().total);
+		return this.money;
 	}
 
 	/**
 	 * @name getItems
 	 * @description Returns the items obtained, if any
 	 * @returns {allLoot}
+	 * @async
 	 */
-	async #getItems(){
+	async getItems(){
 		let folder = "";
 		switch(this.getChallengeLevel()){
 			case 0:
@@ -214,10 +250,9 @@ class HoardLoot extends Loot {
 				break;
 		}
 
-		const pathToFile = `./src/challengeLevels/${folder}/hoard_items.js`;
-		const getLoot = await import(pathToFile);
-
-		return getLoot(this.lootClassRolls.total);
+		const getLoot = await import(`./src/challengeLevels/${folder}/hoard_items.js`);
+		this.items = getLoot.default(this.getLootClassRolls().total);
+		return this.items;
 	}
 }
 
@@ -238,7 +273,6 @@ class IndividualLoot extends Loot {
 	constructor(level){
 		super(level);
 		this.#type = "individual";
-		this.money = this.#getMoney();
 	}
 
 
@@ -246,8 +280,9 @@ class IndividualLoot extends Loot {
 	 * @name getMoney
 	 * @description Returns the money obtained
 	 * @returns {MoneyObject}
+	 * @async
 	**/
-	async #getMoney(){
+	async getMoney(){
 
 		let folder = "";
 		switch(this.getChallengeLevel()){
@@ -281,10 +316,9 @@ class IndividualLoot extends Loot {
 				break;
 		}
 
-		const pathToFile = `./src/challengeLevels/${folder}/individual_money.js`;
-		const moneyRoll = await import(pathToFile);
-
-		return moneyRoll(this.lootClassRolls.total);
+		const moneyRoll = await import(`./src/challengeLevels/${folder}/hoard_money.js`);
+		this.money = moneyRoll.default(this.getLootClassRolls().total);
+		return this.money;
 	}
 }
 

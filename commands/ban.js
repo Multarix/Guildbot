@@ -7,7 +7,8 @@ import Discord, {
 	Client,
 	Message,
 	ChatInputCommandInteraction,
-	EmbedBuilder
+	EmbedBuilder,
+	PermissionsBitField
 } from "discord.js";
 
 import { handleElement, grabUser } from "../src/functions.js";
@@ -47,7 +48,9 @@ async function handleComponent(interactionReply, inputCommand, embed, banUser, r
 		if(res.customId === "ban_cancel") return await res.update({ content: "", embeds: [cancelKick(embed)], components: [] });
 		if(res.customId === "ban_confirm"){
 			let failed = false;
-			inputCommand.guild.members.ban(banUser, { reason }).catch(() => { failed = true; });
+			inputCommand.guild.members.ban(banUser, { reason }).catch(() => {
+				failed = true;
+			});
 
 			if(failed) return await res.update({ content: "", embeds: [failBan(embed)], components: [] });
 			return await res.update({ content: "", embeds: [successKick(embed)], components: [] });

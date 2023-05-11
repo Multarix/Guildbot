@@ -57,11 +57,6 @@
 		"no-cond-assign": "error",
 		"no-constructor-return": "error",
 		"no-duplicate-imports": "error",
-		"no-fallthrough": "error",
-		
-        "linebreak-style": [
-            "error",
-            "windows"
-        ]
+		"no-fallthrough": "error"
     }
 }

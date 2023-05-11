@@ -304,4 +304,4 @@ function getLoot(lootRoll){
 }
 
 
-export default { getLoot };
+export default getLoot;

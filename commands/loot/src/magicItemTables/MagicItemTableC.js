@@ -22,4 +22,4 @@ function roll(num){
 }
 
 
-export default { roll };
+export default roll;

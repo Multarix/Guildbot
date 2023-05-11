@@ -96,7 +96,9 @@ async function run(client, element, args = []){
 	if(isSlashCommand) return await element.reply({ embeds: [embed], ephemeral: true });
 
 	// Otherwise send a DM to the user, and inform them in the channel that they have been DMed
-	await user.send({ embeds: [embed] }).catch(e => { return; });
+	await user.send({ embeds: [embed] }).catch(e => {
+		return;
+	});
 	await element.reply({ content: "I've sent you a DM with all of your available commands.\nIf you didn't receive one, please check your DM settings." });
 }
 
@@ -150,26 +152,23 @@ function slash(client, funcs = false){
 		return inf;
 	}
 
-	const info2 = {
+	return {
 		/**
 		 * @name execute
 		 * @param {ChatInputCommandInteraction} interaction The interaction that was created
 		 * @description The function that is called when the slash command is used
 		**/
 		execute: async function execute(interaction){
-			let command = interaction.options.getString("command");
-			command = command?.toString();
+			const command = interaction.options.getString("command");
 
 			const args = [];
 			if(command){
-				command = command.replace(/(?:\r\n|\r|\n)/g, "\u200b").split(/\s+/g);
 				args.push(command);
 			}
 
 			await run(client, interaction, args);
 		}
 	};
-	return info2;
 }
 
 export { run, slash, info };
