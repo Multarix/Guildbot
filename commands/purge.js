@@ -10,7 +10,8 @@ const { PermissionFlagsBits } = Discord;
 **/
 async function run(_client, element, args = []){
 	const botCanDelete = element.channel.permissionsFor(element.guild.members.me).has(PermissionsBitField.Flags.ManageMessages);
-	if(!botCanDelete) return element.reply({ content: "I do not have permission to delete messages in this channel", ephemeral: true });
+	const botCanSee = element.channel.permissionsFor(element.guild.members.me).has(PermissionsBitField.Flags.ViewChannel);
+	if(!botCanDelete || !botCanSee) return element.reply({ content: "I do not have permission to delete messages in this channel", ephemeral: true });
 
 	const isSlashCommand = (element instanceof ChatInputCommandInteraction) ? true : false;
 	if(isSlashCommand) await element.deferReply({ ephemeral: true });
