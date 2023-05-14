@@ -12,20 +12,20 @@ import { output, permLevel } from "../src/functions.js";
 async function run(client, interaction){
 
 	if(!interaction.isChatInputCommand()) return;
-	// if(!interaction.channel.permissionsFor(interaction.guild.members.me).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel])) return;
+
 
 	const command = client.commands.get(interaction.commandName);
 	if(!command){
-		interaction.reply({ content: "Oops! That command doesn't seem to exist!\nPlease report the error here: https://github.com/Multarix/Guildbot/issues", ephemeral: true }).catch(e => { return; });
+		interaction.reply({ content: "Oops! That command doesn't seem to exist!\nPlease report the error here: https://github.com/Multarix/Guildbot/issues", ephemeral: true });
 		return output("error", `Command ${interaction.commandName} not found!`);
 	}
 
 	// Check if the command is enabled
-	if(!command.info.enabled) return interaction.reply({ content: "Oops! That command is currently disabled!", ephemeral: true }).catch(e => { return; });
+	if(!command.info.enabled) return interaction.reply({ content: "Oops! That command is currently disabled!", ephemeral: true });
 
 	// Check if the user has permission to run the command
 	const userPermLevel = permLevel(client, interaction.user, interaction.channel);
-	if(command.info.permLevel > userPermLevel) return interaction.reply({ content: "Oops! You don't have permission to use that command!", ephemeral: true }).catch(e => { return; });
+	if(command.info.permLevel > userPermLevel) return interaction.reply({ content: "Oops! You don't have permission to use that command!", ephemeral: true });
 
 	try {
 		await command.slash(client, true).execute(interaction);
@@ -33,11 +33,11 @@ async function run(client, interaction){
 		output("error", e);
 		let followUp = false;
 		if(interaction.replied || interaction.deferred){
-			await interaction.followUp({ content: "An error occurred while executing this command!", ephemeral: true }).catch(e => { return; });
+			await interaction.followUp({ content: "An error occurred while executing this command!", ephemeral: true });
 			followUp = true;
 		}
 
-		if(!followUp) await interaction.reply({ content: "An error occurred while executing this command!", ephemeral: true }).catch(e => { return; });
+		if(!followUp) await interaction.reply({ content: "An error occurred while executing this command!", ephemeral: true });
 	}
 }
 

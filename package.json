@@ -3,7 +3,7 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"discord.js": "^14.9.0",
-		"dnd-npc": "^2.0.2",
+		"dnd-npc": "^2.0.10",
 		"node-cron": "^3.0.2",
 		"node-fetch": "^3.3.1"
 	},
