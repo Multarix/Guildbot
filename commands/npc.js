@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import NPC from "dnd-npc";
 
-import { findSmallestDistance, caseFix } from "../src/functions.js";
+import { caseFix } from "../src/functions.js";
 
 
 // Too many here to list
@@ -79,11 +79,12 @@ async function run(client, element, args = []){
 
 	const characterString =
 		`**Gender:** *${gender}*\n` +
-		`**Alignment:**\n*${alignment}*\n` +
-		`**Background:**\n*${background}*\n` +
 		`**Age:** *${age}*\n` +
-		`**Class:** *[${className}](${classLink} "${className} on dndbeyond.com")*\n\u200b`;
-	fields.push({ name: "Character Info", value: characterString, inline: true });
+		`**Class:**\n*[${className}](${classLink} "${className} on dndbeyond.com")*\n` +
+		`**Alignment:**\n*${alignment}*\n` +
+		`**Background:**\n*${background}*\n\u200b`;
+
+	fields.push({ name: "Misc Info", value: characterString, inline: true });
 	fields.push({ name: "\u200b", value: "\u200b", inline: true });
 
 	// <NPC>#Race
@@ -92,18 +93,15 @@ async function run(client, element, args = []){
 	const size = npc.race.size;
 	const speed = npc.race.speed;
 	const raceString =
-		`**Race:**${raceName.length > 8 ? "\n" : " "}*[${raceName}](${raceLink} "${raceName} on dndbeyond.com")*\n` +
+		`**Race:**\n*[${raceName}](${raceLink} "${raceName} on dndbeyond.com")*\n` +
 		`**Size:**\n*${size}*\n` +
 		`**Speed:** *${speed}*\n\u200b`;
 	fields.push({ name: "Race Info", value: raceString, inline: true });
 
 
 	// <NPC>#Inventory
-	const tools = npc.inventory.tools;					// name, link
-	const shield = npc.inventory.shield;
 	const weapon = npc.inventory.weapon;
 	const armor = npc.inventory.armor;
-
 
 	// <NPC>#Inventory#Weapon
 	const weaponName = caseFix(weapon.name);
@@ -117,7 +115,7 @@ async function run(client, element, args = []){
 
 	const weaponString =
 		`**[${weaponName}](${weaponLink} "${weaponName} on dndbeyond.com")**\n` +
-		`**DMG:**\n*${weaponDamage}*\n` +
+		`**DMG:** *${weaponDamage}*\n` +
 		`**DMG Type:**\n*${weaponDamageType}*\n` +
 		`**Properties:**\n*${weaponProperties}*\n\u200b`;
 	fields.push({ name: "Weapon Info", value: weaponString, inline: true });
@@ -130,13 +128,13 @@ async function run(client, element, args = []){
 		const armorName = armor.name;
 		const armorLink = armor.link;
 		const armorType = caseFix(armor.type);
-		// const armorAC = armor.ac;					// Need to impliment this in the lib
+		const armorAC = armor.armorClass;
 		const armorStrength = armor.strengthReq;
-		const armorStealth = armor.isStealthy;
+		// const armorStealth = armor.isStealthy;
 		armorString =
 			`**[${armorName}](${armorLink} "${armorName} on dndbeyond.com")**\n` +
 			`**Type:** *${armorType}*\n` +
-			`**AC:** *N/A*\n` +
+			`**AC:** *${armorAC}*\n` +
 			`**STR Req:** *${armorStrength}*\n\u200b`;
 	}
 	fields.push({ name: "Armor Info", value: armorString, inline: true });
@@ -182,7 +180,7 @@ function slash(client, funcs = false){
 	if(!funcs){ // We want to get the slash command data
 
 		const classes = [
-			// { name: "artificer", value: "artificer" },
+			{ name: "artificer", value: "artificer" },
 			{ name: "barbarian", value: "barbarian" },
 			{ name: "bard", value: "bard" },
 			{ name: "cleric", value: "cleric" },
@@ -198,13 +196,41 @@ function slash(client, funcs = false){
 			{ name: "random", value: "random" }
 		];
 
+		// This isn't all the races, but a trimmed down subset of reasonable ones
+		const races = [
+			{ name: "aarakocra", value: "aarakocra" },
+			{ name: "aasimar", value: "aasimar" },
+			{ name: "changeling", value: "changeling" },
+			{ name: "dragonborn", value: "dragonborn" },
+			{ name: "dwarf", value: "dwarf" },
+			{ name: "elf", value: "elf" },
+			{ name: "firbolg", value: "firbolg" },
+			{ name: "genasi", value: "genasi" },
+			{ name: "gnome", value: "gnome" },
+			{ name: "goliath", value: "goliath" },
+			{ name: "half-elf", value: "half-elf" },
+			{ name: "halfling", value: "halfling" },
+			{ name: "half-orc", value: "half-orc" },
+			{ name: "human", value: "human" },
+			{ name: "kalashtar", value: "kalashtar" },
+			{ name: "kenku", value: "kenku" },
+			{ name: "lizardfolk", value: "lizardfolk" },
+			{ name: "shifter", value: "shifter" },
+			{ name: "tabaxi", value: "tabaxi" },
+			{ name: "tiefling", value: "tiefling" },
+			{ name: "triton", value: "triton" },
+			{ name: "warforged", value: "warforged" },
+			{ name: "yuan-ti", value: "yuan-ti" },
+			{ name: "random", value: "random" }
+		];
+
 		return {
 			data: new SlashCommandBuilder()
 				.setName(info.name)
 				.setDescription(info.description)
 				.setDMPermission(info.dmCompatible)
 				.addStringOption(option => option.setRequired(false).setName("class").setDescription("The class of the NPC").addChoices(...classes))
-				.addStringOption(option => option.setRequired(false).setName("race").setDescription("The race of the NPC"))
+				.addStringOption(option => option.setRequired(false).setName("race").setDescription("The race of the NPC").addChoices(...races))
 		};
 	}
 

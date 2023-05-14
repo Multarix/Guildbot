@@ -163,7 +163,6 @@ const main = async () => {
 		}
 	}
 
-	// console.log(client.commands.get("help"));
 	client.login(client.config.token);
 	cronEvents(client);
 };
