@@ -1,8 +1,8 @@
 module.exports = {
 	apps : [{
 		name: "bot",
-		script: "./bot.mjs",
-		watch: ["commands", "events", "modules", "objects", "src", "./bot.mjs"],
+		script: "./bot.js",
+		watch: ["commands", "events", "modules", "objects", "src", "./bot.js"],
 		ignore_watch: ["node_modules", "data"],
 		cron_restart : "30 5 * * 7",
 		exp_backoff_restart_delay: 1000,
