@@ -98,10 +98,8 @@ client.commands = new Map();
 client.altNames = new Map();
 client.slashCommands = [];
 
-/**
- * @name main
- * @description Starts the discord bot
-**/
+
+
 const main = async () => {
 	// Load the events
 	output("misc", "Loading events...");
