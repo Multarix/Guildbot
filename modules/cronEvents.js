@@ -6,9 +6,9 @@ import dailyWeather from "./dailyWeather.js";
 
 async function cronEvents(client){
 	// Book Alerts
-	// cron.schedule("0/15 0-1 0-14 * * 2-6", async () => {
-	// 	bookAlerts(client);
-	// });
+	cron.schedule("0/15 0-1 0-14 * * 2-6", async () => {
+		bookAlerts(client);
+	});
 
 	// Weather Data
 	try {
