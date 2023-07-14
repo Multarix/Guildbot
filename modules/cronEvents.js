@@ -1,7 +1,7 @@
 import cron from "node-cron";
 
 import dailyWeather from "./dailyWeather.js";
-// import bookAlerts from "./bookAlerts.mjs";
+import bookAlerts from "./bookAlerts.js";
 
 
 async function cronEvents(client){
