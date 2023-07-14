@@ -1,6 +1,5 @@
 .vscode
 node_modules
-data/*
 config.json
 test
 test.*
