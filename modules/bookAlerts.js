@@ -97,7 +97,7 @@ async function _postNewParts(alreadyPosted, newParts, channel){
 			.setFooter({ text: "via J-Novel Club", iconURL: "https://j-novel.club/apple-touch-icon.png" })
 			.setTimestamp(date);
 
-		if(bookPart.image) embed.setThumbnail(bookPart.image);
+		if(bookPart.image) embed.setImage(bookPart.image);
 
 		await channel.send({ embeds: [embed] });
 		alreadyPosted.set(bookPart.id, bookPart);
@@ -162,6 +162,7 @@ async function bookAlerts(client){
 
 		// Check if there are any new parts
 		const newParts = _getNewParts(alreadyPosted, bookData.items);
+		newParts.reverse();
 
 		if(newParts.length >= 1) await _postNewParts(alreadyPosted, newParts, channel);
 
