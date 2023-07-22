@@ -16,7 +16,7 @@ async function cronEvents(client){
 			dailyWeather(client);
 		});
 	} catch (err){
-		console.log("Failed to load dailyWeather.mjs");
+		console.log("Failed to get dailyWeather!");
 	}
 
 }
