@@ -14,7 +14,9 @@ async function getWeather(client){
 	const weatherLoc = client.config.weatherLoc;
 	if(!weatherLoc) return output("error", "No weather location has been set! Please set one in the config file.");
 	try {
-		fs.readFileSync("./data/weather.csv", { encoding: "utf8" });
+		const dbURL = "./data/weather.csv";
+		if(!fs.existsSync(dbURL)) await fs.appendFileSync(dbURL, "dateTime, town, region, country, currentTemp, feelsLike, minTemp, maxTemp, avgTemp, humidity, precipitation, weather, windSpeed, windDirection, sunrise, sunset, moonPhase", { encoding: "utf8" });
+
 		const response = await fetch(`https://wttr.in/${weatherLoc}?format=j2`);
 		const text = await response.text();
 
@@ -56,7 +58,7 @@ async function getWeather(client){
 		const weatherData = `\n${iso},${town},${region},${country},${currentTemp},${currentFeelsLike},${minTemp},${maxTemp},${avgtemp},${currentHumidity},${precipitation},${weatherDesc},${currentWindSpeed},${currentWindDirection},${sunrise},${sunset}, ${moonPhase}`;
 
 		// Append the CSV string to the file
-		fs.appendFileSync("./data/weather.csv", weatherData, { encoding: "utf8" });
+		fs.appendFileSync(dbURL, weatherData, { encoding: "utf8" });
 
 		output("info", "Daily weather data has been recorded.");
 

@@ -1,5 +1,6 @@
 .vscode
 node_modules
 config.json
+/data/weather.csv
 test
 test.*
