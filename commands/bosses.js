@@ -10,7 +10,7 @@ import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, code
 **/
 async function run(client, element, args = []){
 	const d = new Date(); // This works based on AEST (UTC+10)
-	d.setDate(d.getDate() + (1 + 6 - d.getDay()) % 7);
+	d.setDate(d.getDate() + (1 + 6 - d.getDay()) % 7); // Sets the day => [Mon = 7, Tue = 1, Wed = 2, Thurs = 3, Fri = 4, Sat = 5, Sun = 6]; Wack but ok
 	d.setHours(10);
 	d.setMinutes(30);
 	d.setSeconds(0);
