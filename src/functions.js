@@ -184,19 +184,18 @@ function permLevel(client, user, channel){
 /**
  * @name clean
  * @param {Client} client The client object
- * @param {string} text The text to be cleaned
+ * @param {string |} text The text to be cleaned
  * @returns {Promise<string>}
  * @description Cleans the text of any sensitive information
  * @example const cleanText = clean(client, "some text");
 **/
 async function clean(client, text){
 	if(text && text.constructor.name == "Promise") text = await text;
-	if(typeof evaled !== "string"){
+	if(typeof text !== "string"){
 		const imp = await import("util");
 		imp.default.inspect(text, { depth: 0 });
 	}
-
-	text = text
+	text = text.toString()
 		.replace(/`/g, "`" + String.fromCharCode(8203))
 		.replace(/@/g, "@" + String.fromCharCode(8203))
 		.replace(client.token, "https://i.imgur.com/cGIay9e.png");
