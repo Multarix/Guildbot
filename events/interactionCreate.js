@@ -17,7 +17,7 @@ async function run(client, interaction){
 	const command = client.commands.get(interaction.commandName);
 	if(!command){
 		interaction.reply({ content: "Oops! That command doesn't seem to exist!\nPlease report the error here: https://github.com/Multarix/Guildbot/issues", ephemeral: true });
-		return output("error", `Command ${interaction.commandName} not found!`);
+		return output(client, "error", `Command ${interaction.commandName} not found!`);
 	}
 
 	// Check if the command is enabled
@@ -30,7 +30,7 @@ async function run(client, interaction){
 	try {
 		await command.slash(client, true).execute(interaction);
 	} catch (e){
-		output("error", e);
+		output(client, "error", e);
 		let followUp = false;
 		if(interaction.replied || interaction.deferred){
 			await interaction.followUp({ content: "An error occurred while executing this command!", ephemeral: true });

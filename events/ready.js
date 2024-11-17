@@ -21,15 +21,15 @@ const presenceDecode = {
 **/
 async function run(client){
 
-	output("misc", "Deploying slash commands...");
+	output(client, "misc", "Deploying slash commands...");
 	await deploySlash(client, "all");
 
 	const presence = getActivity(client);
 	client.user.setPresence(presence);
 
-	output("info", `Logged in as '${client.user.tag}'`);
-	output("info", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
-	output("info", `Set activity to '${presenceDecode[presence.activities[0].type]} ${presence.activities[0].name}'`);
+	output(client, "info", `Logged in as '${client.user.tag}'`);
+	output(client, "info", `Accessing a total of '${client.guilds.cache.size}' server(s) With a total of '${client.users.cache.size}' users`);
+	output(client, "info", `Set activity to '${presenceDecode[presence.activities[0].type]} ${presence.activities[0].name}'`);
 }
 
 

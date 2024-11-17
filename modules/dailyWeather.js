@@ -12,7 +12,7 @@ import { output, timeFormat } from "../src/functions.js";
 **/
 async function getWeather(client){
 	const weatherLoc = client.config.weatherLoc;
-	if(!weatherLoc) return output("error", "No weather location has been set! Please set one in the config file.");
+	if(!weatherLoc) return output(client, "error", "No weather location has been set! Please set one in the config file.");
 	try {
 		const dbURL = "./data/weather.csv";
 		if(!fs.existsSync(dbURL)) await fs.appendFileSync(dbURL, "dateTime, town, region, country, currentTemp, feelsLike, minTemp, maxTemp, avgTemp, humidity, precipitation, weather, windSpeed, windDirection, sunrise, sunset, moonPhase", { encoding: "utf8" });
@@ -60,10 +60,10 @@ async function getWeather(client){
 		// Append the CSV string to the file
 		fs.appendFileSync(dbURL, weatherData, { encoding: "utf8" });
 
-		output("info", "Daily weather data has been recorded.");
+		output(client, "info", "Daily weather data has been recorded.");
 
 	} catch (err){
-		output("error", `Failed to get weather data!`);
+		output(client, "error", `Failed to get weather data!`);
 		console.log(err);
 	}
 }

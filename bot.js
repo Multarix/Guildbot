@@ -6,6 +6,12 @@ import colors from "colors";
 import { output } from "./src/functions.js";
 import cronEvents from "./modules/cronEvents.js";
 
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 // Yes Node, I know I'm using an experimental feature, stop telling me about it
 const originalEmit = process.emit;
@@ -29,7 +35,7 @@ const defaultConfig = {
 
 // Check if the config file exists
 if(!fs.existsSync("./config.json")){
-	output("error", "No config file found!");
+	output(client, "error", "No config file found!");
 
 	try {
 		fs.writeFileSync("./config.json", JSON.stringify(defaultConfig, null, 4));
@@ -37,7 +43,7 @@ if(!fs.existsSync("./config.json")){
 		throw new Error(`Failed to create config file! ${err.message}`);
 	}
 
-	output("warn", `A new config file has been created! Please edit the config to continue!`);
+	output(client, "warn", `A new config file has been created! Please edit the config to continue!`);
 	process.exit(1);
 }
 
@@ -47,17 +53,17 @@ const config = JSON.parse(configFile);
 
 
 if(!config.token || config.token === "your bots token"){
-	output("error", "No token found in config! Please add your bots token to the config file!");
+	output(client, "error", "No token found in config! Please add your bots token to the config file!");
 	process.exit(1);
 }
 
 if(!config.prefix){
-	output("warn", "No prefix found in config! Using default prefix.");
+	output(client, "warn", "No prefix found in config! Using default prefix.");
 	config.prefix = defaultConfig.prefix;
 }
 
 if(!config.ownerID || config.ownerID === "your discord id"){
-	output("warn", "No owner ID found in config! Setting 'Clyde' as the owner");
+	output(client, "warn", "No owner ID found in config! Setting 'Clyde' as the owner");
 	config.ownerID = 1;
 }
 
@@ -66,11 +72,11 @@ if(!config.ownerID || config.ownerID === "your discord id"){
 // Handle the unhandled things
 process.on("uncaughtException", (err) => {
 	const errorMsg = err?.stack?.replace(new RegExp(`${__dirname}/`, "g"), "./");
-	output("error", `Uncaught Exception: ${errorMsg}`);
+	output(client, "error", `Uncaught Exception: ${errorMsg}`);
 });
 
 process.on("unhandledRejection", (err) => {
-	output("error", `Unhandled rejection: ${err}`);
+	output(client, "error", `Unhandled rejection: ${err}`);
 });
 
 
@@ -106,7 +112,7 @@ client.slashCommands = [];
 **/
 const main = async () => {
 	// Load the events
-	output("misc", "Loading events...");
+	output(client, "misc", "Loading events...");
 
 	// Find the event with the longest name
 	const eventList = fs.readdirSync("./events").filter(file => file.endsWith(".js")).sort((a, b) => a.length - b.length);
@@ -123,19 +129,19 @@ const main = async () => {
 			client.on(event.info.name, event.run.bind(null, client));
 
 			const paddedName = event.info.name.padEnd(longestName, " ");
-			output("good", `Loaded event: ${paddedName}  > ${event.info.description}`);
+			output(client, "good", `Loaded event: ${paddedName}  > ${event.info.description}`);
 
 			// delete require.cache[require.resolve(`./events/${file}`)];
 
 		} catch (err){
 			// Warn if the event failed to load
-			output("warn", `Failed to load event: ${file}!`);
-			output("error", err);
+			output(client, "warn", `Failed to load event: ${file}!`);
+			output(client, "error", err);
 		}
 	}
 
 	// Load the commands
-	output("misc", "Loading commands...");
+	output(client, "misc", "Loading commands...");
 
 	// Find the command with the longest name
 	const commandList = fs.readdirSync("./commands").filter(file => file.endsWith(".js") || file.endsWith(".cjs")).sort((a, b) => a.length - b.length);
@@ -157,11 +163,11 @@ const main = async () => {
 
 			const paddedName = command.info.name.padEnd(longestName, " ");
 			const disableString = command.info.enabled ? "" : ` ${colors.red("(disabled)")}`;
-			output("good", `Loaded command: ${paddedName}  > ${command.info.description}${disableString}`);
+			output(client, "good", `Loaded command: ${paddedName}  > ${command.info.description}${disableString}`);
 
 		} catch (err){
 			// Warn if the command failed to load
-			output("warn", `Failed to load command: ${file}!\n${err}`);
+			output(client, "warn", `Failed to load command: ${file}!\n${err}`);
 		}
 	}
 

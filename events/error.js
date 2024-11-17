@@ -2,7 +2,7 @@ import { output } from "../src/functions.js";
 
 
 async function run(_client, error){
-	output("error", `${error}`);
+	output(client, "error", `${error}`);
 }
 
 

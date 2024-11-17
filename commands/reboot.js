@@ -13,7 +13,7 @@ async function run(client, element, _args = []){
 	let good = client.emojis.cache.get("340357918996299778");
 	if(!good) good = "👍";
 
-	output("misc", "Perfmorming manual reboot...");
+	output(client, "misc", "Perfmorming manual reboot...");
 	await element.react(good);
 
 	process.exit();

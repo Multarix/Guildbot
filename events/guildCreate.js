@@ -16,7 +16,7 @@ async function run(client, guild){
 
 	await deploySlash(client, guild);
 
-	output("misc", `Joined a new server: '${guild.name}' (${guild.id})`);
+	output(client, "misc", `Joined a new server: '${guild.name}' (${guild.id})`);
 
 	const presence = getActivity(client);
 	client.user.setPresence(presence);

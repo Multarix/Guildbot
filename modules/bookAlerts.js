@@ -117,7 +117,7 @@ function _getNewParts(alreadyPosted, bookParts){
 		if(alreadyPosted.has(bookPart.id)) continue;
 
 		newParts.push(bookPart);
-		output("normal", `New book part found: ${bookPart.title}`);
+		output(client, "normal", `New book part found: ${bookPart.title}`);
 	}
 
 	return newParts;
@@ -170,7 +170,7 @@ async function bookAlerts(client){
 		_saveMapToFile(alreadyPosted);
 
 	} catch (e){
-		return output("error", e.message);
+		return output(client, "error", e.message);
 	}
 }
 

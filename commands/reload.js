@@ -37,14 +37,14 @@ async function run(client, element, args = []){
 		client.commands.set(cmd.info.name, cmd);
 		cmd.info.altNames.forEach(alias => client.altNames.set(alias, cmd.info.name));
 
-		output("good", `The command '${command}' was reloaded.`);
+		output(client, "good", `The command '${command}' was reloaded.`);
 
 		const msg = await element.reply({ content: `The command \`${command}\` was reloaded.` });
 
 		if(msg.deletable) setTimeout(() => msg.delete(), 5000);
 		if(element.deletable) setTimeout(() => element.delete(), 5000);
 	} catch (err){
-		output("error", `There was an error while reloading a command \`${command}\`:\n${err}`);
+		output(client, "error", `There was an error while reloading a command \`${command}\`:\n${err}`);
 		const msg = await element.reply({ content: `There was an error while reloading a command \`${command}\`` });
 
 		if(msg.deletable) setTimeout(() => msg.delete(), 5000);

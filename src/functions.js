@@ -52,7 +52,7 @@ function ordinal(num){
  * console.log(time.fullDate); // 25th of August, 2023
 **/
 function timeFormat(timeZone = "", dateTime = new Date()){
-	if(timeZone) dateTime = new Date(dateTime.toLocaleString({ timeZone }));
+	if(timeZone) dateTime = new Date(dateTime.toLocaleString("en-US", { timeZone }));
 
 	const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	const shortWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -111,15 +111,16 @@ function timeFormat(timeZone = "", dateTime = new Date()){
 **/
 /**
  * @name output
+ * @param {Client} client The discord client object thingo
  * @param {outputType} type The type of message
  * @param {any} message The item to be logged
  * @returns {void}
  * @description Logs a message to the console
- * @example client.output("normal", "This is a message");
+ * @example output(client, "normal", "This is a message");
  * // [2020-12-31 | 11:59:59] This is a message
 **/
-function output(type, message){
-	const curTime = timeFormat(Client.config.timezone);
+function output(client, type, message){
+	const curTime = timeFormat(client.config.timezone);
 	switch(type.toLowerCase()){
 		case "good":
 			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.green(message)}`);

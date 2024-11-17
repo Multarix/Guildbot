@@ -21,7 +21,7 @@ async function deploySlash(client, guild){
 		try {
 			await rest.put(Routes.applicationGuildCommands(client.user.id, guild.id), { body: slashCommands });
 		} catch {
-			output("error", `Failed to deploy slash commands to guild '${guild.name}' (${guild.id})`);
+			output(client, "error", `Failed to deploy slash commands to guild '${guild.name}' (${guild.id})`);
 		}
 	}
 
@@ -32,7 +32,7 @@ async function deploySlash(client, guild){
 		try {
 			await rest.put(Routes.applicationGuildCommands(client.user.id, guild.id), { body: slashCommands });
 		} catch {
-			output("error", `Failed to deploy slash commands to guild '${guild.name}' (${guild.id})`);
+			output(client, "error", `Failed to deploy slash commands to guild '${guild.name}' (${guild.id})`);
 		}
 	}
 }
