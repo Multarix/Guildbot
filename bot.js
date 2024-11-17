@@ -30,7 +30,7 @@ const defaultConfig = {
 	weatherLoc: "Paris",
 	bookUpdatesChannel: "channel id",
 	bookUpdateURL: "jnovel json feed url",
-	timezone: ""
+	timezone: "" // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 };
 
 // Check if the config file exists
