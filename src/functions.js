@@ -1,4 +1,4 @@
-import { User, Client, Emoji, PermissionsBitField, ActionRowBuilder, Embed } from "discord.js";
+import { Client, User, Emoji, PermissionsBitField, ActionRowBuilder, Embed } from "discord.js";
 
 import colors from "colors";
 
@@ -119,7 +119,7 @@ function timeFormat(timeZone = "", dateTime = new Date()){
  * // [2020-12-31 | 11:59:59] This is a message
 **/
 function output(type, message){
-	const curTime = timeFormat("Australia/Brisbane");
+	const curTime = timeFormat(Client.config.timezone);
 	switch(type.toLowerCase()){
 		case "good":
 			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.green(message)}`);

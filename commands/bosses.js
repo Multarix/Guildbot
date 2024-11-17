@@ -18,13 +18,14 @@ const Day = {
  * @returns {Promise<void>}
 **/
 async function run(client, element, args = []){
-	const d = new Date(); // Base everything on UTC time so timezones don't affect anything
+	const d = new Date();
 
+	// Base everything off of UTC so dayshit time doesn't affect things (Seriously, just abolish DST already, anyone who uses it afterwards should be thrown in prison)
 	const utcDate = d.getUTCDate();
 	const utcDay = d.getUTCDay();
 
-	d.setDate(utcDate + (Day["SUNDAY"] - utcDay) % 7); // Sets the day
-	d.setUTCHours(1);
+	d.setUTCDate(utcDate + (((Day["SUNDAY"] - utcDay) % 7) || 7));
+	d.setUTCHours(1); // Army time hours here as a reminder
 	d.setUTCMinutes(30);
 	d.setUTCSeconds(0);
 	d.setUTCMilliseconds(0);
