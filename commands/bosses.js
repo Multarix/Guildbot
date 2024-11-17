@@ -1,5 +1,14 @@
-import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, codeBlock } from "discord.js";
+import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction } from "discord.js";
 
+const Day = {
+	MONDAY: 8,
+	TUESDAY: 2,
+	WEDNESDAY: 3,
+	THURSDAY: 4,
+	FRIDAY: 5,
+	SATURDAY: 6,
+	SUNDAY: 7
+};
 
 /**
  * @name ping
@@ -9,12 +18,16 @@ import { SlashCommandBuilder, Client, Message, ChatInputCommandInteraction, code
  * @returns {Promise<void>}
 **/
 async function run(client, element, args = []){
-	const d = new Date(); // This works based on AEST (UTC+10)
-	d.setDate(d.getDate() + (1 + 6 - d.getDay()) % 7); // Sets the day => [Mon = 7, Tue = 1, Wed = 2, Thurs = 3, Fri = 4, Sat = 5, Sun = 6]; Wack but ok
-	d.setHours(10);
-	d.setMinutes(30);
-	d.setSeconds(0);
-	d.setMilliseconds(0);
+	const d = new Date(); // Base everything on UTC time so timezones don't affect anything
+
+	const utcDate = d.getUTCDate();
+	const utcDay = d.getUTCDay();
+
+	d.setDate(utcDate + (Day["SUNDAY"] - utcDay) % 7); // Sets the day
+	d.setUTCHours(1);
+	d.setUTCMinutes(30);
+	d.setUTCSeconds(0);
+	d.setUTCMilliseconds(0);
 
 	const secondGuild = (!args[0]) ? "" : "<@&1271901756451983491>";
 
