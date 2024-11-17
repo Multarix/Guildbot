@@ -51,7 +51,8 @@ function ordinal(num){
  * @example const time = timeFormat();
  * console.log(time.fullDate); // 25th of August, 2023
 **/
-function timeFormat(dateTime = new Date()){
+function timeFormat(timeZone = "", dateTime = new Date()){
+	if(timeZone) dateTime = new Date(dateTime.toLocaleString({ timeZone }));
 
 	const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	const shortWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -118,7 +119,7 @@ function timeFormat(dateTime = new Date()){
  * // [2020-12-31 | 11:59:59] This is a message
 **/
 function output(type, message){
-	const curTime = timeFormat();
+	const curTime = timeFormat("Australia/Brisbane");
 	switch(type.toLowerCase()){
 		case "good":
 			console.log(`[${colors.gray(`${curTime.date} | ${curTime.time}`)}] ${colors.green(message)}`);

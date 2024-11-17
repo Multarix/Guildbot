@@ -23,7 +23,8 @@ const defaultConfig = {
 	token: "your bots token",
 	weatherLoc: "Paris",
 	bookUpdatesChannel: "channel id",
-	bookUpdateURL: "jnovel json feed url"
+	bookUpdateURL: "jnovel json feed url",
+	timezone: ""
 };
 
 // Check if the config file exists
@@ -43,6 +44,7 @@ if(!fs.existsSync("./config.json")){
 // Load the config
 const configFile = fs.readFileSync("./config.json", "utf8");
 const config = JSON.parse(configFile);
+
 
 if(!config.token || config.token === "your bots token"){
 	output("error", "No token found in config! Please add your bots token to the config file!");
