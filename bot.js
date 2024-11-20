@@ -35,7 +35,7 @@ const defaultConfig = {
 
 // Check if the config file exists
 if(!fs.existsSync("./config.json")){
-	output(client, "error", "No config file found!");
+	console.error("No config file found!");
 
 	try {
 		fs.writeFileSync("./config.json", JSON.stringify(defaultConfig, null, 4));
@@ -43,7 +43,7 @@ if(!fs.existsSync("./config.json")){
 		throw new Error(`Failed to create config file! ${err.message}`);
 	}
 
-	output(client, "warn", `A new config file has been created! Please edit the config to continue!`);
+	console.warn("A new config file has been created! Please edit the config to continue!");
 	process.exit(1);
 }
 
@@ -53,17 +53,17 @@ const config = JSON.parse(configFile);
 
 
 if(!config.token || config.token === "your bots token"){
-	output(client, "error", "No token found in config! Please add your bots token to the config file!");
+	console.error("No token found in config! Please add your bots token to the config file!");
 	process.exit(1);
 }
 
 if(!config.prefix){
-	output(client, "warn", "No prefix found in config! Using default prefix.");
+	console.warn("No prefix found in config! Using default prefix.");
 	config.prefix = defaultConfig.prefix;
 }
 
 if(!config.ownerID || config.ownerID === "your discord id"){
-	output(client, "warn", "No owner ID found in config! Setting 'Clyde' as the owner");
+	console.warn("No owner ID found in config! Setting 'Clyde' as the owner");
 	config.ownerID = 1;
 }
 
@@ -72,11 +72,11 @@ if(!config.ownerID || config.ownerID === "your discord id"){
 // Handle the unhandled things
 process.on("uncaughtException", (err) => {
 	const errorMsg = err?.stack?.replace(new RegExp(`${__dirname}/`, "g"), "./");
-	output(client, "error", `Uncaught Exception: ${errorMsg}`);
+	console.error(`Uncaught Exception: ${errorMsg}`);
 });
 
 process.on("unhandledRejection", (err) => {
-	output(client, "error", `Unhandled rejection: ${err}`);
+	console.error(`Unhandled rejection: ${err}`);
 });
 
 
