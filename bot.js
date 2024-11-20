@@ -77,6 +77,7 @@ process.on("uncaughtException", (err) => {
 
 process.on("unhandledRejection", (err) => {
 	console.error(`Unhandled rejection: ${err}`);
+	process.exit(1); // Hopefully fixes EAI Again?
 });
 
 
