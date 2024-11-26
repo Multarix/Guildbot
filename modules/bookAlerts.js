@@ -111,7 +111,7 @@ async function _postNewParts(alreadyPosted, newParts, channel){
  * @param {bookPart[]} bookParts
  * @returns {bookPart[]}
 **/
-function _getNewParts(alreadyPosted, bookParts){
+function _getNewParts(client, alreadyPosted, bookParts){
 	const newParts = [];
 	for(const bookPart of bookParts){
 		if(alreadyPosted.has(bookPart.id)) continue;
@@ -161,7 +161,7 @@ async function bookAlerts(client){
 		const bookData = await _getJNovelResponse(settings);
 
 		// Check if there are any new parts
-		const newParts = _getNewParts(alreadyPosted, bookData.items);
+		const newParts = _getNewParts(client, alreadyPosted, bookData.items);
 		newParts.reverse();
 
 		if(newParts.length >= 1) await _postNewParts(alreadyPosted, newParts, channel);
