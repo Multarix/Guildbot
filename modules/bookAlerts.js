@@ -47,10 +47,12 @@ function _getSavedMap(){
 	 * @type {Map<string, bookPart>}
 	**/
 	// Read the posted.json file to get a list of already posted parts
-	let alreadyPosted ;
+	let alreadyPosted;
 	if(fs.existsSync("./data/posted.json")){
 		const postedJSON = fs.readFileSync("./data/posted.json", "utf8");
 		alreadyPosted = JSON.parse(postedJSON, _reviver);
+	} else if(!fs.existsSync("./data")){ // Ensure the directory exists at least
+		fs.mkdirSync("./data");
 	}
 
 	if(!alreadyPosted) alreadyPosted = new Map();
