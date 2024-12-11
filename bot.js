@@ -33,6 +33,14 @@ const defaultConfig = {
 	timezone: "" // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 };
 
+if(!fs.existsSync("./data")){
+	fs.mkdir("./data");
+
+	const csvData = "dateTime, town, region, country, currentTemp, feelsLike, minTemp, maxTemp, avgTemp, humidity, precipitation, weather, windSpeed, windDirection, sunrise, sunset, moonPhase";
+	fs.writeFileSync("./data/weather.csv", csvData, "utf8");
+}
+
+
 // Check if the config file exists
 if(!fs.existsSync("./config.json")){
 	console.error("No config file found!");

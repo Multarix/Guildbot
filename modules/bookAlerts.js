@@ -1,10 +1,7 @@
 import fetch from "node-fetch";
 import { EmbedBuilder } from "discord.js";
-
-import fs from "fs";
-
+import { promises as fs } from "fs";
 import { output, grabChannel } from "../src/functions.js";
-
 
 
 /**
@@ -41,23 +38,45 @@ const _reviver = (key, value) => {
  * @name getSavedMap
  * @returns {Map<string, bookPart>}
 **/
-function _getSavedMap(){
+async function _getSavedMap(client){
 	/**
 	 * @name postedParts
 	 * @type {Map<string, bookPart>}
 	**/
 	// Read the posted.json file to get a list of already posted parts
 	let alreadyPosted;
-	if(fs.existsSync("./data/posted.json")){
-		const postedJSON = fs.readFileSync("./data/posted.json", "utf8");
+
+	try {
+		const postedJSON = await fs.readFile("./data/posted.json", "utf8");
 		alreadyPosted = JSON.parse(postedJSON, _reviver);
-	} else if(!fs.existsSync("./data")){ // Ensure the directory exists at least
-		fs.mkdirSync("./data");
+
+	} catch (e){
+		if(e.code === "ENOENT" || !alreadyPosted) alreadyPosted = new Map();
+		output(client, "error", e.message);
 	}
 
-	if(!alreadyPosted) alreadyPosted = new Map();
-
 	return alreadyPosted;
+}
+
+
+/**
+ * @name saveMapToFile
+ * @param {bookPart[]} alreadyPosted
+ * @description Saves the posted parts to a file
+ * @returns {void}
+**/
+async function _saveMapToFile(client, alreadyPosted){
+	while(alreadyPosted.size > 100){
+		alreadyPosted.delete(alreadyPosted.keys().next().value);
+	}
+
+	const jsonString = JSON.stringify(alreadyPosted, _replacer, "\t");
+
+	try {
+		await fs.writeFile("./data/posted.json", jsonString, "utf8");
+	} catch (e){
+		output(client, "error", e.message);
+	}
 }
 
 
@@ -68,18 +87,39 @@ function _getSavedMap(){
  * @param {string} settings.bookUpdatesChannel
  * @returns
 **/
-async function _getJNovelResponse(settings){
+async function _getJNovelResponse(client, settings){
+	try {
 	// Get the data from J-Novel Club
-	const response = await fetch(settings.bookUpdateURL);
-	const text = await response.text();
+		const response = await fetch(settings.bookUpdateURL);
+		if(!response.ok) throw new Error(`An error occured trying to connect to J-Novel Club: ${response.statusText}`);
 
-	/**
-	 * @name bookData
-	 * @type {JNovelResponse}
-	 * @description The response from J-Novel Club
-	**/
+		const text = await response.text();
 
-	return JSON.parse(text);
+		return JSON.parse(text);
+	} catch (e){
+		output(client, "error", e.message);
+	}
+
+	return { items: [] };
+}
+
+
+/**
+ * @name getNewParts
+ * @param {bookPart[]} alreadyPosted
+ * @param {bookPart[]} bookParts
+ * @returns {bookPart[]}
+**/
+async function _getNewParts(client, alreadyPosted, bookParts){
+	const newParts = [];
+	for(const bookPart of bookParts){
+		if(alreadyPosted.has(bookPart.id)) continue;
+
+		newParts.push(bookPart);
+		output(client, "normal", `New book part found: ${bookPart.title}`);
+	}
+
+	return newParts.reverse();
 }
 
 
@@ -89,8 +129,8 @@ async function _getJNovelResponse(settings){
  * @param {bookPart[]} newParts
  * @param {*} channel
 **/
-async function _postNewParts(alreadyPosted, newParts, channel){
-	for(const bookPart of newParts){
+async function _postNewParts(alreadyPosted, newParts, channel, batchSize = 10){
+	const embeds = newParts.map(bookPart => {
 		const date = new Date(bookPart.date_published);
 		const embed = new EmbedBuilder()
 			.setAuthor({ name: "New book part released!" })
@@ -101,44 +141,14 @@ async function _postNewParts(alreadyPosted, newParts, channel){
 
 		if(bookPart.image) embed.setImage(bookPart.image);
 
-		await channel.send({ embeds: [embed] });
 		alreadyPosted.set(bookPart.id, bookPart);
+		return embed;
+	});
+
+	// Batching of parts (ChatGPT helped out?)
+	for(let i = 0; i < embeds.length; i += batchSize){
+		await channel.send({ embeds: embeds.slice(i, i + batchSize) });
 	}
-}
-
-
-/**
- * @name getNewParts
- * @param {bookPart[]} alreadyPosted
- * @param {bookPart[]} bookParts
- * @returns {bookPart[]}
-**/
-function _getNewParts(client, alreadyPosted, bookParts){
-	const newParts = [];
-	for(const bookPart of bookParts){
-		if(alreadyPosted.has(bookPart.id)) continue;
-
-		newParts.push(bookPart);
-		output(client, "normal", `New book part found: ${bookPart.title}`);
-	}
-
-	return newParts;
-}
-
-
-/**
- * @name saveMapToFile
- * @param {bookPart[]} alreadyPosted
- * @description Saves the posted parts to a file
- * @returns {void}
-**/
-function _saveMapToFile(alreadyPosted){
-	while(alreadyPosted.size > 100){
-		alreadyPosted.delete(alreadyPosted.keys().next().value);
-	}
-
-	const jsonString = JSON.stringify(alreadyPosted, _replacer, "\t");
-	fs.writeFileSync("./data/posted.json", jsonString, "utf8");
 }
 
 
@@ -148,28 +158,28 @@ function _saveMapToFile(alreadyPosted){
  * @returns
 **/
 async function bookAlerts(client){
-	const settings = client.config;
+	const { bookUpdateURL, bookUpdatesChannel } = client.config;
 
 	// Check if the config is set up
-	if(!settings.bookUpdateURL || settings.bookUpdateURL === "jnovel json feed url") return;
-	if(!settings.bookUpdatesChannel || settings.bookUpdatesChannel === "channel id") return;
+	if(!bookUpdateURL || bookUpdateURL === "jnovel json feed url") return;
+	if(!bookUpdatesChannel || bookUpdatesChannel === "channel id") return;
 
 	try {
-		const channel = await grabChannel(client, settings.bookUpdatesChannel);
+		const channel = await grabChannel(client, bookUpdatesChannel);
 		if(!channel) return;
 
 		// Get the posted parts
-		const alreadyPosted = _getSavedMap();
-		const bookData = await _getJNovelResponse(settings);
+		const alreadyPosted = await _getSavedMap(client);
+		console.log(alreadyPosted);
+		const bookData = await _getJNovelResponse(client, client.config);
 
 		// Check if there are any new parts
-		const newParts = _getNewParts(client, alreadyPosted, bookData.items);
-		newParts.reverse();
+		const newParts = await _getNewParts(client, alreadyPosted, bookData.items);
 
-		if(newParts.length >= 1) await _postNewParts(alreadyPosted, newParts, channel);
-
-		// Save the posted parts;
-		_saveMapToFile(alreadyPosted);
+		if(newParts.length >= 1){
+			await _postNewParts(alreadyPosted, newParts, channel);
+			await _saveMapToFile(client, alreadyPosted); // Save the posted parts
+		}
 
 	} catch (e){
 		return output(client, "error", e.message);
@@ -178,24 +188,3 @@ async function bookAlerts(client){
 
 
 export default bookAlerts;
-
-
-/**
- * @typedef {object} bookPart
- * @property {string} id
- * @property {string} url
- * @property {string} title
- * @property {string} summary
- * @property {string} [image]
- * @property {string} date_published
-**/
-/**
- * @typedef {object} JNovelResponse
- * @property {string} version
- * @property {string} title
- * @property {string} home_page_url
- * @property {string} description
- * @property {object} author
- * @property {string} author.name
- * @property {bookPart[]} items
-**/
