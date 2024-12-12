@@ -170,7 +170,6 @@ async function bookAlerts(client){
 
 		// Get the posted parts
 		const alreadyPosted = await _getSavedMap(client);
-		console.log(alreadyPosted);
 		const bookData = await _getJNovelResponse(client, client.config);
 
 		// Check if there are any new parts
@@ -179,6 +178,8 @@ async function bookAlerts(client){
 		if(newParts.length >= 1){
 			await _postNewParts(alreadyPosted, newParts, channel);
 			await _saveMapToFile(client, alreadyPosted); // Save the posted parts
+		} else {
+			output(client, "info", "No new book parts were found.");
 		}
 
 	} catch (e){
