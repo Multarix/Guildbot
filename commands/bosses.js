@@ -30,7 +30,7 @@ async function run(client, element, args = []){
 	d.setUTCSeconds(0);
 	d.setUTCMilliseconds(0);
 
-	const secondGuild = (!args[0]) ? "" : "<@&1271901756451983491>";
+	const secondGuild = (!args[0]) ? "" : "<@&1327761446108397579>";
 
 	const timestamp = Math.floor(d.getTime() / 1000);
 	const staticMessage = `<@&1169466975064424458> ${secondGuild}
