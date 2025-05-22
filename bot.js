@@ -12,6 +12,9 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const dataFolder = "./data";
+const configPath = `${dataFolder}/config.json`;
+
 
 // Yes Node, I know I'm using an experimental feature, stop telling me about it
 const originalEmit = process.emit;
@@ -33,22 +36,23 @@ const defaultConfig = {
 	timezone: "" // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 };
 
-if(!fs.existsSync("./data")){
-	fs.mkdir("./data");
+if(!fs.existsSync(dataFolder)){
+	fs.mkdir(dataFolder);
 
 	const csvData = "dateTime, town, region, country, currentTemp, feelsLike, minTemp, maxTemp, avgTemp, humidity, precipitation, weather, windSpeed, windDirection, sunrise, sunset, moonPhase";
-	fs.writeFileSync("./data/weather.csv", csvData, "utf8");
+	fs.writeFileSync(`${dataFolder}/weather.csv`, csvData, "utf8");
 }
 
 
 // Check if the config file exists
-if(!fs.existsSync("./config.json")){
+if(!fs.existsSync(configPath)){
 	console.error("No config file found!");
 
 	try {
-		fs.writeFileSync("./config.json", JSON.stringify(defaultConfig, null, 4));
+		fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 4));
 	} catch (err){
-		throw new Error(`Failed to create config file! ${err.message}`);
+		console.error(`Failed to create config file! ${err.message}`);
+		process.exit(1);
 	}
 
 	console.warn("A new config file has been created! Please edit the config to continue!");
@@ -56,7 +60,7 @@ if(!fs.existsSync("./config.json")){
 }
 
 // Load the config
-const configFile = fs.readFileSync("./config.json", "utf8");
+const configFile = fs.readFileSync(configPath, "utf8");
 const config = JSON.parse(configFile);
 
 
@@ -148,6 +152,7 @@ const main = async () => {
 			output(client, "error", err);
 		}
 	}
+
 
 	// Load the commands
 	output(client, "misc", "Loading commands...");
