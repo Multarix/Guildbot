@@ -87,10 +87,10 @@ async function _saveMapToFile(client, alreadyPosted){
  * @param {string} settings.bookUpdatesChannel
  * @returns
 **/
-async function _getJNovelResponse(client, settings){
+async function _getJNovelResponse(client){
 	try {
 	// Get the data from J-Novel Club
-		const response = await fetch(settings.bookUpdateURL);
+		const response = await fetch(process.env.bookUpdateURL);
 		if(!response.ok) throw new Error(`An error occured trying to connect to J-Novel Club: ${response.statusText}`);
 
 		const text = await response.text();
@@ -158,19 +158,13 @@ async function _postNewParts(alreadyPosted, newParts, channel, batchSize = 10){
  * @returns
 **/
 async function bookAlerts(client){
-	const { bookUpdateURL, bookUpdatesChannel } = client.config;
-
-	// Check if the config is set up
-	if(!bookUpdateURL || bookUpdateURL === "jnovel json feed url") return;
-	if(!bookUpdatesChannel || bookUpdatesChannel === "channel id") return;
-
 	try {
-		const channel = await grabChannel(client, bookUpdatesChannel);
+		const channel = await grabChannel(client, process.env.bookUpdatesChanne);
 		if(!channel) return;
 
 		// Get the posted parts
 		const alreadyPosted = await _getSavedMap(client);
-		const bookData = await _getJNovelResponse(client, client.config);
+		const bookData = await _getJNovelResponse(client);
 
 		// Check if there are any new parts
 		const newParts = await _getNewParts(client, alreadyPosted, bookData.items);

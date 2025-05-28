@@ -9,12 +9,13 @@ import cronEvents from "./modules/cronEvents.js";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+import dotenv from "dotenv";
+dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const dataFolder = "./data";
-const configPath = `${dataFolder}/config.json`;
-
 
 // Yes Node, I know I'm using an experimental feature, stop telling me about it
 const originalEmit = process.emit;
@@ -25,16 +26,11 @@ process.emit = function(name, data, ...args){
 	return originalEmit.apply(process, arguments);
 };
 
+if(!process.env.token) throw new Error("No token was supplied, please supply a token and restart.");
+if(!process.env.bookUpdatesChannel) throw new Error("");
+if(!process.env.bookUpdateURL) throw new Error("");
+if(!process.env.timezone) throw new Error("");
 
-const defaultConfig = {
-	prefix: "!",
-	ownerID: "your discord id",
-	token: "your bots token",
-	weatherLoc: "Paris",
-	bookUpdatesChannel: "channel id",
-	bookUpdateURL: "jnovel json feed url",
-	timezone: "" // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-};
 
 if(!fs.existsSync(dataFolder)){
 	fs.mkdir(dataFolder);
@@ -43,42 +39,16 @@ if(!fs.existsSync(dataFolder)){
 	fs.writeFileSync(`${dataFolder}/weather.csv`, csvData, "utf8");
 }
 
-
-// Check if the config file exists
-if(!fs.existsSync(configPath)){
-	console.error("No config file found!");
-
-	try {
-		fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 4));
-	} catch (err){
-		console.error(`Failed to create config file! ${err.message}`);
-		process.exit(1);
-	}
-
-	console.warn("A new config file has been created! Please edit the config to continue!");
-	process.exit(1);
-}
-
 // Load the config
-const configFile = fs.readFileSync(configPath, "utf8");
-const config = JSON.parse(configFile);
-
-
-if(!config.token || config.token === "your bots token"){
-	console.error("No token found in config! Please add your bots token to the config file!");
-	process.exit(1);
-}
-
-if(!config.prefix){
-	console.warn("No prefix found in config! Using default prefix.");
-	config.prefix = defaultConfig.prefix;
-}
-
-if(!config.ownerID || config.ownerID === "your discord id"){
-	console.warn("No owner ID found in config! Setting 'Clyde' as the owner");
-	config.ownerID = 1;
-}
-
+const config = {
+	prefix: process.env.prefix || "!", // Default config
+	ownerID: process.env.prefix || 1, // Sets to Clyde if not specified
+	weatherLoc: process.env.weatherLoc || "Paris", // Random location idgaf.
+	token: process.env.token,
+	bookUpdatesChannel: process.env.bookUpdatesChannel,
+	bookUpdateURL: process.env.bookUpdateURL,
+	timezone: process.env.timezone
+};
 
 
 // Handle the unhandled things

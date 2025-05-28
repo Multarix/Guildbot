@@ -5,3 +5,4 @@ config.json
 /data/posted.json
 test
 test.*
+*.env
