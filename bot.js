@@ -26,10 +26,8 @@ process.emit = function(name, data, ...args){
 	return originalEmit.apply(process, arguments);
 };
 
-if(!process.env.token) throw new Error("No token was supplied, please supply a token and restart.");
-if(!process.env.bookUpdatesChannel) throw new Error("");
-if(!process.env.bookUpdateURL) throw new Error("");
-if(!process.env.timezone) throw new Error("");
+if(!process.env.token) throw new Error("No token was supplied. please supply a token and restart.");
+if(!process.env.timezone) throw new Error("No Timezone was supplied. Please supply a timezone and restart.");
 
 
 if(!fs.existsSync(dataFolder)){
@@ -50,6 +48,10 @@ const config = {
 	timezone: process.env.timezone
 };
 
+console.log(`Setting prefix to ${config.prefix}`);
+console.log(`Setting ownerID to ${config.ownerID}`);
+console.log(`Setting weatherLoc to ${config.weatherLoc}`);
+console.log(`Setting timezone to ${config.timezone}`);
 
 // Handle the unhandled things
 process.on("uncaughtException", (err) => {
