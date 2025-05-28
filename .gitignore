@@ -6,3 +6,4 @@ config.json
 test
 test.*
 *.env
+*.tar
