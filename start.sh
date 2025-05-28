@@ -1,0 +1,1 @@
+sudo docker run -d --mount type=volume,src=assistant-dm,dst=/usr/src/app/datad --env-file assistant-dm.env assistant-dm-bot --restart on-failure:10
