@@ -12,6 +12,8 @@ services:
     container_name: assistant-dm-bot
     build: .
     image: assistant-dm-bot:latest
+    restart: on-failure
+    platform: linux/arm64/v8
     volumes:
        - assistant-volume:/usr/src/app/data
     
