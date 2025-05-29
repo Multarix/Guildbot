@@ -40,7 +40,7 @@ if(!fs.existsSync(dataFolder)){
 // Load the config
 const config = {
 	prefix: process.env.prefix || "!", // Default config
-	ownerID: process.env.prefix || 1, // Sets to Clyde if not specified
+	ownerID: process.env.ownerID || 1, // Sets to Clyde if not specified
 	weatherLoc: process.env.weatherLoc || "Paris", // Random location idgaf.
 	token: process.env.token,
 	bookUpdatesChannel: process.env.bookUpdatesChannel,
