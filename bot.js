@@ -157,7 +157,7 @@ const main = async () => {
 		}
 	}
 
-	client.login(client.config.token);
+	await client.login(client.config.token);
 	cronEvents(client);
 };
 
