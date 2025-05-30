@@ -36,7 +36,7 @@ const _reviver = (key, value) => {
 
 /**
  * @name getSavedMap
- * @returns {Map<string, bookPart>}
+ * @returns {Promise<Map<string, bookPart>>}
 **/
 async function _getSavedMap(client){
 	/**
@@ -63,7 +63,7 @@ async function _getSavedMap(client){
  * @name saveMapToFile
  * @param {bookPart[]} alreadyPosted
  * @description Saves the posted parts to a file
- * @returns {void}
+ * @returns {Promise<void>}
 **/
 async function _saveMapToFile(client, alreadyPosted){
 	while(alreadyPosted.size > 100){
@@ -108,7 +108,7 @@ async function _getJNovelResponse(client){
  * @name getNewParts
  * @param {bookPart[]} alreadyPosted
  * @param {bookPart[]} bookParts
- * @returns {bookPart[]}
+ * @returns {Promise<bookPart[]>}
 **/
 async function _getNewParts(client, alreadyPosted, bookParts){
 	const newParts = [];
@@ -159,7 +159,7 @@ async function _postNewParts(alreadyPosted, newParts, channel, batchSize = 10){
 **/
 async function bookAlerts(client){
 	try {
-		const channel = await grabChannel(client, process.env.bookUpdatesChanne);
+		const channel = await grabChannel(client, process.env.bookUpdatesChannel);
 		if(!channel) return;
 
 		// Get the posted parts
