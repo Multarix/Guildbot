@@ -44,4 +44,5 @@ config.json
 test/
 test.js
 test.json
+start.sh
 *.tar
