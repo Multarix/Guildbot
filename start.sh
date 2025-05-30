@@ -1,1 +1,1 @@
-sudo docker run -d --restart on-failure --mount type=volume,src=assistant-dm,dst=/usr/src/app/data --env-file assistant-dm.env assistant-dm-bot --name Assistant-DM
+sudo docker run -d --restart on-failure --mount type=volume,src=assistant-dm,dst=/usr/src/app/data --env-file assistant-dm.env --name Assistant-DM assistant-dm-bot
