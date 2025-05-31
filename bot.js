@@ -33,8 +33,8 @@ if(!process.env.timezone) throw new Error("No Timezone was supplied. Please supp
 if(!fs.existsSync(dataFolder)){
 	fs.mkdir(dataFolder);
 
-	const csvData = "dateTime, town, region, country, currentTemp, feelsLike, minTemp, maxTemp, avgTemp, humidity, precipitation, weather, windSpeed, windDirection, sunrise, sunset, moonPhase";
-	fs.writeFileSync(`${dataFolder}/weather.csv`, csvData, "utf8");
+	const initialData = "{}";
+	fs.writeFileSync(`${dataFolder}/posted.json`, initialData, "utf8");
 }
 
 // Load the config
