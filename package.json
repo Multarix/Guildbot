@@ -2,11 +2,11 @@
 	"type": "module",
 	"scripts": {
 		"start": "node bot.js",
-		"build": "docker buildx build -t bingo-websocket . --platform linux/arm64/v8",
+		"build": "docker buildx build -t assistant-dm . --platform linux/arm64/v8",
 		"predocker": "npm run build",
 		"docker": "docker compose up --build -d",
 		"presave": "npm run build",
-		"save": "docker save bingo-websocket -o ./bot.tar"
+		"save": "docker save assistant-dm -o ./bot.tar"
 	},
 	"dependencies": {
 		"colors": "^1.4.0",
