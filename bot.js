@@ -32,9 +32,11 @@ if(!process.env.timezone) throw new Error("No Timezone was supplied. Please supp
 
 if(!fs.existsSync(dataFolder)){
 	fs.mkdir(dataFolder);
+	console.log("Creating Data folder...");
 
-	const initialData = "{}";
+	const initialData = `{"dataType":"Map","value":[]}`;
 	fs.writeFileSync(`${dataFolder}/posted.json`, initialData, "utf8");
+	console.log(`Creating posted.json ${dataFolder}/posted.json`);
 }
 
 // Load the config
