@@ -90,7 +90,7 @@ async function _saveMapToFile(client, alreadyPosted){
 async function _getJNovelResponse(client){
 	try {
 	// Get the data from J-Novel Club
-		const response = await fetch(process.env.bookUpdateURL);
+		const response = await fetch(process.env.bookUpdateURL, { method: "get" });
 		if(!response.ok) throw new Error(`An error occured trying to connect to J-Novel Club: ${response.statusText}`);
 
 		const text = await response.text();

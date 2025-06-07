@@ -15,7 +15,6 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const dataFolder = "./data";
 
 // Yes Node, I know I'm using an experimental feature, stop telling me about it
 const originalEmit = process.emit;
@@ -29,14 +28,17 @@ process.emit = function(name, data, ...args){
 if(!process.env.token) throw new Error("No token was supplied. please supply a token and restart.");
 if(!process.env.timezone) throw new Error("No Timezone was supplied. Please supply a timezone and restart.");
 
-
-if(!fs.existsSync(dataFolder)){
-	fs.mkdir(dataFolder);
-	console.log("Creating Data folder...");
+const dataFile = "./data/posted.json";
+console.log("Checking for data file...");
+if(!fs.existsSync(dataFile)){
+	if(!fs.existsSync("./data")){
+		fs.mkdir("./data");
+		console.log("Creating data folder...");
+	}
 
 	const initialData = `{"dataType":"Map","value":[]}`;
-	fs.writeFileSync(`${dataFolder}/posted.json`, initialData, "utf8");
-	console.log(`Creating posted.json ${dataFolder}/posted.json`);
+	fs.writeFileSync(dataFile, initialData, "utf8");
+	console.log(`Creating ${dataFile}`);
 }
 
 // Load the config
